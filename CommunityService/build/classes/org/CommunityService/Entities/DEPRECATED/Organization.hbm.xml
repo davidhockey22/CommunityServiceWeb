@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Oct 12, 2013 4:07:04 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="org.CommunityService.Entities.Organization" table="Organization">
+        <id name="orgId" type="java.lang.Integer">
+            <column name="OrgID" />
+            <generator class="native" />
+        </id>
+        <property name="orgName" type="java.lang.String">
+            <column name="ORGNAME" />
+        </property>
+        <property name="address" type="java.lang.String">
+            <column name="ADDRESS" />
+        </property>
+        <property name="phoneNumber" type="java.lang.String">
+            <column name="PHONENUMBER" />
+        </property>
+        <property name="emailAddress" type="java.lang.String">
+            <column name="EMAILADDRESS" />
+        </property>
+        <property name="description" type="java.lang.String">
+            <column name="DESCRIPTION" />
+        </property>
+        <property name="createdOn" type="java.util.Date">
+            <column name="CREATEDON" />
+        </property>
+        <set name="orgGroups" table="ORGANIZATION" inverse="false" lazy="true">
+            <key>
+                <column name="ORGID" />
+            </key>
+            <element type="string">
+                <column name="ORGGROUPS" />
+            </element>
+        </set>
+        <set name="orgFollowers" table="ORGANIZATION" inverse="false" lazy="true">
+            <key>
+                <column name="ORGID" />
+            </key>
+            <element type="string">
+                <column name="ORGFOLLOWERS" />
+            </element>
+        </set>
+        <set name="pictureOrgs" table="ORGANIZATION" inverse="false" lazy="true">
+            <key>
+                <column name="ORGID" />
+            </key>
+            <element type="string">
+                <column name="PICTUREORGS" />
+            </element>
+        </set>
+        <set name="orgMods" table="ORGANIZATION" inverse="false" lazy="true">
+            <key>
+                <column name="ORGID" />
+            </key>
+            <element type="string">
+                <column name="ORGMODS" />
+            </element>
+        </set>
+    </class>
+</hibernate-mapping>

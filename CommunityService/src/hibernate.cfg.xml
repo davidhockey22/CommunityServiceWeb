@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+	<session-factory>
+		<property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+		<property name="connection.password">Cards1234</property>
+		<property name="connection.url">jdbc:mysql://ourdbinstance.cbvrc3frdaal.us-east-1.rds.amazonaws.com/dbAppData</property>
+		<property name="connection.username">AWSCards</property>
+		<property name="dialect">org.hibernate.dialect.MySQL5InnoDBDialect</property>
+        
+
+		        <!-- Use the C3P0 connection pool. -->
+		<property name="c3p0.min_size">3</property>
+		<property name="c3p0.max_size">5</property>
+		<property name="c3p0.timeout">1800</property>
+
+
+		<!-- Echo all executed SQL to stdout -->
+		<property name="show_sql">true</property>
+
+		<!-- Hibernate XML mapping files <mapping resource="org/CommunityService/Entities/EventInterests.hbm.xml" 
+			/> <mapping resource="org/CommunityService/Entities/EventSkill.hbm.xml" /> 
+			<mapping resource="org/CommunityService/Entities/EventVolunteer.hbm.xml" 
+			/> <mapping resource="org/CommunityService/Entities/FacebookLogIn.hbm.xml" 
+			/> <mapping resource="org/CommunityService/Entities/GoogleLogIn.hbm.xml" 
+			/> <mapping resource="org/CommunityService/Entities/Group.hbm.xml" /> <mapping 
+			resource="org/CommunityService/Entities/GroupMod.hbm.xml" /> <mapping resource="org/CommunityService/Entities/Interest.hbm.xml" 
+			/> <mapping resource="org/CommunityService/Entities/Notification.hbm.xml" 
+			/> <mapping resource="org/CommunityService/Entities/OccurrencePattern.hbm.xml" 
+			/> <mapping resource="org/CommunityService/Entities/Organization.hbm.xml" 
+			/> <mapping resource="org/CommunityService/Entities/OrgFollower.hbm.xml" 
+			/> <mapping resource="org/CommunityService/Entities/OrgGroup.hbm.xml" /> 
+			<mapping resource="org/CommunityService/Entities/OrgMod.hbm.xml" /> <mapping 
+			resource="org/CommunityService/Entities/Picture.hbm.xml" /> <mapping resource="org/CommunityService/Entities/PictureEvent.hbm.xml" 
+			/> <mapping resource="org/CommunityService/Entities/PictureGroup.hbm.xml" 
+			/> <mapping resource="org/CommunityService/Entities/PictureOrg.hbm.xml" /> 
+			<mapping resource="org/CommunityService/Entities/PictureVolunteer.hbm.xml" 
+			/> <mapping resource="org/CommunityService/Entities/Skill.hbm.xml" /> <mapping 
+			resource="org/CommunityService/Entities/Volunteer.hbm.xml" /> <mapping resource="org/CommunityService/Entities/VolunteerDevice.hbm.xml" 
+			/> <mapping resource="org/CommunityService/Entities/VolunteerInterest.hbm.xml" 
+			/> <mapping resource="org/CommunityService/Entities/VolunteerSkill.hbm.xml" 
+			/> -->
+		<mapping class="org.CommunityService.EntitiesMapped.Event" />
+		<mapping class="org.CommunityService.EntitiesMapped.EventSkill" />
+		<mapping class="org.CommunityService.EntitiesMapped.EventVolunteer" />
+		<mapping class="org.CommunityService.EntitiesMapped.EventInterests" />
+		<mapping class="org.CommunityService.EntitiesMapped.FacebookLogIn" />
+		<mapping class="org.CommunityService.EntitiesMapped.GoogleLogIn" />
+		<mapping class="org.CommunityService.EntitiesMapped.Group" />
+		<mapping class="org.CommunityService.EntitiesMapped.GroupMember" />
+		<mapping class="org.CommunityService.EntitiesMapped.GroupMod" />
+		<mapping class="org.CommunityService.EntitiesMapped.Interest" />
+		<mapping class="org.CommunityService.EntitiesMapped.Notification" />
+		<mapping class="org.CommunityService.EntitiesMapped.Organization" />
+		<mapping class="org.CommunityService.EntitiesMapped.OccurrencePattern" />
+		<mapping class="org.CommunityService.EntitiesMapped.OrgFollower" />
+		<mapping class="org.CommunityService.EntitiesMapped.OrgGroup" />
+		<mapping class="org.CommunityService.EntitiesMapped.OrgMod" />
+		<mapping class="org.CommunityService.EntitiesMapped.Picture" />
+		<mapping class="org.CommunityService.EntitiesMapped.PictureEvent" />
+		<mapping class="org.CommunityService.EntitiesMapped.PictureGroup" />
+		<mapping class="org.CommunityService.EntitiesMapped.PictureOrg" />
+		<mapping class="org.CommunityService.EntitiesMapped.PictureVolunteer" />
+		<mapping class="org.CommunityService.EntitiesMapped.Skill" />
+		<mapping class="org.CommunityService.EntitiesMapped.Volunteer" />
+		<mapping class="org.CommunityService.EntitiesMapped.VolunteerDevice" />
+		<mapping class="org.CommunityService.EntitiesMapped.VolunteerInterest" />
+		<mapping class="org.CommunityService.EntitiesMapped.VolunteerSkill" />
+	</session-factory>
+</hibernate-configuration>

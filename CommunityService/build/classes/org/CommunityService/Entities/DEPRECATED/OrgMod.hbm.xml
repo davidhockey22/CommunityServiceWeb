@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Oct 12, 2013 4:07:04 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="org.CommunityService.Entities.OrgMod" table="OrgMod">
+        <id name="orgModId" type="int">
+            <column name="OrgModID" />
+            <generator class="native" />
+        </id>
+        <many-to-one name="organization" class="org.CommunityService.Entities.Organization" fetch="join">
+            <column name="ORGANIZATION" />
+        </many-to-one>
+        <many-to-one name="volunteer" class="org.CommunityService.Entities.Volunteer" fetch="join">
+            <column name="VOLUNTEER" />
+        </many-to-one>
+    </class>
+</hibernate-mapping>
