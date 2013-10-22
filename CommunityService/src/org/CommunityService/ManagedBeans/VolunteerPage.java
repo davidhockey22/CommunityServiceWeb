@@ -17,15 +17,19 @@ public class VolunteerPage {
     String world = "Hello World!";
 
     public String getWorld() {
-	SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
-	Session session = sessionFactory.openSession();
-	session.beginTransaction();
-	String hql = "from Volunteer as v where v.volunteerName=:name";
-	Query q = session.createQuery(hql).setString("name", "David");
-	Volunteer v = (Volunteer) q.list().get(0);
-	this.world = v.getEmailAddress();
-	session.getTransaction().commit();
-	session.close();
+	try {
+	    SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+	    Session session = sessionFactory.openSession();
+	    session.beginTransaction();
+	    String hql = "from Volunteer as v where v.volunteerName=:name";
+	    Query q = session.createQuery(hql).setString("name", "David");
+	    Volunteer v = (Volunteer) q.list().get(0);
+	    this.world = v.getEmailAddress();
+	    session.getTransaction().commit();
+	    session.close();
+	} catch (Exception e) {
+	    world = "Failed";
+	}
 	return world;
     }
 }
