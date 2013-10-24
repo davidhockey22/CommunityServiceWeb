@@ -7,6 +7,7 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.SQLFeatureNotSupportedException;
+import java.util.Date;
 import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
@@ -18,6 +19,7 @@ import javax.sql.DataSource;
 
 import org.CommunityService.EntitiesMapped.Event;
 import org.CommunityService.EntitiesMapped.Group;
+import org.CommunityService.EntitiesMapped.Volunteer;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
@@ -37,8 +39,8 @@ public class BasicServletTest extends HttpServlet implements DataSource {
 	// Date(System.currentTimeMillis() + 10000000), (float) 1.25));
 	// session.save(new Interest("Running",
 	// "For people who enjoy not walking places."));
-	session.save(new Group("Group1", "David", 5, (float) 3, (float) 1.27));
-	// session.save()
+	//session.save(new Group("Group1", "David", 5, (float) 3, (float) 1.27));
+	 session.save(new Volunteer("David","NoPassword", 407, "davidhockey22@yahoo.com", new Date(), 0, 0, new Date()));
 	// session.save()
 	// session.save()
 	// session.save()
