@@ -14,14 +14,15 @@ public class DBConnection {
 	Session session = sessionFactory.openSession();
 	session.beginTransaction();
 	Query q = null;
-	if (parameters.size() == 0) {
+	if (parameters == null || parameters.size() == 0) {
 	    q = session.createQuery(query);
-	}
-	for (int i = 0; i < parameters.size(); i++) {
-	    q = session.createQuery(query).setParameter(i, parameters.get(i));
+	} else {
+	    for (int i = 0; i < parameters.size(); i++) {
+		q = session.createQuery(query).setParameter(i, parameters.get(i));
+	    }
 	}
 	if (q != null) {
-	    Object v = q.list().get(0);
+	    Object v = q.list();
 	    return v;
 	}
 	session.getTransaction().commit();
