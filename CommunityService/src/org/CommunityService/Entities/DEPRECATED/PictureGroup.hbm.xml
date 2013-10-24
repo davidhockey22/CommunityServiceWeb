@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Oct 12, 2013 4:07:04 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="org.CommunityService.Entities.PictureGroup" table="PictureGroup">
+        <id name="pictureGroupId" type="java.lang.Integer">
+            <column name="PictureGroupID" />
+            <generator class="native" />
+        </id>
+        <many-to-one name="group" class="org.CommunityService.Entities.Group" fetch="join">
+            <column name="GROUP" />
+        </many-to-one>
+        <many-to-one name="picture" class="org.CommunityService.Entities.Picture" fetch="join">
+            <column name="PICTURE" />
+        </many-to-one>
+    </class>
+</hibernate-mapping>

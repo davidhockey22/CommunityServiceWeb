@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-reverse-engineering-3.0.dtd" >
+
+<hibernate-reverse-engineering>
+  <table-filter match-catalog="dbAppData" match-name="Event"/>
+  <table-filter match-catalog="dbAppData" match-name="EventInterests"/>
+  <table-filter match-catalog="dbAppData" match-name="EventSkill"/>
+  <table-filter match-catalog="dbAppData" match-name="EventVolunteer"/>
+  <table-filter match-catalog="dbAppData" match-name="FacebookLogIn"/>
+  <table-filter match-catalog="dbAppData" match-name="GoogleLogIn"/>
+  <table-filter match-catalog="dbAppData" match-name="Group"/>
+  <table-filter match-catalog="dbAppData" match-name="GroupMember"/>
+  <table-filter match-catalog="dbAppData" match-name="GroupMod"/>
+  <table-filter match-catalog="dbAppData" match-name="Interest"/>
+  <table-filter match-catalog="dbAppData" match-name="Notification"/>
+  <table-filter match-catalog="dbAppData" match-name="OrgFollower"/>
+  <table-filter match-catalog="dbAppData" match-name="OrgGroup"/>
+  <table-filter match-catalog="dbAppData" match-name="OrgMod"/>
+  <table-filter match-catalog="dbAppData" match-name="Organization"/>
+  <table-filter match-catalog="dbAppData" match-name="Picture"/>
+  <table-filter match-catalog="dbAppData" match-name="PictureEvent"/>
+  <table-filter match-catalog="dbAppData" match-name="PictureGroup"/>
+  <table-filter match-catalog="dbAppData" match-name="PictureOrg"/>
+  <table-filter match-catalog="dbAppData" match-name="PictureVolunteer"/>
+  <table-filter match-catalog="dbAppData" match-name="Skill"/>
+  <table-filter match-catalog="dbAppData" match-name="Volunteer"/>
+  <table-filter match-catalog="dbAppData" match-name="VolunteerDevice"/>
+  <table-filter match-catalog="dbAppData" match-name="VolunteerInterest"/>
+  <table-filter match-catalog="dbAppData" match-name="VolunteerSkill"/>
+  <table-filter match-catalog="dbAppData" match-name="occurrencePattern"/>
+</hibernate-reverse-engineering>
