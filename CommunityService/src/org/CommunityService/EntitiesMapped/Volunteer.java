@@ -50,7 +50,7 @@ public class Volunteer implements java.io.Serializable {
     private Organization adminOfOrganization;
     private String volunteerName;
     private String volunteerPassword;
-    private int phoneNumber;
+    private String phoneNumber;
     private String emailAddress;
     private Date lastLoginDate;
     private float points;
@@ -73,7 +73,7 @@ public class Volunteer implements java.io.Serializable {
     public Volunteer() {
     }
 
-    public Volunteer(String volunteerName, String volunteerPassword, int phoneNumber, String emailAddress, Date lastLoginDate, float points,
+    public Volunteer(String volunteerName, String volunteerPassword, String phoneNumber, String emailAddress, Date lastLoginDate, float points,
 	    int hoursWorked, Date creationDate) {
 	this.volunteerName = volunteerName;
 	this.volunteerPassword = volunteerPassword;
@@ -85,7 +85,7 @@ public class Volunteer implements java.io.Serializable {
 	this.creationDate = creationDate;
     }
 
-    public Volunteer(Organization organization, String volunteerName, String volunteerPassword, int phoneNumber, String emailAddress,
+    public Volunteer(Organization organization, String volunteerName, String volunteerPassword, String phoneNumber, String emailAddress,
 	    Date lastLoginDate, float points, int hoursWorked, Float avgRating, Date creationDate, Date activationDate, Set<FacebookLogIn> facebookLogIns,
 	    Set<EventVolunteer> eventVolunteers, Set<PictureVolunteer> pictureVolunteers, Set<VolunteerInterest> volunteerInterests, Set<OrgMod> orgMods, Set<GroupMod> groupMods, Set<OrgFollower> orgFollowers, Set<GoogleLogIn> googleLogIns,
 	    Set<GroupMember> groupMembers, Set<VolunteerSkill> volunteerSkills, Set<VolunteerDevice> volunteerDevices) {
@@ -153,11 +153,11 @@ public class Volunteer implements java.io.Serializable {
     }
 
     @Column(name = "PhoneNumber", unique = true, nullable = false)
-    public int getPhoneNumber() {
+    public String getPhoneNumber() {
 	return this.phoneNumber;
     }
 
-    public void setPhoneNumber(int phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
 	this.phoneNumber = phoneNumber;
     }
 
