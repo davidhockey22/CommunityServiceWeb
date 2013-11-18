@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <string name="app_name">CommunityServiceAndroid</string>
-    <string name="action_settings">Settings</string>
-    <string name="title_section1">Section 1</string>
-    <string name="title_section2">Section 2</string>
-    <string name="title_section3">Section 3</string>
-
+    <string-array name="drawer_strings">
+        <item>Events</item>
+        <item>Find</item>
+    </string-array>            
+    <string name="hello">Hello World, LoginSystem!</string>
+    <string name="app_name">Login System</string>
+    <string name="username">user</string>
+    <string name="password">password</string>
+    <string name="btn_txt">Login</string>
 </resources>
