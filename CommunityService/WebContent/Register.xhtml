@@ -9,22 +9,29 @@
 </h:head>
 <h:body>
 	<h:form>
+		<p:message for="username" id="userMessage" />
 		<h:panelGrid columns="2" cellpadding="2">
-		
 			<h:outputLabel for="#{registrationBean.username}" value="UserName" />
-			<h:inputText value="#{registrationBean.username}" label="UserName"></h:inputText>
-			
+			<h:inputText id="username" value="#{registrationBean.username}" label="UserName" required="true">
+				<f:validateLength minimum="5" maximum="20" />
+				<f:validator validatorId="org.CommunityService.Validators.UserValidator" />
+				<p:ajax update="userMessage" event="blur" />
+			</h:inputText>
+
 			<h:outputLabel for="#{registrationBean.password}" value="Password" />
-			<h:inputSecret value="#{registrationBean.password}"></h:inputSecret>
-			
-			<h:outputLabel for="#{registrationBean.password}" value="Phone Number" />
-			<h:inputText value="#{registrationBean.phoneNumber}"></h:inputText>
-			
-			<h:outputLabel for="#{registrationBean.password}" value="Email" />
-			<h:inputText value="#{registrationBean.email}"></h:inputText>
-			
+			<h:inputSecret value="#{registrationBean.password}" required="true"></h:inputSecret>
+
+			<h:outputLabel value="Confirm Password" />
+			<h:inputSecret required="true"></h:inputSecret>
+
+			<h:outputLabel for="#{registrationBean.phoneNumber}" value="Phone Number" />
+			<h:inputText value="#{registrationBean.phoneNumber}" required="true"></h:inputText>
+
+			<h:outputLabel for="#{registrationBean.email}" value="Email" />
+			<h:inputText value="#{registrationBean.email}" required="true"></h:inputText>
+
 			<h:commandButton type="submit" value="Login" action="#{registrationBean.Register}"></h:commandButton>
-			
+
 		</h:panelGrid>
 	</h:form>
 </h:body>

@@ -16,6 +16,7 @@ public class RegistrationBean {
 	private String password;
 	private String phoneNumber;
 	private String email;
+	private String confirmPassword;
 	
 	public String Register(){
 		Volunteer v = new Volunteer(username, password, phoneNumber, email, new Date(), 0, 0, new Date());
@@ -28,17 +29,7 @@ public class RegistrationBean {
 		return "Test";
 	}
 	
-	public void ValidateUsername(){
 		
-	}
-	
-	public void ValidatePassword(){
-		
-	}
-	
-	
-	
-	
 	// Getters and Setters ---------------------------------------------------------------------------------------------------
 	public String getUsername() {
 		return username;
@@ -70,6 +61,16 @@ public class RegistrationBean {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+
+	public String getConfirmPassword() {
+		return confirmPassword;
+	}
+
+
+	public void setConfirmPassword(String confirmPassword) {
+		this.confirmPassword = confirmPassword;
 	}
 
 }
