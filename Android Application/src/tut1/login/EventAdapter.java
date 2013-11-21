@@ -9,13 +9,15 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import org.CommunityService.EntitiesMapped.Event;
+
 public class EventAdapter extends BaseExpandableListAdapter {
 	
-    private List<EventData> events;
+    private List<Event> events;
     private LayoutInflater inflater;
 
-    public EventAdapter(Context context, List<EventData> countries) {
-        this.events = countries;
+    public EventAdapter(Context context, List<Event> list) {
+        this.events = list;
         inflater = LayoutInflater.from(context);
     }
 
@@ -31,18 +33,18 @@ public class EventAdapter extends BaseExpandableListAdapter {
 
     @Override
     public Object getGroup(int groupPosition) {
-        return events.get(groupPosition).eventName;
+        return events.get(groupPosition).getEventName();
     }
 
     @Override
     public Object getChild(int groupPosition, int childPosition) {
     	
     	if( childPosition == 0 )
-    		return events.get(groupPosition).beginTime;
+    		return events.get(groupPosition).getBeginTime();
     	else if( childPosition == 1 )
-    		return events.get(groupPosition).location;
+    		return events.get(groupPosition).getLocation();
     	else if( childPosition == 2 )
-    		return events.get(groupPosition).description;
+    		return events.get(groupPosition).getDescription();
     	
     	return null;
     }
