@@ -12,8 +12,13 @@ public class VolunteerService {
 		String hql = "from Volunteer as v where v.volunteerName=?";
 		ArrayList<String> params = new ArrayList<String>();
 		params.add(name);
-		Volunteer v = (Volunteer) (((List<Volunteer>) DBConnection.query(hql, params)).get(0));
-		return v;
+		try{
+			Volunteer v = (Volunteer) (((List<Volunteer>) DBConnection.query(hql, params)).get(0));
+			return v;
+		} catch(Exception e){
+			return null;
+		}
+		
 	}
 
 	@SuppressWarnings("unchecked")

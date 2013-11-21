@@ -11,4 +11,5 @@ function highlightField(field, string){
 	$("#message").val(string);
 	$(field).addClass("error");
 	sendMessage();
+	alert("test2");
 }

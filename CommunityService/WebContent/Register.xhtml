@@ -6,9 +6,9 @@
 
 <h:head>
 	<title>Register</title>
-	<script src="/Fids_GUI/js/jquery-1.10.2.min.js" language="JavaScript" type="text/javascript"></script>
-	<script src="/Fids_GUI/js/jquery-ui.js" language="JavaScript" type="text/javascript"></script>
-	<script src="/Fids_GUI/js/main.js" language="JavaScript" type="text/javascript"></script>
+	<script src="/CommunityService/js/jquery-1.10.2.min.js" language="JavaScript" type="text/javascript"></script>
+	<script src="/CommunityService/js/jquery-ui.js" language="JavaScript" type="text/javascript"></script>
+	<script src="/CommunityService/js/main.js" language="JavaScript" type="text/javascript"></script>
 
 </h:head>
 <h:body>
@@ -34,7 +34,7 @@
 			<h:outputLabel for="#{registrationBean.email}" value="Email" />
 			<h:inputText id="email" value="#{registrationBean.email}" required="true"></h:inputText>
 
-			<h:commandButton type="submit" value="Login" action="#{registrationBean.Register}"></h:commandButton>
+			<h:commandButton type="submit" value="Register" action="#{registrationBean.Register}"></h:commandButton>
 
 		</h:panelGrid>
 		
@@ -46,9 +46,11 @@
 			checkPassword(this.val());
 		});
 		$("#confirm").keyup(function() {
+		alert("Test");
 			if (this.val() != $("#password").val()) {
 				highlightField(this, "Password and Confirm password fields must be the same.");
 			}
+			alert("test2");
 		});
 		$("#phoneNumber").keyup(function() {
 			checkPhoneNumber(this.val());
