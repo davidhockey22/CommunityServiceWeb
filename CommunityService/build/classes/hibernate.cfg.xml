@@ -6,9 +6,9 @@
 <hibernate-configuration>
 	<session-factory>
 		<property name="connection.driver_class">com.mysql.jdbc.Driver</property>
-		<property name="connection.password">Cards1234</property>
-		<property name="connection.url">jdbc:mysql://ourdbinstance.cbvrc3frdaal.us-east-1.rds.amazonaws.com/dbAppData</property>
-		<property name="connection.username">AWSCards</property>
+		<property name="connection.password">password0</property>
+		<property name="connection.url">jdbc:mysql://dbcsdata.cjoqwx9xyg10.us-west-2.rds.amazonaws.com/dbAppData</property>
+		<property name="connection.username">csuser</property>
 		<property name="dialect">org.hibernate.dialect.MySQL5InnoDBDialect</property>
         
 
