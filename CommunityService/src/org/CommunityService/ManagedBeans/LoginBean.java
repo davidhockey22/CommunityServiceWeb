@@ -2,6 +2,7 @@ package org.CommunityService.ManagedBeans;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 
 import org.CommunityService.EntitiesMapped.Volunteer;
@@ -11,23 +12,37 @@ import org.CommunityService.Services.VolunteerService;
 @RequestScoped
 public class LoginBean {
 
+	@ManagedProperty(value = "#{currentVolunteerBean}")
+	private CurrentVolunteerBean currentVolunteer;
+	
 	private String username;
 	private String password;
 
 	public String Login() {
-		try {
-			Volunteer v = VolunteerService.getVolunteerByName(username);
-			if (v!=null && v.getVolunteerPassword().equals(password)) {
-				return "LandingPage";
-			} else {
-				new FacesMessage(FacesMessage.SEVERITY_ERROR, "Sample error message", "Login credentials didn't match.");
-				return "Login";
+		if (currentVolunteer.getVolunteer() == null) {
+			try {
+				Volunteer v = VolunteerService.getVolunteerByName(username);
+				if (v != null && v.getVolunteerPassword().equals(password)) {
+					currentVolunteer.setVolunteer(v);
+					return "LandingPage";
+				} else {
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Sample error message", "Login credentials didn't match.");
+					return "Login";
+				}
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return "error";
 			}
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return "error";
+		} else {
+			new FacesMessage(FacesMessage.SEVERITY_ERROR, "Sample error message", "User already logged in.");
+			return "Login";
 		}
+	}
+
+	public String Logout() {
+		currentVolunteer.setVolunteer(null);
+		return "Login";
 	}
 
 	// Getters and Setters
@@ -46,6 +61,14 @@ public class LoginBean {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public CurrentVolunteerBean getCurrentVolunteer() {
+		return currentVolunteer;
+	}
+
+	public void setCurrentVolunteer(CurrentVolunteerBean currentVolunteer) {
+		this.currentVolunteer = currentVolunteer;
 	}
 
 }
