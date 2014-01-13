@@ -24,7 +24,7 @@ public class LoginBean {
 				Volunteer v = VolunteerService.getVolunteerByName(username);
 				if (v != null && v.getVolunteerPassword().equals(password)) {
 					currentVolunteer.setVolunteer(v);
-					return "LandingPage";
+					return "Login";
 				} else {
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Sample error message", "Login credentials didn't match.");
 					return "Login";
