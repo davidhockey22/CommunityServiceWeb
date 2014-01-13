@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:p="http://primefaces.org/ui">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui">
 
 <h:head>
 	<title>Login</title>
@@ -23,7 +22,10 @@
 		<h:commandButton type="submit" value="Login" action="#{loginBean.Login}"></h:commandButton>
 	</h:form>
 	<h:form rendered="#{currentVolunteerBean.loggedIn}">
-		<h:outputText value="#{currentVolunteer.volunteer.volunteerName}"/>
+		<h:outputFormat value="Hello, {0}. Your volunteer ID is {1}.">
+			<f:param value="#{currentVolunteerBean.volunteer.volunteerName}" />
+			<f:param value="#{currentVolunteerBean.volunteer.volunteerId}" />
+		</h:outputFormat>
 		<h:commandButton type="submit" value="Logout" action="#{loginBean.Logout}"></h:commandButton>
 	</h:form>
 </h:body>
