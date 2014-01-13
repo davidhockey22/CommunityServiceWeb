@@ -15,7 +15,7 @@ public class VolunteerPage {
 
 	public String getVolunteerEmail() {
 		try {
-			Volunteer v = VolunteerService.getVolunteerByName("David");
+			Volunteer v = VolunteerService.getVolunteerByName("garfield");
 			volunteerEmail = v.getEmailAddress();
 		} catch (Exception e) {
 			e.printStackTrace();
