@@ -7,6 +7,7 @@ import javax.faces.bean.RequestScoped;
 
 import org.CommunityService.EntitiesMapped.Volunteer;
 import org.CommunityService.Services.VolunteerService;
+import org.CommunityService.Validators.PasswordHash;
 
 @ManagedBean
 @RequestScoped
@@ -19,14 +20,15 @@ public class RegistrationBean {
 	private String confirmPassword;
 	
 	public String Register(){
-		Volunteer v = new Volunteer(username, password, phoneNumber, email, new Date(), 0, 0, new Date());
 		try {
+			//password = PasswordHash.createHash(password);
+			Volunteer v = new Volunteer(username, password, phoneNumber, email, new Date(), 0, 0, new Date());
 			VolunteerService.addVolunteer(v);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "Error";
 		}
-		return "Test";
+		return "LandingPage";
 	}
 	
 		

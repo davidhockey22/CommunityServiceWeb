@@ -8,7 +8,7 @@ import javax.faces.event.ActionEvent;
 @ManagedBean
 public class IndependentMessageBean {
 
-	private String message;
+	private String message = "";
 	
 	public void addInfo(ActionEvent actionEvent) {
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Sample info message", message));
