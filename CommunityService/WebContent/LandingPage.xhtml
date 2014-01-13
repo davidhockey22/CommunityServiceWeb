@@ -2,41 +2,45 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:f="http://java.sun.com/jsf/core"      
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
- 
-    <h:head>
-        <title>Jsf example</title>
-    </h:head>
-    <h:body>
-    	<h3>JSF example with primefaces</h3>
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Jsf example</title>
+</h:head>
+<h:body>
+	<h3>JSF example with primefaces</h3>
     	This is just normal jsf
     	<h:form>
-    	   <h:inputText value="#{volunteerPage.volunteerEmail}"></h:inputText>
-    	</h:form>
-    	
-    	
-    	<br />
+		<h:inputText value="#{volunteerPage.volunteerEmail}"></h:inputText>
+	</h:form>
+
+
+	<br />
     	This is the primefaces section
     	
-    	<p:dataTable var="v" value="#{volunteerPage.allVolunteers}">  
-        <p:column headerText="email">  
-            <h:outputText value="#{v.emailAddress}" />  
-        </p:column>  
-  
-        <p:column headerText="avg rating - Nullable">  
-            <h:outputText value="#{v.avgRating}" />  
-        </p:column>  
-  
-        <p:column headerText="creation date">  
-            <h:outputText value="#{v.creationDate}" />  
-        </p:column>  
-  
-        <p:column headerText="hours worked">  
-            <h:outputText value="#{v.hoursWorked}" />  
-        </p:column>  
-    </p:dataTable>
-    	
-    </h:body>
+    	<p:dataTable var="v" value="#{volunteerPage.allVolunteers}">
+		<p:column headerText="email">
+			<h:outputText value="#{v.emailAddress}" />
+		</p:column>
+
+		<p:column headerText="avg rating - Nullable">
+			<h:outputText value="#{v.avgRating}" />
+		</p:column>
+		
+		<p:column headerText="password hashed">
+			<h:outputText value="#{v.volunteerPassword}" />
+		</p:column>
+
+		<p:column headerText="creation date">
+			<h:outputText value="#{v.creationDate}" />
+		</p:column>
+
+		<p:column headerText="hours worked">
+			<h:outputText value="#{v.hoursWorked}" />
+		</p:column>
+	</p:dataTable>
+
+</h:body>
 </html>

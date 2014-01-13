@@ -21,7 +21,7 @@ public class RegistrationBean {
 	
 	public String Register(){
 		try {
-			//password = PasswordHash.createHash(password);
+			password = PasswordHash.createHash(password);
 			Volunteer v = new Volunteer(username, password, phoneNumber, email, new Date(), 0, 0, new Date());
 			VolunteerService.addVolunteer(v);
 		} catch (Exception e) {

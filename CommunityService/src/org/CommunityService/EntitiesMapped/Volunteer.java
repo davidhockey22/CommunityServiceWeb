@@ -143,7 +143,7 @@ public class Volunteer implements java.io.Serializable {
 	this.volunteerName = volunteerName;
     }
 
-    @Column(name = "VolunteerPassword", nullable = false, length = 20)
+    @Column(name = "VolunteerPassword", nullable = false, length = 200)
     public String getVolunteerPassword() {
 	return this.volunteerPassword;
     }

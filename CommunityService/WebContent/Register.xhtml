@@ -38,8 +38,8 @@
 
 		</h:panelGrid>
 		
-		<p:remoteCommand name="sendMessage" update="userMessage" actionListener="#{IndependentMessageBean.addError}" />
-		<h:inputHidden id="message" value="#{IndependentMessageBean.message}"></h:inputHidden>
+		<p:remoteCommand name="sendMessage" update="userMessage" actionListener="#{independentMessageBean.addError}" />
+		<h:inputHidden id="message" value="#{independentMessageBean.message}"></h:inputHidden>
 	</h:form>
 	<script type="text/javascript">
 		$("#password").keyup(function() {
