@@ -23,7 +23,7 @@ public class FeedPage {
 	
 	List<Event> volunteerEvents;
 	
-	public FeedPage() {
+	public List<Event> getVolunteerEvents() {
 		Volunteer volunteer = currentVolunteer.getVolunteer();
 		Set<EventVolunteer> eventVolunteers = volunteer.getEventVolunteers();
 		Map<EventVolunteer, Event> eventVolunteersMap = new HashMap<>();
@@ -31,9 +31,6 @@ public class FeedPage {
 			eventVolunteersMap.put((EventVolunteer) iterator, ((EventVolunteer) iterator).getEvent());
 		}
 		volunteerEvents = new ArrayList<Event>(eventVolunteersMap.values());
-	}
-
-	public List<Event> getVolunteerEvents() {
 		return volunteerEvents;
 	}
 
