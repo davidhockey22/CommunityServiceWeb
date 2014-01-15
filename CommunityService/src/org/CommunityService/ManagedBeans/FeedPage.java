@@ -40,7 +40,13 @@ public class FeedPage {
 	public void setVolunteerEvents(List<Event> volunteerEvents) {
 		this.volunteerEvents = volunteerEvents;
 	}
-	
-	
+
+	public CurrentVolunteerBean getCurrentVolunteer() {
+		return currentVolunteer;
+	}
+
+	public void setCurrentVolunteer(CurrentVolunteerBean currentVolunteer) {
+		this.currentVolunteer = currentVolunteer;
+	}
 }
 

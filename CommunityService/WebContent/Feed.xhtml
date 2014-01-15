@@ -6,7 +6,7 @@
 <h:body>
 	<ui:composition>
 		<div style="float: left">
-			<p:dataTable var="e" value="#{currentVolunteerBean.volunteer.eventVolunteers}">
+			<p:dataTable var="e" value="#{feedPage.volunteerEvents}">
 				<p:column headerText="Event Name">
 					<h:outputText value="#{e.eventName}" />
 				</p:column>
