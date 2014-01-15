@@ -8,24 +8,30 @@
 	<title>Login</title>
 </h:head>
 <h:body>
-	<ui:composition>
-		<h:form rendered="#{!currentVolunteerBean.loggedIn}">
-			<p:message for="username" id="userMessage" />
-			<h:panelGrid columns="2" cellpadding="2">
-				<h:outputLabel for="#{loginBean.username}" value="UserName" />
-				<h:inputText id="username" value="#{loginBean.username}" label="UserName" required="true" />
-				<h:outputLabel for="#{loginBean.password}" value="Password" />
-				<h:inputSecret id="password" value="#{loginBean.password}" required="true" />
-			</h:panelGrid>
-			<h:commandButton type="submit" value="Login" action="#{loginBean.Login}"></h:commandButton>
-		</h:form>
-		<h:form rendered="#{currentVolunteerBean.loggedIn}">
-			<h:outputFormat value="Hello, {0}. Your volunteer ID is {1}.">
-				<f:param value="#{currentVolunteerBean.volunteer.volunteerName}" />
-				<f:param value="#{currentVolunteerBean.volunteer.volunteerId}" />
-			</h:outputFormat>
-			<h:commandButton type="submit" value="Logout" action="#{loginBean.Logout}"></h:commandButton>
-		</h:form>
+	<ui:composition template="commonTemplate.xhtml">
+		<ui:define name="banner">
+			<h:graphicImage url="/images/logo.png" />
+		</ui:define>
+		<ui:define name="content">
+			<h:form rendered="#{!currentVolunteerBean.loggedIn}">
+				<p:message for="username" id="userMessage" />
+				<h:panelGrid columns="2" cellpadding="2">
+					<h:outputLabel for="#{loginBean.username}" value="UserName" />
+					<h:inputText id="username" value="#{loginBean.username}" label="UserName" required="true" />
+					<h:outputLabel for="#{loginBean.password}" value="Password" />
+					<h:inputSecret id="password" value="#{loginBean.password}" required="true" />
+				</h:panelGrid>
+				<h:commandButton type="submit" value="Login" action="#{loginBean.Login}" />
+				<h:button value="Register" outcome="/Register.xhtml" />
+			</h:form>
+			<h:form rendered="#{currentVolunteerBean.loggedIn}">
+				<h:outputFormat value="Hello, {0}. Your volunteer ID is {1}.">
+					<f:param value="#{currentVolunteerBean.volunteer.volunteerName}" />
+					<f:param value="#{currentVolunteerBean.volunteer.volunteerId}" />
+				</h:outputFormat>
+				<h:commandButton type="submit" value="Logout" action="#{loginBean.Logout}"></h:commandButton>
+			</h:form>
+		</ui:define>
 	</ui:composition>
 </h:body>
 </html>

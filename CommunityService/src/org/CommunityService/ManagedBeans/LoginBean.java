@@ -24,7 +24,8 @@ public class LoginBean {
 				Volunteer v = VolunteerService.getVolunteerByName(username);
 				if (v != null && v.getVolunteerPassword().equals(password)) {
 					currentVolunteer.setVolunteer(v);
-					return "Login";
+					// TODO Need to change this to somehow return the page the user was last trying to access
+					return "Home";
 				} else {
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Sample error message", "Login credentials didn't match.");
 					return "Login";
@@ -36,13 +37,14 @@ public class LoginBean {
 			}
 		} else {
 			new FacesMessage(FacesMessage.SEVERITY_ERROR, "Sample error message", "User already logged in.");
-			return "Login";
+			// TODO Need to decide where to navigate in this case, is home appropriate, or is it better keep them on the page they're on?
+			return "Home";
 		}
 	}
 
 	public String Logout() {
 		currentVolunteer.setVolunteer(null);
-		return "Login";
+		return "Home";
 	}
 
 	// Getters and Setters

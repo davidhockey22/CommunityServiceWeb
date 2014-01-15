@@ -3,30 +3,19 @@
 	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui">
-<f:view contentType="text/html">
-	<h:head>
-		<title>Home</title>
-	</h:head>
-	<h:body>
-		<ui:composition template="commonTemplate.xhtml">
-			<ui:define name="banner">
-				<ui:include src="Login.xhtml"></ui:include>
-			</ui:define>
-			<ui:define name="content">
-				<div style="width: 1000px; margin-bottom: 0; margin-left: auto; margin-right: auto; background-color: #BABABA">
-					<h:outputText value="I would like to..."></h:outputText>
-					<div style="width: 90%; margin-bottom: auto; margin-left: auto; margin-right: auto">
-						<div style="float: left; width: 47%; height: 100%; background-color: #E8E8E8">
-							<h:outputText value="Find Volunteers" style="background-color: #E8E8E8"></h:outputText>
-						</div>
-						<div style="float: right; width: 47%; height: 100%; background-color: #E8E8E8">
-							<h:outputText value="Find Opportunities"></h:outputText>
-						</div>
-					</div>
-				</div>
-			</ui:define>
-		</ui:composition>
-
-	</h:body>
-</f:view>
+<h:head>
+	<title>Home</title>
+</h:head>
+<h:body>
+	<ui:composition template="commonTemplate.xhtml">
+		<ui:define name="content">
+			<ui:fragment rendered="#{!currentVolunteerBean.loggedIn}">
+				<ui:include src="IntroContent.xhtml"></ui:include>
+			</ui:fragment>
+			<ui:fragment rendered="#{currentVolunteerBean.loggedIn}">
+				<ui:include src="Feed.xhtml"></ui:include>
+			</ui:fragment>
+		</ui:define>
+	</ui:composition>
+</h:body>
 </html>
