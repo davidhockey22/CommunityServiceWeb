@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="12.2">
+  <zoom_level>10</zoom_level>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>10</x>
+      <y>10</y>
+      <w>490</w>
+      <h>180</h>
+    </coordinates>
+    <panel_attributes>tut1.login::JSONRequest
+--
+-inMessage: String
++IN_MSG = "requestType": String
++OUT_MSG = "outputMessage": String
+--
++JSONRequest(): ctor
+#onHandleIntent(Intent intent): void
+-getEventInfo(String eventID): void
+-sendHttpRequest(String url, List&lt;NameValuePair&gt; nameValuePairs): String
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>

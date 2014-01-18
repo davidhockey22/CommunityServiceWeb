@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="drawer_strings">
-        <item>Events</item>
-        <item>Find</item>
+        <item>Events Signed Up For</item>
+        <item>Find New Events</item>
+        <item>Main</item>
     </string-array>            
-    <string name="hello">Hello World, LoginSystem!</string>
-    <string name="app_name">Login System</string>
+    <string name="hello">VolunteerMe!</string>
+    <string name="app_name">VolunteerMe!</string>
     <string name="username">user</string>
     <string name="password">password</string>
     <string name="btn_txt">Login</string>

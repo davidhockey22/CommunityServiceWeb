@@ -11,66 +11,59 @@ import android.widget.TextView;
 
 //import org.CommunityService.EntitiesMapped.Event;
 
-public class EventAdapter extends BaseExpandableListAdapter {
+public class FindKindAdapter extends BaseExpandableListAdapter {
 	
     //private List<Event> events;
     private LayoutInflater inflater;
-    private int kind;
-    
-    public static final int kindEvent = 1, kindFindByDistance = 2, kindFindByInterest = 3;
-	public static String findByInterestID = null;
-    public static int findByKind = 2;
 
-    public EventAdapter(Context context, int Kind) {
+    public FindKindAdapter(Context context) {
         inflater = LayoutInflater.from(context);
-        kind = Kind;
     }
 
     @Override
     public int getGroupCount() {
-    	
-    	if(kind == kindEvent)
-    		return EventData.GetEventsSignedUpForSize();
-    	else
-    		return EventData.GetFindListSize();
+        return 2;
     }
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        return EventData.childDataTotal;
+    	
+        if(groupPosition == 0) {
+        	
+        	return 0;
+        }
+        else if(groupPosition == 1) {
+        	
+        	int size = InterestData.GetListSize();
+        	return size;
+        }
+        
+        return 0;
     }
 
     @Override
     public Object getGroup(int groupPosition) {
-    	
-    	if(kind == kindEvent)
-    		return EventData.GetEventsSignedUpForLocation(groupPosition).getEventName();
-    	else
-    		return EventData.GetFindListLocation(groupPosition).getEventName();    		
+        //return events.get(groupPosition).getEventName();
+        if(groupPosition == 0) {
+        	
+        	return "Find by distance";
+        }
+        else if(groupPosition == 1) {
+        	
+        	return "Find by interest";
+        }
+        
+        return null;
     }
 
     @Override
     public Object getChild(int groupPosition, int childPosition) {
     	
-    	if(kind == kindEvent) {
-    		
-        	if( childPosition == 0 )
-        		return EventData.GetEventsSignedUpForLocation(groupPosition).getBeginTime();
-        	else if( childPosition == 1 )
-        		return EventData.GetEventsSignedUpForLocation(groupPosition).getLocation();
-        	else if( childPosition == 2 )
-        		return EventData.GetEventsSignedUpForLocation(groupPosition).getDescription();
-    	}
-    	else {
-    		
-        	if( childPosition == 0 )
-        		return EventData.GetFindListLocation(groupPosition).getBeginTime();
-        	else if( childPosition == 1 )
-        		return EventData.GetFindListLocation(groupPosition).getLocation();
-        	else if( childPosition == 2 )
-        		return EventData.GetFindListLocation(groupPosition).getDescription();
-    	}
-    	
+        if(groupPosition == 1) {
+        	
+        	return InterestData.GetListLocation(childPosition).getName();
+        }
+        
     	return null;
     }
 
@@ -91,6 +84,7 @@ public class EventAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
+    	
         if (convertView == null) {
             convertView = inflater.inflate(android.R.layout.simple_expandable_list_item_1, parent, false);
         }
@@ -102,7 +96,7 @@ public class EventAdapter extends BaseExpandableListAdapter {
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         if(convertView == null) {
-            convertView = inflater.inflate(android.R.layout.simple_list_item_1, parent, false);
+            convertView = inflater.inflate(R.layout.expandable_list_item, parent, false);
         }
 
         ((TextView)convertView).setText(getChild(groupPosition,childPosition).toString());
@@ -111,6 +105,6 @@ public class EventAdapter extends BaseExpandableListAdapter {
 
     @Override
     public boolean isChildSelectable(int i, int i2) {
-        return false;
+        return true;
     }
 }
