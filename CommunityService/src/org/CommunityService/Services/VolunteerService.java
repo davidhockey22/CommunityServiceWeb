@@ -28,9 +28,10 @@ public class VolunteerService {
 		ArrayList<Integer> params = new ArrayList<Integer>();
 		params.add(volunteer.getVolunteerId());
 		try {
-			//@SuppressWarnings("unchecked")
-			//Volunteer v = (Volunteer) (((List<Volunteer>) DBConnection.query(hql, params)).get(0));
-			//return v;
+			@SuppressWarnings("unchecked")
+			Volunteer v = (Volunteer) (((List<Volunteer>) DBConnection.query(
+					hql, params)).get(0));
+			return v;
 		} catch (HibernateException e) {
 			//return null;
 		}
