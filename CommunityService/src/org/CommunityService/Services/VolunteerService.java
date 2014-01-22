@@ -23,17 +23,18 @@ public class VolunteerService {
 	}
 
 	public static Volunteer getVolunteerEventsByVolunteer(Volunteer volunteer) {
+		//TODO: create a query that selects using volunteerId
 		String hql = "from Volunteer as v JOIN FETCH v.eventVolunteers where v.volunteerId=?";
-		ArrayList<String> params = new ArrayList<String>();
-		params.add(volunteer.getVolunteerId().toString());
+		ArrayList<Integer> params = new ArrayList<Integer>();
+		params.add(volunteer.getVolunteerId());
 		try {
-			@SuppressWarnings("unchecked")
-			Volunteer v = (Volunteer) (((List<Volunteer>) DBConnection.query(hql, params)).get(0));
-			return v;
+			//@SuppressWarnings("unchecked")
+			//Volunteer v = (Volunteer) (((List<Volunteer>) DBConnection.query(hql, params)).get(0));
+			//return v;
 		} catch (HibernateException e) {
-			return null;
+			//return null;
 		}
-
+		return volunteer;
 	}
 
 	@SuppressWarnings("unchecked")
