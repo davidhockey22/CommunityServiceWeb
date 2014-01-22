@@ -1,6 +1,5 @@
 package org.CommunityService.ManagedBeans;
 
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
@@ -27,7 +26,7 @@ public class LoginBean {
 					// TODO Need to change this to somehow return the page the user was last trying to access
 					return "Home";
 				} else {
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Sample error message", "Login credentials didn't match.");
+					MessageController.addError("Login credentials didn't match.");
 					return "Login";
 				}
 			} catch (Exception e) {
@@ -36,7 +35,7 @@ public class LoginBean {
 				return "error";
 			}
 		} else {
-			new FacesMessage(FacesMessage.SEVERITY_ERROR, "Sample error message", "User already logged in.");
+			MessageController.addInfo("User already logged in.");
 			// TODO Need to decide where to navigate in this case, is home appropriate, or is it better keep them on the page they're on?
 			return "Home";
 		}

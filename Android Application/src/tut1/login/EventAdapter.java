@@ -7,23 +7,32 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
-import java.util.List;
+//import java.util.List;
 
-import org.CommunityService.EntitiesMapped.Event;
+//import org.CommunityService.EntitiesMapped.Event;
 
 public class EventAdapter extends BaseExpandableListAdapter {
 	
-    private List<Event> events;
+    //private List<Event> events;
     private LayoutInflater inflater;
+    private int kind;
+    
+    public static final int kindEvent = 1, kindFindByDistance = 2, kindFindByInterest = 3;
+	public static String findByInterestID = null;
+    public static int findByKind = 2;
 
-    public EventAdapter(Context context, List<Event> list) {
-        this.events = list;
+    public EventAdapter(Context context, int Kind) {
         inflater = LayoutInflater.from(context);
+        kind = Kind;
     }
 
     @Override
     public int getGroupCount() {
-        return events.size();
+    	
+    	if(kind == kindEvent)
+    		return EventData.GetEventsSignedUpForSize();
+    	else
+    		return EventData.GetFindListSize();
     }
 
     @Override
@@ -33,18 +42,34 @@ public class EventAdapter extends BaseExpandableListAdapter {
 
     @Override
     public Object getGroup(int groupPosition) {
-        return events.get(groupPosition).getEventName();
+    	
+    	if(kind == kindEvent)
+    		return EventData.GetEventsSignedUpForLocation(groupPosition).getEventName();
+    	else
+    		return EventData.GetFindListLocation(groupPosition).getEventName();    		
     }
 
     @Override
     public Object getChild(int groupPosition, int childPosition) {
     	
-    	if( childPosition == 0 )
-    		return events.get(groupPosition).getBeginTime();
-    	else if( childPosition == 1 )
-    		return events.get(groupPosition).getLocation();
-    	else if( childPosition == 2 )
-    		return events.get(groupPosition).getDescription();
+    	if(kind == kindEvent) {
+    		
+        	if( childPosition == 0 )
+        		return EventData.GetEventsSignedUpForLocation(groupPosition).getBeginTime();
+        	else if( childPosition == 1 )
+        		return EventData.GetEventsSignedUpForLocation(groupPosition).getLocation();
+        	else if( childPosition == 2 )
+        		return EventData.GetEventsSignedUpForLocation(groupPosition).getDescription();
+    	}
+    	else {
+    		
+        	if( childPosition == 0 )
+        		return EventData.GetFindListLocation(groupPosition).getBeginTime();
+        	else if( childPosition == 1 )
+        		return EventData.GetFindListLocation(groupPosition).getLocation();
+        	else if( childPosition == 2 )
+        		return EventData.GetFindListLocation(groupPosition).getDescription();
+    	}
     	
     	return null;
     }

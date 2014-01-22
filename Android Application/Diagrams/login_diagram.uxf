@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="12.2">
+  <zoom_level>10</zoom_level>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>10</x>
+      <y>10</y>
+      <w>300</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>tut1.login::Login
+--
+--
++onCreate(Bundle savedInstanceState): void
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>

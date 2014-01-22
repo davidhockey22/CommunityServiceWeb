@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>New Event</title>
+	<script src="/CommunityService/js/main.js" language="JavaScript" type="text/javascript"></script>
+
+</h:head>
+<h:body>
+	<h:form>
+		<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+
+		<h:panelGrid columns="2" cellpadding="2">
+
+			<h:outputLabel for="#{createEvent.eventname}" value="Event Name" />
+
+			<p:inputText id="eventname" value="#{createEvent.eventname}" label="Event Name" required="true">
+				<f:validateLength minimum="5" maximum="20" />
+			</p:inputText>
+
+			<h:outputLabel for="#{createEvent.description}" value="Desscription" />
+			<p:inputTextarea id="description" cols="30" rows="10" value="#{createEvent.description}">
+				<f:validateLength maximum="500" />
+			</p:inputTextarea>
+
+			<h:outputLabel for="#{createEvent.location}" value="Location" />
+			<p:inputText id="location" value="#{createEvent.location}" required="true">
+				<f:validateLength maximum="30" />
+			</p:inputText>
+
+			<h:outputText value="Start Time/Date" />
+			<p:calendar value="#{createEvent.begintime}" id="begintime" pattern="MM/dd/yyyy HH:mm" />
+
+			<h:outputText value="End Time/Date" />
+			<p:calendar value="#{createEvent.endtime}" id="endtime" pattern="MM/dd/yyyy HH:mm" />
+
+
+
+		</h:panelGrid>
+		<h:commandButton type="submit" value="Create Event" action="#{createEvent.Create}"></h:commandButton>
+		<p:remoteCommand name="sendMessage" update="messages" actionListener="#{independentMessageBean.addError}" />
+		<h:inputHidden id="message" value="#{independentMessageBean.message}"></h:inputHidden>
+	</h:form>
+	<script type="text/javascript">
+		
+	</script>
+
+</h:body>
+</html>
