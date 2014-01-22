@@ -1,10 +1,8 @@
 package org.CommunityService.ManagedBeans;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import javax.faces.bean.ManagedBean;
@@ -26,11 +24,11 @@ public class FeedPage {
 	public List<Event> getVolunteerEvents() {
 		Volunteer volunteer = currentVolunteer.getVolunteer();
 		Set<EventVolunteer> eventVolunteers = volunteer.getEventVolunteers();
-		Map<EventVolunteer, Event> eventVolunteersMap = new HashMap<>();
+		volunteerEvents = new ArrayList<Event>();
 		for (Iterator<EventVolunteer> iterator = eventVolunteers.iterator(); iterator.hasNext();) {
-			eventVolunteersMap.put((EventVolunteer) iterator, ((EventVolunteer) iterator).getEvent());
+			volunteerEvents.add(((EventVolunteer) iterator).getEvent());
 		}
-		volunteerEvents = new ArrayList<Event>(eventVolunteersMap.values());
+		
 		return volunteerEvents;
 	}
 
