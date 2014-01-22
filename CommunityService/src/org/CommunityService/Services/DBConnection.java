@@ -11,7 +11,7 @@ import org.hibernate.SessionFactory;
 
 public class DBConnection {
 
-	public static Object query(String query, List<String> parameters)
+	public static Object query(String query, List parameters)
 			throws HibernateException {
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();

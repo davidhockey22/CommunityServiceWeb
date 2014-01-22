@@ -49,7 +49,7 @@ public class MainServlet extends HttpServlet {
         String id = null;        
         int kind = 0;
         
-        boolean test = false;
+        boolean test = true;
         if(test){
             kind = kindEventInterestQuery;
         	id = "5";

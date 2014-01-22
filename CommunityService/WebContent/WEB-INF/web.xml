@@ -44,8 +44,7 @@
 		<url-pattern>/Android/*</url-pattern>
 	</servlet-mapping>	
 	
-	
-	
+
 	<resource-ref>
     <description>MySQL Datasource</description>
     <res-ref-name>jdbc/mysql</res-ref-name>
