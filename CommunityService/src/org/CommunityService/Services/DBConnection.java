@@ -3,6 +3,8 @@ package org.CommunityService.Services;
 import java.util.List;
 
 import hibernate.HibernateUtil;
+
+import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -10,7 +12,7 @@ import org.hibernate.SessionFactory;
 public class DBConnection {
 
 	public static Object query(String query, List<String> parameters)
-			throws Exception {
+			throws HibernateException {
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
 		session.beginTransaction();
@@ -33,7 +35,7 @@ public class DBConnection {
 
 	}
 
-	public static Object persist(Object object) throws Exception {
+	public static Object persist(Object object) throws HibernateException {
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
 		session.beginTransaction();

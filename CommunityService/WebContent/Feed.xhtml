@@ -5,12 +5,23 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 <h:body>
 	<ui:composition>
-		<div style="float: left">
-			<p:dataTable var="e" value="#{feedPage.volunteerEvents}">
-				<p:column headerText="Event Name">
-					<h:outputText value="#{e.eventName}" />
-				</p:column>
-			</p:dataTable>
+		<div style="display: inline">
+			<div style="float: left">
+				<p:dataTable var="e" value="#{feedPage.volunteerEvents}">
+					<p:column headerText="Event ID">
+						<h:outputText value="#{e.eventId}" />
+					</p:column>
+					<p:column headerText="Event Name">
+						<h:outputText value="#{e.eventName}" />
+					</p:column>
+					<p:column headerText="Start Time">
+						<h:outputText value="#{e.eventBeginTime}" />
+					</p:column>
+					<p:column headerText="End Time">
+						<h:outputText value="#{e.eventEndTime}" />
+					</p:column>
+				</p:dataTable>
+			</div>
 		</div>
 	</ui:composition>
 </h:body>

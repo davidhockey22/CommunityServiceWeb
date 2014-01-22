@@ -12,6 +12,7 @@ import javax.faces.bean.RequestScoped;
 import org.CommunityService.EntitiesMapped.Event;
 import org.CommunityService.EntitiesMapped.EventVolunteer;
 import org.CommunityService.EntitiesMapped.Volunteer;
+import org.CommunityService.Services.VolunteerService;
 
 @ManagedBean
 @RequestScoped
@@ -23,12 +24,14 @@ public class FeedPage {
 	
 	public List<Event> getVolunteerEvents() {
 		Volunteer volunteer = currentVolunteer.getVolunteer();
+		// TODO: not sure if updating the currentVolunteer.volunteer property is helpful, since this information gets refreshed every time
+		volunteer = VolunteerService.getVolunteerEventsByVolunteer(volunteer);
+		currentVolunteer.setVolunteer(volunteer);
 		Set<EventVolunteer> eventVolunteers = volunteer.getEventVolunteers();
 		volunteerEvents = new ArrayList<Event>();
 		for (Iterator<EventVolunteer> iterator = eventVolunteers.iterator(); iterator.hasNext();) {
 			volunteerEvents.add(((EventVolunteer) iterator).getEvent());
 		}
-		
 		return volunteerEvents;
 	}
 

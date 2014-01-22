@@ -5,9 +5,9 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 <body>
 	<ui:composition>
-		<div style="width: 100%">
-			<h:graphicImage style="float: left" url="/images/logo.png" />
-			<div style="float: right">
+		<div id="header">
+			<h:graphicImage url="/images/logo.png" />
+			<div>
 				<h:form rendered="#{!currentVolunteerBean.loggedIn}">
 					<p:message for="username" id="userMessage" />
 					<h:panelGrid columns="2" cellpadding="2">

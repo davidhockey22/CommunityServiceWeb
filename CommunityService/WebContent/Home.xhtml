@@ -9,12 +9,19 @@
 <h:body>
 	<ui:composition template="commonTemplate.xhtml">
 		<ui:define name="content">
-			<ui:fragment rendered="#{!currentVolunteerBean.loggedIn}">
-				<ui:include src="IntroContent.xhtml"></ui:include>
-			</ui:fragment>
-			<ui:fragment rendered="#{currentVolunteerBean.loggedIn}">
-				<ui:include src="Feed.xhtml"></ui:include>
-			</ui:fragment>
+			<div id="container">
+				<div id="center" class="column">
+					<ui:fragment rendered="#{!currentVolunteerBean.loggedIn}">
+						<ui:include src="IntroContent.xhtml" />
+					</ui:fragment>
+					<ui:fragment rendered="#{currentVolunteerBean.loggedIn}">
+						<ui:include src="Feed.xhtml" />
+					</ui:fragment>
+				</div>
+				<div id="left" class="column"></div>
+				<div id="right" class="column"></div>
+			</div>
+
 		</ui:define>
 	</ui:composition>
 </h:body>
