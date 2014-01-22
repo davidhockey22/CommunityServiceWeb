@@ -7,11 +7,27 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 
 @RequestScoped
-@ManagedBean(name="independentMessageBean")
-public class IndependentMessageBean {
+@ManagedBean(name = "independentMessageBean")
+public class MessageController {
 
 	public String message = "";
-	
+
+	public static void addInfo(String Message) {
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info:", Message));
+	}
+
+	public static void addWarn(String Message) {
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Warning:", Message));
+	}
+
+	public static void addError(String Message) {
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error:", Message));
+	}
+
+	public static void addFatal(String Message) {
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Fatal Error:", Message));
+	}
+
 	public void addInfo(ActionEvent actionEvent) {
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Sample info message", message));
 	}
@@ -21,8 +37,7 @@ public class IndependentMessageBean {
 	}
 
 	public void addError(ActionEvent actionEvent) {
-		FacesContext.getCurrentInstance().addMessage(null,
-				new FacesMessage(FacesMessage.SEVERITY_ERROR, "Sample error message", message));
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Sample error message", message));
 	}
 
 	public void addFatal(ActionEvent actionEvent) {
@@ -36,5 +51,5 @@ public class IndependentMessageBean {
 	public void setMessage(String message) {
 		this.message = message;
 	}
-	
+
 }
