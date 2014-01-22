@@ -6,8 +6,8 @@
 <body>
 	<ui:composition>
 		<div id="header">
-			<h:graphicImage url="/images/logo.png" />
-			<div>
+			<h:graphicImage url="/images/logo.png" style="float:left"/>
+			<div style="float:right">
 				<h:form rendered="#{!currentVolunteerBean.loggedIn}">
 					<p:message for="username" id="userMessage" />
 					<h:panelGrid columns="2" cellpadding="2">

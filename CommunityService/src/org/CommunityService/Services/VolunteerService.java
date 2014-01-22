@@ -3,6 +3,7 @@ package org.CommunityService.Services;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.CommunityService.EntitiesMapped.Event;
 import org.CommunityService.EntitiesMapped.Volunteer;
 import org.hibernate.HibernateException;
 
@@ -22,20 +23,17 @@ public class VolunteerService {
 
 	}
 
-	public static Volunteer getVolunteerEventsByVolunteer(Volunteer volunteer) {
-		//TODO: create a query that selects using volunteerId
-		String hql = "from Volunteer as v JOIN FETCH v.eventVolunteers where v.volunteerId=?";
+	public static List<Event> getEventsByVolunteer(Volunteer volunteer) {
+		String hql = "SELECT ev.event FROM EventVolunteer as ev where ev.volunteer.volunteerId=?";
 		ArrayList<Integer> params = new ArrayList<Integer>();
 		params.add(volunteer.getVolunteerId());
 		try {
 			@SuppressWarnings("unchecked")
-			Volunteer v = (Volunteer) (((List<Volunteer>) DBConnection.query(
-					hql, params)).get(0));
-			return v;
+			List<Event> events = (List<Event>) DBConnection.query(hql, params);
+			return events;
 		} catch (HibernateException e) {
-			//return null;
+			return null;
 		}
-		return volunteer;
 	}
 
 	@SuppressWarnings("unchecked")
