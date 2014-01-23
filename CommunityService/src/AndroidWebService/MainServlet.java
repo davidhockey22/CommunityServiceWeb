@@ -16,7 +16,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 */
 
-public class AndroidServlet extends HttpServlet {
+public class MainServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     
     public static final int kindVolQuery = 1, //id = name
@@ -27,7 +27,7 @@ public class AndroidServlet extends HttpServlet {
     		kindInterestQuery = 5, //id = null (returns all interests)
     		kindEventInterestQuery = 6; //id = event id
  
-    public AndroidServlet() {
+    public MainServlet() {
         super();
     }
  
@@ -51,7 +51,7 @@ public class AndroidServlet extends HttpServlet {
         String id = null;        
         int kind = 0;
         
-        boolean test = false;
+        boolean test = true;
         if(test){
             kind = kindFindQuery;
         	id = "4";
