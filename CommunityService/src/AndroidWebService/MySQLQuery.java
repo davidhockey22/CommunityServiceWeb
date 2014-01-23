@@ -1,26 +1,19 @@
 package AndroidWebService;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import javax.sql.DataSource;
-
 import org.CommunityService.Services.DBConnection;
+import org.hibernate.HibernateException;
+import org.CommunityService.EntitiesMapped.Volunteer;
+import org.CommunityService.EntitiesMapped.EventVolunteer;
+import org.CommunityService.EntitiesMapped.Event;
+import org.CommunityService.EntitiesMapped.Interest;
+import org.CommunityService.EntitiesMapped.EventInterests;
 
 public class MySQLQuery {
 
-	Connection conn = null;
-	PreparedStatement stmt = null;
-	String sql = null;
+	String hql = null;
 
 	public String getResultString(int kind, String id) {
 
@@ -29,199 +22,103 @@ public class MySQLQuery {
 		String parse1 = "~~"; // used to separate objects
 
 		String result = "" + kind + parse + id + parse + parse1;
-
-		int step = 0;
-		Context ctx = null;
-		try {
-			ctx = (Context) new InitialContext().lookup("java:comp/env");
-		} catch (NamingException e1) {
-
-			StringWriter sw = new StringWriter();
-			PrintWriter pw = new PrintWriter(sw);
-			e1.printStackTrace(pw);
-
-			result += "exception " + e1.toString();
-			result += " step " + step + " ";
-			result += sw.toString();
-		}
 		
 		try {
 
 			if (kind == MainServlet.kindVolQuery)
-				sql = "SELECT * FROM dbAppData.Volunteer WHERE VolunteerName = ?";
+				hql = "from Volunteer where VolunteerName = ? ";
 			else if (kind == MainServlet.kindEventVolQuery)
-				sql = "SELECT * FROM dbAppData.EventVolunteer WHERE VolunteerD = ?";
+				hql = "from EventVolunteer where VolunteerD = ? ";
 			else if (kind == MainServlet.kindEventQuery)
-				sql = "SELECT * FROM dbAppData.Event WHERE EventID = ?";
-
+				hql = "from Event where eventID = ? ";
 			else if (kind == MainServlet.kindFindQuery)
-				sql = "SELECT * FROM dbAppData.Event LIMIT 100";
+				hql = "from Event";			
 			else if (kind == MainServlet.kindInterestQuery)
-				sql = "SELECT * FROM dbAppData.Interest LIMIT 100";
+				hql = "from Interest";			
 			else if (kind == MainServlet.kindEventInterestQuery)
-				sql = "select e.eventVolunteerID, e.eventInterests FROM EventInterests as e WHERE e.eventID = ?";
+				hql = "from EventInterests where eventID = ? ";
 			else
 				result += "error bad kind";
-
-			stmt = conn.prepareStatement(sql);
-			if (kind != MainServlet.kindFindQuery
-					&& kind != MainServlet.kindInterestQuery) {
-				stmt.setString(1, id);
-				DBConnection.query(sql, null);
-			} else {
-				List params = new ArrayList();
+			
+			//parameter list
+			List params = null;
+			if(kind != MainServlet.kindFindQuery && kind != MainServlet.kindInterestQuery) {
+				
+				params = new ArrayList();
 				params.add(id);
-				DBConnection.query(sql, params);
 			}
+			
+			//query
+			List list = null;
+			try {
+				list = (List)DBConnection.query(hql, params);				
+			}
+			catch(HibernateException e) {	
+				result += "HibernateException " + e.toString();
+				return result;
+			}
+			
+			//return only certain data as one string
+			for(int i = 0; i < list.size(); i++ ) {
 
-			step = 3;
-//			while (rs.next()) {
-//
-//				if (kind == MainServlet.kindVolQuery) {
-//
-//					result += rs.getString("VolunteerID").trim() + parse;
-//					result += rs.getString("VolunteerName").trim() + parse;
-//					result += rs.getString("VolunteerPassword").trim() + parse;
-//					result += rs.getString("PhoneNumber").trim() + parse;
-//					result += rs.getString("EmailAddress").trim() + parse;
-//				} else if (kind == MainServlet.kindEventVolQuery) {
-//
-//					result += rs.getString("EventVolunteerID").trim() + parse;
-//					result += rs.getString("EventID").trim() + parse;
-//					result += rs.getString("VolunteerD").trim() + parse;
-//				} else if (kind == MainServlet.kindEventQuery
-//						|| kind == MainServlet.kindFindQuery) {
-//
-//					result += rs.getString("EventID").trim() + parse;
-//					result += rs.getString("EventName").trim() + parse;
-//					result += rs.getString("Description").trim() + parse;
-//					result += rs.getString("Location").trim() + parse;
-//					result += rs.getString("BeginTime").trim() + parse;
-//					result += rs.getString("EndTime").trim() + parse;
-//				} else if (kind == MainServlet.kindInterestQuery) {
-//
-//					result += rs.getString("InterestID").trim() + parse;
-//					result += rs.getString("Name").trim() + parse;
-//					result += rs.getString("Description").trim() + parse;
-//				} else if (kind == MainServlet.kindEventInterestQuery) {
-//
-//					result += rs.getString("EventInterestsID").trim() + parse;
-//					result += rs.getString("EventID").trim() + parse;
-//					result += rs.getString("InterestID").trim() + parse;
-//				}
-//				result += parse1;
-//			}
-
-
+				if (kind == MainServlet.kindVolQuery) {
+				
+					Volunteer v = (Volunteer)list.get(i);
+					
+					result += v.getVolunteerId() + parse;
+					result += v.getVolunteerName() + parse;
+					result += v.getVolunteerPassword() + parse;
+					result += v.getPhoneNumber() + parse;
+					result += v.getEmailAddress() + parse;
+				}
+				else if (kind == MainServlet.kindEventVolQuery) {
+					
+					EventVolunteer v = (EventVolunteer)list.get(i);
+					
+					result += v.getEventVolunteerId() + parse;
+					result += v.getEvent().getEventId() + parse;
+					result += v.getVolunteer().getVolunteerId() + parse;
+				}
+				else if (kind == MainServlet.kindEventQuery || kind == MainServlet.kindFindQuery) {
+					
+					Event v = (Event)list.get(i);				
+					
+					result += v.getEventId() + parse;
+					result += v.getEventName() + parse;
+					result += v.getDescription() + parse;
+					result += v.getLocation() + parse;
+					result += v.getBeginTime() + parse;
+					result += v.getEndTime() + parse;
+				}
+				else if (kind == MainServlet.kindInterestQuery) {
+					
+					Interest v = (Interest)list.get(i);
+					
+					result += v.getInterestId() + parse;
+					result += v.getName() + parse;
+					result += v.getDescription() + parse;
+				}		
+				else if (kind == MainServlet.kindEventInterestQuery) {
+					
+					EventInterests v = (EventInterests)list.get(i);
+					
+					result += v.getEventInterestsId() + parse;
+					result += v.getEvent().getEventId() + parse;
+					result += v.getInterest().getInterestId() + parse;
+				}			
+				
+				result += parse1;
+			}
+			
 		} catch (Exception e) {
 
 			System.out.println(e);
 
 			result += "exception " + e.toString();
-			result += " step " + step + " ";
 			result += e.getMessage();
 			result += e.getLocalizedMessage();
 		}
 
-		finally {
-
-			if (stmt != null) {
-				try {
-					stmt.close();
-				} catch (SQLException sqlex) {
-					// ignore -- as we can't do anything about it here
-				}
-
-				stmt = null;
-			}
-
-			if (conn != null) {
-				try {
-					conn.close();
-				} catch (SQLException sqlex) {
-					// ignore -- as we can't do anything about it here
-				}
-				conn = null;
-			}
-		}
-
 		return result;
 	}
-
-	// OLD VERSION
-	// public EventData getEvent(String id) {
-	//
-	// EventData dat = new EventData();
-	//
-	// try {
-	// Context ctx = (Context) new InitialContext().lookup("java:comp/env");
-	// conn = ((DataSource) ctx.lookup("jdbc/mysql")).getConnection();
-	//
-	// sql = "SELECT * FROM dbAppData.Event WHERE EventID = ?;";
-	//
-	// stmt = conn.prepareStatement(sql);
-	// stmt.setString(1,id);
-	// ResultSet rs = stmt.executeQuery();
-	//
-	// while(rs.next()){
-	// dat.setEventId( id );
-	// dat.setEventName(rs.getString("EventName").trim());
-	// dat.setDescription(rs.getString("Description").trim());
-	// dat.setLocation(rs.getString("Location").trim());
-	// dat.setBeginTime(rs.getString("BeginTime").trim());
-	//
-	// break; //do not get > 1 result
-	//
-	// //original tutorial code
-	// /*
-	// dat.setCode(rs.getString("code").trim());
-	// dat.setName(rs.getString("name").trim());
-	// dat.setContinent(rs.getString("continent").trim());
-	// dat.setRegion(rs.getString("region").trim());
-	// dat.setLifeExpectancy(rs.getString("lifeExpectancy") == null ? new
-	// Double(0) : Double.parseDouble(rs.getString("lifeExpectancy").trim()));
-	// dat.setGnp(rs.getString("gnp") == null ? new Double(0) :
-	// Double.parseDouble(rs.getString("gnp").trim()));
-	// dat.setSurfaceArea(rs.getString("surfaceArea") == null ? new Double(0) :
-	// Double.parseDouble(rs.getString("surfaceArea").trim()));
-	// dat.setPopulation(rs.getString("population") == null ? 0 :
-	// Integer.parseInt(rs.getString("population").trim()));
-	// */
-	// }
-	//
-	// rs.close();
-	// stmt.close();
-	// stmt = null;
-	//
-	// conn.close();
-	// conn = null;
-	//
-	// }
-	// catch(Exception e){System.out.println(e);}
-	//
-	// finally {
-	//
-	// if (stmt != null) {
-	// try {
-	// stmt.close();
-	// } catch (SQLException sqlex) {
-	// // ignore -- as we can't do anything about it here
-	// }
-	//
-	// stmt = null;
-	// }
-	//
-	// if (conn != null) {
-	// try {
-	// conn.close();
-	// } catch (SQLException sqlex) {
-	// // ignore -- as we can't do anything about it here
-	// }
-	//
-	// conn = null;
-	// }
-	// }
-	//
-	// return dat;
-	// }
 }

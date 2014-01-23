@@ -53,8 +53,8 @@ public class MainServlet extends HttpServlet {
         
         boolean test = true;
         if(test){
-            kind = kindEventInterestQuery;
-        	id = "5";
+            kind = kindFindQuery;
+        	id = "4";
         
             //out.println( "testing" );
             //return;
