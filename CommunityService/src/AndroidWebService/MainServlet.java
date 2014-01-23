@@ -51,7 +51,7 @@ public class MainServlet extends HttpServlet {
         String id = null;        
         int kind = 0;
         
-        boolean test = true;
+        boolean test = false;
         if(test){
             kind = kindFindQuery;
         	id = "4";
