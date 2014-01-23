@@ -25,24 +25,24 @@ public class MySQLQuery {
 		
 		try {
 
-			if (kind == MainServlet.kindVolQuery)
+			if (kind == AndroidServlet.kindVolQuery)
 				hql = "from Volunteer where VolunteerName = ? ";
-			else if (kind == MainServlet.kindEventVolQuery)
+			else if (kind == AndroidServlet.kindEventVolQuery)
 				hql = "from EventVolunteer where VolunteerD = ? ";
-			else if (kind == MainServlet.kindEventQuery)
+			else if (kind == AndroidServlet.kindEventQuery)
 				hql = "from Event where eventID = ? ";
-			else if (kind == MainServlet.kindFindQuery)
+			else if (kind == AndroidServlet.kindFindQuery)
 				hql = "from Event";			
-			else if (kind == MainServlet.kindInterestQuery)
+			else if (kind == AndroidServlet.kindInterestQuery)
 				hql = "from Interest";			
-			else if (kind == MainServlet.kindEventInterestQuery)
+			else if (kind == AndroidServlet.kindEventInterestQuery)
 				hql = "from EventInterests where eventID = ? ";
 			else
 				result += "error bad kind";
 			
 			//parameter list
 			List params = null;
-			if(kind != MainServlet.kindFindQuery && kind != MainServlet.kindInterestQuery) {
+			if(kind != AndroidServlet.kindFindQuery && kind != AndroidServlet.kindInterestQuery) {
 				
 				params = new ArrayList();
 				params.add(id);
@@ -61,7 +61,7 @@ public class MySQLQuery {
 			//return only certain data as one string
 			for(int i = 0; i < list.size(); i++ ) {
 
-				if (kind == MainServlet.kindVolQuery) {
+				if (kind == AndroidServlet.kindVolQuery) {
 				
 					Volunteer v = (Volunteer)list.get(i);
 					
@@ -71,7 +71,7 @@ public class MySQLQuery {
 					result += v.getPhoneNumber() + parse;
 					result += v.getEmailAddress() + parse;
 				}
-				else if (kind == MainServlet.kindEventVolQuery) {
+				else if (kind == AndroidServlet.kindEventVolQuery) {
 					
 					EventVolunteer v = (EventVolunteer)list.get(i);
 					
@@ -79,7 +79,7 @@ public class MySQLQuery {
 					result += v.getEvent().getEventId() + parse;
 					result += v.getVolunteer().getVolunteerId() + parse;
 				}
-				else if (kind == MainServlet.kindEventQuery || kind == MainServlet.kindFindQuery) {
+				else if (kind == AndroidServlet.kindEventQuery || kind == AndroidServlet.kindFindQuery) {
 					
 					Event v = (Event)list.get(i);				
 					
@@ -90,7 +90,7 @@ public class MySQLQuery {
 					result += v.getBeginTime() + parse;
 					result += v.getEndTime() + parse;
 				}
-				else if (kind == MainServlet.kindInterestQuery) {
+				else if (kind == AndroidServlet.kindInterestQuery) {
 					
 					Interest v = (Interest)list.get(i);
 					
@@ -98,7 +98,7 @@ public class MySQLQuery {
 					result += v.getName() + parse;
 					result += v.getDescription() + parse;
 				}		
-				else if (kind == MainServlet.kindEventInterestQuery) {
+				else if (kind == AndroidServlet.kindEventInterestQuery) {
 					
 					EventInterests v = (EventInterests)list.get(i);
 					
