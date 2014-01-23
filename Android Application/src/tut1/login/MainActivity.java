@@ -5,6 +5,7 @@ package tut1.login;
 
 import tut1.login.R;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -16,17 +17,26 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 public class MainActivity extends Activity {
 	
 	public static MainActivity current = null;
-	public static boolean test = false;
+	public static boolean test = true;
 	
 	private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
@@ -71,11 +81,49 @@ public class MainActivity extends Activity {
 	                R.layout.drawer_list_item, mDrawerStrings));
 	        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
+	        //change title so action bar shows user name
+			setTitle(VolunteerData.current.getName());
+			
+			//ActionBar ab = getActionBar();
+			//ab.setDisplayShowTitleEnabled( false );
+				        
 	        if (savedInstanceState == null) {
 	            selectItem(2);
 	        }
     }
     
+    //creates the search icon on the action bar
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu items for use in the action bar
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+    
+    //event handler for touching the search icon on the action bar
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle presses on the action bar items
+        switch (item.getItemId()) {
+            case R.id.action_search:
+            	
+            	if(mDrawerLayout.isDrawerOpen(mDrawerList)) {
+            		
+            		mDrawerLayout.closeDrawer(mDrawerList);
+            	}
+            	else
+            		mDrawerLayout.openDrawer(mDrawerList);
+            	
+            	return true;
+            case R.id.action_settings:
+
+            	return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }    
+	
     @Override
     protected void onDestroy() {
         Log.v("MainActivity", "onDestroy");

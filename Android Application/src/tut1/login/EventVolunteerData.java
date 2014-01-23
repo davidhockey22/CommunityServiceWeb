@@ -46,10 +46,8 @@ public class EventVolunteerData extends Obj{
     	all.add(this);
     	allString.add(eventVolunteerID);
 
-		if(MainActivity.test == false ) {
-			//get interests
-    		MySQLRequest.Create( MainActivity.current, Integer.toString(MySQLRequest.kindEventQuery), eventID);
-		}    	
+		//get interests
+   		MySQLRequest.Create( MainActivity.current, Integer.toString(MySQLRequest.kindEventQuery), eventID);
     }    
     
 	public String getEventVolunteerID() {

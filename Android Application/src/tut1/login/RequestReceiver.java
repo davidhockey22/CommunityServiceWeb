@@ -32,6 +32,8 @@ public class RequestReceiver extends BroadcastReceiver{
   
   private void parseResponse(String response){
 	  
+	  if(response == null) return;
+	  
       int kind = Integer.parseInt( Obj.parseMySQLKind(response) );
       Obj.parseMySQLID(response);
             

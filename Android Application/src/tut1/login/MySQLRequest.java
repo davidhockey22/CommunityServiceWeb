@@ -105,7 +105,7 @@ public class MySQLRequest extends IntentService{
     	
     	int kindInt = Integer.parseInt(kind);
  
-        String url = "http://54.200.107.187:8080/AndroidWebService/MainServlet";
+        String url = "http://54.200.107.187:8080/CommunityService/Android";
                 
         //add name value pair for the country code
         List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
@@ -115,18 +115,24 @@ public class MySQLRequest extends IntentService{
         String response = null;
         
         if(MainActivity.test) {
-        	
+
         	if(kindInt == kindVolQuery) {
-        		response = "1``user``~~7``user``pass``386-631-1085``user@gmail.com``~~";
+        		response = "1``user``~~7``h``s``386-631-1085``user@gmail.com``~~";
         	}
         	else if(kindInt == kindEventVolQuery) {
         		response = "2``7``~~0``1``7``~~1``2``7``~~";
         	}
         	else if(kindInt == kindEventQuery) {
-        		if( id.equals("1") )
-        			response = "3``0``~~0``humane society``walk pitbulls``orlando``monday``friday``~~";
-        		else
-        			response = "3``0``~~1``soup kitchen``can you cook?``orlando``spring semester``spring semester``~~";        		
+       			response = "3``0``~~0``humane society``walk pitbulls``orlando``monday``friday``~~";
+        	}
+        	else if(kindInt == kindFindQuery) {
+    			response = "4``0``~~2``homeless helper``help those on the street``orlando``monday``friday``~~";
+        	}
+        	else if(kindInt == kindInterestQuery) {
+    			response = "5``0``~~2``Animals``I love animals``~~";
+        	}
+        	else if(kindInt == kindEventInterestQuery) {
+    			response = "6``0``~~1``0``2``~~";
         	}
         	else
         		Obj.BreakPoint();

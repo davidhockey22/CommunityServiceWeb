@@ -10,4 +10,6 @@
     <string name="username">user</string>
     <string name="password">password</string>
     <string name="btn_txt">Login</string>
+    <string name="action_search">Search</string>
+    <string name="action_settings">Settings</string>
 </resources>
