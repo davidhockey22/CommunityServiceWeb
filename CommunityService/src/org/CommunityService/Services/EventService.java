@@ -17,5 +17,9 @@ public class EventService {
 		DBConnection.persist(event);
 		return;
 	}
+	
+	
+	
+	
 
 }
