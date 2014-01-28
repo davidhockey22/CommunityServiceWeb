@@ -47,4 +47,17 @@ public class DBConnection {
 		return null;
 
 	}
+	
+	public static Object update(Object object) throws HibernateException {
+		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
+		if (object != null) {
+			session.merge(object);
+		}
+		session.getTransaction().commit();
+		session.close();
+		return null;
+
+	}	
 }

@@ -47,4 +47,9 @@ public class VolunteerService {
 		DBConnection.persist(v);
 		return;
 	}
+	
+	public static void updateVolunteer(Volunteer v) throws Exception {
+		DBConnection.update(v);
+		return;
+	}	
 }
