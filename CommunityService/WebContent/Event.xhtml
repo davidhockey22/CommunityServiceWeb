@@ -17,10 +17,10 @@
 		</ui:define>
 		<ui:define name="content">
 			<div style="float:left; clear:left">
-				<ui:fragment rendered="#{empty eventPage.event}">
+				<ui:fragment rendered="#{eventPage.event == null}">
 					<h:outputFormat value="Oops! This event doesn't exist!" />
 				</ui:fragment>
-				<ui:fragment rendered="#{!empty eventPage.event}">
+				<ui:fragment rendered="#{eventPage.event != null}">
 					<p:panelGrid columns="2">
 						<f:facet name="header" >
 							<h:outputText value="#{eventPage.event.eventName}"/>
