@@ -9,7 +9,9 @@
 			<div style="float: left">
 				<p:dataTable var="e" value="#{feedPage.volunteerEvents}">
 					<p:column headerText="Event ID">
-						<h:outputText value="#{e.eventId}" />
+						<h:link value="#{e.eventId}" outcome="Event.xhtml">
+							<f:param name="eventId" value="#{e.eventId}" />
+						</h:link>
 					</p:column>
 					<p:column headerText="Event Name">
 						<h:outputText value="#{e.eventName}" />

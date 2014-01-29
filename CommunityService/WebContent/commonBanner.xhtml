@@ -14,11 +14,11 @@
 						<p:panelGrid columns="3" cellpadding="1">
 							<p:panelGrid columns="2" cellpadding="2">
 								<p:outputLabel for="username" value="UserName" />
-								<p:inputText id="username" value="#{loginBean.username}" label="UserName" required="true" />
+								<p:inputText id="username" value="#{currentVolunteerBean.username}" label="UserName" required="true" />
 								<p:outputLabel for="password" value="Password" />
-								<p:password id="password" value="#{loginBean.password}" required="true" />
+								<p:password id="password" value="#{currentVolunteerBean.password}" required="true" />
 							</p:panelGrid>
-							<h:commandButton type="submit" value="Login" action="#{loginBean.Login}" />
+							<h:commandButton type="submit" value="Login" action="#{currentVolunteerBean.Login}" />
 							<h:button value="Register" outcome="/Register.xhtml" />
 						</p:panelGrid>
 					</h:form>
@@ -27,7 +27,7 @@
 							<f:param value="#{currentVolunteerBean.volunteer.volunteerName}" />
 							<f:param value="#{currentVolunteerBean.volunteer.volunteerId}" />
 						</h:outputFormat>
-						<p:commandButton type="submit" value="Logout" immediate="true" action="#{loginBean.Logout}" />
+						<p:commandButton type="submit" value="Logout" immediate="true" action="#{currentVolunteerBean.Logout}" />
 					</h:form>
 				</div>
 			</div>
