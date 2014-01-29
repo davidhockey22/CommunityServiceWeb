@@ -6,27 +6,39 @@
 <body>
 	<ui:composition>
 		<div id="header">
-			<h:graphicImage url="/images/logo.png" style="float:left"/>
-			<div style="float:right">
-				<h:form rendered="#{!currentVolunteerBean.loggedIn}">
-					<p:message for="username" id="userMessage" />
-					<h:panelGrid columns="2" cellpadding="2">
-						<h:outputLabel for="#{loginBean.username}" value="UserName" />
-						<h:inputText id="username" value="#{loginBean.username}" label="UserName" required="true" />
-						<h:outputLabel for="#{loginBean.password}" value="Password" />
-						<h:inputSecret id="password" value="#{loginBean.password}" required="true" />
-					</h:panelGrid>
-					<h:commandButton type="submit" value="Login" action="#{loginBean.Login}"></h:commandButton>
-					<h:button value="Register" outcome="/Register.xhtml" />
-				</h:form>
-				<h:form rendered="#{currentVolunteerBean.loggedIn}">
-					<h:outputFormat value="Hello, {0}. Your volunteer ID is {1}.">
-						<f:param value="#{currentVolunteerBean.volunteer.volunteerName}" />
-						<f:param value="#{currentVolunteerBean.volunteer.volunteerId}" />
-					</h:outputFormat>
-					<h:commandButton type="submit" value="Logout" action="#{loginBean.Logout}"></h:commandButton>
-				</h:form>
+			<div>
+				<h:graphicImage url="/images/logo.png" style="float:left" />
+				<div style="float: right">
+					<h:form rendered="#{!currentVolunteerBean.loggedIn}">
+						<p:message for="username" id="userMessage" />
+						<p:panelGrid columns="3" cellpadding="1">
+							<p:panelGrid columns="2" cellpadding="2">
+								<p:outputLabel for="username" value="UserName" />
+								<p:inputText id="username" value="#{loginBean.username}" label="UserName" required="true" />
+								<p:outputLabel for="password" value="Password" />
+								<p:password id="password" value="#{loginBean.password}" required="true" />
+							</p:panelGrid>
+							<h:commandButton type="submit" value="Login" action="#{loginBean.Login}" />
+							<h:button value="Register" outcome="/Register.xhtml" />
+						</p:panelGrid>
+					</h:form>
+					<h:form rendered="#{currentVolunteerBean.loggedIn}">
+						<h:outputFormat value="Hello, {0}. Your volunteer ID is {1}.">
+							<f:param value="#{currentVolunteerBean.volunteer.volunteerName}" />
+							<f:param value="#{currentVolunteerBean.volunteer.volunteerId}" />
+						</h:outputFormat>
+						<p:commandButton type="submit" value="Logout" immediate="true" action="#{loginBean.Logout}" />
+					</h:form>
+				</div>
 			</div>
+			<div style="clear: both">
+				<p:menubar>
+					<p:menuitem value="Home" icon="ui-icon-home" url="Home.xhtml" />
+					<p:menuitem value="Profile" icon="ui-icon-person" url="Profile.xhtml" />
+					<p:menuitem value="Search" icon="ui-icon-person" url="Search.xhtml" />
+				</p:menubar>
+			</div>
+			<p:growl id="messages" />
 		</div>
 	</ui:composition>
 </body>

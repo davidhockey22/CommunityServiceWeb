@@ -5,11 +5,12 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui">
 <h:head>
 	<title>Home</title>
+	<h:outputStylesheet library="css" name="WebContent/css/main.css" />
 </h:head>
 <h:body>
 	<ui:composition template="commonTemplate.xhtml">
 		<ui:define name="content">
-			<div id="container">
+			<div id="container" style="float:left; clear:left">
 				<div id="center" class="column">
 					<ui:fragment rendered="#{!currentVolunteerBean.loggedIn}">
 						<ui:include src="IntroContent.xhtml" />

@@ -3,6 +3,8 @@ package org.CommunityService.ManagedBeans;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpSession;
 
 import org.CommunityService.EntitiesMapped.Volunteer;
 import org.CommunityService.Services.VolunteerService;
@@ -23,27 +25,26 @@ public class LoginBean {
 				Volunteer v = VolunteerService.getVolunteerByName(username);
 				if (v != null && v.getVolunteerPassword().equals(password)) {
 					currentVolunteer.setVolunteer(v);
-					// TODO Need to change this to somehow return the page the user was last trying to access
-					return "Home";
+					return "?faces-redirect=true";
 				} else {
 					MessageController.addError("Login credentials didn't match.");
-					return "Login";
+					return "?faces-redirect=true";
 				}
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-				return "error";
+				return "error?faces-redirect=true";
 			}
 		} else {
 			MessageController.addInfo("User already logged in.");
-			// TODO Need to decide where to navigate in this case, is home appropriate, or is it better keep them on the page they're on?
-			return "Home";
+			return "?faces-redirect=true";
 		}
 	}
-
+	
 	public String Logout() {
-		currentVolunteer.setVolunteer(null);
-		return "Home";
+		//invalidate current session and redirect to clear POST data
+		FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+		return "?faces-redirect=true";
 	}
 
 	// Getters and Setters

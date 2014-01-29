@@ -1,37 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
 	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui">
 <h:head>
 	<title>Home</title>
 </h:head>
 <h:body>
-	<h:outputLabel for="#{searchBean.eventName}"
-		value="Search by event name " />
-	<p:inputText id="eventName" value="#{searchBean.eventName}"
-		required="true" />
+	<ui:composition template="commonTemplate.xhtml">
 
-	<br />
+		<ui:define name="content">
+			<div style="clear: left">
+				<h:outputLabel for="#{searchBean.eventName}" value="Search by event name " />
+				<p:inputText id="eventName" value="#{searchBean.eventName}" required="true" />
 
-	<p:selectCheckboxMenu value="#{searchBean.selectedInterests}"
-		label="Interests" filter="true" filterText="Filter"
-		filterMatchMode="startsWith">
-		<f:selectItems value="#{searchBean.interests}" var="interest"
-			itemLabel="#{interest.name}" itemValue="#{interest}" />
-	</p:selectCheckboxMenu>
-	<br />
+				<br />
 
-	<p:selectCheckboxMenu value="#{searchBean.selectedSkills}"
-		label="Skills" filter="true" filterText="Filter"
-		filterMatchMode="startsWith">
-		<f:selectItems value="#{searchBean.skills}" var="skill"
-			itemLabel="#{skill.skillName}" itemValue="#{skill}" />
-	</p:selectCheckboxMenu>
+				<p:selectCheckboxMenu value="#{searchBean.selectedInterests}" label="Interests" filter="true" filterText="Filter" filterMatchMode="startsWith">
+					<f:selectItems value="#{searchBean.interests}" var="interest" itemLabel="#{interest.name}" itemValue="#{interest}" />
+				</p:selectCheckboxMenu>
+				<br />
 
+				<p:selectCheckboxMenu value="#{searchBean.selectedSkills}" label="Skills" filter="true" filterText="Filter" filterMatchMode="startsWith">
+					<f:selectItems value="#{searchBean.skills}" var="skill" itemLabel="#{skill.skillName}" itemValue="#{skill}" />
+				</p:selectCheckboxMenu>
 
+			</div>
+		</ui:define>
+	</ui:composition>
 </h:body>
 </html>
