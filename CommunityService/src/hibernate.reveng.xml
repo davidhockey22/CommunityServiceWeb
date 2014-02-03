@@ -2,5 +2,31 @@
 <!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-reverse-engineering-3.0.dtd" >
 
 <hibernate-reverse-engineering>
-  <table-filter match-schema="dbAppData" match-name=".*"/>
+  <table-filter match-catalog="dbAppData" match-name="Event"/>
+  <table-filter match-catalog="dbAppData" match-name="Event_Interest"/>
+  <table-filter match-catalog="dbAppData" match-name="Event_Skill"/>
+  <table-filter match-catalog="dbAppData" match-name="Event_Volunteer"/>
+  <table-filter match-catalog="dbAppData" match-name="FacebookLogIn"/>
+  <table-filter match-catalog="dbAppData" match-name="GoogleLogIn"/>
+  <table-filter match-catalog="dbAppData" match-name="Group"/>
+  <table-filter match-catalog="dbAppData" match-name="Group_Member"/>
+  <table-filter match-catalog="dbAppData" match-name="Group_Mod"/>
+  <table-filter match-catalog="dbAppData" match-name="Interest"/>
+  <table-filter match-catalog="dbAppData" match-name="Notification"/>
+  <table-filter match-catalog="dbAppData" match-name="Organization"/>
+  <table-filter match-catalog="dbAppData" match-name="Organization_Follower"/>
+  <table-filter match-catalog="dbAppData" match-name="Organization_Group"/>
+  <table-filter match-catalog="dbAppData" match-name="Organization_Moderators"/>
+  <table-filter match-catalog="dbAppData" match-name="Picture"/>
+  <table-filter match-catalog="dbAppData" match-name="Picture_Event"/>
+  <table-filter match-catalog="dbAppData" match-name="Picture_Group"/>
+  <table-filter match-catalog="dbAppData" match-name="Picture_Organization"/>
+  <table-filter match-catalog="dbAppData" match-name="Picture_Volunteer"/>
+  <table-filter match-catalog="dbAppData" match-name="Skill"/>
+  <table-filter match-catalog="dbAppData" match-name="SocialLinks"/>
+  <table-filter match-catalog="dbAppData" match-name="Volunteer"/>
+  <table-filter match-catalog="dbAppData" match-name="Volunteer_Device"/>
+  <table-filter match-catalog="dbAppData" match-name="Volunteer_Interest"/>
+  <table-filter match-catalog="dbAppData" match-name="Volunteer_Skill"/>
+  <table-filter match-catalog="dbAppData" match-name="occurrencePattern"/>
 </hibernate-reverse-engineering>

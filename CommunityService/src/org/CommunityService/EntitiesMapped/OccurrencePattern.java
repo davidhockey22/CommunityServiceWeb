@@ -1,19 +1,12 @@
 package org.CommunityService.EntitiesMapped;
 
-// Generated Oct 21, 2013 2:07:36 PM by Hibernate Tools 3.4.0.CR1
-
-import java.util.HashSet;
-import java.util.Set;
+// Generated Feb 3, 2014 2:14:25 PM by Hibernate Tools 3.4.0.CR1
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-
 import static javax.persistence.GenerationType.IDENTITY;
-
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -23,65 +16,45 @@ import javax.persistence.Table;
 @Table(name = "occurrencePattern", catalog = "dbAppData")
 public class OccurrencePattern implements java.io.Serializable {
 
-    /**
-     * 
-     */
-    private static final long serialVersionUID = 9066073474025449947L;
-    private Integer occurrencePatternId;
-    private String ocurName;
-    private String pattern;
-    private Set<Event> events = new HashSet<Event>(0);
+	private Integer occurrencePatternId;
+	private String ocurName;
+	private String pattern;
 
-    public OccurrencePattern() {
-    }
+	public OccurrencePattern() {
+	}
 
-    public OccurrencePattern(String ocurName, String pattern) {
-	this.ocurName = ocurName;
-	this.pattern = pattern;
-    }
+	public OccurrencePattern(String ocurName, String pattern) {
+		this.ocurName = ocurName;
+		this.pattern = pattern;
+	}
 
-    public OccurrencePattern(String ocurName, String pattern, Set<Event> events) {
-	this.ocurName = ocurName;
-	this.pattern = pattern;
-	this.events = events;
-    }
+	@Id
+	@GeneratedValue(strategy = IDENTITY)
+	@Column(name = "occurrencePatternID", unique = true, nullable = false)
+	public Integer getOccurrencePatternId() {
+		return this.occurrencePatternId;
+	}
 
-    @Id
-    @GeneratedValue(strategy = IDENTITY)
-    @Column(name = "occurrencePatternID", unique = true, nullable = false)
-    public Integer getOccurrencePatternId() {
-	return this.occurrencePatternId;
-    }
+	public void setOccurrencePatternId(Integer occurrencePatternId) {
+		this.occurrencePatternId = occurrencePatternId;
+	}
 
-    public void setOccurrencePatternId(Integer occurrencePatternId) {
-	this.occurrencePatternId = occurrencePatternId;
-    }
+	@Column(name = "OcurName", nullable = false, length = 20)
+	public String getOcurName() {
+		return this.ocurName;
+	}
 
-    @Column(name = "OcurName", nullable = false, length = 20)
-    public String getOcurName() {
-	return this.ocurName;
-    }
+	public void setOcurName(String ocurName) {
+		this.ocurName = ocurName;
+	}
 
-    public void setOcurName(String ocurName) {
-	this.ocurName = ocurName;
-    }
+	@Column(name = "Pattern", nullable = false, length = 45)
+	public String getPattern() {
+		return this.pattern;
+	}
 
-    @Column(name = "Pattern", nullable = false, length = 45)
-    public String getPattern() {
-	return this.pattern;
-    }
-
-    public void setPattern(String pattern) {
-	this.pattern = pattern;
-    }
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "occurrencePattern")
-    public Set<Event> getEvents() {
-	return this.events;
-    }
-
-    public void setEvents(Set<Event> events) {
-	this.events = events;
-    }
+	public void setPattern(String pattern) {
+		this.pattern = pattern;
+	}
 
 }

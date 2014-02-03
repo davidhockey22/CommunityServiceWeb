@@ -1,18 +1,18 @@
 package org.CommunityService.EntitiesMapped;
 
-// Generated Oct 21, 2013 2:07:36 PM by Hibernate Tools 3.4.0.CR1
+// Generated Feb 3, 2014 2:14:25 PM by Hibernate Tools 3.4.0.CR1
 
 import java.util.HashSet;
 import java.util.Set;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-
 import static javax.persistence.GenerationType.IDENTITY;
-
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
@@ -24,135 +24,134 @@ import javax.persistence.UniqueConstraint;
 @Table(name = "Group", catalog = "dbAppData", uniqueConstraints = @UniqueConstraint(columnNames = "GroupName"))
 public class Group implements java.io.Serializable {
 
-    /**
-     * 
-     */
-    private static final long serialVersionUID = 218005541396939609L;
-    private Integer groupId;
-    private String groupName;
-    private String groupAdmin;
-    private int hoursWorked;
-    private float points;
-    private float avgRatingOfVolunteers;
-    private Set<OrgGroup> orgGroups = new HashSet<OrgGroup>(0);
-    private Set<GroupMember> groupMembers = new HashSet<GroupMember>(0);
-    private Set<PictureGroup> pictureGroups = new HashSet<PictureGroup>(0);
-    private Set<GroupMod> groupMods = new HashSet<GroupMod>(0);
+	private Integer groupId;
+	private String groupName;
+	private String groupAdmin;
+	private int hoursWorked;
+	private float points;
+	private float avgRatingOfVolunteers;
+	private Set organizations = new HashSet(0);
+	private Set groupMembers = new HashSet(0);
+	private Set pictures = new HashSet(0);
+	private Set groupMods = new HashSet(0);
 
-    public Group() {
-    }
+	public Group() {
+	}
 
-    public Group(String groupName, String groupAdmin, int hoursWorked, float points, float avgRatingOfVolunteers) {
-	this.groupName = groupName;
-	this.groupAdmin = groupAdmin;
-	this.hoursWorked = hoursWorked;
-	this.points = points;
-	this.avgRatingOfVolunteers = avgRatingOfVolunteers;
-    }
+	public Group(String groupName, String groupAdmin, int hoursWorked,
+			float points, float avgRatingOfVolunteers) {
+		this.groupName = groupName;
+		this.groupAdmin = groupAdmin;
+		this.hoursWorked = hoursWorked;
+		this.points = points;
+		this.avgRatingOfVolunteers = avgRatingOfVolunteers;
+	}
 
-    public Group(String groupName, String groupAdmin, int hoursWorked, float points, float avgRatingOfVolunteers, Set<OrgGroup> orgGroups, Set<GroupMember> groupMembers,
-	    Set<PictureGroup> pictureGroups, Set<GroupMod> groupMods) {
-	this.groupName = groupName;
-	this.groupAdmin = groupAdmin;
-	this.hoursWorked = hoursWorked;
-	this.points = points;
-	this.avgRatingOfVolunteers = avgRatingOfVolunteers;
-	this.orgGroups = orgGroups;
-	this.groupMembers = groupMembers;
-	this.pictureGroups = pictureGroups;
-	this.groupMods = groupMods;
-    }
+	public Group(String groupName, String groupAdmin, int hoursWorked,
+			float points, float avgRatingOfVolunteers, Set organizations,
+			Set groupMembers, Set pictures, Set groupMods) {
+		this.groupName = groupName;
+		this.groupAdmin = groupAdmin;
+		this.hoursWorked = hoursWorked;
+		this.points = points;
+		this.avgRatingOfVolunteers = avgRatingOfVolunteers;
+		this.organizations = organizations;
+		this.groupMembers = groupMembers;
+		this.pictures = pictures;
+		this.groupMods = groupMods;
+	}
 
-    @Id
-    @GeneratedValue(strategy = IDENTITY)
-    @Column(name = "GroupID", unique = true, nullable = false)
-    public Integer getGroupId() {
-	return this.groupId;
-    }
+	@Id
+	@GeneratedValue(strategy = IDENTITY)
+	@Column(name = "GroupID", unique = true, nullable = false)
+	public Integer getGroupId() {
+		return this.groupId;
+	}
 
-    public void setGroupId(Integer groupId) {
-	this.groupId = groupId;
-    }
+	public void setGroupId(Integer groupId) {
+		this.groupId = groupId;
+	}
 
-    @Column(name = "GroupName", unique = true, nullable = false, length = 45)
-    public String getGroupName() {
-	return this.groupName;
-    }
+	@Column(name = "GroupName", unique = true, nullable = false, length = 45)
+	public String getGroupName() {
+		return this.groupName;
+	}
 
-    public void setGroupName(String groupName) {
-	this.groupName = groupName;
-    }
+	public void setGroupName(String groupName) {
+		this.groupName = groupName;
+	}
 
-    @Column(name = "GroupAdmin", nullable = false, length = 45)
-    public String getGroupAdmin() {
-	return this.groupAdmin;
-    }
+	@Column(name = "GroupAdmin", nullable = false, length = 45)
+	public String getGroupAdmin() {
+		return this.groupAdmin;
+	}
 
-    public void setGroupAdmin(String groupAdmin) {
-	this.groupAdmin = groupAdmin;
-    }
+	public void setGroupAdmin(String groupAdmin) {
+		this.groupAdmin = groupAdmin;
+	}
 
-    @Column(name = "HoursWorked", nullable = false)
-    public int getHoursWorked() {
-	return this.hoursWorked;
-    }
+	@Column(name = "HoursWorked", nullable = false)
+	public int getHoursWorked() {
+		return this.hoursWorked;
+	}
 
-    public void setHoursWorked(int hoursWorked) {
-	this.hoursWorked = hoursWorked;
-    }
+	public void setHoursWorked(int hoursWorked) {
+		this.hoursWorked = hoursWorked;
+	}
 
-    @Column(name = "Points", nullable = false, precision = 12, scale = 0)
-    public float getPoints() {
-	return this.points;
-    }
+	@Column(name = "Points", nullable = false, precision = 12, scale = 0)
+	public float getPoints() {
+		return this.points;
+	}
 
-    public void setPoints(float points) {
-	this.points = points;
-    }
+	public void setPoints(float points) {
+		this.points = points;
+	}
 
-    @Column(name = "AvgRatingOfVolunteers", nullable = false, precision = 12, scale = 0)
-    public float getAvgRatingOfVolunteers() {
-	return this.avgRatingOfVolunteers;
-    }
+	@Column(name = "AvgRatingOfVolunteers", nullable = false, precision = 12, scale = 0)
+	public float getAvgRatingOfVolunteers() {
+		return this.avgRatingOfVolunteers;
+	}
 
-    public void setAvgRatingOfVolunteers(float avgRatingOfVolunteers) {
-	this.avgRatingOfVolunteers = avgRatingOfVolunteers;
-    }
+	public void setAvgRatingOfVolunteers(float avgRatingOfVolunteers) {
+		this.avgRatingOfVolunteers = avgRatingOfVolunteers;
+	}
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "group")
-    public Set<OrgGroup> getOrgGroups() {
-	return this.orgGroups;
-    }
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "Organization_Group", catalog = "dbAppData", joinColumns = { @JoinColumn(name = "GroupID", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "OrgID", nullable = false, updatable = false) })
+	public Set getOrganizations() {
+		return this.organizations;
+	}
 
-    public void setOrgGroups(Set<OrgGroup> orgGroups) {
-	this.orgGroups = orgGroups;
-    }
+	public void setOrganizations(Set organizations) {
+		this.organizations = organizations;
+	}
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "group")
-    public Set<GroupMember> getGroupMembers() {
-	return this.groupMembers;
-    }
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "group")
+	public Set getGroupMembers() {
+		return this.groupMembers;
+	}
 
-    public void setGroupMembers(Set<GroupMember> groupMembers) {
-	this.groupMembers = groupMembers;
-    }
+	public void setGroupMembers(Set groupMembers) {
+		this.groupMembers = groupMembers;
+	}
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "group")
-    public Set<PictureGroup> getPictureGroups() {
-	return this.pictureGroups;
-    }
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "groups")
+	public Set getPictures() {
+		return this.pictures;
+	}
 
-    public void setPictureGroups(Set<PictureGroup> pictureGroups) {
-	this.pictureGroups = pictureGroups;
-    }
+	public void setPictures(Set pictures) {
+		this.pictures = pictures;
+	}
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "group")
-    public Set<GroupMod> getGroupMods() {
-	return this.groupMods;
-    }
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "group")
+	public Set getGroupMods() {
+		return this.groupMods;
+	}
 
-    public void setGroupMods(Set<GroupMod> groupMods) {
-	this.groupMods = groupMods;
-    }
+	public void setGroupMods(Set groupMods) {
+		this.groupMods = groupMods;
+	}
 
 }

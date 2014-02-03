@@ -1,21 +1,19 @@
 package org.CommunityService.EntitiesMapped;
 
-// Generated Oct 21, 2013 2:07:36 PM by Hibernate Tools 3.4.0.CR1
+// Generated Feb 3, 2014 2:14:25 PM by Hibernate Tools 3.4.0.CR1
 
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-
 import static javax.persistence.GenerationType.IDENTITY;
-
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -28,159 +26,146 @@ import javax.persistence.TemporalType;
 @Table(name = "Event", catalog = "dbAppData")
 public class Event implements java.io.Serializable {
 
-    /**
-     * 
-     */
-    private static final long serialVersionUID = -9157318856424457180L;
-    private Integer eventId;
-    private OccurrencePattern occurrencePattern;
-    private String eventName;
-    private String description;
-    private String location;
-    private Date beginTime;
-    private Date endTime;
-    private float hoursBonus;
-    private Set<PictureEvent> pictureEvents = new HashSet<PictureEvent>(0);
-    private Set<EventInterests> eventInterests = new HashSet<EventInterests>(0);
-    private Set<EventSkill> eventSkills = new HashSet<EventSkill>(0);
-    private Set<EventVolunteer> eventVolunteers = new HashSet<EventVolunteer>(0);
+	private Integer eventId;
+	private String eventName;
+	private String description;
+	private String location;
+	private Date beginTime;
+	private Date endTime;
+	private Integer recurId;
+	private float hoursBonus;
+	private Set interests = new HashSet(0);
+	private Set eventSkills = new HashSet(0);
+	private Set eventVolunteers = new HashSet(0);
 
-    public Event() {
-    }
+	public Event() {
+	}
 
-    public Event(String eventName, Date beginTime, Date endTime, float hoursBonus) {
-	this.eventName = eventName;
-	this.beginTime = beginTime;
-	this.endTime = endTime;
-	this.hoursBonus = hoursBonus;
-    }
+	public Event(String eventName, Date beginTime, Date endTime,
+			float hoursBonus) {
+		this.eventName = eventName;
+		this.beginTime = beginTime;
+		this.endTime = endTime;
+		this.hoursBonus = hoursBonus;
+	}
 
-    public Event(OccurrencePattern occurrencePattern, String eventName, String description, String location, Date beginTime, Date endTime,
-	    float hoursBonus, Set<PictureEvent> pictureEvents, Set<EventInterests> eventInterestses, Set<EventSkill> eventSkills, Set<EventVolunteer> eventVolunteers) {
-	this.occurrencePattern = occurrencePattern;
-	this.eventName = eventName;
-	this.description = description;
-	this.location = location;
-	this.beginTime = beginTime;
-	this.endTime = endTime;
-	this.hoursBonus = hoursBonus;
-	this.pictureEvents = pictureEvents;
-	this.eventInterests = eventInterestses;
-	this.eventSkills = eventSkills;
-	this.eventVolunteers = eventVolunteers;
-    }
+	public Event(String eventName, String description, String location,
+			Date beginTime, Date endTime, Integer recurId, float hoursBonus,
+			Set interests, Set eventSkills, Set eventVolunteers) {
+		this.eventName = eventName;
+		this.description = description;
+		this.location = location;
+		this.beginTime = beginTime;
+		this.endTime = endTime;
+		this.recurId = recurId;
+		this.hoursBonus = hoursBonus;
+		this.interests = interests;
+		this.eventSkills = eventSkills;
+		this.eventVolunteers = eventVolunteers;
+	}
 
-    @Id
-    @GeneratedValue(strategy = IDENTITY)
-    @Column(name = "EventID", unique = true, nullable = false)
-    public Integer getEventId() {
-	return this.eventId;
-    }
+	@Id
+	@GeneratedValue(strategy = IDENTITY)
+	@Column(name = "EventID", unique = true, nullable = false)
+	public Integer getEventId() {
+		return this.eventId;
+	}
 
-    public void setEventId(Integer eventId) {
-	this.eventId = eventId;
-    }
+	public void setEventId(Integer eventId) {
+		this.eventId = eventId;
+	}
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "RecurID")
-    public OccurrencePattern getOccurrencePattern() {
-	return this.occurrencePattern;
-    }
+	@Column(name = "EventName", nullable = false, length = 45)
+	public String getEventName() {
+		return this.eventName;
+	}
 
-    public void setOccurrencePattern(OccurrencePattern occurrencePattern) {
-	this.occurrencePattern = occurrencePattern;
-    }
+	public void setEventName(String eventName) {
+		this.eventName = eventName;
+	}
 
-    @Column(name = "EventName", nullable = false, length = 45)
-    public String getEventName() {
-	return this.eventName;
-    }
+	@Column(name = "Description")
+	public String getDescription() {
+		return this.description;
+	}
 
-    public void setEventName(String eventName) {
-	this.eventName = eventName;
-    }
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
-    @Column(name = "Description")
-    public String getDescription() {
-	return this.description;
-    }
+	@Column(name = "Location", length = 45)
+	public String getLocation() {
+		return this.location;
+	}
 
-    public void setDescription(String description) {
-	this.description = description;
-    }
+	public void setLocation(String location) {
+		this.location = location;
+	}
 
-    @Column(name = "Location", length = 45)
-    public String getLocation() {
-	return this.location;
-    }
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "BeginTime", nullable = false, length = 19)
+	public Date getBeginTime() {
+		return this.beginTime;
+	}
 
-    public void setLocation(String location) {
-	this.location = location;
-    }
+	public void setBeginTime(Date beginTime) {
+		this.beginTime = beginTime;
+	}
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "BeginTime", nullable = false, length = 19)
-    public Date getBeginTime() {
-	return this.beginTime;
-    }
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "EndTime", nullable = false, length = 19)
+	public Date getEndTime() {
+		return this.endTime;
+	}
 
-    public void setBeginTime(Date beginTime) {
-	this.beginTime = beginTime;
-    }
+	public void setEndTime(Date endTime) {
+		this.endTime = endTime;
+	}
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "EndTime", nullable = false, length = 19)
-    public Date getEndTime() {
-	return this.endTime;
-    }
+	@Column(name = "RecurID")
+	public Integer getRecurId() {
+		return this.recurId;
+	}
 
-    public void setEndTime(Date endTime) {
-	this.endTime = endTime;
-    }
+	public void setRecurId(Integer recurId) {
+		this.recurId = recurId;
+	}
 
-    @Column(name = "HoursBonus", nullable = false, precision = 12, scale = 0)
-    public float getHoursBonus() {
-	return this.hoursBonus;
-    }
+	@Column(name = "HoursBonus", nullable = false, precision = 12, scale = 0)
+	public float getHoursBonus() {
+		return this.hoursBonus;
+	}
 
-    public void setHoursBonus(float hoursBonus) {
-	this.hoursBonus = hoursBonus;
-    }
+	public void setHoursBonus(float hoursBonus) {
+		this.hoursBonus = hoursBonus;
+	}
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "event")
-    public Set<PictureEvent> getPictureEvents() {
-	return this.pictureEvents;
-    }
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "Event_Interest", catalog = "dbAppData", joinColumns = { @JoinColumn(name = "EventID", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "InterestID", nullable = false, updatable = false) })
+	public Set getInterests() {
+		return this.interests;
+	}
 
-    public void setPictureEvents(Set<PictureEvent> pictureEvents) {
-	this.pictureEvents = pictureEvents;
-    }
+	public void setInterests(Set interests) {
+		this.interests = interests;
+	}
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "event")
-    public Set<EventInterests> getEventInterests() {
-	return this.eventInterests;
-    }
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "event")
+	public Set getEventSkills() {
+		return this.eventSkills;
+	}
 
-    public void setEventInterests(Set<EventInterests> eventInterestses) {
-	this.eventInterests = eventInterestses;
-    }
+	public void setEventSkills(Set eventSkills) {
+		this.eventSkills = eventSkills;
+	}
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "event")
-    public Set<EventSkill> getEventSkills() {
-	return this.eventSkills;
-    }
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "event")
+	public Set getEventVolunteers() {
+		return this.eventVolunteers;
+	}
 
-    public void setEventSkills(Set<EventSkill> eventSkills) {
-	this.eventSkills = eventSkills;
-    }
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "event")
-    public Set<EventVolunteer> getEventVolunteers() {
-	return this.eventVolunteers;
-    }
-
-    public void setEventVolunteers(Set<EventVolunteer> eventVolunteers) {
-	this.eventVolunteers = eventVolunteers;
-    }
+	public void setEventVolunteers(Set eventVolunteers) {
+		this.eventVolunteers = eventVolunteers;
+	}
 
 }

@@ -22,7 +22,7 @@ public class RegistrationBean {
 	public String Register(){
 		try {
 			password = PasswordHash.createHash(password);
-			Volunteer v = new Volunteer(username, password, phoneNumber, email, new Date(), 0, 0, new Date());
+			Volunteer v = new Volunteer(username, password, phoneNumber, email, new Date(), 0, 0, username, username);
 			VolunteerService.addVolunteer(v);
 		} catch (Exception e) {
 			e.printStackTrace();
