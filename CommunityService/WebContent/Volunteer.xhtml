@@ -23,10 +23,10 @@
 				<ui:fragment rendered="#{volunteerPage.volunteer != null}">
 					<p:panelGrid columns="2">
 						<f:facet name="header">
-							<h:outputText value="#{organizationPage.organization.orgName}" />
+							<h:outputText value="#{volunteerPage.volunteer.volunteerName}" />
 						</f:facet>
-						<h:outputLabel for="description" value="Description: " />
-						<h:outputText id="description" value="#{organizationPage.organization.description}" label="Description" />
+						<h:outputLabel for="hoursWorked" value="Description: " />
+						<h:outputText id="description" value="#{volunteerPage.volunteer.hoursWorked}" label="Description" />
 					</p:panelGrid>
 				</ui:fragment>
 			</div>
