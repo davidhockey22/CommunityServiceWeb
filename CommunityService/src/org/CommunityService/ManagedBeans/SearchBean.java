@@ -34,7 +34,7 @@ public class SearchBean {
 		List<String> params = new ArrayList<String>();
 		String like = "%" + eventName + "%";
 		params.add(like);
-		String query = "from Event as e join e.eventSkills s join e.eventInterests i where e.eventName like ? ";
+		String query = "from Event like ? ";
 		boolean first = true;
 
 		if (selectedInterests.size() > 0 || selectedSkills.size() > 0) {
@@ -62,7 +62,7 @@ public class SearchBean {
 
 		System.out.println(query);
 
-		setEvents((List<Event>) DBConnection.query(query, params));
+		setEvents((List<Event>) DBConnection.query("from Event", null));
 		return "Search?faces-redirect=true";
 	}
 
