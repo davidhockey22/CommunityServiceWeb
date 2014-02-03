@@ -9,18 +9,33 @@ import org.hibernate.HibernateException;
 
 public class VolunteerService {
 
-	@SuppressWarnings("unchecked")
 	public static Volunteer getVolunteerByName(String name) {
 		String hql = "from Volunteer as v where v.volunteerName=?";
 		ArrayList<String> params = new ArrayList<String>();
 		params.add(name);
 		try {
+			@SuppressWarnings("unchecked")
 			Volunteer v = (Volunteer) (((List<Volunteer>) DBConnection.query(hql, params)).get(0));
 			return v;
 		} catch (HibernateException e) {
 			return null;
 		}
-
+	}
+	
+	public static Volunteer getVolunteerById(Integer id) {
+		if (id == null)
+			return null;
+		String hql = "from Volunteer as v where v.volunteerId=?";
+		ArrayList<Integer> params = new ArrayList<Integer>();
+		params.add(id);
+		try {
+			@SuppressWarnings("unchecked")
+			Volunteer v = (Volunteer) (((List<Volunteer>) DBConnection.query(hql, params)).get(0));
+			return v;
+		} catch (HibernateException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	public static List<Event> getEventsByVolunteer(Volunteer volunteer) {
@@ -35,10 +50,10 @@ public class VolunteerService {
 			return null;
 		}
 	}
-
-	@SuppressWarnings("unchecked")
-	public static List<Volunteer> getVolunteers() throws Exception {
+	
+	public static List<Volunteer> getVolunteers() throws HibernateException {
 		String hql = "from Volunteer as v";
+		@SuppressWarnings("unchecked")
 		List<Volunteer> v = (List<Volunteer>) DBConnection.query(hql, null);
 		return v;
 	}

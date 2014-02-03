@@ -11,16 +11,16 @@
 	<ui:composition template="commonTemplate.xhtml">
 		<ui:define name="metadata">
 			<f:metadata>
-				<f:viewParam id="orgId" name="orgId" value="#{organizationPage.orgId}" />
-				<f:event type="preRenderView" listener="#{organizationPage.fetchOrganization}" />
+				<f:viewParam id="orgId" name="orgId" value="#{volunteerPage.volunteerId}" />
+				<f:event type="preRenderView" listener="#{volunteerPage.fetchVolunteer}" />
 			</f:metadata>
 		</ui:define>
 		<ui:define name="content">
 			<div style="float: left; clear: left">
-				<ui:fragment rendered="#{organizationPage.organization == null}">
-					<h:outputFormat value="Oops! This organization doesn't exist!" />
+				<ui:fragment rendered="#{volunteerPage.volunteer == null}">
+					<h:outputFormat value="Oops! This volunteer doesn't exist!" />
 				</ui:fragment>
-				<ui:fragment rendered="#{organizationPage.organization != null}">
+				<ui:fragment rendered="#{volunteerPage.volunteer != null}">
 					<p:panelGrid columns="2">
 						<f:facet name="header">
 							<h:outputText value="#{organizationPage.organization.orgName}" />
