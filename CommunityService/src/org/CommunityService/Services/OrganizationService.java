@@ -4,13 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.CommunityService.EntitiesMapped.Organization;
-import org.CommunityService.EntitiesMapped.Volunteer;
 import org.hibernate.HibernateException;
 
 public class OrganizationService {
 
 	public static Organization getOrganizationById(int orgId) throws HibernateException {
-		String hql = "from Event as e where e.eventId=?";
+		String hql = "from Organization as o where o.orgId=?";
 		ArrayList<Integer> params = new ArrayList<Integer>();
 		params.add(orgId);
 		try {
