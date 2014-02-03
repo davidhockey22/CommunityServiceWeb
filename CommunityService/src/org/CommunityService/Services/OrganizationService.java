@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.CommunityService.EntitiesMapped.Organization;
+import org.CommunityService.EntitiesMapped.Volunteer;
 import org.hibernate.HibernateException;
 
 public class OrganizationService {
@@ -22,4 +23,9 @@ public class OrganizationService {
 			return null;
 		}
 	}
+	
+	public static void addOrganization(Organization o) throws Exception {
+		DBConnection.persist(o);
+		return;
+	}	
 }
