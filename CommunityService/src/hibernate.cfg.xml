@@ -20,29 +20,7 @@
 
 		<!-- Echo all executed SQL to stdout -->
 		<property name="show_sql">true</property>
-
-		<!-- Hibernate XML mapping files <mapping resource="org/CommunityService/Entities/EventInterests.hbm.xml" 
-			/> <mapping resource="org/CommunityService/Entities/EventSkill.hbm.xml" /> 
-			<mapping resource="org/CommunityService/Entities/EventVolunteer.hbm.xml" 
-			/> <mapping resource="org/CommunityService/Entities/FacebookLogIn.hbm.xml" 
-			/> <mapping resource="org/CommunityService/Entities/GoogleLogIn.hbm.xml" 
-			/> <mapping resource="org/CommunityService/Entities/Group.hbm.xml" /> <mapping 
-			resource="org/CommunityService/Entities/GroupMod.hbm.xml" /> <mapping resource="org/CommunityService/Entities/Interest.hbm.xml" 
-			/> <mapping resource="org/CommunityService/Entities/Notification.hbm.xml" 
-			/> <mapping resource="org/CommunityService/Entities/OccurrencePattern.hbm.xml" 
-			/> <mapping resource="org/CommunityService/Entities/Organization.hbm.xml" 
-			/> <mapping resource="org/CommunityService/Entities/OrgFollower.hbm.xml" 
-			/> <mapping resource="org/CommunityService/Entities/OrgGroup.hbm.xml" /> 
-			<mapping resource="org/CommunityService/Entities/OrgMod.hbm.xml" /> <mapping 
-			resource="org/CommunityService/Entities/Picture.hbm.xml" /> <mapping resource="org/CommunityService/Entities/PictureEvent.hbm.xml" 
-			/> <mapping resource="org/CommunityService/Entities/PictureGroup.hbm.xml" 
-			/> <mapping resource="org/CommunityService/Entities/PictureOrg.hbm.xml" /> 
-			<mapping resource="org/CommunityService/Entities/PictureVolunteer.hbm.xml" 
-			/> <mapping resource="org/CommunityService/Entities/Skill.hbm.xml" /> <mapping 
-			resource="org/CommunityService/Entities/Volunteer.hbm.xml" /> <mapping resource="org/CommunityService/Entities/VolunteerDevice.hbm.xml" 
-			/> <mapping resource="org/CommunityService/Entities/VolunteerInterest.hbm.xml" 
-			/> <mapping resource="org/CommunityService/Entities/VolunteerSkill.hbm.xml" 
-			/> -->
+		
 		<mapping class="org.CommunityService.EntitiesMapped.Event" />
 		<mapping class="org.CommunityService.EntitiesMapped.EventSkill" />
 		<mapping class="org.CommunityService.EntitiesMapped.EventVolunteer" />

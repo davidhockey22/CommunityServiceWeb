@@ -4,28 +4,64 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui">
 <h:head>
-	<title>Home</title>
+	<title>Search</title>
 </h:head>
 <h:body>
 	<ui:composition template="commonTemplate.xhtml">
 
 		<ui:define name="content">
-			<div style="clear: left">
-				<h:outputLabel for="#{searchBean.eventName}" value="Search by event name " />
-				<p:inputText id="eventName" value="#{searchBean.eventName}" required="true" />
+			<h:form>
+				<div style="clear: left">
+					<h:outputLabel for="#{searchBean.eventName}" value="Search by event name " />
+					<p:inputText id="eventName" value="#{searchBean.eventName}" required="true" />
 
-				<br />
+					<br />
 
-				<p:selectCheckboxMenu value="#{searchBean.selectedInterests}" label="Interests" filter="true" filterText="Filter" filterMatchMode="startsWith">
-					<f:selectItems value="#{searchBean.interests}" var="interest" itemLabel="#{interest.name}" itemValue="#{interest}" />
-				</p:selectCheckboxMenu>
-				<br />
+					<p:selectCheckboxMenu value="#{searchBean.selectedInterests}" label="Interests" filter="true" filterText="Filter"
+						filterMatchMode="startsWith">
+						<f:selectItems value="#{searchBean.interests}" var="interest" itemLabel="#{interest.name}" itemValue="#{interest}" />
+					</p:selectCheckboxMenu>
+					<br />
 
-				<p:selectCheckboxMenu value="#{searchBean.selectedSkills}" label="Skills" filter="true" filterText="Filter" filterMatchMode="startsWith">
-					<f:selectItems value="#{searchBean.skills}" var="skill" itemLabel="#{skill.skillName}" itemValue="#{skill}" />
-				</p:selectCheckboxMenu>
+					<p:selectCheckboxMenu value="#{searchBean.selectedSkills}" label="Skills" filter="true" filterText="Filter"
+						filterMatchMode="startsWith">
+						<f:selectItems value="#{searchBean.skills}" var="skill" itemLabel="#{skill.skillName}" itemValue="#{skill}" />
+					</p:selectCheckboxMenu>
+					<br />
+					<p:commandButton type="submit" value="Search" action="#{searchBean.Search}" />
+				</div>
+			</h:form>
+			<br />
+			<div id="results">
+				<p:dataTable rendered="#{not empty searchBean.events}" var="event" value="#{searchBean.events}" rowKey="#{event.eventId}"
+					paginator="true" paginatorPosition="bottom" paginatorAlwaysVisible="false" rows="10" selection="#{searchBean.selectedEvents}"
+					selectionMode="single" id="eventsTable">
+					<f:facet name="header">  
+			           List of Events
+			        </f:facet>
 
+					<p:column headerText="Event Name" sortBy="eventName" filterBy="eventName" id="eventName">  
+			            #{event.eventName}  
+			        </p:column>
+
+					<p:column headerText="Starting at" sortBy="beginTime" filterBy="beginTime" id="beginTime">
+						<h:outputText value="#{event.beginTime}">
+							<f:convertDateTime pattern="EEE, MMM d - hh:mm aaa" />
+						</h:outputText>
+					</p:column>
+
+					<p:column headerText="Ends at" sortBy="endTime" filterBy="endTime" id="endTime">
+						<h:outputText value="#{event.endTime} ">
+							<f:convertDateTime pattern="EEE, MMM d - hh:mm aaa" />
+						</h:outputText>
+					</p:column>
+
+					<p:column headerText="Location" sortBy="location" filterBy="location" id="location">  
+			            #{event.location}  
+			        </p:column>
+				</p:dataTable>
 			</div>
+
 		</ui:define>
 	</ui:composition>
 </h:body>
