@@ -1,6 +1,6 @@
 package org.CommunityService.EntitiesMapped;
 
-// Generated Feb 3, 2014 2:14:25 PM by Hibernate Tools 3.4.0.CR1
+// Generated Feb 3, 2014 2:50:59 PM by Hibernate Tools 3.4.0.CR1
 
 import java.util.HashSet;
 import java.util.Set;
@@ -24,8 +24,8 @@ public class Skill implements java.io.Serializable {
 	private Integer skillId;
 	private String skillName;
 	private String description;
-	private Set eventSkills = new HashSet(0);
-	private Set volunteerSkills = new HashSet(0);
+	private Set<EventSkill> eventSkills = new HashSet<EventSkill>(0);
+	private Set<VolunteerSkill> volunteerSkills = new HashSet<VolunteerSkill>(0);
 
 	public Skill() {
 	}
@@ -34,8 +34,8 @@ public class Skill implements java.io.Serializable {
 		this.skillName = skillName;
 	}
 
-	public Skill(String skillName, String description, Set eventSkills,
-			Set volunteerSkills) {
+	public Skill(String skillName, String description,
+			Set<EventSkill> eventSkills, Set<VolunteerSkill> volunteerSkills) {
 		this.skillName = skillName;
 		this.description = description;
 		this.eventSkills = eventSkills;
@@ -72,20 +72,20 @@ public class Skill implements java.io.Serializable {
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "skill")
-	public Set getEventSkills() {
+	public Set<EventSkill> getEventSkills() {
 		return this.eventSkills;
 	}
 
-	public void setEventSkills(Set eventSkills) {
+	public void setEventSkills(Set<EventSkill> eventSkills) {
 		this.eventSkills = eventSkills;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "skill")
-	public Set getVolunteerSkills() {
+	public Set<VolunteerSkill> getVolunteerSkills() {
 		return this.volunteerSkills;
 	}
 
-	public void setVolunteerSkills(Set volunteerSkills) {
+	public void setVolunteerSkills(Set<VolunteerSkill> volunteerSkills) {
 		this.volunteerSkills = volunteerSkills;
 	}
 

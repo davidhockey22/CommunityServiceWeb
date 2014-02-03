@@ -1,6 +1,6 @@
 package org.CommunityService.EntitiesMapped;
 
-// Generated Feb 3, 2014 2:14:25 PM by Hibernate Tools 3.4.0.CR1
+// Generated Feb 3, 2014 2:50:59 PM by Hibernate Tools 3.4.0.CR1
 
 import java.util.Date;
 import javax.persistence.AttributeOverride;

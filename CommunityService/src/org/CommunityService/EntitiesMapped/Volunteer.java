@@ -1,6 +1,6 @@
 package org.CommunityService.EntitiesMapped;
 
-// Generated Feb 3, 2014 2:14:25 PM by Hibernate Tools 3.4.0.CR1
+// Generated Feb 3, 2014 2:50:59 PM by Hibernate Tools 3.4.0.CR1
 
 import java.util.Date;
 import java.util.HashSet;
@@ -46,17 +46,19 @@ public class Volunteer implements java.io.Serializable {
 	private String firstName;
 	private String lastName;
 	private String description;
-	private Set facebookLogIns = new HashSet(0);
-	private Set eventVolunteers = new HashSet(0);
-	private Set pictures = new HashSet(0);
-	private Set volunteerInterests = new HashSet(0);
-	private Set organizations = new HashSet(0);
-	private Set groupMods = new HashSet(0);
-	private Set organizationFollowers = new HashSet(0);
-	private Set googleLogIns = new HashSet(0);
-	private Set groupMembers = new HashSet(0);
-	private Set volunteerSkills = new HashSet(0);
-	private Set socialLinkses = new HashSet(0);
+	private Set<FacebookLogIn> facebookLogIns = new HashSet<FacebookLogIn>(0);
+	private Set<EventVolunteer> eventVolunteers = new HashSet<EventVolunteer>(0);
+	private Set<Picture> pictures = new HashSet<Picture>(0);
+	private Set<VolunteerInterest> volunteerInterests = new HashSet<VolunteerInterest>(
+			0);
+	private Set<Organization> organizations = new HashSet<Organization>(0);
+	private Set<GroupMod> groupMods = new HashSet<GroupMod>(0);
+	private Set<OrganizationFollower> organizationFollowers = new HashSet<OrganizationFollower>(
+			0);
+	private Set<GoogleLogIn> googleLogIns = new HashSet<GoogleLogIn>(0);
+	private Set<GroupMember> groupMembers = new HashSet<GroupMember>(0);
+	private Set<VolunteerSkill> volunteerSkills = new HashSet<VolunteerSkill>(0);
+	private Set<SocialLinks> socialLinkses = new HashSet<SocialLinks>(0);
 
 	public Volunteer() {
 	}
@@ -79,11 +81,14 @@ public class Volunteer implements java.io.Serializable {
 			String volunteerPassword, String phoneNumber, String emailAddress,
 			Date lastLoginDate, float points, int hoursWorked, Float avgRating,
 			Date creationDate, Date activationDate, String firstName,
-			String lastName, String description, Set facebookLogIns,
-			Set eventVolunteers, Set pictures, Set volunteerInterests,
-			Set organizations, Set groupMods, Set organizationFollowers,
-			Set googleLogIns, Set groupMembers, Set volunteerSkills,
-			Set socialLinkses) {
+			String lastName, String description,
+			Set<FacebookLogIn> facebookLogIns,
+			Set<EventVolunteer> eventVolunteers, Set<Picture> pictures,
+			Set<VolunteerInterest> volunteerInterests,
+			Set<Organization> organizations, Set<GroupMod> groupMods,
+			Set<OrganizationFollower> organizationFollowers,
+			Set<GoogleLogIn> googleLogIns, Set<GroupMember> groupMembers,
+			Set<VolunteerSkill> volunteerSkills, Set<SocialLinks> socialLinkses) {
 		this.organization = organization;
 		this.volunteerName = volunteerName;
 		this.volunteerPassword = volunteerPassword;
@@ -253,101 +258,102 @@ public class Volunteer implements java.io.Serializable {
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "volunteer")
-	public Set getFacebookLogIns() {
+	public Set<FacebookLogIn> getFacebookLogIns() {
 		return this.facebookLogIns;
 	}
 
-	public void setFacebookLogIns(Set facebookLogIns) {
+	public void setFacebookLogIns(Set<FacebookLogIn> facebookLogIns) {
 		this.facebookLogIns = facebookLogIns;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "volunteer")
-	public Set getEventVolunteers() {
+	public Set<EventVolunteer> getEventVolunteers() {
 		return this.eventVolunteers;
 	}
 
-	public void setEventVolunteers(Set eventVolunteers) {
+	public void setEventVolunteers(Set<EventVolunteer> eventVolunteers) {
 		this.eventVolunteers = eventVolunteers;
 	}
 
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "volunteers")
-	public Set getPictures() {
+	public Set<Picture> getPictures() {
 		return this.pictures;
 	}
 
-	public void setPictures(Set pictures) {
+	public void setPictures(Set<Picture> pictures) {
 		this.pictures = pictures;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "volunteer")
-	public Set getVolunteerInterests() {
+	public Set<VolunteerInterest> getVolunteerInterests() {
 		return this.volunteerInterests;
 	}
 
-	public void setVolunteerInterests(Set volunteerInterests) {
+	public void setVolunteerInterests(Set<VolunteerInterest> volunteerInterests) {
 		this.volunteerInterests = volunteerInterests;
 	}
 
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "volunteers_1")
-	public Set getOrganizations() {
+	public Set<Organization> getOrganizations() {
 		return this.organizations;
 	}
 
-	public void setOrganizations(Set organizations) {
+	public void setOrganizations(Set<Organization> organizations) {
 		this.organizations = organizations;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "volunteer")
-	public Set getGroupMods() {
+	public Set<GroupMod> getGroupMods() {
 		return this.groupMods;
 	}
 
-	public void setGroupMods(Set groupMods) {
+	public void setGroupMods(Set<GroupMod> groupMods) {
 		this.groupMods = groupMods;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "volunteer")
-	public Set getOrganizationFollowers() {
+	public Set<OrganizationFollower> getOrganizationFollowers() {
 		return this.organizationFollowers;
 	}
 
-	public void setOrganizationFollowers(Set organizationFollowers) {
+	public void setOrganizationFollowers(
+			Set<OrganizationFollower> organizationFollowers) {
 		this.organizationFollowers = organizationFollowers;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "volunteer")
-	public Set getGoogleLogIns() {
+	public Set<GoogleLogIn> getGoogleLogIns() {
 		return this.googleLogIns;
 	}
 
-	public void setGoogleLogIns(Set googleLogIns) {
+	public void setGoogleLogIns(Set<GoogleLogIn> googleLogIns) {
 		this.googleLogIns = googleLogIns;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "volunteer")
-	public Set getGroupMembers() {
+	public Set<GroupMember> getGroupMembers() {
 		return this.groupMembers;
 	}
 
-	public void setGroupMembers(Set groupMembers) {
+	public void setGroupMembers(Set<GroupMember> groupMembers) {
 		this.groupMembers = groupMembers;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "volunteer")
-	public Set getVolunteerSkills() {
+	public Set<VolunteerSkill> getVolunteerSkills() {
 		return this.volunteerSkills;
 	}
 
-	public void setVolunteerSkills(Set volunteerSkills) {
+	public void setVolunteerSkills(Set<VolunteerSkill> volunteerSkills) {
 		this.volunteerSkills = volunteerSkills;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "volunteer")
-	public Set getSocialLinkses() {
+	public Set<SocialLinks> getSocialLinkses() {
 		return this.socialLinkses;
 	}
 
-	public void setSocialLinkses(Set socialLinkses) {
+	public void setSocialLinkses(Set<SocialLinks> socialLinkses) {
 		this.socialLinkses = socialLinkses;
 	}
 

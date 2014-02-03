@@ -1,6 +1,6 @@
 package org.CommunityService.EntitiesMapped;
 
-// Generated Feb 3, 2014 2:14:25 PM by Hibernate Tools 3.4.0.CR1
+// Generated Feb 3, 2014 2:50:59 PM by Hibernate Tools 3.4.0.CR1
 
 import java.util.Date;
 import java.util.HashSet;
@@ -34,9 +34,9 @@ public class Event implements java.io.Serializable {
 	private Date endTime;
 	private Integer recurId;
 	private float hoursBonus;
-	private Set interests = new HashSet(0);
-	private Set eventSkills = new HashSet(0);
-	private Set eventVolunteers = new HashSet(0);
+	private Set<Interest> interests = new HashSet<Interest>(0);
+	private Set<EventSkill> eventSkills = new HashSet<EventSkill>(0);
+	private Set<EventVolunteer> eventVolunteers = new HashSet<EventVolunteer>(0);
 
 	public Event() {
 	}
@@ -51,7 +51,8 @@ public class Event implements java.io.Serializable {
 
 	public Event(String eventName, String description, String location,
 			Date beginTime, Date endTime, Integer recurId, float hoursBonus,
-			Set interests, Set eventSkills, Set eventVolunteers) {
+			Set<Interest> interests, Set<EventSkill> eventSkills,
+			Set<EventVolunteer> eventVolunteers) {
 		this.eventName = eventName;
 		this.description = description;
 		this.location = location;
@@ -142,29 +143,29 @@ public class Event implements java.io.Serializable {
 
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "Event_Interest", catalog = "dbAppData", joinColumns = { @JoinColumn(name = "EventID", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "InterestID", nullable = false, updatable = false) })
-	public Set getInterests() {
+	public Set<Interest> getInterests() {
 		return this.interests;
 	}
 
-	public void setInterests(Set interests) {
+	public void setInterests(Set<Interest> interests) {
 		this.interests = interests;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "event")
-	public Set getEventSkills() {
+	public Set<EventSkill> getEventSkills() {
 		return this.eventSkills;
 	}
 
-	public void setEventSkills(Set eventSkills) {
+	public void setEventSkills(Set<EventSkill> eventSkills) {
 		this.eventSkills = eventSkills;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "event")
-	public Set getEventVolunteers() {
+	public Set<EventVolunteer> getEventVolunteers() {
 		return this.eventVolunteers;
 	}
 
-	public void setEventVolunteers(Set eventVolunteers) {
+	public void setEventVolunteers(Set<EventVolunteer> eventVolunteers) {
 		this.eventVolunteers = eventVolunteers;
 	}
 

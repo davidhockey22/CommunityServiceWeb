@@ -1,6 +1,6 @@
 package org.CommunityService.EntitiesMapped;
 
-// Generated Feb 3, 2014 2:14:25 PM by Hibernate Tools 3.4.0.CR1
+// Generated Feb 3, 2014 2:50:59 PM by Hibernate Tools 3.4.0.CR1
 
 import java.util.Date;
 import java.util.HashSet;
@@ -37,11 +37,12 @@ public class Organization implements java.io.Serializable {
 	private String emailAddress;
 	private String description;
 	private Date createdOn;
-	private Set groups = new HashSet(0);
-	private Set organizationFollowers = new HashSet(0);
-	private Set pictures = new HashSet(0);
-	private Set volunteers = new HashSet(0);
-	private Set volunteers_1 = new HashSet(0);
+	private Set<Group> groups = new HashSet<Group>(0);
+	private Set<OrganizationFollower> organizationFollowers = new HashSet<OrganizationFollower>(
+			0);
+	private Set<Picture> pictures = new HashSet<Picture>(0);
+	private Set<Volunteer> volunteers = new HashSet<Volunteer>(0);
+	private Set<Volunteer> volunteers_1 = new HashSet<Volunteer>(0);
 
 	public Organization() {
 	}
@@ -56,8 +57,9 @@ public class Organization implements java.io.Serializable {
 
 	public Organization(String orgName, String address, String phoneNumber,
 			String emailAddress, String description, Date createdOn,
-			Set groups, Set organizationFollowers, Set pictures,
-			Set volunteers, Set volunteers_1) {
+			Set<Group> groups, Set<OrganizationFollower> organizationFollowers,
+			Set<Picture> pictures, Set<Volunteer> volunteers,
+			Set<Volunteer> volunteers_1) {
 		this.orgName = orgName;
 		this.address = address;
 		this.phoneNumber = phoneNumber;
@@ -138,48 +140,49 @@ public class Organization implements java.io.Serializable {
 	}
 
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "organizations")
-	public Set getGroups() {
+	public Set<Group> getGroups() {
 		return this.groups;
 	}
 
-	public void setGroups(Set groups) {
+	public void setGroups(Set<Group> groups) {
 		this.groups = groups;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "organization")
-	public Set getOrganizationFollowers() {
+	public Set<OrganizationFollower> getOrganizationFollowers() {
 		return this.organizationFollowers;
 	}
 
-	public void setOrganizationFollowers(Set organizationFollowers) {
+	public void setOrganizationFollowers(
+			Set<OrganizationFollower> organizationFollowers) {
 		this.organizationFollowers = organizationFollowers;
 	}
 
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "organizations")
-	public Set getPictures() {
+	public Set<Picture> getPictures() {
 		return this.pictures;
 	}
 
-	public void setPictures(Set pictures) {
+	public void setPictures(Set<Picture> pictures) {
 		this.pictures = pictures;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "organization")
-	public Set getVolunteers() {
+	public Set<Volunteer> getVolunteers() {
 		return this.volunteers;
 	}
 
-	public void setVolunteers(Set volunteers) {
+	public void setVolunteers(Set<Volunteer> volunteers) {
 		this.volunteers = volunteers;
 	}
 
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "Organization_Moderators", catalog = "dbAppData", joinColumns = { @JoinColumn(name = "OrgID", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "VolunteerID", nullable = false, updatable = false) })
-	public Set getVolunteers_1() {
+	public Set<Volunteer> getVolunteers_1() {
 		return this.volunteers_1;
 	}
 
-	public void setVolunteers_1(Set volunteers_1) {
+	public void setVolunteers_1(Set<Volunteer> volunteers_1) {
 		this.volunteers_1 = volunteers_1;
 	}
 

@@ -23,29 +23,38 @@
 		
 		<mapping class="org.CommunityService.EntitiesMapped.Event" />
 		<mapping class="org.CommunityService.EntitiesMapped.EventSkill" />
+		<mapping class="org.CommunityService.EntitiesMapped.EventSkillId" />
 		<mapping class="org.CommunityService.EntitiesMapped.EventVolunteer" />
-		<mapping class="org.CommunityService.EntitiesMapped.EventInterests" />
+		<mapping class="org.CommunityService.EntitiesMapped.EventVolunteerId" />
 		<mapping class="org.CommunityService.EntitiesMapped.FacebookLogIn" />
+		<mapping class="org.CommunityService.EntitiesMapped.FacebookLogInId" />
 		<mapping class="org.CommunityService.EntitiesMapped.GoogleLogIn" />
+		<mapping class="org.CommunityService.EntitiesMapped.GoogleLogInId" />
 		<mapping class="org.CommunityService.EntitiesMapped.Group" />
 		<mapping class="org.CommunityService.EntitiesMapped.GroupMember" />
+		<mapping class="org.CommunityService.EntitiesMapped.GroupMemberId" />
+
 		<mapping class="org.CommunityService.EntitiesMapped.GroupMod" />
+		<mapping class="org.CommunityService.EntitiesMapped.GroupModId" />
 		<mapping class="org.CommunityService.EntitiesMapped.Interest" />
 		<mapping class="org.CommunityService.EntitiesMapped.Notification" />
-		<mapping class="org.CommunityService.EntitiesMapped.Organization" />
 		<mapping class="org.CommunityService.EntitiesMapped.OccurrencePattern" />
-		<mapping class="org.CommunityService.EntitiesMapped.OrgFollower" />
-		<mapping class="org.CommunityService.EntitiesMapped.OrgGroup" />
-		<mapping class="org.CommunityService.EntitiesMapped.OrgMod" />
+
+		<mapping class="org.CommunityService.EntitiesMapped.Organization" />
+		<mapping class="org.CommunityService.EntitiesMapped.OrganizationFollower" />
+		<mapping class="org.CommunityService.EntitiesMapped.OrganizationFollowerId" />
 		<mapping class="org.CommunityService.EntitiesMapped.Picture" />
 		<mapping class="org.CommunityService.EntitiesMapped.PictureEvent" />
-		<mapping class="org.CommunityService.EntitiesMapped.PictureGroup" />
-		<mapping class="org.CommunityService.EntitiesMapped.PictureOrg" />
-		<mapping class="org.CommunityService.EntitiesMapped.PictureVolunteer" />
+		<mapping class="org.CommunityService.EntitiesMapped.PictureEventId" />
 		<mapping class="org.CommunityService.EntitiesMapped.Skill" />
+		<mapping class="org.CommunityService.EntitiesMapped.SocialLinks" />
+
 		<mapping class="org.CommunityService.EntitiesMapped.Volunteer" />
 		<mapping class="org.CommunityService.EntitiesMapped.VolunteerDevice" />
+		<mapping class="org.CommunityService.EntitiesMapped.VolunteerDeviceId" />
 		<mapping class="org.CommunityService.EntitiesMapped.VolunteerInterest" />
+		<mapping class="org.CommunityService.EntitiesMapped.VolunteerInterestId" />
 		<mapping class="org.CommunityService.EntitiesMapped.VolunteerSkill" />
+		<mapping class="org.CommunityService.EntitiesMapped.VolunteerSkillId" />
 	</session-factory>
 </hibernate-configuration>

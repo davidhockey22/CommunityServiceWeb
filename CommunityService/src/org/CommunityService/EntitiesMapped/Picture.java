@@ -1,6 +1,6 @@
 package org.CommunityService.EntitiesMapped;
 
-// Generated Feb 3, 2014 2:14:25 PM by Hibernate Tools 3.4.0.CR1
+// Generated Feb 3, 2014 2:50:59 PM by Hibernate Tools 3.4.0.CR1
 
 import java.util.Date;
 import java.util.HashSet;
@@ -31,9 +31,9 @@ public class Picture implements java.io.Serializable {
 	private Date uploadedOn;
 	private String albumName;
 	private String description;
-	private Set groups = new HashSet(0);
-	private Set volunteers = new HashSet(0);
-	private Set organizations = new HashSet(0);
+	private Set<Group> groups = new HashSet<Group>(0);
+	private Set<Volunteer> volunteers = new HashSet<Volunteer>(0);
+	private Set<Organization> organizations = new HashSet<Organization>(0);
 
 	public Picture() {
 	}
@@ -45,7 +45,8 @@ public class Picture implements java.io.Serializable {
 	}
 
 	public Picture(String pictureLink, Date uploadedOn, String albumName,
-			String description, Set groups, Set volunteers, Set organizations) {
+			String description, Set<Group> groups, Set<Volunteer> volunteers,
+			Set<Organization> organizations) {
 		this.pictureLink = pictureLink;
 		this.uploadedOn = uploadedOn;
 		this.albumName = albumName;
@@ -105,31 +106,31 @@ public class Picture implements java.io.Serializable {
 
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "Picture_Group", catalog = "dbAppData", joinColumns = { @JoinColumn(name = "PictureID", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "GroupID", nullable = false, updatable = false) })
-	public Set getGroups() {
+	public Set<Group> getGroups() {
 		return this.groups;
 	}
 
-	public void setGroups(Set groups) {
+	public void setGroups(Set<Group> groups) {
 		this.groups = groups;
 	}
 
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "Picture_Volunteer", catalog = "dbAppData", joinColumns = { @JoinColumn(name = "PictureID", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "VolunteerID", nullable = false, updatable = false) })
-	public Set getVolunteers() {
+	public Set<Volunteer> getVolunteers() {
 		return this.volunteers;
 	}
 
-	public void setVolunteers(Set volunteers) {
+	public void setVolunteers(Set<Volunteer> volunteers) {
 		this.volunteers = volunteers;
 	}
 
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "Picture_Organization", catalog = "dbAppData", joinColumns = { @JoinColumn(name = "PictureID", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "OrgID", nullable = false, updatable = false) })
-	public Set getOrganizations() {
+	public Set<Organization> getOrganizations() {
 		return this.organizations;
 	}
 
-	public void setOrganizations(Set organizations) {
+	public void setOrganizations(Set<Organization> organizations) {
 		this.organizations = organizations;
 	}
 

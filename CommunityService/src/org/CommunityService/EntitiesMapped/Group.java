@@ -1,6 +1,6 @@
 package org.CommunityService.EntitiesMapped;
 
-// Generated Feb 3, 2014 2:14:25 PM by Hibernate Tools 3.4.0.CR1
+// Generated Feb 3, 2014 2:50:59 PM by Hibernate Tools 3.4.0.CR1
 
 import java.util.HashSet;
 import java.util.Set;
@@ -30,10 +30,10 @@ public class Group implements java.io.Serializable {
 	private int hoursWorked;
 	private float points;
 	private float avgRatingOfVolunteers;
-	private Set organizations = new HashSet(0);
-	private Set groupMembers = new HashSet(0);
-	private Set pictures = new HashSet(0);
-	private Set groupMods = new HashSet(0);
+	private Set<Organization> organizations = new HashSet<Organization>(0);
+	private Set<GroupMember> groupMembers = new HashSet<GroupMember>(0);
+	private Set<Picture> pictures = new HashSet<Picture>(0);
+	private Set<GroupMod> groupMods = new HashSet<GroupMod>(0);
 
 	public Group() {
 	}
@@ -48,8 +48,9 @@ public class Group implements java.io.Serializable {
 	}
 
 	public Group(String groupName, String groupAdmin, int hoursWorked,
-			float points, float avgRatingOfVolunteers, Set organizations,
-			Set groupMembers, Set pictures, Set groupMods) {
+			float points, float avgRatingOfVolunteers,
+			Set<Organization> organizations, Set<GroupMember> groupMembers,
+			Set<Picture> pictures, Set<GroupMod> groupMods) {
 		this.groupName = groupName;
 		this.groupAdmin = groupAdmin;
 		this.hoursWorked = hoursWorked;
@@ -119,38 +120,38 @@ public class Group implements java.io.Serializable {
 
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "Organization_Group", catalog = "dbAppData", joinColumns = { @JoinColumn(name = "GroupID", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "OrgID", nullable = false, updatable = false) })
-	public Set getOrganizations() {
+	public Set<Organization> getOrganizations() {
 		return this.organizations;
 	}
 
-	public void setOrganizations(Set organizations) {
+	public void setOrganizations(Set<Organization> organizations) {
 		this.organizations = organizations;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "group")
-	public Set getGroupMembers() {
+	public Set<GroupMember> getGroupMembers() {
 		return this.groupMembers;
 	}
 
-	public void setGroupMembers(Set groupMembers) {
+	public void setGroupMembers(Set<GroupMember> groupMembers) {
 		this.groupMembers = groupMembers;
 	}
 
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "groups")
-	public Set getPictures() {
+	public Set<Picture> getPictures() {
 		return this.pictures;
 	}
 
-	public void setPictures(Set pictures) {
+	public void setPictures(Set<Picture> pictures) {
 		this.pictures = pictures;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "group")
-	public Set getGroupMods() {
+	public Set<GroupMod> getGroupMods() {
 		return this.groupMods;
 	}
 
-	public void setGroupMods(Set groupMods) {
+	public void setGroupMods(Set<GroupMod> groupMods) {
 		this.groupMods = groupMods;
 	}
 
