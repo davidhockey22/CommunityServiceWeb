@@ -11,7 +11,7 @@
 	<ui:composition template="commonTemplate.xhtml">
 		<ui:define name="metadata">
 			<f:metadata>
-				<f:viewParam id="orgId" name="orgId" value="#{volunteerPage.volunteerId}" />
+				<f:viewParam id="volunteerId" name="volunteerId" value="#{volunteerPage.volunteerId}" />
 				<f:event type="preRenderView" listener="#{volunteerPage.fetchVolunteer}" />
 			</f:metadata>
 		</ui:define>

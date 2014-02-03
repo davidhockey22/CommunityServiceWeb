@@ -3,7 +3,6 @@ package org.CommunityService.ManagedBeans;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 
 import org.CommunityService.EntitiesMapped.Volunteer;
 import org.CommunityService.Services.VolunteerService;
@@ -15,9 +14,6 @@ public class VolunteerPage {
 
 	String volunteerEmail = "No email provided";
 	List<Volunteer> allVolunteers;
-
-	@ManagedProperty(value = "#{currentVolunteerBean}")
-	private CurrentVolunteerBean currentVolunteer;
 
 	private Volunteer volunteer;
 	private Integer volunteerId;
@@ -37,30 +33,30 @@ public class VolunteerPage {
 	}
 
 	public void fetchVolunteer() {
-		if (this.volunteerId == null)
+		if (this.volunteerId == null) {
 			this.volunteer = null;
-		else if (currentVolunteer.getVolunteer().getVolunteerId() == this.volunteerId)
-			this.volunteer = currentVolunteer.getVolunteer();
-		else
+		} else {
 			try {
 				this.volunteer = VolunteerService.getVolunteerById(this.volunteerId);
 			} catch (HibernateException e) {
 				this.volunteer = null;
 				e.printStackTrace();
 			}
+		}
 	}
-	
-	//see https://en.gravatar.com/site/implement/images/ for details
+
+	// see https://en.gravatar.com/site/implement/images/ for details
 	public String getGravatarImage() {
-		//this is the default avatar used by gravatar when a gravatar doesn't exist for this email
+		// this is the default avatar used by gravatar when a gravatar doesn't
+		// exist for this email
 		String defaultImage = "?d=identicon";
-		
-		//send null hash in the event there is no volunteer
-		//TODO may want to change this to send back either null or empty string
+
+		// send null hash in the event there is no volunteer
+		// TODO may want to change this to send back either null or empty string
 		String emailHash = "00000000000000000000000000000000";
 		if (getVolunteerEmail() != null)
 			emailHash = MD5Util.md5Hex(getVolunteerEmail());
-		
+
 		StringBuffer avatar = new StringBuffer("http://www.gravatar.com/avatar/");
 		avatar.append(emailHash);
 		avatar.append(defaultImage);
@@ -98,5 +94,12 @@ public class VolunteerPage {
 		} catch (NumberFormatException e) {
 			this.imageSize = null;
 		}
+	}
+
+	public String getVolunteerId() {
+		if (volunteerId != null)
+			return volunteerId.toString();
+		else
+			return null;
 	}
 }
