@@ -7,6 +7,7 @@ import javax.faces.bean.ManagedProperty;
 
 import org.CommunityService.EntitiesMapped.Volunteer;
 import org.CommunityService.Services.VolunteerService;
+import org.CommunityService.util.MD5Util;
 import org.hibernate.HibernateException;
 
 @ManagedBean
@@ -20,16 +21,14 @@ public class VolunteerPage {
 
 	private Volunteer volunteer;
 	private Integer volunteerId;
+	private Integer imageSize;
 
 	public String getVolunteerEmail() {
-		try {
-			Volunteer v = VolunteerService.getVolunteerByName("garfield");
-			volunteerEmail = v.getEmailAddress();
-		} catch (Exception e) {
-			e.printStackTrace();
-			volunteerEmail = "Exception thrown";
-		}
-		return volunteerEmail;
+		fetchVolunteer();
+		if (volunteer != null)
+			return volunteer.getEmailAddress();
+		else
+			return null;
 	}
 
 	public List<Volunteer> getAllVolunteers() {
@@ -50,6 +49,23 @@ public class VolunteerPage {
 				e.printStackTrace();
 			}
 	}
+	
+	//see https://en.gravatar.com/site/implement/images/ for details
+	public String getGravatarImage() {
+		//this is the default avatar used by gravatar when a gravatar doesn't exist for this email
+		String defaultImage = "?d=identicon";
+		
+		//send null hash in the event there is no volunteer
+		//TODO may want to change this to send back either null or empty string
+		String emailHash = "00000000000000000000000000000000";
+		if (getVolunteerEmail() != null)
+			emailHash = MD5Util.md5Hex(getVolunteerEmail());
+		
+		StringBuffer avatar = new StringBuffer("http://www.gravatar.com/avatar/");
+		avatar.append(emailHash);
+		avatar.append(defaultImage);
+		return avatar.toString();
+	}
 
 	// Getters and Setters
 	public void setAllVolunteers(List<Volunteer> allVolunteer) {
@@ -65,6 +81,22 @@ public class VolunteerPage {
 	}
 
 	public void setVolunteerId(String volunteerId) {
-		this.volunteerId = Integer.parseInt(volunteerId);
+		try {
+			this.volunteerId = Integer.parseInt(volunteerId);
+		} catch (NumberFormatException e) {
+			this.volunteerId = null;
+		}
+	}
+
+	public Integer getImageSize() {
+		return imageSize;
+	}
+
+	public void setImageSize(String imageSize) {
+		try {
+			this.imageSize = Integer.parseInt(imageSize);
+		} catch (NumberFormatException e) {
+			this.imageSize = null;
+		}
 	}
 }
