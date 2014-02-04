@@ -10,6 +10,7 @@
 	<ui:composition template="commonTemplate.xhtml">
 
 		<ui:define name="content">
+			<br />
 			<h:form>
 				<div style="clear: left">
 					<h:outputLabel for="#{searchBean.eventName}" value="Search by event name " />
@@ -19,49 +20,48 @@
 
 					<p:selectCheckboxMenu value="#{searchBean.selectedInterests}" label="Interests" filter="true" filterText="Filter"
 						filterMatchMode="startsWith">
-						<f:selectItems value="#{searchBean.interests}" var="interest" itemLabel="#{interest.name}" itemValue="#{interest}" />
+						<f:selectItems value="#{searchBean.interests}" var="interest" itemLabel="#{interest.name}" itemValue="#{interest.name}" />
 					</p:selectCheckboxMenu>
 					<br />
 
 					<p:selectCheckboxMenu value="#{searchBean.selectedSkills}" label="Skills" filter="true" filterText="Filter"
 						filterMatchMode="startsWith">
-						<f:selectItems value="#{searchBean.skills}" var="skill" itemLabel="#{skill.skillName}" itemValue="#{skill}" />
+						<f:selectItems value="#{searchBean.skills}" var="skill" itemLabel="#{skill.skillName}" itemValue="#{skill.skillName}" />
 					</p:selectCheckboxMenu>
 					<br />
-					<p:commandButton type="submit" value="Search" action="#{searchBean.Search}" />
+					<p:commandButton value="Search" actionListener="#{searchBean.Search}" update="panel" />
+				</div>
+
+				<br />
+				<div id="results">
+					<p:panel id="panel" header="Events">
+						<p:dataTable rendered="#{not empty searchBean.events}" var="event" value="#{searchBean.events}" rowKey="#{event.eventId}"
+							paginator="true" paginatorPosition="bottom" paginatorAlwaysVisible="false" rows="10"
+							selection="#{searchBean.selectedEvents}" selectionMode="single" id="eventstable">
+
+							<p:column headerText="Event Name" sortBy="eventName" id="eventsName">  
+			          			#{event.eventName}  
+			      			</p:column>
+
+							<p:column headerText="Starting at" sortBy="beginTime" id="begTime">
+								<h:outputText value="#{event.beginTime}">
+									<f:convertDateTime pattern="EEE, MMM d - hh:mm aaa" />
+								</h:outputText>
+							</p:column>
+
+							<p:column headerText="Ends at" sortBy="endTime" id="eTime">
+								<h:outputText value="#{event.endTime} ">
+									<f:convertDateTime pattern="EEE, MMM d - hh:mm aaa" />
+								</h:outputText>
+							</p:column>
+
+							<p:column headerText="Location" sortBy="location" id="locations">  
+					            #{event.location}  
+					        </p:column>
+						</p:dataTable>
+					</p:panel>
 				</div>
 			</h:form>
-			<br />
-			<div id="results">
-				<p:dataTable rendered="#{not empty searchBean.events}" var="event" value="#{searchBean.events}" rowKey="#{event.eventId}"
-					paginator="true" paginatorPosition="bottom" paginatorAlwaysVisible="false" rows="10" selection="#{searchBean.selectedEvents}"
-					selectionMode="single" id="eventsTable">
-					<f:facet name="header">  
-			           List of Events
-			        </f:facet>
-
-					<p:column headerText="Event Name" sortBy="eventName" filterBy="eventName" id="eventName">  
-			            #{event.eventName}  
-			        </p:column>
-
-					<p:column headerText="Starting at" sortBy="beginTime" filterBy="beginTime" id="beginTime">
-						<h:outputText value="#{event.beginTime}">
-							<f:convertDateTime pattern="EEE, MMM d - hh:mm aaa" />
-						</h:outputText>
-					</p:column>
-
-					<p:column headerText="Ends at" sortBy="endTime" filterBy="endTime" id="endTime">
-						<h:outputText value="#{event.endTime} ">
-							<f:convertDateTime pattern="EEE, MMM d - hh:mm aaa" />
-						</h:outputText>
-					</p:column>
-
-					<p:column headerText="Location" sortBy="location" filterBy="location" id="location">  
-			            #{event.location}  
-			        </p:column>
-				</p:dataTable>
-			</div>
-
 		</ui:define>
 	</ui:composition>
 </h:body>

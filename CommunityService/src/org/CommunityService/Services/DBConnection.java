@@ -11,18 +11,14 @@ import org.hibernate.SessionFactory;
 
 public class DBConnection {
 
-	public static Object query(String query, List parameters)
-			throws HibernateException {
+	public static Object query(String query, List params) throws HibernateException {
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
 		session.beginTransaction();
-		Query q = null;
-		if (parameters == null || parameters.size() == 0) {
-			q = session.createQuery(query);
-		} else {
-			for (int i = 0; i < parameters.size(); i++) {
-				q = session.createQuery(query).setParameter(i,
-						parameters.get(i));
+		Query q = session.createQuery(query);
+		if (params != null) {
+			for (int i = 0; i < params.size(); i++) {
+				q = q.setParameter(i, params.get(i));
 			}
 		}
 		if (q != null) {
@@ -47,7 +43,7 @@ public class DBConnection {
 		return null;
 
 	}
-	
+
 	public static Object update(Object object) throws HibernateException {
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
@@ -59,5 +55,5 @@ public class DBConnection {
 		session.close();
 		return null;
 
-	}	
+	}
 }

@@ -31,13 +31,17 @@ public class SearchBean {
 
 	@SuppressWarnings("unchecked")
 	public String Search() {
+		if (events != null) {
+			events.clear();
+		}
 		List<String> params = new ArrayList<String>();
+		params.clear();
 		String like = "%" + eventName + "%";
 		params.add(like);
-		String query = "from Event like ? ";
+		String query = "Select distinct e from Event as e left join e.eventSkills sk join e.interests int where e.eventName like ? ";
 		boolean first = true;
 
-		if (selectedInterests.size() > 0 || selectedSkills.size() > 0) {
+		if (selectedInterests.size() > 0) {
 			query += "AND (";
 			for (int i = 0; i < selectedInterests.size(); i++) {
 				if (first != true) {
@@ -45,24 +49,31 @@ public class SearchBean {
 				} else {
 					first = false;
 				}
-				query += "i.name=? ";
+				query += "int.name=? ";
 				params.add(selectedInterests.get(i));
 			}
+			query += ")";
+			first = true;
+		}
+		if (selectedSkills.size() > 0) {
+			query += "AND (";
 			for (int i = 0; i < selectedSkills.size(); i++) {
 				if (first != true) {
 					query += "OR ";
 				} else {
 					first = false;
 				}
-				query += "s.skillName=? ";
+				query += "sk.skill.skillName=? ";
 				params.add(selectedSkills.get(i));
 			}
-			query+=")";
+			query += ")";
 		}
 
 		System.out.println(query);
+		// System.out.println(Arrays.toString(params.toArray()));
 
-		setEvents((List<Event>) DBConnection.query("from Event", null));
+		setEvents((List<Event>) DBConnection.query(query, params));
+
 		return "Search?faces-redirect=true";
 	}
 
@@ -86,7 +97,9 @@ public class SearchBean {
 	}
 
 	public List<Skill> getSkills() throws Exception {
-		skills = SkillService.getSkills();
+		if (skills == null) {
+			skills = SkillService.getSkills();
+		}
 		return skills;
 	}
 
