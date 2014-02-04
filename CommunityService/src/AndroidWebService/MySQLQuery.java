@@ -75,7 +75,6 @@ public class MySQLQuery {
 					
 					EventVolunteer v = (EventVolunteer)list.get(i);
 					
-					result += v.getEventVolunteerId() + parse;
 					result += v.getEvent().getEventId() + parse;
 					result += v.getVolunteer().getVolunteerId() + parse;
 				}
