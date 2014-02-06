@@ -18,21 +18,21 @@ public class RegistrationBean {
 	private String phoneNumber;
 	private String email;
 	private String confirmPassword;
-	
-	public String Register(){
+
+	public String Register() {
 		try {
-			password = PasswordHash.createHash(password);
+			password = PasswordHash.getHash(password, email);
 			Volunteer v = new Volunteer(username, password, phoneNumber, email, new Date(), 0, 0, username, username);
 			VolunteerService.addVolunteer(v);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "Error";
 		}
-		return "LandingPage";
+		return "Home";
 	}
-	
-		
-	// Getters and Setters ---------------------------------------------------------------------------------------------------
+
+	// Getters and Setters
+	// ---------------------------------------------------------------------------------------------------
 	public String getUsername() {
 		return username;
 	}
@@ -65,11 +65,9 @@ public class RegistrationBean {
 		this.email = email;
 	}
 
-
 	public String getConfirmPassword() {
 		return confirmPassword;
 	}
-
 
 	public void setConfirmPassword(String confirmPassword) {
 		this.confirmPassword = confirmPassword;

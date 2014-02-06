@@ -15,13 +15,19 @@ public class VolunteerService {
 		params.add(name);
 		try {
 			@SuppressWarnings("unchecked")
-			Volunteer v = (Volunteer) (((List<Volunteer>) DBConnection.query(hql, params)).get(0));
-			return v;
+			List<Volunteer> vList = (List<Volunteer>) DBConnection.query(hql, params);
+			if (vList.size() > 0) {
+				Volunteer v = vList.get(0);
+				return v;
+			} else {
+				return null;
+			}
 		} catch (HibernateException e) {
+			e.printStackTrace();
 			return null;
 		}
 	}
-	
+
 	public static Volunteer getVolunteerById(Integer id) {
 		if (id == null)
 			return null;
@@ -50,7 +56,7 @@ public class VolunteerService {
 			return null;
 		}
 	}
-	
+
 	public static List<Volunteer> getVolunteers() throws HibernateException {
 		String hql = "from Volunteer as v";
 		@SuppressWarnings("unchecked")
@@ -62,9 +68,9 @@ public class VolunteerService {
 		DBConnection.persist(v);
 		return;
 	}
-	
+
 	public static void updateVolunteer(Volunteer v) throws Exception {
 		DBConnection.update(v);
 		return;
-	}	
+	}
 }

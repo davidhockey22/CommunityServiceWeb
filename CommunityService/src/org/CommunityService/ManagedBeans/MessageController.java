@@ -7,7 +7,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 
 @RequestScoped
-@ManagedBean(name = "independentMessageBean")
+@ManagedBean(name = "messageController")
 public class MessageController {
 
 	public String message = "";

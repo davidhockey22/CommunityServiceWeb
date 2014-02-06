@@ -6,6 +6,7 @@ import javax.faces.context.FacesContext;
 
 import org.CommunityService.EntitiesMapped.Volunteer;
 import org.CommunityService.Services.VolunteerService;
+import org.CommunityService.Validators.PasswordHash;
 
 @ManagedBean
 @SessionScoped
@@ -23,7 +24,8 @@ public class CurrentVolunteerBean {
 		if (volunteer == null) {
 			try {
 				Volunteer v = VolunteerService.getVolunteerByName(username);
-				if (v != null && v.getVolunteerPassword().equals(password)) {
+				
+				if (v != null && v.getVolunteerPassword().equals(PasswordHash.getHash(password, v.getEmailAddress()))) {
 					volunteer = v;
 					return "?faces-redirect=true";
 				} else {

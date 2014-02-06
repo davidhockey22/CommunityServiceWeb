@@ -24,6 +24,7 @@ public class UserValidator implements Validator {
 		try {
 			v = VolunteerService.getVolunteerByName(username);
 		} catch (Exception e) {
+			e.printStackTrace();
 			FacesMessage msg = new FacesMessage("Name Validation Failed", "Username field is invalid.");
 			msg.setSeverity(FacesMessage.SEVERITY_ERROR);
 			throw new ValidatorException(msg);
