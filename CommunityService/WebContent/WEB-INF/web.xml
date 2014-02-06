@@ -34,15 +34,7 @@
 	</listener>
 	
 	
-	<servlet>
-		<servlet-name>Android Web Service</servlet-name>
-		<servlet-class>AndroidWebService.MainServlet</servlet-class>
-		<load-on-startup>2</load-on-startup>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>Android Web Service</servlet-name>
-		<url-pattern>/Android/*</url-pattern>
-	</servlet-mapping>	
+
 	
 
 	<resource-ref>

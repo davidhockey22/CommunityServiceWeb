@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,8 +15,8 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 */
-
-public class MainServlet extends HttpServlet {
+@WebServlet(urlPatterns={"/getEvents"})
+public class EventServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     
     public static final int kindVolQuery = 1, //id = name
@@ -26,7 +27,7 @@ public class MainServlet extends HttpServlet {
     		kindInterestQuery = 5, //id = null (returns all interests)
     		kindEventInterestQuery = 6; //id = event id
  
-    public MainServlet() {
+    public EventServlet() {
         super();
     }
  
@@ -74,35 +75,7 @@ public class MainServlet extends HttpServlet {
         }
         
         MySQLQuery query = new MySQLQuery();
-        out.println( query.getResultString(kind, id) );
         out.close();
         
-        //DO NOT USE GSON AND JSON
-//        //get information
-//        MySQLQuery getter = new MySQLQuery();
-//        EventData event = getter.getEvent(data);
-// 
-//        //if invalid
-//        if(event.getEventID() == null){
-//            JsonObject myObj = new JsonObject();
-//            myObj.addProperty("success", false);
-//            out.println(myObj.toString());
-//        }
-// 
-//        else {
-//            Gson gson = new Gson(); 
-//            //create json from EventData object
-//            JsonElement eventObj = gson.toJsonTree(event);
-// 
-//            //create a new JSON object
-//            JsonObject myObj = new JsonObject();
-//            //add property as success
-//            myObj.addProperty("success", true);
-//            //add the event object
-//            myObj.add("eventInfo", eventObj);
-//            //convert the JSON to string and send back
-//            out.println(myObj.toString());
-//        }
-//        out.close();
     }
 }
