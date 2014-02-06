@@ -3,13 +3,12 @@ package AndroidWebService;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.CommunityService.EntitiesMapped.Event;
+import org.CommunityService.EntitiesMapped.EventVolunteer;
+import org.CommunityService.EntitiesMapped.Interest;
+import org.CommunityService.EntitiesMapped.Volunteer;
 import org.CommunityService.Services.DBConnection;
 import org.hibernate.HibernateException;
-import org.CommunityService.EntitiesMapped.Volunteer;
-import org.CommunityService.EntitiesMapped.EventVolunteer;
-import org.CommunityService.EntitiesMapped.Event;
-import org.CommunityService.EntitiesMapped.Interest;
-import org.CommunityService.EntitiesMapped.EventInterests;
 
 public class MySQLQuery {
 
@@ -99,11 +98,12 @@ public class MySQLQuery {
 				}		
 				else if (kind == MainServlet.kindEventInterestQuery) {
 					
-					EventInterests v = (EventInterests)list.get(i);
+					Event v = (Event)list.get(i);
 					
-					result += v.getEventInterestsId() + parse;
-					result += v.getEvent().getEventId() + parse;
-					result += v.getInterest().getInterestId() + parse;
+					result += 1 + parse;
+					result += v.getEventId() + parse;
+					//There are many interests to one event so the following doesn't make sense.
+					//result += v.getInterests().getInterestId() + parse;
 				}			
 				
 				result += parse1;
