@@ -26,5 +26,10 @@ public class OrganizationService {
 	public static void addOrganization(Organization o) throws Exception {
 		DBConnection.persist(o);
 		return;
+	}
+	
+	public static void updateOrganization(Organization o) throws Exception {
+		DBConnection.update(o);
+		return;
 	}	
 }
