@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui"
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 
 <h:head>
@@ -18,48 +21,70 @@
 					</h:outputFormat>
 
 				</h:form>
-				<h:form rendered="#{currentVolunteerBean.loggedIn}">
+				<h:form id="profileForm" rendered="#{currentVolunteerBean.loggedIn}">
 
 					<p:panel header="Profile">
 						<h:panelGrid columns="2" columnClasses="column" cellpadding="5">
 
 							<h:outputText value="UserName: " />
 							<p:inplace id="ajaxInplace0" editor="true">
-								<p:inputText value="#{currentVolunteerBean.volunteer.volunteerName}" required="true" label="text" />
+								<p:inputText
+									value="#{currentVolunteerBean.volunteer.volunteerName}"
+									required="true" label="text" onkeyup="showUnsaved()" />
 							</p:inplace>
 
 							<h:outputText value="Phone Number: " />
 							<p:inplace id="ajaxInplace1" editor="true">
-								<p:inputText value="#{currentVolunteerBean.volunteer.phoneNumber}" required="true" label="text" />
+								<p:inputText
+									value="#{currentVolunteerBean.volunteer.phoneNumber}"
+									required="true" label="text" onkeyup="showUnsaved()" />
 							</p:inplace>
 
 							<h:outputText value="Email" />
 
-							<f:event listener="#{profileBean.saveEmail}" type="preRenderComponent"></f:event>
+							<f:event listener="#{profileBean.saveEmail}"
+								type="preRenderComponent"></f:event>
 
 							<p:inplace id="ajaxInplace2" editor="true">
-								<p:inputText value="#{currentVolunteerBean.volunteer.emailAddress}" required="true" label="text" />
+								<p:inputText
+									value="#{currentVolunteerBean.volunteer.emailAddress}"
+									required="true" label="text" onkeyup="showUnsaved()" />
 							</p:inplace>
 
 							<h:outputText value="Last Login Date: " />
-							<h:outputText value="#{currentVolunteerBean.volunteer.lastLoginDate}" required="true" label="text" />
+							<h:outputText
+								value="#{currentVolunteerBean.volunteer.lastLoginDate}"
+								required="true" label="text" />
 
 							<h:outputText value="Points: " />
-							<h:outputText value="#{currentVolunteerBean.volunteer.points}" required="true" label="text" />
+							<h:outputText value="#{currentVolunteerBean.volunteer.points}"
+								required="true" label="text" />
 
 							<h:outputText value="Hours Worked: " />
-							<h:outputText value="#{currentVolunteerBean.volunteer.hoursWorked}" required="true" label="text" />
+							<h:outputText
+								value="#{currentVolunteerBean.volunteer.hoursWorked}"
+								required="true" label="text" />
 
 							<h:outputText value="Average Rating: " />
-							<h:outputText value="#{currentVolunteerBean.volunteer.avgRating}" required="true" label="text" />
+							<h:outputText value="#{currentVolunteerBean.volunteer.avgRating}"
+								required="true" label="text" />
+
+							<h:commandButton type="submit" value="Save"
+								action="#{profileBean.updateProfile()}"></h:commandButton>
+							<h:outputText id="unsavedMessage" style="color: red;" value="" />
 
 						</h:panelGrid>
 
-						<h:commandButton type="submit" value="Submit" action="#{profileBean.updateProfile()}"></h:commandButton>
 
 					</p:panel>
 
 				</h:form>
+				<script type="text/javascript">
+					function showUnsaved() {
+						var mess = document.getElementById('profileForm:unsavedMessage');
+						mess.innerHTML = 'Unsaved changes';
+					}
+				</script>
 			</div>
 		</ui:define>
 	</ui:composition>
