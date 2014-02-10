@@ -1,6 +1,6 @@
 package org.CommunityService.EntitiesMapped;
 
-// Generated Feb 10, 2014 10:56:44 AM by Hibernate Tools 3.4.0.CR1
+// Generated Feb 10, 2014 11:13:03 AM by Hibernate Tools 3.4.0.CR1
 
 import java.util.Date;
 import java.util.HashSet;
@@ -51,6 +51,7 @@ public class Volunteer implements java.io.Serializable {
 	private Set<Organization> organizations = new HashSet<Organization>(0);
 	private Set<GroupMod> groupMods = new HashSet<GroupMod>(0);
 	private Set<OrganizationFollower> organizationFollowers = new HashSet<OrganizationFollower>(0);
+	private Set<Organization> organizations_1 = new HashSet<Organization>(0);
 	private Set<GoogleLogIn> googleLogIns = new HashSet<GoogleLogIn>(0);
 	private Set<GroupMember> groupMembers = new HashSet<GroupMember>(0);
 	private Set<VolunteerSkill> volunteerSkills = new HashSet<VolunteerSkill>(0);
@@ -77,8 +78,9 @@ public class Volunteer implements java.io.Serializable {
 			Date activationDate, String firstName, String lastName, String description,
 			Set<FacebookLogIn> facebookLogIns, Set<EventVolunteer> eventVolunteers, Set<Picture> pictures,
 			Set<VolunteerInterest> volunteerInterests, Set<Organization> organizations, Set<GroupMod> groupMods,
-			Set<OrganizationFollower> organizationFollowers, Set<GoogleLogIn> googleLogIns,
-			Set<GroupMember> groupMembers, Set<VolunteerSkill> volunteerSkills, Set<SocialLinks> socialLinkses) {
+			Set<OrganizationFollower> organizationFollowers, Set<Organization> organizations_1,
+			Set<GoogleLogIn> googleLogIns, Set<GroupMember> groupMembers, Set<VolunteerSkill> volunteerSkills,
+			Set<SocialLinks> socialLinkses) {
 		this.organization = organization;
 		this.volunteerName = volunteerName;
 		this.volunteerPassword = volunteerPassword;
@@ -100,6 +102,7 @@ public class Volunteer implements java.io.Serializable {
 		this.organizations = organizations;
 		this.groupMods = groupMods;
 		this.organizationFollowers = organizationFollowers;
+		this.organizations_1 = organizations_1;
 		this.googleLogIns = googleLogIns;
 		this.groupMembers = groupMembers;
 		this.volunteerSkills = volunteerSkills;
@@ -308,6 +311,15 @@ public class Volunteer implements java.io.Serializable {
 
 	public void setOrganizationFollowers(Set<OrganizationFollower> organizationFollowers) {
 		this.organizationFollowers = organizationFollowers;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "volunteer")
+	public Set<Organization> getOrganizations_1() {
+		return this.organizations_1;
+	}
+
+	public void setOrganizations_1(Set<Organization> organizations_1) {
+		this.organizations_1 = organizations_1;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "volunteer")

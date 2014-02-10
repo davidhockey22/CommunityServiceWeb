@@ -1,6 +1,6 @@
 package org.CommunityService.EntitiesMapped;
 
-// Generated Feb 10, 2014 10:56:44 AM by Hibernate Tools 3.4.0.CR1
+// Generated Feb 10, 2014 11:13:03 AM by Hibernate Tools 3.4.0.CR1
 
 import java.util.Date;
 import java.util.HashSet;
@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -30,13 +31,13 @@ import javax.persistence.UniqueConstraint;
 public class Organization implements java.io.Serializable {
 
 	private Integer orgId;
+	private Volunteer volunteer;
 	private String orgName;
 	private String address;
 	private String phoneNumber;
 	private String emailAddress;
 	private String description;
 	private Date createdOn;
-	private int admin;
 	private Set<Group> groups = new HashSet<Group>(0);
 	private Set<OrganizationFollower> organizationFollowers = new HashSet<OrganizationFollower>(0);
 	private Set<Picture> pictures = new HashSet<Picture>(0);
@@ -46,24 +47,24 @@ public class Organization implements java.io.Serializable {
 	public Organization() {
 	}
 
-	public Organization(String orgName, String address, String phoneNumber, String emailAddress, int admin) {
+	public Organization(Volunteer volunteer, String orgName, String address, String phoneNumber, String emailAddress) {
+		this.volunteer = volunteer;
 		this.orgName = orgName;
 		this.address = address;
 		this.phoneNumber = phoneNumber;
 		this.emailAddress = emailAddress;
-		this.admin = admin;
 	}
 
-	public Organization(String orgName, String address, String phoneNumber, String emailAddress, String description,
-			Date createdOn, int admin, Set<Group> groups, Set<OrganizationFollower> organizationFollowers,
+	public Organization(Volunteer volunteer, String orgName, String address, String phoneNumber, String emailAddress,
+			String description, Date createdOn, Set<Group> groups, Set<OrganizationFollower> organizationFollowers,
 			Set<Picture> pictures, Set<Volunteer> volunteers, Set<Volunteer> volunteers_1) {
+		this.volunteer = volunteer;
 		this.orgName = orgName;
 		this.address = address;
 		this.phoneNumber = phoneNumber;
 		this.emailAddress = emailAddress;
 		this.description = description;
 		this.createdOn = createdOn;
-		this.admin = admin;
 		this.groups = groups;
 		this.organizationFollowers = organizationFollowers;
 		this.pictures = pictures;
@@ -80,6 +81,16 @@ public class Organization implements java.io.Serializable {
 
 	public void setOrgId(Integer orgId) {
 		this.orgId = orgId;
+	}
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "Admin", unique = true, nullable = false)
+	public Volunteer getVolunteer() {
+		return this.volunteer;
+	}
+
+	public void setVolunteer(Volunteer volunteer) {
+		this.volunteer = volunteer;
 	}
 
 	@Column(name = "OrgName", unique = true, nullable = false, length = 60)
@@ -135,15 +146,6 @@ public class Organization implements java.io.Serializable {
 
 	public void setCreatedOn(Date createdOn) {
 		this.createdOn = createdOn;
-	}
-
-	@Column(name = "Admin", unique = true, nullable = false)
-	public int getAdmin() {
-		return this.admin;
-	}
-
-	public void setAdmin(int admin) {
-		this.admin = admin;
 	}
 
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "organizations")
