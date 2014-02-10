@@ -1,6 +1,6 @@
 package org.CommunityService.EntitiesMapped;
 
-// Generated Feb 10, 2014 10:56:44 AM by Hibernate Tools 3.4.0.CR1
+// Generated Feb 10, 2014 11:13:03 AM by Hibernate Tools 3.4.0.CR1
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
