@@ -2,6 +2,7 @@ package AndroidWebService;
 
 import hibernate.HibernateProxyTypeAdapter;
 import hibernate.HibernateUtil;
+import hibernate.HibernateUtils;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -42,14 +43,13 @@ public class VolunteerServlet extends HttpServlet {
 		super();
 	}
 
-	protected void doGet(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		doPost(request, response);
 	}
 
-	protected void doPost(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException,
+			IOException {
 
 		String volunteerId;
 		PrintWriter out = response.getWriter();
@@ -65,23 +65,21 @@ public class VolunteerServlet extends HttpServlet {
 		volunteerId = ((String) request.getParameter("ID"));
 
 		GsonBuilder b = new GsonBuilder();
-		b.registerTypeAdapterFactory(HibernateProxyTypeAdapter.FACTORY);
+		// b.registerTypeAdapterFactory(HibernateProxyTypeAdapter.FACTORY);
 		Gson gson = b.create();
 
 		List<Volunteer> vList;
 		Volunteer v;
 		if (volunteerId == null || volunteerId.equals("")) {
 			vList = VolunteerService.getVolunteers();
-			HibernateUtil.clean(vList);
-
+			vList = (List<Volunteer>) HibernateUtils.clean(vList);
 			System.out.println(vList.size());
 
 			out.println(gson.toJson(vList));
 		} else {
-			v = VolunteerService.getVolunteerByName(volunteerId);
-			HibernateUtil.clean(v);
-
-			out.println(gson.toJson(v));
+			// v = VolunteerService.getVolunteerByName(volunteerId);
+			//
+			// out.println(gson.toJson(v));
 		}
 
 		out.close();

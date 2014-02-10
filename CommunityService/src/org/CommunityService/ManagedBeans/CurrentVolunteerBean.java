@@ -43,6 +43,15 @@ public class CurrentVolunteerBean {
 		}
 	}
 	
+	
+	
+	public Volunteer attachOrg(){
+		
+		
+		
+		return volunteer;
+	}
+	
 	public String Logout() {
 		//invalidate current session and redirect to clear POST
 		FacesContext.getCurrentInstance().getExternalContext().invalidateSession();

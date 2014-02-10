@@ -35,8 +35,7 @@ public class OrgProfileBean {
 		if (currentOrg == null) {
 			// return;
 			// test
-			currentOrg = new Organization("Debug Org",
-					"123 Main St, Orlando, Fl, 32738", "386-123-7890",
+			currentOrg = new Organization("Debug Org", "123 Main St, Orlando, Fl, 32738", "386-123-7890",
 					"debugOrg@gmail.com");
 			currentOrg
 					.setDescription("We need your help! Plant trees on UCF campus to add green space and shade, which is much needed during the summer time. Thank you for reading this and have a fantastic day!");
@@ -58,8 +57,7 @@ public class OrgProfileBean {
 			// if email changed, clear activation date
 			if (oldEmail != null) {
 
-				String newEmail = currentVolunteer.getVolunteer()
-						.getEmailAddress();
+				String newEmail = currentVolunteer.getVolunteer().getEmailAddress();
 
 				if (!newEmail.equals(oldEmail)) {
 
