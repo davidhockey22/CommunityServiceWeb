@@ -1,6 +1,6 @@
 package org.CommunityService.EntitiesMapped;
 
-// Generated Feb 3, 2014 2:50:59 PM by Hibernate Tools 3.4.0.CR1
+// Generated Feb 10, 2014 10:56:44 AM by Hibernate Tools 3.4.0.CR1
 
 import java.util.HashSet;
 import java.util.Set;
@@ -24,8 +24,7 @@ public class Interest implements java.io.Serializable {
 	private Integer interestId;
 	private String name;
 	private String description;
-	private Set<VolunteerInterest> volunteerInterests = new HashSet<VolunteerInterest>(
-			0);
+	private Set<VolunteerInterest> volunteerInterests = new HashSet<VolunteerInterest>(0);
 	private Set<Event> events = new HashSet<Event>(0);
 
 	public Interest() {
@@ -36,8 +35,7 @@ public class Interest implements java.io.Serializable {
 		this.description = description;
 	}
 
-	public Interest(String name, String description,
-			Set<VolunteerInterest> volunteerInterests, Set<Event> events) {
+	public Interest(String name, String description, Set<VolunteerInterest> volunteerInterests, Set<Event> events) {
 		this.name = name;
 		this.description = description;
 		this.volunteerInterests = volunteerInterests;

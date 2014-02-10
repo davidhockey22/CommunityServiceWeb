@@ -1,6 +1,6 @@
 package org.CommunityService.EntitiesMapped;
 
-// Generated Feb 3, 2014 2:50:59 PM by Hibernate Tools 3.4.0.CR1
+// Generated Feb 10, 2014 10:56:44 AM by Hibernate Tools 3.4.0.CR1
 
 import java.util.HashSet;
 import java.util.Set;
@@ -34,8 +34,7 @@ public class Skill implements java.io.Serializable {
 		this.skillName = skillName;
 	}
 
-	public Skill(String skillName, String description,
-			Set<EventSkill> eventSkills, Set<VolunteerSkill> volunteerSkills) {
+	public Skill(String skillName, String description, Set<EventSkill> eventSkills, Set<VolunteerSkill> volunteerSkills) {
 		this.skillName = skillName;
 		this.description = description;
 		this.eventSkills = eventSkills;

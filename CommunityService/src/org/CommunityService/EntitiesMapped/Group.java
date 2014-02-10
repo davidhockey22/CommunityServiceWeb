@@ -1,6 +1,6 @@
 package org.CommunityService.EntitiesMapped;
 
-// Generated Feb 3, 2014 2:50:59 PM by Hibernate Tools 3.4.0.CR1
+// Generated Feb 10, 2014 10:56:44 AM by Hibernate Tools 3.4.0.CR1
 
 import java.util.HashSet;
 import java.util.Set;
@@ -38,8 +38,7 @@ public class Group implements java.io.Serializable {
 	public Group() {
 	}
 
-	public Group(String groupName, String groupAdmin, int hoursWorked,
-			float points, float avgRatingOfVolunteers) {
+	public Group(String groupName, String groupAdmin, int hoursWorked, float points, float avgRatingOfVolunteers) {
 		this.groupName = groupName;
 		this.groupAdmin = groupAdmin;
 		this.hoursWorked = hoursWorked;
@@ -47,10 +46,9 @@ public class Group implements java.io.Serializable {
 		this.avgRatingOfVolunteers = avgRatingOfVolunteers;
 	}
 
-	public Group(String groupName, String groupAdmin, int hoursWorked,
-			float points, float avgRatingOfVolunteers,
-			Set<Organization> organizations, Set<GroupMember> groupMembers,
-			Set<Picture> pictures, Set<GroupMod> groupMods) {
+	public Group(String groupName, String groupAdmin, int hoursWorked, float points, float avgRatingOfVolunteers,
+			Set<Organization> organizations, Set<GroupMember> groupMembers, Set<Picture> pictures,
+			Set<GroupMod> groupMods) {
 		this.groupName = groupName;
 		this.groupAdmin = groupAdmin;
 		this.hoursWorked = hoursWorked;

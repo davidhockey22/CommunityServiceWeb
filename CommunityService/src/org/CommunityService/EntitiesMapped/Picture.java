@@ -1,6 +1,6 @@
 package org.CommunityService.EntitiesMapped;
 
-// Generated Feb 3, 2014 2:50:59 PM by Hibernate Tools 3.4.0.CR1
+// Generated Feb 10, 2014 10:56:44 AM by Hibernate Tools 3.4.0.CR1
 
 import java.util.Date;
 import java.util.HashSet;
@@ -44,9 +44,8 @@ public class Picture implements java.io.Serializable {
 		this.albumName = albumName;
 	}
 
-	public Picture(String pictureLink, Date uploadedOn, String albumName,
-			String description, Set<Group> groups, Set<Volunteer> volunteers,
-			Set<Organization> organizations) {
+	public Picture(String pictureLink, Date uploadedOn, String albumName, String description, Set<Group> groups,
+			Set<Volunteer> volunteers, Set<Organization> organizations) {
 		this.pictureLink = pictureLink;
 		this.uploadedOn = uploadedOn;
 		this.albumName = albumName;

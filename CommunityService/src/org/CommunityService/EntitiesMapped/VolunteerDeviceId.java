@@ -1,6 +1,6 @@
 package org.CommunityService.EntitiesMapped;
 
-// Generated Feb 3, 2014 2:50:59 PM by Hibernate Tools 3.4.0.CR1
+// Generated Feb 10, 2014 10:56:44 AM by Hibernate Tools 3.4.0.CR1
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -49,17 +49,15 @@ public class VolunteerDeviceId implements java.io.Serializable {
 			return false;
 		VolunteerDeviceId castOther = (VolunteerDeviceId) other;
 
-		return ((this.getDeviceId() == castOther.getDeviceId()) || (this
-				.getDeviceId() != null && castOther.getDeviceId() != null && this
-				.getDeviceId().equals(castOther.getDeviceId())))
+		return ((this.getDeviceId() == castOther.getDeviceId()) || (this.getDeviceId() != null
+				&& castOther.getDeviceId() != null && this.getDeviceId().equals(castOther.getDeviceId())))
 				&& (this.getVolunteerId() == castOther.getVolunteerId());
 	}
 
 	public int hashCode() {
 		int result = 17;
 
-		result = 37 * result
-				+ (getDeviceId() == null ? 0 : this.getDeviceId().hashCode());
+		result = 37 * result + (getDeviceId() == null ? 0 : this.getDeviceId().hashCode());
 		result = 37 * result + this.getVolunteerId();
 		return result;
 	}

@@ -1,6 +1,6 @@
 package org.CommunityService.EntitiesMapped;
 
-// Generated Feb 3, 2014 2:50:59 PM by Hibernate Tools 3.4.0.CR1
+// Generated Feb 10, 2014 10:56:44 AM by Hibernate Tools 3.4.0.CR1
 
 import java.util.Date;
 import javax.persistence.Column;
@@ -34,8 +34,8 @@ public class Notification implements java.io.Serializable {
 		this.description = description;
 	}
 
-	public Notification(String description, String category, String key,
-			String value, Date creation, Date dependenceDate) {
+	public Notification(String description, String category, String key, String value, Date creation,
+			Date dependenceDate) {
 		this.description = description;
 		this.category = category;
 		this.key = key;

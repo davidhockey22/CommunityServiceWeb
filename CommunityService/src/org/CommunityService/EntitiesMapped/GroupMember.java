@@ -1,6 +1,6 @@
 package org.CommunityService.EntitiesMapped;
 
-// Generated Feb 3, 2014 2:50:59 PM by Hibernate Tools 3.4.0.CR1
+// Generated Feb 10, 2014 10:56:44 AM by Hibernate Tools 3.4.0.CR1
 
 import java.util.Date;
 import javax.persistence.AttributeOverride;
@@ -30,8 +30,7 @@ public class GroupMember implements java.io.Serializable {
 	public GroupMember() {
 	}
 
-	public GroupMember(GroupMemberId id, Group group, Volunteer volunteer,
-			Date joinedDate) {
+	public GroupMember(GroupMemberId id, Group group, Volunteer volunteer, Date joinedDate) {
 		this.id = id;
 		this.group = group;
 		this.volunteer = volunteer;
@@ -39,8 +38,7 @@ public class GroupMember implements java.io.Serializable {
 	}
 
 	@EmbeddedId
-	@AttributeOverrides({
-			@AttributeOverride(name = "groupId", column = @Column(name = "GroupID", nullable = false)),
+	@AttributeOverrides({ @AttributeOverride(name = "groupId", column = @Column(name = "GroupID", nullable = false)),
 			@AttributeOverride(name = "volunteerId", column = @Column(name = "VolunteerID", nullable = false)) })
 	public GroupMemberId getId() {
 		return this.id;

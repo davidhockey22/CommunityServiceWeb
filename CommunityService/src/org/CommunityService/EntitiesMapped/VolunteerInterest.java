@@ -1,6 +1,6 @@
 package org.CommunityService.EntitiesMapped;
 
-// Generated Feb 3, 2014 2:50:59 PM by Hibernate Tools 3.4.0.CR1
+// Generated Feb 10, 2014 10:56:44 AM by Hibernate Tools 3.4.0.CR1
 
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
@@ -27,8 +27,7 @@ public class VolunteerInterest implements java.io.Serializable {
 	public VolunteerInterest() {
 	}
 
-	public VolunteerInterest(VolunteerInterestId id, Interest interest,
-			Volunteer volunteer, byte disinterest) {
+	public VolunteerInterest(VolunteerInterestId id, Interest interest, Volunteer volunteer, byte disinterest) {
 		this.id = id;
 		this.interest = interest;
 		this.volunteer = volunteer;

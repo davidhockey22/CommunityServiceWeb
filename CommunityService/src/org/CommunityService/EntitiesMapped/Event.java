@@ -1,6 +1,6 @@
 package org.CommunityService.EntitiesMapped;
 
-// Generated Feb 3, 2014 2:50:59 PM by Hibernate Tools 3.4.0.CR1
+// Generated Feb 10, 2014 10:56:44 AM by Hibernate Tools 3.4.0.CR1
 
 import java.util.Date;
 import java.util.HashSet;
@@ -41,18 +41,15 @@ public class Event implements java.io.Serializable {
 	public Event() {
 	}
 
-	public Event(String eventName, Date beginTime, Date endTime,
-			float hoursBonus) {
+	public Event(String eventName, Date beginTime, Date endTime, float hoursBonus) {
 		this.eventName = eventName;
 		this.beginTime = beginTime;
 		this.endTime = endTime;
 		this.hoursBonus = hoursBonus;
 	}
 
-	public Event(String eventName, String description, String location,
-			Date beginTime, Date endTime, Integer recurId, float hoursBonus,
-			Set<Interest> interests, Set<EventSkill> eventSkills,
-			Set<EventVolunteer> eventVolunteers) {
+	public Event(String eventName, String description, String location, Date beginTime, Date endTime, Integer recurId,
+			float hoursBonus, Set<Interest> interests, Set<EventSkill> eventSkills, Set<EventVolunteer> eventVolunteers) {
 		this.eventName = eventName;
 		this.description = description;
 		this.location = location;
