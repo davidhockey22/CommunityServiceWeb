@@ -24,7 +24,7 @@ public class OrganizationService {
 	}
 	
 	public static Organization getOrganizationByVolunteerId(int volId) throws HibernateException {
-		String hql = "from Organization where admin = ? ";
+		String hql = "from Organization as o where o.volunteer.volunteerId = ? ";
 		ArrayList<Integer> params = new ArrayList<Integer>();
 		params.add(volId);
 		try {

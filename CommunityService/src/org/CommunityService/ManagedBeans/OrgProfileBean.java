@@ -37,19 +37,6 @@ public class OrgProfileBean {
 		if(currentOrg == null)
 			return;
 
-//		if (currentOrg == null) {
-//			// return;
-//			// test
-//			currentOrg = new Organization(
-//					currentVolunteer.getVolunteer(),
-//					"Debug Org",
-//					"123 Main St, Orlando, Fl, 32738",
-//					"386-123-7890",
-//					"debugOrg@gmail.com");
-//			currentOrg
-//					.setDescription("We need your help! Plant trees on UCF campus to add green space and shade, which is much needed during the summer time. Thank you for reading this and have a fantastic day!");
-//		}
-
 		renderError = false;
 		renderPage = true;
 	}
@@ -75,7 +62,7 @@ public class OrgProfileBean {
 			}
 
 			// test
-			// OrganizationService.updateOrganization(currentOrg);
+			OrganizationService.updateOrganization(currentOrg);
 
 		} catch (Exception e) {
 			e.printStackTrace();
