@@ -27,6 +27,7 @@
 							<f:param value="#{currentVolunteerBean.volunteer.volunteerName}" />
 							<f:param value="#{currentVolunteerBean.volunteer.volunteerId}" />
 						</h:outputFormat>
+						<h:graphicImage value="#{volunteerPage.gravatarImage}"/>
 						<p:commandButton type="submit" value="Logout" immediate="true" action="#{currentVolunteerBean.Logout}" ajax="false" />
 					</h:form>
 				</div>

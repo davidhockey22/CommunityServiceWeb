@@ -6,7 +6,7 @@ import javax.faces.bean.ManagedBean;
 
 import org.CommunityService.EntitiesMapped.Volunteer;
 import org.CommunityService.Services.VolunteerService;
-import org.CommunityService.util.MD5Util;
+import org.CommunityService.Validators.MD5Util;
 import org.hibernate.HibernateException;
 
 @ManagedBean
