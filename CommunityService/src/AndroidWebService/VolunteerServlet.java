@@ -1,10 +1,11 @@
 package AndroidWebService;
 
 import hibernate.HibernateProxyTypeAdapter;
+import hibernate.HibernateUtil;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -15,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.CommunityService.EntitiesMapped.Volunteer;
 import org.CommunityService.Services.VolunteerService;
-import org.hibernate.proxy.HibernateProxy;
+import org.apache.commons.beanutils.BeanUtils;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -41,12 +42,14 @@ public class VolunteerServlet extends HttpServlet {
 		super();
 	}
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
 
 		doPost(request, response);
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
 
 		String volunteerId;
 		PrintWriter out = response.getWriter();
@@ -64,16 +67,20 @@ public class VolunteerServlet extends HttpServlet {
 		GsonBuilder b = new GsonBuilder();
 		b.registerTypeAdapterFactory(HibernateProxyTypeAdapter.FACTORY);
 		Gson gson = b.create();
-		
+
 		List<Volunteer> vList;
 		Volunteer v;
 		if (volunteerId == null || volunteerId.equals("")) {
 			vList = VolunteerService.getVolunteers();
-			r(vList);
+			HibernateUtil.clean(vList);
+
+			System.out.println(vList.size());
+
 			out.println(gson.toJson(vList));
 		} else {
 			v = VolunteerService.getVolunteerByName(volunteerId);
-			r(v);
+			HibernateUtil.clean(v);
+
 			out.println(gson.toJson(v));
 		}
 
@@ -81,16 +88,4 @@ public class VolunteerServlet extends HttpServlet {
 
 	}
 
-	public void r(Object j) {
-		for (Field field : j.getClass().getDeclaredFields()) {
-			try {
-				if (field.get(j) instanceof HibernateProxy) {
-					field.set(j, null);
-				}
-			} catch (IllegalArgumentException | IllegalAccessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-	}
 }

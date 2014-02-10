@@ -1,7 +1,27 @@
 package hibernate;
 
+import java.lang.annotation.Annotation;
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.SortedMap;
+import java.util.SortedSet;
+import java.util.TreeMap;
+import java.util.TreeSet;
+
+import javax.persistence.Entity;
+
+import org.apache.commons.beanutils.PropertyUtils;
+import org.hibernate.LazyInitializationException;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.collection.spi.PersistentCollection;
+import org.hibernate.proxy.HibernateProxy;
 import org.hibernate.service.ServiceRegistry;
 import org.hibernate.service.ServiceRegistryBuilder;
 
@@ -15,8 +35,8 @@ public class HibernateUtil {
 			// Create the SessionFactory from hibernate.cfg.xml
 			Configuration configuration = new Configuration();
 			configuration.configure();
-			serviceRegistry = new ServiceRegistryBuilder().applySettings(
-					configuration.getProperties()).buildServiceRegistry();
+			serviceRegistry = new ServiceRegistryBuilder().applySettings(configuration.getProperties())
+					.buildServiceRegistry();
 			sessionFactory = configuration.buildSessionFactory(serviceRegistry);
 			return sessionFactory;
 		} catch (Throwable ex) {
@@ -43,9 +63,8 @@ public class HibernateUtil {
 	 * @param persistentCollection
 	 * @return
 	 */
-	public static <T> Collection<T> getCollectionItemsRemovedFromPersistenceContext(
-			Collection<T> targetCollection, Collection<T> persistentCollection)
-			throws LazyInitializationException {
+	public static <T> Collection<T> getCollectionItemsRemovedFromPersistenceContext(Collection<T> targetCollection,
+			Collection<T> persistentCollection) throws LazyInitializationException {
 		// If runtime type of persistentCollection is not PersistentCollection,
 		// take no action
 		if (!(persistentCollection instanceof PersistentCollection))
@@ -72,9 +91,8 @@ public class HibernateUtil {
 	 * @param persistentCollection
 	 * @return
 	 */
-	public static <T, U> Map<T, U> getCollectionItemsRemovedFromPersistenceContext(
-			Map<T, U> targetMap, Map<T, U> persistentMap)
-			throws LazyInitializationException {
+	public static <T, U> Map<T, U> getCollectionItemsRemovedFromPersistenceContext(Map<T, U> targetMap,
+			Map<T, U> persistentMap) throws LazyInitializationException {
 		// If runtime type of persistentCollection is not PersistentCollection,
 		// take no action
 		if (!(persistentMap instanceof PersistentCollection))
@@ -120,8 +138,7 @@ public class HibernateUtil {
 	 */
 
 	@SuppressWarnings("rawtypes")
-	protected static Object removePersistenceContext(Object obj,
-			Collection<Integer> visitedObjectHashCodes) {
+	protected static Object removePersistenceContext(Object obj, Collection<Integer> visitedObjectHashCodes) {
 		if (obj == null) {
 			return null;
 		}
@@ -133,57 +150,57 @@ public class HibernateUtil {
 		// Add the object's hash to the Collection of visited hash codes
 		visitedObjectHashCodes.add(System.identityHashCode(obj));
 
-		try {
-			if (obj instanceof Set) {
-				obj = getCollectionItemsRemovedFromPersistenceContext(
-						new HashSet(), (Set) obj);
-			} else if (obj instanceof SortedSet) {
-				obj = getCollectionItemsRemovedFromPersistenceContext(
-						new TreeSet(), (SortedSet) obj);
-			} else if (obj instanceof List) {
-				obj = getCollectionItemsRemovedFromPersistenceContext(
-						new ArrayList(), (List) obj);
-			} else if (obj instanceof Map) {
-				obj = getCollectionItemsRemovedFromPersistenceContext(
-						new HashMap(), (Map) obj);
-			} else if (obj instanceof SortedMap) {
-				obj = getCollectionItemsRemovedFromPersistenceContext(
-						new TreeMap(), (SortedMap) obj);
-			} else if (obj instanceof PersistentCollection) {
-				obj = getCollectionItemsRemovedFromPersistenceContext(
-						new ArrayList(), (Collection) obj);
+		if (isEntityBean(obj)) {
+			try {
+				if (obj instanceof Set) {
+					obj = null;
+				} else if (obj instanceof SortedSet) {
+					obj = null;
+				} else if (obj instanceof HashSet) {
+					obj = null;
+				} else if (obj instanceof List) {
+					obj = null;
+				} else if (obj instanceof Map) {
+					obj = null;
+				} else if (obj instanceof SortedMap) {
+					obj = null;
+				} else if (obj instanceof PersistentCollection) {
+					obj = null;
+				} else if (obj instanceof HibernateProxy) {
+					obj = null;
+				}
+			} catch (LazyInitializationException e) {
+				return null;
 			}
-		} catch (LazyInitializationException e) {
-			return null;
-		}
-
-		if (!isEntityBean(obj)) {
 			return obj;
 		}
-
-		Map allMembers = getInternalMembers(obj);
-		for (Object member : allMembers.entrySet()) {
-			Map.Entry m = (Map.Entry) member;
-			try {
-				try {
-					PropertyUtils.setProperty(
-							obj,
-							m.getKey().toString(),
-							removePersistenceContext(m.getValue(),
-									visitedObjectHashCodes));
-				} catch (LazyInitializationException e) {
-
-					PropertyUtils.setProperty(obj, m.getKey().toString(), null);
-				}
-			} catch (IllegalAccessException e) {
-				throw new RuntimeException(e);
-			} catch (InvocationTargetException e) {
-				throw new RuntimeException(e);
-			} catch (NoSuchMethodException e) {
-			}
+		else {
+			return obj;
 		}
-
-		return obj;
+		//
+		// Map allMembers = getInternalMembers(obj);
+		// for (Object member : allMembers.entrySet()) {
+		// Map.Entry m = (Map.Entry) member;
+		// try {
+		// try {
+		// PropertyUtils.setProperty(
+		// obj,
+		// m.getKey().toString(),
+		// removePersistenceContext(m.getValue(),
+		// visitedObjectHashCodes));
+		// } catch (LazyInitializationException e) {
+		//
+		// PropertyUtils.setProperty(obj, m.getKey().toString(), null);
+		// }
+		// } catch (IllegalAccessException e) {
+		// throw new RuntimeException(e);
+		// } catch (InvocationTargetException e) {
+		// throw new RuntimeException(e);
+		// } catch (NoSuchMethodException e) {
+		// }
+		// }
+		//
+		// return obj;
 	}
 
 	/**
