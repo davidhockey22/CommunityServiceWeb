@@ -1,11 +1,14 @@
 package org.CommunityService.ManagedBeans;
 
+import java.util.Date;
+
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 
 import org.CommunityService.EntitiesMapped.Organization;
 import org.CommunityService.Services.OrganizationService;
+import org.CommunityService.Services.VolunteerService;
 
 @ManagedBean
 @SessionScoped
@@ -25,19 +28,16 @@ public class RegisterOrgBean {
 		try {
 			
 			//new organization
-			Organization org = new Organization(name, address, phoneNumber, email);
-//			org.setDescription(description);
-//			
-//			//new moderator
-//			OrgMod mod = new OrgMod(currentVolunteer.getVolunteer().getVolunteerId(), org, currentVolunteer.getVolunteer());
-//			
-//			Set<OrgMod> set = new HashSet<OrgMod>();
-//			set.add(mod);
-//			
-//			org.setOrgMods(set); //set organization moderator
-//			
-//			//add organization to mysql
+			Organization org = new Organization( currentVolunteer.getVolunteer(), name, address, phoneNumber, email);
+			org.setCreatedOn(new Date());
+			org.setDescription(description);
+
+			//add organization to mysql
 			OrganizationService.addOrganization(org);
+			
+			//update volunteer which is now the admin of the org
+//			currentVolunteer.getVolunteer().setOrganization(org);
+//			VolunteerService.updateVolunteer(currentVolunteer.getVolunteer());
 			
 		} catch (Exception e) {
 			e.printStackTrace();

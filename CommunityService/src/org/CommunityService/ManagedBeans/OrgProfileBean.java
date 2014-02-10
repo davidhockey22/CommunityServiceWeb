@@ -5,6 +5,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 
 import org.CommunityService.EntitiesMapped.Organization;
+import org.CommunityService.Services.OrganizationService;
 import org.CommunityService.Services.VolunteerService;
 
 @ManagedBean
@@ -30,16 +31,24 @@ public class OrgProfileBean {
 			return;
 		}
 
-		currentOrg = currentVolunteer.getVolunteer().getOrganization();
+		//do query
+		currentOrg = OrganizationService.getOrganizationByVolunteerId(currentVolunteer.getVolunteer().getVolunteerId());
+		
+		if(currentOrg == null)
+			return;
 
-		if (currentOrg == null) {
-			// return;
-			// test
-			currentOrg = new Organization("Debug Org", "123 Main St, Orlando, Fl, 32738", "386-123-7890",
-					"debugOrg@gmail.com");
-			currentOrg
-					.setDescription("We need your help! Plant trees on UCF campus to add green space and shade, which is much needed during the summer time. Thank you for reading this and have a fantastic day!");
-		}
+//		if (currentOrg == null) {
+//			// return;
+//			// test
+//			currentOrg = new Organization(
+//					currentVolunteer.getVolunteer(),
+//					"Debug Org",
+//					"123 Main St, Orlando, Fl, 32738",
+//					"386-123-7890",
+//					"debugOrg@gmail.com");
+//			currentOrg
+//					.setDescription("We need your help! Plant trees on UCF campus to add green space and shade, which is much needed during the summer time. Thank you for reading this and have a fantastic day!");
+//		}
 
 		renderError = false;
 		renderPage = true;
