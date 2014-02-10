@@ -6,6 +6,7 @@ import javax.faces.context.FacesContext;
 
 import org.CommunityService.EntitiesMapped.Volunteer;
 import org.CommunityService.Services.VolunteerService;
+import org.CommunityService.Validators.Gravatar;
 import org.CommunityService.Validators.PasswordHash;
 
 @ManagedBean
@@ -57,7 +58,12 @@ public class CurrentVolunteerBean {
 		FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
 		return "?faces-redirect=true";
 	}
-
+	
+	public String getGravatarURL () {
+		String email = (this.volunteer != null ? this.volunteer.getEmailAddress() : "");
+		return Gravatar.getGravatarImage(email);
+	}
+	
 	// Getters and Setters
 	// ---------------------------------------------------------------------------------------------------
 	public String getUsername() {

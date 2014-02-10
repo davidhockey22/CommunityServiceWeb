@@ -32,7 +32,13 @@
 									value="#{currentVolunteerBean.volunteer.volunteerName}"
 									required="true" label="text" onkeyup="showUnsaved()" />
 							</p:inplace>
-
+							
+							<h:outputText value="Gravatar: " />
+							<h:panelGrid>
+							<h:graphicImage value="#{currentVolunteerBean.gravatarURL} "/>
+							<h:outputLink value="https://gravatar.com/emails/"/>
+							</h:panelGrid>
+							
 							<h:outputText value="Phone Number: " />
 							<p:inplace id="ajaxInplace1" editor="true">
 								<p:inputText

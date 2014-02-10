@@ -6,7 +6,7 @@ import javax.faces.bean.ManagedBean;
 
 import org.CommunityService.EntitiesMapped.Volunteer;
 import org.CommunityService.Services.VolunteerService;
-import org.CommunityService.Validators.MD5Util;
+import org.CommunityService.Validators.Gravatar;
 import org.hibernate.HibernateException;
 
 @ManagedBean
@@ -17,7 +17,6 @@ public class VolunteerPage {
 
 	private Volunteer volunteer;
 	private Integer volunteerId;
-	private Integer imageSize;
 
 	public String getVolunteerEmail() {
 		fetchVolunteer();
@@ -45,22 +44,9 @@ public class VolunteerPage {
 		}
 	}
 
-	// see https://en.gravatar.com/site/implement/images/ for details
-	public String getGravatarImage() {
-		// this is the default avatar used by gravatar when a gravatar doesn't
-		// exist for this email
-		String defaultImage = "?d=identicon";
-
-		// send null hash in the event there is no volunteer
-		// TODO may want to change this to send back either null or empty string
-		String emailHash = "00000000000000000000000000000000";
-		if (getVolunteerEmail() != null)
-			emailHash = MD5Util.md5Hex(getVolunteerEmail());
-
-		StringBuffer avatar = new StringBuffer("http://www.gravatar.com/avatar/");
-		avatar.append(emailHash);
-		avatar.append(defaultImage);
-		return avatar.toString();
+	public String getGravatarURL () {
+		String email = (this.volunteer != null ? this.volunteer.getEmailAddress() : "");
+		return Gravatar.getGravatarImage(email);
 	}
 
 	// Getters and Setters
@@ -81,18 +67,6 @@ public class VolunteerPage {
 			this.volunteerId = Integer.parseInt(volunteerId);
 		} catch (NumberFormatException e) {
 			this.volunteerId = null;
-		}
-	}
-
-	public Integer getImageSize() {
-		return imageSize;
-	}
-
-	public void setImageSize(String imageSize) {
-		try {
-			this.imageSize = Integer.parseInt(imageSize);
-		} catch (NumberFormatException e) {
-			this.imageSize = null;
 		}
 	}
 
