@@ -27,7 +27,7 @@ import com.google.gson.GsonBuilder;
  import com.google.gson.JsonElement;
  import com.google.gson.JsonObject;
  */
-@WebServlet(urlPatterns = { "/Android/getEvents" })
+@WebServlet(urlPatterns = { "/Android/getVolunteers" })
 public class VolunteerServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
