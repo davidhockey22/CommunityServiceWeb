@@ -1,39 +1,59 @@
-function validateRegistration(formID, passwordID, confirmPasswordID, phoneNumberID, emailID, messageID){
+function validateRegistration(){
 	
-	//clear validation message
-	var mess = document.getElementById(formID + ":" + messageID);
-	mess.innerHTML = "";
+	document.getElementById("registerForm:submitValidation").innerHTML = "";
+	var returnVal = true;
+
+	if( document.getElementById("registerForm:passwordValidation").innerHTML != "" )
+		returnVal = false;
+
+	if( document.getElementById("registerForm:confirmValidation").innerHTML != "" )
+		returnVal = false;
+	if( document.getElementById("registerForm:phoneValidation").innerHTML != "" )
+		returnVal = false;
 	
-	//check password
-	var password = document.getElementById(formID + ":" + passwordID);
-	mess.innerHTML = checkPassword(password.value);
-	if(mess.innerHTML != "") return false; //validation error
+	if( document.getElementById("registerForm:emailValidation").innerHTML != "" )
+		returnVal = false;
+	
+	if( returnVal == false )
+		document.getElementById("registerForm:submitValidation").innerHTML = "Please correct errors";
+
+	return true;
+}
+function confirmPassword(confirm, passwordID, formID, messageID) {
+	
+	//validation message
+	var mess = null;
+	if(messageID != null)
+		mess = document.getElementById(formID + ":" + messageID);
 	
 	//check confirm password
-	var confirm = document.getElementById(formID + ":" + confirmPasswordID);
-	if(confirm.value != password.value) {
-		mess.innerHTML = 'The "Confirm Password" field must match the "Password" field';
-		return false;
+	var password = document.getElementById(formID + ":" + passwordID);
+	if(confirm != password.value) {
+		
+		if(mess != null)
+			mess.innerHTML = 'The "Confirm Password" field must match the "Password" field';
+		
+		return 'The "Confirm Password" field must match the "Password" field';
 	}
-
-	//check phone number
-	var phoneNumber = document.getElementById(formID + ":" + phoneNumberID);
-	var reformat = reformatPhoneNumber(phoneNumber.value);
-	mess.innerHTML = checkPhoneNumber(reformat);
-	if(mess.innerHTML != "") return false; //validation error
 	
-	//check email
-	var email = document.getElementById(formID + ":" + emailID);
-	mess.innerHTML = checkEmail(email.value);
-	if(mess.innerHTML != "") return false; //validation error
-
-	return false;
+	if(mess != null)
+		mess.innerHTML = "";
+	
+	return "";
 }
-
-function checkPassword(password){
+function checkPassword(password, formID, messageID){
 	
-	if( password.length < 8 )
+	//validation message
+	var mess = null;
+	if(messageID != null)
+		mess = document.getElementById(formID + ":" + messageID);
+	
+	if( password.length < 8 ) {
+		if(mess != null)
+			mess.innerHTML = "Password must be at least 8 characters long";
+		
 		return "Password must be at least 8 characters long";
+	}
 	
 	var regExp = /\d/i; //match any digit
 	var result = password.match(regExp);
@@ -41,6 +61,9 @@ function checkPassword(password){
 	if (result==null ||
 			result=="" )
 	  {
+		if(mess != null)
+			mess.innerHTML = "Password must contain a number";
+		
 		return "Password must contain a number";
 	  }
 	
@@ -50,42 +73,63 @@ function checkPassword(password){
 	if (result==null ||
 			result=="" )
 	  {
+		if(mess != null)
+			mess.innerHTML = "Password must contain a letter";
+		
 		return "Password must contain a letter";
 	  }
 	
+	if(mess != null)
+		mess.innerHTML = "";
+	
 	return "";
 }
-function reformatPhoneNumber(phoneNumber) {
+function myFunction() {
 	
-	//reformat and remove illegal symbols such as "-"
-	var reformat = "";
-	for(var i = 0; i < phoneNumber.length; i++) {
-		
-		if(isNaN(phoneNumber[i])){
-		}
-		else
-			reformat = reformat + phoneNumber[i];
-	}
-	
-	return reformat;	
+	alert("Test");
+	return;
 }
-function checkPhoneNumber(phoneNumber){
+function checkPhoneNumber(phoneNumber, formID, messageID){
+		
+	//validation message
+	var mess = null;
+	if(messageID != null)
+		mess = document.getElementById(formID + ":" + messageID);
 	
 	if (phoneNumber==null ||
 			phoneNumber=="" ||
 			phoneNumber.length != 10)
 	  {
-		return "Phone Number must be in format XXX-XXX-XXXX";
+		if(mess != null)
+			mess.innerHTML = "Phone Number must be 10 digits and not contain dashes";
+		
+		return "Phone Number must be 10 digits and not contain dashes";
 	  }
+	
+	if(mess != null)
+		mess.innerHTML = "";
 	
 	return "";
 }
-function checkEmail(email){
+function checkEmail(email, formID, messageID){
 
+	//validation message
+	var mess = null;
+	if(messageID != null)
+		mess = document.getElementById(formID + ":" + messageID);
+	
 	var at = email.indexOf("@");
 	var dot = email.lastIndexOf(".");
-	if (at < 1 || dot < at + 2 || dot + 2 >= email.length )
+	if (at < 1 || dot < at + 2 || dot + 2 >= email.length ) {
+		
+		if(mess != null)
+			mess.innerHTML = "Invalid email format";
+		
 		return "Invalid email format";
+	}
+	
+	if(mess != null)
+		mess.innerHTML = "";
 	
 	return "";
 }
