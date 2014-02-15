@@ -10,7 +10,7 @@
 
 </h:head>
 <h:body>
-	<h:form>
+	<h:form id="registerForm" >
 		<p:message for="username" id="userMessage" />
 		<h:panelGrid columns="2" cellpadding="2">
 			<h:outputLabel for="#{registrationBean.username}" value="UserName" />
@@ -32,31 +32,15 @@
 			<h:outputLabel for="#{registrationBean.email}" value="Email" />
 			<p:inputText id="email" value="#{registrationBean.email}" required="true"></p:inputText>
 
-			<p:commandButton type="submit" value="Register" action="#{registrationBean.Register}"></p:commandButton>
+			<p:commandButton type="submit" value="Register" action="#{registrationBean.Register}"
+			onclick="if(validateRegistration( 'registerForm', 'password', 'confirm', 'phoneNumber', 'email', 'validationMessage' )==false){return false}"></p:commandButton>
+			
+			<h:outputText id="validationMessage" style="color: red;" value="" />
 
 		</h:panelGrid>
 		
 		<p:remoteCommand name="sendMessage" update="userMessage" actionListener="#{messageController.addError}" />
 		<h:inputHidden id="message" value="#{messageController.message}"></h:inputHidden>
 	</h:form>
-	<script type="text/javascript">
-		$("#password").keyup(function() {
-			checkPassword(this.val());
-		});
-		$("#confirm").keyup(function() {
-		alert("Test");
-			if (this.val() != $("#password").val()) {
-				highlightField(this, "Password and Confirm password fields must be the same.");
-			}
-			alert("test2");
-		});
-		$("#phoneNumber").keyup(function() {
-			checkPhoneNumber(this.val());
-		});
-		$("#email").keyup(function() {
-			checkEmail(this.val());
-		});
-	</script>
-
 </h:body>
 </html>
