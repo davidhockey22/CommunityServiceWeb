@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>Home</title>
+	<h:outputStylesheet library="css" name="WebContent/css/main.css" />
+</h:head>
+<h:body>
+	<ui:composition template="commonTemplate.xhtml">
+		<ui:define name="metadata">
+			<f:metadata>
+				<f:viewParam id="orgId" name="orgId" value="#{organizationPage.orgId}" />
+				<f:event type="preRenderView" listener="#{organizationPage.fetchOrganization}" />
+			</f:metadata>
+		</ui:define>
+		<ui:define name="content">
+			<div style="float: left; clear: left">
+				<ui:fragment rendered="#{organizationPage.organization == null}">
+					<h:outputFormat value="Oops! This organization doesn't exist!" />
+				</ui:fragment>
+				<ui:fragment rendered="#{organizationPage.organization != null}">
+					<p:panelGrid columns="2">
+						<f:facet name="header">
+							<h:outputText value="#{organizationPage.organization.orgName}" />
+						</f:facet>
+						<h:outputLabel for="description" value="Description: " />
+						<h:outputText id="description" value="#{organizationPage.organization.description}" label="Description" />
+					</p:panelGrid>
+				</ui:fragment>
+			</div>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

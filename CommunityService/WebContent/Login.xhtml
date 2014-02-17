@@ -9,9 +9,6 @@
 </h:head>
 <h:body>
 	<ui:composition template="commonTemplate.xhtml">
-		<ui:define name="banner">
-			<h:graphicImage url="/images/logo.png" />
-		</ui:define>
 		<ui:define name="content">
 			<h:form rendered="#{!currentVolunteerBean.loggedIn}">
 				<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
@@ -23,8 +20,6 @@
 					<p:password id="password" value="#{currentVolunteerBean.password}" required="true" />
 					<p:button value="Register" outcome="/Register.xhtml" />
 				</p:panelGrid>
-
-
 			</h:form>
 			<h:form rendered="#{currentVolunteerBean.loggedIn}">
 				<h:outputFormat value="Hello, {0}. Your volunteer ID is {1}.">
