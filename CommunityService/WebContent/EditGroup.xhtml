@@ -5,78 +5,13 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 
 <h:head>
-	<title>Profile</title>
+	<title>Manage Group</title>
 </h:head>
 <h:body>
 	<ui:composition template="commonTemplate.xhtml">
-
 		<ui:define name="content">
 			<div style="clear: left">
-				<h:form rendered="#{!currentVolunteerBean.loggedIn}">
-
-					<h:outputFormat value="You're not logged in. ">
-					</h:outputFormat>
-
-				</h:form>
-				<h:form id="profileForm" rendered="#{currentVolunteerBean.loggedIn}">
-
-					<p:panel header="Profile">
-						<h:panelGrid columns="2" columnClasses="column" cellpadding="5">
-
-							<h:outputText value="UserName: " />
-							<p:inplace id="ajaxInplace0" editor="true">
-								<p:inputText value="#{currentVolunteerBean.volunteer.volunteerName}" required="true" label="text" onkeyup="showUnsaved()" />
-							</p:inplace>
-
-							<h:outputText value="Gravatar: " />
-							<h:panelGrid>
-								<h:graphicImage value="#{currentVolunteerBean.gravatarURL}" />
-								<h:outputLink value="https://gravatar.com/emails/">
-									<h:outputText value="Change Gravatar" />
-								</h:outputLink>
-							</h:panelGrid>
-
-							<h:outputText value="Phone Number: " />
-							<p:inplace id="ajaxInplace1" editor="true">
-								<p:inputText value="#{currentVolunteerBean.volunteer.phoneNumber}" required="true" label="text" onkeyup="showUnsaved()" />
-							</p:inplace>
-
-							<h:outputText value="Email: " />
-
-							<f:event listener="#{profileBean.saveEmail}" type="preRenderComponent"></f:event>
-
-							<p:inplace id="ajaxInplace2" editor="true">
-								<p:inputText value="#{currentVolunteerBean.volunteer.emailAddress}" required="true" label="text" onkeyup="showUnsaved()" />
-							</p:inplace>
-
-							<h:outputText value="Last Login Date: " />
-							<h:outputText value="#{currentVolunteerBean.volunteer.lastLoginDate}" required="true" label="text" />
-
-							<h:outputText value="Points: " />
-							<h:outputText value="#{currentVolunteerBean.volunteer.points}" required="true" label="text" />
-
-							<h:outputText value="Hours Worked: " />
-							<h:outputText value="#{currentVolunteerBean.volunteer.hoursWorked}" required="true" label="text" />
-
-							<h:outputText value="Average Rating: " />
-							<h:outputText value="#{currentVolunteerBean.volunteer.avgRating}" required="true" label="text" />
-
-							<h:commandButton type="submit" value="Save" action="#{profileBean.updateProfile()}"></h:commandButton>
-							<h:outputText id="unsavedMessage" style="color: red;" value="" />
-
-						</h:panelGrid>
-
-
-					</p:panel>
-
-				</h:form>
-				<script type="text/javascript">
-					function showUnsaved() {
-						var mess = document
-								.getElementById('profileForm:unsavedMessage');
-						mess.innerHTML = 'Unsaved changes';
-					}
-				</script>
+				<h:outputText value="Placeholder for group edit page." />
 			</div>
 		</ui:define>
 	</ui:composition>

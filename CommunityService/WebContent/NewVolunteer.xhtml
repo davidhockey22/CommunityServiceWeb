@@ -24,7 +24,7 @@
 
 					<h:outputLabel for="#{registrationBean.password}" value="Password" />
 					<p:password id="password" value="#{registrationBean.password}" required="true"
-						onblur="checkPassword(value, 'registerForm', 'passwordValidation')"></p:password>
+						onblur="checkPassword(value, 'registerForm', 'passwordValidation')" />
 					<h:outputText id="passwordValidation" style="color: red;" value="" />
 
 					<h:outputLabel value="Confirm Password" />
@@ -33,21 +33,21 @@
 
 					<h:outputLabel for="#{registrationBean.phoneNumber}" value="Phone Number" />
 					<p:inputText id="phoneNumber" value="#{registrationBean.phoneNumber}" required="true"
-						onblur="checkPhoneNumber(value, 'registerForm', 'phoneValidation')"></p:inputText>
+						onblur="checkPhoneNumber(value, 'registerForm', 'phoneValidation')" />
 					<h:outputText id="phoneValidation" style="color: red;" value="" />
 
 					<h:outputLabel for="#{registrationBean.email}" value="Email" />
-					<p:inputText id="email" value="#{registrationBean.email}" required="true" onblur="checkEmail(value, 'registerForm', 'emailValidation')"></p:inputText>
+					<p:inputText id="email" value="#{registrationBean.email}" required="true" onblur="checkEmail(value, 'registerForm', 'emailValidation')" />
 					<h:outputText id="emailValidation" style="color: red;" value="" />
 
 					<p:commandButton type="submit" value="Register" action="#{registrationBean.Register}"
-						onclick="if(validateRegistration()==false){return false}"></p:commandButton>
+						onclick="if(validateRegistration()==false){return false}" />
 					<h:outputText id="submitValidation" style="color: red;" value="" />
 
 				</h:panelGrid>
 
 				<p:remoteCommand name="sendMessage" update="userMessage" actionListener="#{messageController.addError}" />
-				<h:inputHidden id="message" value="#{messageController.message}"></h:inputHidden>
+				<h:inputHidden id="message" value="#{messageController.message}" />
 			</h:form>
 		</ui:define>
 	</ui:composition>

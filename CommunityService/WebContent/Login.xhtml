@@ -18,7 +18,7 @@
 					<p:commandButton type="submit" value="Login" action="#{currentVolunteerBean.Login}" ajax="false" />
 					<h:outputLabel for="#{currentVolunteerBean.password}" value="Password" />
 					<p:password id="password" value="#{currentVolunteerBean.password}" required="true" />
-					<p:button value="Register" outcome="/Register.xhtml" />
+					<p:button value="Register" outcome="/register" />
 				</p:panelGrid>
 			</h:form>
 			<h:form rendered="#{currentVolunteerBean.loggedIn}">
