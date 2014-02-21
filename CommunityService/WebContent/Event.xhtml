@@ -21,12 +21,14 @@
 					<h:outputFormat value="Oops! This event doesn't exist!" />
 				</ui:fragment>
 				<ui:fragment rendered="#{eventPage.event != null}">
-					<p:panelGrid columns="2">
+					<p:panelGrid columns="3">
 						<f:facet name="header">
 							<h:outputText value="#{eventPage.event.eventName}" />
 						</f:facet>
 						<h:outputLabel for="description" value="Description: " />
 						<h:outputText id="description" value="#{eventPage.event.description}" label="Description" />
+						<p:commandButton value="Sign Up!" actionListener="#{eventPage.signUp}" />
+
 					</p:panelGrid>
 				</ui:fragment>
 			</div>

@@ -1,6 +1,7 @@
 package org.CommunityService.ManagedBeans;
 
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 
 import org.CommunityService.EntitiesMapped.Event;
@@ -11,7 +12,16 @@ import org.CommunityService.Services.EventService;
 public class EventPage {
 	private Event event;
 	private String eventId;
-	
+
+	@ManagedProperty(value = "#{currentVolunteerBean}")
+	private CurrentVolunteerBean currentVolunteer;
+
+	public String signUp() {
+		EventService.signUp(currentVolunteer.getVolunteer(), event);
+
+		return "?faces-redirect=true";
+	}
+
 	public void fetchEvent() {
 		try {
 			this.event = EventService.getEventById(Integer.parseInt(eventId));
@@ -30,5 +40,13 @@ public class EventPage {
 
 	public Event getEvent() {
 		return event;
+	}
+
+	public CurrentVolunteerBean getCurrentVolunteer() {
+		return currentVolunteer;
+	}
+
+	public void setCurrentVolunteer(CurrentVolunteerBean currentVolunteer) {
+		this.currentVolunteer = currentVolunteer;
 	}
 }
