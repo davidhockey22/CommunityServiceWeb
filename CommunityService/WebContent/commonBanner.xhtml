@@ -19,7 +19,7 @@
 								<p:password id="password" value="#{currentVolunteerBean.password}" required="true" />
 							</p:panelGrid>
 							<p:commandButton type="submit" value="Login" action="#{currentVolunteerBean.Login}" ajax="false" />
-							<p:button value="Register" outcome="/register" />
+							<p:button value="Register" outcome="/NewVolunteer.xhtml?faces-redirect=true" />
 						</p:panelGrid>
 					</h:form>
 					<h:form rendered="#{currentVolunteerBean.loggedIn}">
