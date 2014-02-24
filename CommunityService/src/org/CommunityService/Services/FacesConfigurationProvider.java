@@ -14,10 +14,7 @@ public class FacesConfigurationProvider extends HttpConfigurationProvider{
 	@Override
 	public Configuration getConfiguration(final ServletContext context) {
 		return ConfigurationBuilder.begin()
-				.addRule(Join.path("/").to("/Web/Home.xhtml"))
 				.addRule(Join.path("/login").to("/Web/Login.xhtml"))
-				.addRule(Join.path("/search").to("/Web/Search.xhtml"))
-				.addRule(Join.path("/register").to("/Web/Register.xhtml"))
 				
 				.addRule(Join.path("/event/{eventId}").to("/Web/ViewEvent.xhtml"))
 				.addRule(Join.path("/organization/{orgId}").to("/Web/ViewOrganization.xhtml"))
@@ -25,7 +22,6 @@ public class FacesConfigurationProvider extends HttpConfigurationProvider{
 				.addRule(Join.path("/volunteer/{volunteerId}").to("/Web/ViewVolunteer.xhtml"))
 				
 				.addRule(Join.path("/createEvent").to("/Web/NewEvent.xhtml"))
-				.addRule(Join.path("/createOrganization").to("/Web/NewOrganization.xhtml"))
 				.addRule(Join.path("/createGroup").to("/Web/NewGroup.xhtml"))
 				
 				.addRule(Join.path("/editProfile").to("EditVolunteer.xhtml"))

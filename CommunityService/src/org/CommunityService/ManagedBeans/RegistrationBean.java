@@ -8,9 +8,11 @@ import javax.faces.bean.RequestScoped;
 import org.CommunityService.EntitiesMapped.Volunteer;
 import org.CommunityService.Services.VolunteerService;
 import org.CommunityService.Validators.PasswordHash;
+import org.ocpsoft.rewrite.annotation.Join;
 
 @ManagedBean
 @RequestScoped
+@Join(path="/register", to="/Web/NewVolunteer.xhtml")
 public class RegistrationBean {
 
 	private String username;
