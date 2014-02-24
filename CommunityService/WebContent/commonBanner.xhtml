@@ -36,8 +36,8 @@
 			<div style="clear: both">
 				<p:menubar >
 					<p:menuitem value="Home" icon="ui-icon-home" url="/" />
-					<p:menuitem value="My Profile" icon="ui-icon-person" url="/editProfile" />
-					<p:menuitem value="Search" icon="ui-icon-person" url="/search" />
+					<p:menuitem rendered="#{currentVolunteerBean.loggedIn}" value="My Profile" icon="ui-icon-person" url="/editProfile" />
+					<p:menuitem value="Search" icon="ui-icon-search" url="/search" />
 				</p:menubar>
 			</div>
 			<p:growl id="messages" />
