@@ -19,7 +19,9 @@
 								<p:password id="password" value="#{currentVolunteerBean.password}" required="true" />
 							</p:panelGrid>
 							<p:commandButton type="submit" value="Login" action="#{currentVolunteerBean.Login}" ajax="false" />
-							<p:button value="Register" outcome="/Register.xhtml" />
+							
+							<p:button value="Register" outcome="/NewVolunteer.xhtml" />
+							
 						</p:panelGrid>
 					</h:form>
 					<h:form rendered="#{currentVolunteerBean.loggedIn}">
@@ -31,13 +33,15 @@
 					</h:form>
 				</div>
 			</div>
+			<!-- 
 			<div style="clear: both">
-				<p:menubar>
-					<p:menuitem value="Home" icon="ui-icon-home" url="Home.xhtml" />
-					<p:menuitem value="My Profile" icon="ui-icon-person" url="Profile.xhtml" />
-					<p:menuitem value="Search" icon="ui-icon-person" url="Search.xhtml" />
+				<p:menubar >
+					<p:menuitem value="Home" icon="ui-icon-home" url="/" />
+					<p:menuitem value="My Profile" icon="ui-icon-person" url="/editProfile" />
+					<p:menuitem value="Search" icon="ui-icon-person" url="/search" />
 				</p:menubar>
 			</div>
+			 -->
 			<p:growl id="messages" />
 		</div>
 	</ui:composition>

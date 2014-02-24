@@ -6,6 +6,7 @@ import javax.faces.bean.RequestScoped;
 
 import org.CommunityService.EntitiesMapped.Event;
 import org.CommunityService.Services.EventService;
+import org.ocpsoft.rewrite.annotation.Join;
 
 @ManagedBean
 @RequestScoped

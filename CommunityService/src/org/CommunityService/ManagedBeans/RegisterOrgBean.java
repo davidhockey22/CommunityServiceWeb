@@ -8,10 +8,11 @@ import javax.faces.bean.SessionScoped;
 
 import org.CommunityService.EntitiesMapped.Organization;
 import org.CommunityService.Services.OrganizationService;
-import org.CommunityService.Services.VolunteerService;
+import org.ocpsoft.rewrite.annotation.Join;
 
 @ManagedBean
 @SessionScoped
+@Join(path="/createOrganization", to="/Web/NewOrganization.xhtml")
 public class RegisterOrgBean {
 
 	@ManagedProperty(value = "#{currentVolunteerBean}")

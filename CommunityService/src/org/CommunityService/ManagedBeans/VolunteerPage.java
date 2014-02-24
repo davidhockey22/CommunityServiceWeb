@@ -8,8 +8,10 @@ import org.CommunityService.EntitiesMapped.Volunteer;
 import org.CommunityService.Services.VolunteerService;
 import org.CommunityService.Validators.Gravatar;
 import org.hibernate.HibernateException;
+import org.ocpsoft.rewrite.annotation.Join;
 
 @ManagedBean
+@Join(path="/event/{eventId}", to="/Web/ViewEvent.xhtml")
 public class VolunteerPage {
 
 	String volunteerEmail = "No email provided";

@@ -8,8 +8,10 @@ import javax.faces.bean.ManagedProperty;
 import org.CommunityService.EntitiesMapped.Event;
 import org.CommunityService.EntitiesMapped.Volunteer;
 import org.CommunityService.Services.VolunteerService;
+import org.ocpsoft.rewrite.annotation.Join;
 
 @ManagedBean
+@Join(path="/", to="/Web/Home.xhtml")
 public class FeedPage {
 	@ManagedProperty(value = "#{currentVolunteerBean}")
 	private CurrentVolunteerBean currentVolunteer;

@@ -12,9 +12,11 @@ import org.CommunityService.EntitiesMapped.Skill;
 import org.CommunityService.Services.DBConnection;
 import org.CommunityService.Services.InterestService;
 import org.CommunityService.Services.SkillService;
+import org.ocpsoft.rewrite.annotation.Join;
 
 @ManagedBean
 @SessionScoped
+@Join(path="/search", to="/Web/Search.xhtml")
 public class SearchBean {
 
 	private String eventName;

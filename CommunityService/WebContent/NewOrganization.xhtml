@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Create Organization</title>
+	<script src="/CommunityService/js/main.js" language="JavaScript" type="text/javascript"></script>
+</h:head>
+<h:body>
+	<h:form>
+		<p:message for="name" id="userMessage" />
+
+		<p:panel header="Register Organization">
+
+			<h:panelGrid columns="2" cellpadding="2">
+				<h:outputLabel for="#{registerOrgBean.name}" value="Name" />
+				<h:inputText id="name" value="#{registerOrgBean.name}" required="true">
+				</h:inputText>
+
+				<h:outputLabel for="#{registerOrgBean.address}" value="Address" />
+				<h:inputText id="address" value="#{registerOrgBean.address}" required="true"></h:inputText>
+
+				<h:outputLabel for="#{registerOrgBean.phoneNumber}" value="Phone Number" />
+				<h:inputText id="phoneNumber" value="#{registerOrgBean.phoneNumber}" required="true"></h:inputText>
+
+				<h:outputLabel for="#{registerOrgBean.email}" value="Email" />
+				<h:inputText id="email" value="#{registerOrgBean.email}" required="true"></h:inputText>
+
+				<h:outputLabel for="#{registerOrgBean.description}" value="Description" />
+				<p:inputTextarea id="description" cols="30" rows="10" value="#{registerOrgBean.description}" required="true">
+					<f:validateLength maximum="500" />
+				</p:inputTextarea>
+
+				<h:commandButton type="submit" value="Register" action="#{registerOrgBean.Register}" />
+
+			</h:panelGrid>
+		</p:panel>
+
+	</h:form>
+
+</h:body>
+</html>
