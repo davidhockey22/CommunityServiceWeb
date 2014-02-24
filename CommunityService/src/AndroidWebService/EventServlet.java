@@ -68,9 +68,12 @@ public class EventServlet extends HttpServlet {
 
 			out.println(gson.toJson(list));
 		} else {
-			o = EventService.getEventById(Integer.parseInt(EventId));
+			
+			list = EventService.getEventsByVolunteer(Integer.parseInt(EventId));
 			try {
-				HibernateUtil.clean(o);
+				for (Event clean : list) {
+					HibernateUtil.clean(clean);
+				}
 			} catch (IllegalArgumentException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -78,7 +81,8 @@ public class EventServlet extends HttpServlet {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			out.println(gson.toJson(o));
+			
+			out.println(gson.toJson(list));
 		}
 
 		out.close();

@@ -31,6 +31,19 @@ public class EventService {
 			return null;
 		}
 	}
+	
+	public static List<Event> getEventsByVolunteer(Integer volunteerId) {
+		String hql = "SELECT ev.event FROM EventVolunteer as ev where ev.volunteer.volunteerId=?";
+		ArrayList<Integer> params = new ArrayList<Integer>();
+		params.add(volunteerId);
+		try {
+			@SuppressWarnings("unchecked")
+			List<Event> events = (List<Event>) DBConnection.query(hql, params);
+			return events;
+		} catch (HibernateException e) {
+			return null;
+		}
+	}	
 
 	public static boolean signUp(Volunteer v, Event e) {
 		//if (v != null) {
