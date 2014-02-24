@@ -2,11 +2,9 @@ package org.CommunityService.Services;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import org.CommunityService.EntitiesMapped.Event;
 import org.CommunityService.EntitiesMapped.EventVolunteer;
-import org.CommunityService.EntitiesMapped.EventVolunteerId;
 import org.CommunityService.EntitiesMapped.Volunteer;
 import org.hibernate.HibernateException;
 
@@ -36,13 +34,7 @@ public class EventService {
 
 	public static boolean signUp(Volunteer v, Event e) {
 		//if (v != null) {
-			EventVolunteer ev = new EventVolunteer(new EventVolunteerId(e.getEventId(), v.getVolunteerId()), e, v, 0, "False");
-			Set evs = v.getEventVolunteers();
-			evs.add(ev);
-			v.setEventVolunteers(evs);
-			DBConnection.persist(v);
-			e.setEventVolunteers(evs);
-			DBConnection.persist(e);
+			EventVolunteer ev = new EventVolunteer(e, v);
 			DBConnection.persist(ev);
 			//return true;
 		//}

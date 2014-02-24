@@ -23,11 +23,10 @@
 						</p:panelGrid>
 					</h:form>
 					<h:form rendered="#{currentVolunteerBean.loggedIn}">
-						<h:outputFormat value="Hello, {0}. Your volunteer ID is {1}.">
+						<h:outputFormat value="Hello, {0}. ">
 							<f:param value="#{currentVolunteerBean.volunteer.volunteerName}" />
-							<f:param value="#{currentVolunteerBean.volunteer.volunteerId}" />
 						</h:outputFormat>
-						<h:graphicImage value="#{currentVolunteerBean.gravatarURL}"/>
+						<h:graphicImage value="#{currentVolunteerBean.gravatarURL}" style="height:20px; width:20px"/>
 						<p:commandButton type="submit" value="Logout" immediate="true" action="#{currentVolunteerBean.Logout}" ajax="false" />
 					</h:form>
 				</div>

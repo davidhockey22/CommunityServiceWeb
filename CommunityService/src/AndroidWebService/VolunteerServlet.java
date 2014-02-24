@@ -1,12 +1,9 @@
 package AndroidWebService;
 
-import hibernate.HibernateProxyTypeAdapter;
 import hibernate.HibernateUtil;
-import hibernate.HibernateUtils;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -17,7 +14,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.CommunityService.EntitiesMapped.Volunteer;
 import org.CommunityService.Services.VolunteerService;
-import org.apache.commons.beanutils.BeanUtils;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -31,14 +27,6 @@ import com.google.gson.GsonBuilder;
 public class VolunteerServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	public static final int kindVolQuery = 1, // id = name
-			kindEventVolQuery = 2, // id = volunteer id
-			kindEventQuery = 3, // id = event id
-
-			kindFindQuery = 4, // id = null (returns all events)
-			kindInterestQuery = 5, // id = null (returns all interests)
-			kindEventInterestQuery = 6; // id = event id
-
 	public VolunteerServlet() {
 		super();
 	}
@@ -48,6 +36,7 @@ public class VolunteerServlet extends HttpServlet {
 		doPost(request, response);
 	}
 
+	@SuppressWarnings("unchecked")
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException,
 			IOException {
 
@@ -72,14 +61,31 @@ public class VolunteerServlet extends HttpServlet {
 		Volunteer v;
 		if (volunteerId == null || volunteerId.equals("")) {
 			vList = VolunteerService.getVolunteers();
-			vList = (List<Volunteer>) HibernateUtils.clean(vList);
-			System.out.println(vList.size());
+			try {
+				for(Volunteer clean: vList){
+					HibernateUtil.clean(clean);
+				}
+			} catch (IllegalArgumentException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
 			out.println(gson.toJson(vList));
 		} else {
-			// v = VolunteerService.getVolunteerByName(volunteerId);
-			//
-			// out.println(gson.toJson(v));
+			v = VolunteerService.getVolunteerByName(volunteerId);
+			try {
+				HibernateUtil.clean(v);
+			} catch (IllegalArgumentException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			out.println(gson.toJson(v));
 		}
 
 		out.close();

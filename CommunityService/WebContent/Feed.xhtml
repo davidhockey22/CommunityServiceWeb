@@ -6,12 +6,12 @@
 <h:body>
 	<ui:composition>
 		<div>
-			<div style="float: left">
-				<p:layout style="min-width:400px;min-height:200px;" id="feedLayout">
+			<div >
+				<p:layout style="min-width:400px;min-height:200px; width: 100%;" id="feedLayout">
 					<p:layoutUnit position="center">
 						<h:outputText value="Newsworthy items (nearby stuff, organizations you're following, goals your group reached, etc.):" />
 					</p:layoutUnit>
-					<p:layoutUnit position="east" resizable="false" size="200">
+					<p:layoutUnit position="east" resizable="false">
 						<p:dataTable var="e" value="#{feedPage.volunteerEvents}">
 							<p:column headerText="Event ID">
 								<h:link value="#{e.eventId}" outcome="Event.xhtml">

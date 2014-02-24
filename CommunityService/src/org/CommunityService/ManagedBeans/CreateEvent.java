@@ -25,7 +25,7 @@ public class CreateEvent {
 												// privilege;
 
 	public String Create() throws Exception {
-		Event event = new Event(eventname, begintime, endtime, hoursBonus);
+		Event event = new Event(eventname, begintime, endtime);
 		event.setDescription(description);
 		event.setLocation(location);
 		EventService.addEvent(event);

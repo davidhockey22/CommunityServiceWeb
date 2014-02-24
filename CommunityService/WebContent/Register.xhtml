@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
 
 <h:head>
 	<title>Register</title>
@@ -10,7 +10,7 @@
 .
 </h:head>
 <h:body>
-	<h:form id="registerForm" >
+	<h:form id="registerForm">
 		<p:message for="username" id="userMessage" />
 		<h:panelGrid columns="3" cellpadding="2">
 			<h:outputLabel for="#{registrationBean.username}" value="UserName" />
@@ -22,27 +22,35 @@
 			<h:outputText id="userValidation" style="color: red;" value="" />
 
 			<h:outputLabel for="#{registrationBean.password}" value="Password" />
-			<p:password id="password" value="#{registrationBean.password}" required="true" onblur = "checkPassword(value, 'registerForm', 'passwordValidation')"></p:password>
+			<p:password id="password" value="#{registrationBean.password}" required="true" onblur="checkPassword(value, 'registerForm', 'passwordValidation')"></p:password>
 			<h:outputText id="passwordValidation" style="color: red;" value="" />
 
 			<h:outputLabel value="Confirm Password" />
-			<p:password id="confirm" required="true" onblur = "confirmPassword(value, 'password', 'registerForm', 'confirmValidation')"></p:password>
+			<p:password id="confirm" required="true" onblur="confirmPassword(value, 'password', 'registerForm', 'confirmValidation')"></p:password>
 			<h:outputText id="confirmValidation" style="color: red;" value="" />
-
+			
+			<h:outputLabel for="#{registrationBean.firstName}" value="First Name" />
+			<p:inputText id="firstName" value="#{registrationBean.firstName}" required="true" onblur=""></p:inputText>
+			<h:outputText id="firstNameValidation" style="color: red;" value="" />
+			
+			<h:outputLabel for="#{registrationBean.lastName}" value="Last Name" />
+			<p:inputText id="lastName2" value="#{registrationBean.lastName}" required="true" onblur=""></p:inputText>
+			<h:outputText id="lastNameValidation" style="color: red;" value="" />
+			
 			<h:outputLabel for="#{registrationBean.phoneNumber}" value="Phone Number" />
-			<p:inputText id="phoneNumber" value="#{registrationBean.phoneNumber}" required="true" onblur = "checkPhoneNumber(value, 'registerForm', 'phoneValidation')"></p:inputText>
+			<p:inputText id="phoneNumber" value="#{registrationBean.phoneNumber}" required="true"
+				onblur="checkPhoneNumber(value, 'registerForm', 'phoneValidation')"></p:inputText>
 			<h:outputText id="phoneValidation" style="color: red;" value="" />
 
 			<h:outputLabel for="#{registrationBean.email}" value="Email" />
-			<p:inputText id="email" value="#{registrationBean.email}" required="true" onblur = "checkEmail(value, 'registerForm', 'emailValidation')"></p:inputText>
+			<p:inputText id="email" value="#{registrationBean.email}" required="true" onblur="checkEmail(value, 'registerForm', 'emailValidation')"></p:inputText>
 			<h:outputText id="emailValidation" style="color: red;" value="" />
 
-			<p:commandButton type="submit" value="Register" action="#{registrationBean.Register}"
-				onclick="if(validateRegistration()==false){return false}"></p:commandButton>	
+			<p:commandButton type="submit" value="Register" action="#{registrationBean.Register}" onclick="if(validateRegistration()==false){return false}"></p:commandButton>
 			<h:outputText id="submitValidation" style="color: red;" value="" />
 
 		</h:panelGrid>
-		
+
 		<p:remoteCommand name="sendMessage" update="userMessage" actionListener="#{messageController.addError}" />
 		<h:inputHidden id="message" value="#{messageController.message}"></h:inputHidden>
 	</h:form>

@@ -30,7 +30,7 @@ public class SearchBean {
 	private List<Event> events = null;
 
 	@SuppressWarnings("unchecked")
-	public String Search() {
+	public String Search() throws Exception {
 		if (events != null) {
 			events.clear();
 		}
@@ -38,7 +38,7 @@ public class SearchBean {
 		params.clear();
 		String like = "%" + eventName + "%";
 		params.add(like);
-		String query = "Select distinct e from Event as e left join e.eventSkills sk join e.interests int where e.eventName like ? ";
+		String query = "Select distinct e from Event as e left join e.eventSkills sk left join e.interests int where e.eventName like ? ";
 		boolean first = true;
 
 		if (selectedInterests.size() > 0) {

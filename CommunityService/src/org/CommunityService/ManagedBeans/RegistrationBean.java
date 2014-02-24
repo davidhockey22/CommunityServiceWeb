@@ -1,7 +1,5 @@
 package org.CommunityService.ManagedBeans;
 
-import java.util.Date;
-
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 
@@ -18,11 +16,13 @@ public class RegistrationBean {
 	private String phoneNumber;
 	private String email;
 	private String confirmPassword;
+	private String firstName;
+	private String lastName;
 
 	public String Register() {
 		try {
 			password = PasswordHash.getHash(password, email);
-			Volunteer v = new Volunteer(username, password, phoneNumber, email, new Date(), 0, 0, username, username);
+			Volunteer v = new Volunteer(username, password, phoneNumber, email, firstName, lastName);
 			VolunteerService.addVolunteer(v);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -71,6 +71,22 @@ public class RegistrationBean {
 
 	public void setConfirmPassword(String confirmPassword) {
 		this.confirmPassword = confirmPassword;
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 
 }

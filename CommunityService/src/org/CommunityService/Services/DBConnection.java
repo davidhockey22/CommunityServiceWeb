@@ -11,28 +11,30 @@ import org.hibernate.SessionFactory;
 
 public class DBConnection {
 
+	static SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+
 	public static Object query(String query, List params) throws HibernateException {
-		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
 		session.beginTransaction();
 		Query q = session.createQuery(query);
+		Object v = null;
 		if (params != null) {
 			for (int i = 0; i < params.size(); i++) {
 				q = q.setParameter(i, params.get(i));
 			}
 		}
 		if (q != null) {
-			Object v = q.list();
-			return v;
+			v = q.list();
+
 		}
 		session.getTransaction().commit();
 		session.close();
-		return null;
+
+		return v;
 
 	}
 
 	public static Object persist(Object object) throws HibernateException {
-		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
 		session.beginTransaction();
 		if (object != null) {
@@ -45,7 +47,6 @@ public class DBConnection {
 	}
 
 	public static Object update(Object object) throws HibernateException {
-		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
 		session.beginTransaction();
 		if (object != null) {

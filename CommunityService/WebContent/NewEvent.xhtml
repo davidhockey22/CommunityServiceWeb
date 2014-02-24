@@ -41,8 +41,8 @@
 
 		</h:panelGrid>
 		<h:commandButton type="submit" value="Create Event" action="#{createEvent.Create}"></h:commandButton>
-		<p:remoteCommand name="sendMessage" update="messages" actionListener="#{independentMessageBean.addError}" />
-		<h:inputHidden id="message" value="#{independentMessageBean.message}"></h:inputHidden>
+		<p:remoteCommand name="sendMessage" update="messages" actionListener="#{messageController.addError}" />
+		<h:inputHidden id="message" value="#{messageController.message}"></h:inputHidden>
 	</h:form>
 	<script type="text/javascript">
 		

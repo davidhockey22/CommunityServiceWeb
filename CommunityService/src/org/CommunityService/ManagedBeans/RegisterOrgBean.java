@@ -28,7 +28,7 @@ public class RegisterOrgBean {
 		try {
 			
 			//new organization
-			Organization org = new Organization( currentVolunteer.getVolunteer(), name, address, phoneNumber, email);
+			Organization org = new Organization(name, address, phoneNumber, email);
 			org.setCreatedOn(new Date());
 			org.setDescription(description);
 
