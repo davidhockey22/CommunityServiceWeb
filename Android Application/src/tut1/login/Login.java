@@ -1,5 +1,11 @@
 package tut1.login;
 
+import java.util.Date;
+
+import org.CommunityService.EntitesUnmapped.Event;
+
+import testPackage.TestClass;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -77,8 +83,7 @@ public class Login extends Activity {
     
     void OnMySQLRequest() { //CreateMySQLRequest() is done loading VolunteerData
     	
-    	//if loaded password matches password entered by user
-    	if(VolunteerData.current != null && VolunteerData.current.getPassword().equals( password ) ) {
+       	if(VolunteerData.current != null && VolunteerData.current.getVolunteerID() != null ) {
     		
     		//launch main activity
 			startActivity(new Intent(Login.this,MainActivity.class).putExtra("usr",(CharSequence)username));    		

@@ -3,6 +3,10 @@ package tut1.login;
 //import java.util.ArrayList;
 //import java.util.List;
 
+import java.util.Date;
+
+//import org.CommunityService.EntitiesMapped.Event;
+
 import tut1.login.R;
 
 import android.app.ActionBar;
@@ -36,7 +40,7 @@ import android.widget.Toast;
 public class MainActivity extends Activity {
 	
 	public static MainActivity current = null;
-	public static boolean test = true;
+	public static boolean test = false;
 	
 	private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
@@ -68,6 +72,9 @@ public class MainActivity extends Activity {
 //	        filter.addCategory(Intent.CATEGORY_DEFAULT);
 //	        receiver = new RequestReceiver();
 //	        registerReceiver(receiver, filter);
+	        
+	        //test
+	        //Event ev = new Event("EventName", new Date(1000), new Date(1000), 1.0f);
 	        	        
 	        mDrawerStrings = getResources().getStringArray(R.array.drawer_strings);	        
 	        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);

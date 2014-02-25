@@ -6,6 +6,9 @@ import java.util.List;
 
 public class EventData extends Obj{
 	
+	public static final int statusNotLoaded = 0, statusLoading = 1, statusLoaded = 2;
+	public static int status = statusNotLoaded;	
+	
     private static List<String> allEventsString = new ArrayList<String>();
     private static List<EventData> allEvents = new ArrayList<EventData>();
     
@@ -155,18 +158,6 @@ public class EventData extends Obj{
     	}
     	
     	return null;
-    }
-    static public void MakeEventInterestQueries() {
-    	
-    	Iterator<EventData> it = allEvents.iterator();
-    	EventData node = null;
-    	
-    	while(it.hasNext() ) {
-    		node = it.next();
-    		
-			MySQLRequest.Create( MainActivity.current, Integer.toString(MySQLRequest.kindEventInterestQuery), node.getEventID());
-    	}
-    	
     }
 	public String getEventID() {
 		return eventID;

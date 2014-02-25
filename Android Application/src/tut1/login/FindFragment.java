@@ -23,14 +23,6 @@ public class FindFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-    	
-        //int i = getArguments().getInt(ARG_PLANET_NUMBER);
-        //String planet = getResources().getStringArray(R.array.planets_array)[i];
-
-        /*
-        int imageId = getResources().getIdentifier(planet.toLowerCase(Locale.getDefault()),
-                        "drawable", getActivity().getPackageName());
-         */
         
         EventData.SetFindList(EventAdapter.findByKind);
         
@@ -39,7 +31,7 @@ public class FindFragment extends Fragment {
         	
             rootView = inflater.inflate(R.layout.fragment_status, container, false);
             
-            if(EventVolunteerData.status == EventVolunteerData.statusLoaded) {
+            if(EventData.status == EventData.statusLoaded) {
             	
             	final TextView view =(TextView)rootView.findViewById(R.id.statusText);
             	view.setText("No events found");

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
  
+import org.CommunityService.EntitesUnmapped.Event;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
@@ -25,16 +26,18 @@ import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
  
 public class MySQLRequest extends IntentService{
 	
     public static final int kindVolQuery = 1, //id = name
-    		kindEventVolQuery = 2, //id = volunteer id
-    		kindEventQuery = 3, //id = event id
-    		
-    		kindFindQuery = 4, //id = null (returns all events)
-    		kindInterestQuery = 5, //id = null (returns all interests)
-    		kindEventInterestQuery = 6; //id = event id
+    		kindEventQuery = 3, //id = volunteer id   		
+    		kindFindQuery = 4; //id = null (returns all events)
  
     private String inMessage;
     
@@ -54,12 +57,12 @@ public class MySQLRequest extends IntentService{
     	if(internet == false) return false;   	
     	
     	//DO NOT run certain queries more than once
-    	if(kindInt == kindEventVolQuery) {
+    	if(kindInt == kindEventQuery) {
     		
-        	if(EventVolunteerData.status == EventVolunteerData.statusLoading ||
-        			EventVolunteerData.status == EventVolunteerData.statusLoaded)
+        	if(EventData.status == EventData.statusLoading ||
+        			EventData.status == EventData.statusLoaded)
         		return false;	
-    		EventVolunteerData.status = EventVolunteerData.statusLoading;
+    		EventData.status = EventData.statusLoading;
     	}
     	else if(kindInt == kindFindQuery) {
     		
@@ -67,13 +70,6 @@ public class MySQLRequest extends IntentService{
         			FindData.status == FindData.statusLoaded)
         		return false;
         	FindData.status = FindData.statusLoading;
-    	}    	
-    	else if(kindInt == kindInterestQuery) {
-    		
-        	if(InterestData.status == InterestData.statusLoading ||
-        			InterestData.status == InterestData.statusLoaded)
-        		return false;
-        	InterestData.status = InterestData.statusLoading;
     	}
     	
         Intent msgIntent = new Intent(context, MySQLRequest.class);
@@ -103,50 +99,52 @@ public class MySQLRequest extends IntentService{
  
     private void contactWebService(String kind, String id) {
     	
-    	int kindInt = Integer.parseInt(kind);
- 
-        String url = "http://54.200.107.187:8080/CommunityService/Android";
-                
-        //add name value pair for the country code
         List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
-        nameValuePairs.add(new BasicNameValuePair("kind", kind));
-        nameValuePairs.add(new BasicNameValuePair("id", id));
-    	
         String response = null;
+    	int kindInt = Integer.parseInt(kind);
         
         if(MainActivity.test) {
+        }
+        else {
+        	
+        	String url = "";
 
         	if(kindInt == kindVolQuery) {
-        		response = "1``user``~~7``h``s``386-631-1085``user@gmail.com``~~";
-        	}
-        	else if(kindInt == kindEventVolQuery) {
-        		response = "2``7``~~0``1``7``~~1``2``7``~~";
+        		
+        		url = "http://54.200.107.187:8080/CommunityService/Android/login";
+        		//url += "?username=" + Login.current.username;
+        		//url += "&password=" + Login.current.password;
+        		
+        		nameValuePairs.add(new BasicNameValuePair("username", Login.current.username));
+        		nameValuePairs.add(new BasicNameValuePair("password", Login.current.password));
+
+        		response = sendHttpRequest(url, nameValuePairs); 
         	}
         	else if(kindInt == kindEventQuery) {
-       			response = "3``0``~~0``humane society``walk pitbulls``orlando``monday``friday``~~";
+        		
+        		url = "http://54.200.107.187:8080/CommunityService/Android/getEvents";
+        		url += "?ID=" + id;
+
+        		response = sendHttpRequest(url, nameValuePairs);        		
         	}
         	else if(kindInt == kindFindQuery) {
-    			response = "4``0``~~2``homeless helper``help those on the street``orlando``monday``friday``~~";
-        	}
-        	else if(kindInt == kindInterestQuery) {
-    			response = "5``0``~~2``Animals``I love animals``~~";
-        	}
-        	else if(kindInt == kindEventInterestQuery) {
-    			response = "6``0``~~1``0``2``~~";
+        		
+        		url = "http://54.200.107.187:8080/CommunityService/Android/getEvents";
+        		
+        		response = sendHttpRequest(url, nameValuePairs);        		
         	}
         	else
         		Obj.BreakPoint();
-        }
-        else
-            response = sendHttpRequest(url,nameValuePairs);        	
-        
+        }        	
+                
         //broadcast message that we have received the response 
         //from the WEB Service
         Intent broadcastIntent = new Intent();
         broadcastIntent.setAction(RequestReceiver.PROCESS_RESPONSE);
         broadcastIntent.addCategory(Intent.CATEGORY_DEFAULT);
-        broadcastIntent.putExtra(IN_MSG, inMessage);
-        broadcastIntent.putExtra(OUT_MSG, response);
+        broadcastIntent.putExtra("mysqlRequest", "mysqlRequest");
+        broadcastIntent.putExtra("kind", kind);
+        broadcastIntent.putExtra("response", response);
         sendBroadcast(broadcastIntent);
     }
  

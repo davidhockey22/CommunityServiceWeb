@@ -56,20 +56,15 @@ public class MainFragment extends Fragment {
          */
         
         //load all events signed up for
-		MySQLRequest.Create( MainActivity.current, Integer.toString(MySQLRequest.kindEventVolQuery), VolunteerData.current.getVolunteerID());
+		MySQLRequest.Create( MainActivity.current, Integer.toString(MySQLRequest.kindEventQuery), VolunteerData.current.getVolunteerID());
         		
 		//load all events by distance
 		MySQLRequest.Create( MainActivity.current, Integer.toString(MySQLRequest.kindFindQuery), "0");    	
-
-		//load all interests
-		MySQLRequest.Create( MainActivity.current, Integer.toString(MySQLRequest.kindInterestQuery), "0");    	
 		
 		return rootView;
     }
     
     void onFindQueryDone() {
     	
-    	//must wait until all events loaded
-    	EventData.MakeEventInterestQueries();
     }
 }

@@ -11,6 +11,7 @@ public class VolunteerData extends Obj{
     public VolunteerData() {
     	
     	current = this;
+    	volunteerID = null;
     }
 
     public void init(String VolunteerID, String Name, String Password, String Phone, String Email) {

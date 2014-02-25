@@ -5,6 +5,17 @@ package tut1.login;
 
 //import com.google.gson.Gson;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import org.CommunityService.EntitesUnmapped.Event;
+import org.CommunityService.EntitesUnmapped.Interest;
+import org.CommunityService.EntitesUnmapped.Volunteer;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -12,139 +23,105 @@ import android.content.Intent;
 //broadcast receiver to receive messages sent from the JSON IntentService
 public class RequestReceiver extends BroadcastReceiver{
 
-  public static final String PROCESS_RESPONSE = "com.as400samplecode.intent.action.PROCESS_RESPONSE";
+	public static final String PROCESS_RESPONSE = "com.as400samplecode.intent.action.PROCESS_RESPONSE";
 
-  @Override
-  public void onReceive(Context context, Intent intent) {
+	@Override
+	public void onReceive(Context context, Intent intent) {
 
-      String response = null;
-      String responseType = intent.getStringExtra(MySQLRequest.IN_MSG);
-      
-      if(responseType.trim().equalsIgnoreCase("MySQLRequest")){
-          response = intent.getStringExtra(MySQLRequest.OUT_MSG);
-          parseResponse(response);
-      }
-      else if(responseType.trim().equalsIgnoreCase("getSomethingElse")){
-          //you can choose to implement another transaction here
-      }
+		String kind = null;
+		String response = null;
+		String responseType = intent.getStringExtra("mysqlRequest");
 
-  }
-  
-  private void parseResponse(String response){
-	  
-	  if(response == null) return;
-	  
-      int kind = Integer.parseInt( Obj.parseMySQLKind(response) );
-      Obj.parseMySQLID(response);
-            
-      //make sure there is more to parse
-      int prevParseIndex = Obj.parseIndex;
-      String anotherObjStr = Obj.parseMySQLData(response);
-      Obj.parseIndex = prevParseIndex;
-      
-      if(anotherObjStr == null) {}
-      else {
-    	  boolean anotherObj = true;
-    	  if(anotherObj) {
+		if(responseType.trim().equalsIgnoreCase("mysqlRequest")){
 
-    		  if(kind == MySQLRequest.kindVolQuery) {
+			kind = intent.getStringExtra("kind");
+			response = intent.getStringExtra("response");
 
-    			  VolunteerData vol;
-    			  int count = 0;
+			parseResponse( Integer.parseInt(kind), response);
+		}
+		else if(responseType.trim().equalsIgnoreCase("getSomethingElse")){
+			//you can choose to implement another transaction here
+		}
 
-    			  while(anotherObj) {
+	}
 
-    				  count++;
-    				  if(count > 1)
-    					  Obj.BreakPoint(); //if more than one volunteer from the mysql database has the same username, this is an ERROR! 
+	private void parseResponse(int kind, String response){
 
-    				  //do not create more than one volunteer.
-    				  //this code can be triggered more than once if the user fails to enter the correct username and password and another mysql request is made
-    				  if(VolunteerData.current == null) vol = new VolunteerData();
-    				  else vol = VolunteerData.current;
+		if(response == null && MainActivity.test == false) return;
 
-    				  anotherObj = vol.initFromMySQLString(response);
+		if(kind == MySQLRequest.kindVolQuery) {
 
-    				  if(Login.current != null)
-    					  Login.current.OnMySQLRequest(); //notify login screen
-    			  }
-    		  }
-    		  else if(kind == MySQLRequest.kindEventVolQuery) {
+			//do not create more than one volunteer.
+			//this code can be triggered more than once if the user fails to enter the correct username and password and another mysql request is made
+			VolunteerData vol = null;
+			if(VolunteerData.current == null) vol = new VolunteerData();
+			else vol = VolunteerData.current;	
 
-    			  EventVolunteerData evVol; 
-    			  while(anotherObj) {
+			if(MainActivity.test) { //test
+				vol.init("4", "h", "s", "3866311085", "henry@gmail.com");
+			}
+			else {
+				Gson gson = new Gson();
+				Volunteer v = gson.fromJson(response, Volunteer.class);
+				
+				if(v.getVolunteerId() != null) { //possible if wrong username / password
+					
+					vol.init(
+							v.getVolunteerId().toString(),
+							v.getFirstName(),
+							"",
+							v.getPhoneNumber(),
+							v.getEmailAddress());
+				}
+			}
 
-    				  evVol = new EventVolunteerData();
-    				  anotherObj = evVol.initFromMySQLString(response);
-    				  
-    				  evVol.AddToAllList();
-    			  }
-    		  }
-    		  else if(kind == MySQLRequest.kindEventQuery ||
-    				  kind == MySQLRequest.kindFindQuery ) {
+			if(Login.current != null)
+				Login.current.OnMySQLRequest(); //notify login screen
+		}
+		else if(kind == MySQLRequest.kindEventQuery ||
+				kind == MySQLRequest.kindFindQuery ) {
 
-    			  EventData ev; 
-    			  while(anotherObj) {
+			Gson gson = new Gson();
+			List<Event> list = gson.fromJson(response, new TypeToken<List<Event>>(){}.getType());
 
-    				  ev = new EventData();
-    				  anotherObj = ev.initFromMySQLString(response);
-    				  
-    				  ev.AddToAllEventsList();
-    				  
-    				  if(kind == MySQLRequest.kindEventQuery)
-    					  ev.AddToEventsSignedUpForList();
-    			  } 
-    			  
-    			  if(kind == MySQLRequest.kindFindQuery)
-    				  MainFragment.current.onFindQueryDone();    			  
-    		  }
-    		  else if(kind == MySQLRequest.kindInterestQuery) {
+			EventData ev;
+			Event element;
+			for (int i = 0; i < list.size(); i++) {
+				element = list.get(i);
 
-    			  InterestData dat = null; 
-    			  while(anotherObj) {
+				//pass gson obj to custom class. at some point custom classes should not be used
+				ev = new EventData();
+				ev.init(element.getEventId().toString(),
+						element.getEventName(),
+						element.getDescription(),
+						element.getLocation(),
+						element.getBeginTime().toString(),
+						element.getEndTime().toString());
 
-    				  dat = new InterestData();
-    				  anotherObj = dat.initFromMySQLString(response);
-    				  
-    				  dat.AddToAllList();
-    			  }
-    		  }
-    		  else if(kind == MySQLRequest.kindEventInterestQuery) {
+				ev.AddToAllEventsList();
 
-    			  EventInterestData dat; 
-    			  while(anotherObj) {
+				if(kind == MySQLRequest.kindEventQuery)
+					ev.AddToEventsSignedUpForList();		    
 
-    				  dat = new EventInterestData();
-    				  anotherObj = dat.initFromMySQLString(response);
-    			  }
-    		  }    		  
-    	  }
-      }
-      
-	  if(kind == MySQLRequest.kindEventVolQuery)
-		  EventVolunteerData.status = EventVolunteerData.statusLoaded;      
-      
-//	  JSONObject responseObj = null;
-//         
-//      try {
-//          //create JSON object from JSON string
-//          responseObj = new JSONObject(response); 
-//          //get the success property
-//          boolean success = responseObj.getBoolean("success");
-//          if(success){
-//              
-//              Gson gson = new Gson();
-//              //get the country information property
-//              String eventInfo = responseObj.getString("eventInfo");
-//              //create java object from the JSON object
-//              EventData ev = gson.fromJson(eventInfo, EventData.class); 
-//          }
-//          else {
-//              
-//        	  //error
-//          }
-//      } catch (JSONException e) {
-//          e.printStackTrace();
-//      }
-  }
+				//pass interests to custom class.
+				InterestData interest;
+				Set<Interest> set = element.getInterests();
+				for (Interest j : set) {
+
+					EventData.AddToInterestList(ev.getEventID(), j.getInterestId().toString());
+
+					interest = new InterestData();
+					interest.init(j.getInterestId().toString(), j.getName(), j.getDescription());
+
+					interest.AddToAllList();
+				}
+			}
+
+			if(kind == MySQLRequest.kindFindQuery)
+				MainFragment.current.onFindQueryDone();
+		}
+
+		if(kind == MySQLRequest.kindEventQuery)
+			EventData.status = EventData.statusLoaded;
+	}
 }

@@ -31,7 +31,7 @@ public class EventFragment extends Fragment {
         	
             rootView = inflater.inflate(R.layout.fragment_status, container, false);
             
-            if(EventVolunteerData.status == EventVolunteerData.statusLoaded) {
+            if(EventData.status == EventData.statusLoaded) {
             	
             	final TextView view =(TextView)rootView.findViewById(R.id.statusText);
             	view.setText("You're not participating in any events");
