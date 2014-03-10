@@ -37,6 +37,10 @@
 				<p:menubar >
 					<p:menuitem value="Home" icon="ui-icon-home" url="/" />
 					<p:menuitem rendered="#{currentVolunteerBean.loggedIn}" value="My Profile" icon="ui-icon-person" url="/editProfile" />
+					<p:menuitem rendered="#{currentVolunteerBean.loggedIn}" value="My Organizations" icon="ui-icon-person" url="/editProfile" />
+					<p:menuitem rendered="#{currentVolunteerBean.loggedIn}" value="My Groups" icon="ui-icon-person" url="/groups" />
+					<p:menuitem rendered="#{currentVolunteerBean.loggedIn}" value="My Events" icon="ui-icon-star" url="/events" />
+					<p:menuitem rendered="#{currentVolunteerBean.loggedIn}" value="My Schedule" icon="ui-icon-calendar" url="/schedule" />
 					<p:menuitem value="Search" icon="ui-icon-search" url="/search" />
 				</p:menubar>
 			</div>

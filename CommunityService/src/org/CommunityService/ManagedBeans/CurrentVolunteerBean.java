@@ -5,15 +5,14 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
 import org.CommunityService.EntitiesMapped.Volunteer;
+import org.CommunityService.Services.Gravatar;
 import org.CommunityService.Services.VolunteerService;
-import org.CommunityService.Validators.Gravatar;
 import org.CommunityService.Validators.PasswordHash;
 import org.ocpsoft.rewrite.annotation.Join;
 
 @ManagedBean
 @SessionScoped
 @Join(path="/login", to="/Web/Login.xhtml")
-//@Join(path="/editProfile", to="EditVolunteer.xhtml")
 public class CurrentVolunteerBean {
 	private Volunteer volunteer;
 

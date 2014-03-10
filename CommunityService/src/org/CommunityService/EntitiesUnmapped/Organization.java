@@ -1,4 +1,4 @@
-package org.CommunityService.EntitesUnmapped;
+package org.CommunityService.EntitiesUnmapped;
 
 // Generated Feb 23, 2014 5:44:45 PM by Hibernate Tools 3.4.0.CR1
 

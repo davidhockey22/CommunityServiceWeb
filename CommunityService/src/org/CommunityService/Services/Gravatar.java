@@ -1,4 +1,4 @@
-package org.CommunityService.Validators;
+package org.CommunityService.Services;
 
 public class Gravatar {
 	// see https://en.gravatar.com/site/implement/images/ for details

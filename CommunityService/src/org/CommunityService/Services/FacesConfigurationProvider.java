@@ -21,10 +21,7 @@ public class FacesConfigurationProvider extends HttpConfigurationProvider{
 				.addRule(Join.path("/group/{groupId}").to("/Web/ViewGroup.xhtml"))
 				.addRule(Join.path("/volunteer/{volunteerId}").to("/Web/ViewVolunteer.xhtml"))
 				
-				.addRule(Join.path("/createEvent").to("/Web/NewEvent.xhtml"))
 				.addRule(Join.path("/createGroup").to("/Web/NewGroup.xhtml"))
-				
-				.addRule(Join.path("/editProfile").to("/Web/EditVolunteer.xhtml"))
 				
 				.addRule(Join.path("/manageEvent/{eventId}").to("/Web/EditEvent.xhtml"))
 				.addRule(Join.path("/manageOrganization/{orgId}").to("/Web/EditOrganization.xhtml"))

@@ -5,9 +5,11 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 
 import org.CommunityService.Services.VolunteerService;
+import org.ocpsoft.rewrite.annotation.Join;
 
 @ManagedBean
 @SessionScoped
+@Join(path="/editProfile", to="/Web/MyProfile.xhtml")
 public class ProfileBean {
 
 	@ManagedProperty(value = "#{currentVolunteerBean}")

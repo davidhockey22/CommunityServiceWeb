@@ -1,4 +1,4 @@
-package org.CommunityService.Validators;
+package org.CommunityService.Services;
 
 //copied from https://en.gravatar.com/site/implement/images/java/
 

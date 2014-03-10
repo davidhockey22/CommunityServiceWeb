@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.CommunityService.EntitiesMapped.Event;
+import org.CommunityService.EntitiesMapped.EventVolunteer;
+import org.CommunityService.EntitiesMapped.GroupMember;
+import org.CommunityService.EntitiesMapped.OrganizationFollower;
 import org.CommunityService.EntitiesMapped.Volunteer;
 import org.hibernate.HibernateException;
 
@@ -56,6 +59,46 @@ public class VolunteerService {
 			return null;
 		}
 	}
+	
+	public static List<EventVolunteer> getEventVolunteersByVolunteer(Volunteer volunteer) {
+		String hql = "SELECT ev FROM EventVolunteer AS ev LEFT JOIN ev.events WHERE ev.volunteer.volunteerId=?";
+		ArrayList<Integer> params = new ArrayList<Integer>();
+		params.add(volunteer.getVolunteerId());
+		try {
+			@SuppressWarnings("unchecked")
+			List<EventVolunteer> eventVolunteers = (List<EventVolunteer>) DBConnection.query(hql, params);
+			return eventVolunteers;
+		} catch (HibernateException e) {
+			return null;
+		}
+	}
+	
+	public static List<GroupMember> getGroupMembersByVolunteer(Volunteer volunteer) {
+		String hql = "SELECT gm FROM Volunteer AS v LEFT JOIN v.groupMember AS gm LEFT JOIN gm.Group WHERE v.volunteerId=?";
+		ArrayList<Integer> params = new ArrayList<Integer>();
+		params.add(volunteer.getVolunteerId());
+		try {
+			@SuppressWarnings("unchecked")
+			List<GroupMember> groupMembers = (List<GroupMember>) DBConnection.query(hql, params);
+			return groupMembers;
+		} catch (HibernateException e) {
+			return null;
+		}
+	}
+	
+	public static List<OrganizationFollower> getOrganizationFollowersByVolunteer(Volunteer volunteer) {
+		String hql = "SELECT orgf FROM Volunteer AS v LEFT JOIN v.organizationFollowers AS orgf LEFT JOIN orgf.organization WHERE v.volunteerId=?";
+		ArrayList<Integer> params = new ArrayList<Integer>();
+		params.add(volunteer.getVolunteerId());
+		try {
+			@SuppressWarnings("unchecked")
+			List<OrganizationFollower> organizationFollowers = (List<OrganizationFollower>) DBConnection.query(hql, params);
+			return organizationFollowers;
+		} catch (HibernateException e) {
+			return null;
+		}
+	}
+	
 	public static List<Volunteer> getLeaderboardByPoints() throws HibernateException {
 		String hql = "from Volunteer as v order by v.points desc";
 		@SuppressWarnings("unchecked")

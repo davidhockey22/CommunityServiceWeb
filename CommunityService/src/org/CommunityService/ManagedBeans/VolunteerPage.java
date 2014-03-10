@@ -5,8 +5,8 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 
 import org.CommunityService.EntitiesMapped.Volunteer;
+import org.CommunityService.Services.Gravatar;
 import org.CommunityService.Services.VolunteerService;
-import org.CommunityService.Validators.Gravatar;
 import org.hibernate.HibernateException;
 import org.ocpsoft.rewrite.annotation.Join;
 
