@@ -34,7 +34,7 @@
 				<div id="results">
 					<p:panel id="panel" header="Events">
 						<p:dataTable rendered="#{not empty searchBean.events}" var="event" value="#{searchBean.events}" rowKey="#{event.eventId}" paginator="true"
-							paginatorPosition="bottom" paginatorAlwaysVisible="false" rows="10" selection="#{searchBean.selectedEvents}" selectionMode="single"
+							paginatorPosition="bottom" paginatorAlwaysVisible="false" rows="10"
 							id="eventstable">
 							<p:column headerText="Event Name" sortBy="eventName" id="eventsName">  
 			          			#{event.eventName}  

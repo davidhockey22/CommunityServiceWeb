@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:head>
+	<title>Leaderboard by Points</title>
+</h:head>
+<h:body>
+	<ui:composition template="commonTemplate.xhtml">
+
+		<ui:define name="content">
+			<div style="clear: left">
+				<h:form rendered="#{!currentVolunteerBean.loggedIn}">
+
+					<h:outputFormat value="You're not logged in. ">
+					</h:outputFormat>
+
+				</h:form>
+				<h:form id="leaderboardByPointsForm" rendered="#{currentVolunteerBean.loggedIn}">
+
+					<p:panel header="Leaderboard By Points">
+					
+						<f:event listener="#{leaderboardBean.preRenderPoints}" type="preRenderComponent"></f:event>
+					
+						<p:dataTable rendered="#{not empty leaderboardBean.results}" var="result" value="#{leaderboardBean.results}" rowKey="#{result.name}" paginator="true"
+							paginatorPosition="bottom" paginatorAlwaysVisible="false" rows="25"
+							id="pointstable">
+							<p:column headerText="Name" sortBy="volunteerName" id="nameId">  
+			          			#{result.volunteerName}
+			      			</p:column>
+			      											
+							<p:column headerText="Points" sortBy="points" id="pointsId">
+								<h:outputText value="#{result.points}">
+									<f:convertNumber pattern="#0" />
+								</h:outputText>	
+							</p:column>
+																      			
+						</p:dataTable>
+
+					</p:panel>
+
+				</h:form>
+				<script type="text/javascript">
+				
+				/*
+				$(document).ready(function () {
+					
+					var e;
+					var t;
+					var panel = document.getElementById("leaderboardByPointsForm:panel");
+					
+
+						e=document.createElement("outputText");
+						t=document.createTextNode("test");
+						e.appendChild(t);
+						panel = document.getElementById("leaderboardByPointsForm:panel")
+						panel.appendChild(e);
+
+				});
+				*/
+					
+				</script>
+			</div>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

@@ -56,7 +56,18 @@ public class VolunteerService {
 			return null;
 		}
 	}
-
+	public static List<Volunteer> getLeaderboardByPoints() throws HibernateException {
+		String hql = "from Volunteer as v order by v.points desc";
+		@SuppressWarnings("unchecked")
+		List<Volunteer> v = (List<Volunteer>) DBConnection.query(hql, null, 25);
+		return v;
+	}
+	public static List<Volunteer> getLeaderboardByHours() throws HibernateException {
+		String hql = "from Volunteer as v order by v.hoursWorked desc";
+		@SuppressWarnings("unchecked")
+		List<Volunteer> v = (List<Volunteer>) DBConnection.query(hql, null, 25);
+		return v;
+	}
 	public static List<Volunteer> getVolunteers() throws HibernateException {
 		String hql = "from Volunteer as v";
 		@SuppressWarnings("unchecked")
