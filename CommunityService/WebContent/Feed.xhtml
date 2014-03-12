@@ -14,7 +14,7 @@
 					<p:layoutUnit position="east" resizable="false">
 						<p:dataTable var="e" value="#{feedPage.volunteerEvents}">
 							<p:column headerText="Event ID">
-								<h:link value="#{e.eventId}" outcome="Event.xhtml">
+								<h:link value="#{e.eventId}" outcome="/Web/ViewEvent.xhtml">
 									<f:param name="eventId" value="#{e.eventId}" />
 								</h:link>
 							</p:column>

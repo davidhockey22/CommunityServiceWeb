@@ -34,7 +34,29 @@
 
 				<h:outputText value="Organization Member:" />
 
+				<p:dataTable var="o" value="#{myOrganizationsPage.memberOrgs}">
+					<p:column headerText="Organization Name">
+						<h:link value="#{o.organization.orgName}" outcome="ViewOrganization.xhtml">
+							<f:param name="orgId" value="#{o.organization.orgId}" />
+						</h:link>
+					</p:column>
+					<p:column headerText="Description">
+						<h:outputText value="#{o.organization.description}" />
+					</p:column>
+				</p:dataTable>
+
 				<h:outputText value="Organization Follower:" />
+				
+				<p:dataTable var="o" value="#{myOrganizationsPage.followerOrgs}">
+					<p:column headerText="Organization Name">
+						<h:link value="#{o.organization.orgName}" outcome="ViewOrganization.xhtml">
+							<f:param name="orgId" value="#{o.organization.orgId}" />
+						</h:link>
+					</p:column>
+					<p:column headerText="Description">
+						<h:outputText value="#{o.organization.description}" />
+					</p:column>
+				</p:dataTable>
 				
 			</ui:fragment>
 		</ui:define>

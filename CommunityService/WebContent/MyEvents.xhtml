@@ -23,7 +23,7 @@
 
 				<p:dataTable var="e" value="#{myEventsPage.acceptedEvents}">
 					<p:column headerText="Event ID">
-						<h:link value="#{e.event.eventId}" outcome="Event.xhtml">
+						<h:link value="#{e.event.eventId}" outcome="ViewEvent.xhtml">
 							<f:param name="eventId" value="#{e.event.eventId}" />
 						</h:link>
 					</p:column>
@@ -42,7 +42,7 @@
 
 				<p:dataTable var="e" value="#{myEventsPage.pendingEvents}">
 					<p:column headerText="Event ID">
-						<h:link value="#{e.event.eventId}" outcome="Event.xhtml">
+						<h:link value="#{e.event.eventId}" outcome="ViewEvent.xhtml">
 							<f:param name="eventId" value="#{e.event.eventId}" />
 						</h:link>
 					</p:column>
@@ -61,7 +61,7 @@
 
 				<p:dataTable var="e" value="#{myEventsPage.pastEvents}">
 					<p:column headerText="Event ID">
-						<h:link value="#{e.event.eventId}" outcome="Event.xhtml">
+						<h:link value="#{e.event.eventId}" outcome="ViewEvent.xhtml">
 							<f:param name="eventId" value="#{e.event.eventId}" />
 						</h:link>
 					</p:column>
