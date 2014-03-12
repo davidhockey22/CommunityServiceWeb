@@ -14,42 +14,38 @@ import org.CommunityService.EntitiesMapped.Volunteer;
 import org.CommunityService.Services.VolunteerService;
 import org.ocpsoft.rewrite.annotation.Join;
 
-@Join(path="/organizations", to="/Web/MyOrganizations.xhtml")
+@Join(path = "/organizations", to = "/Web/MyOrganizations.xhtml")
 @ManagedBean
 @RequestScoped
 public class MyOrganizationsPage {
 	@ManagedProperty(value = "#{currentVolunteerBean}")
 	private CurrentVolunteerBean currentVolunteer;
-	
+
 	List<OrganizationFollower> adminOrgs;
 	List<OrganizationFollower> memberOrgs;
 	List<OrganizationFollower> followerOrgs;
-		
+
 	@PostConstruct
 	public void postConstructor() {
 		adminOrgs = new ArrayList<OrganizationFollower>();
 		memberOrgs = new ArrayList<OrganizationFollower>();
 		followerOrgs = new ArrayList<OrganizationFollower>();
-		
+
 		Volunteer volunteer = currentVolunteer.getVolunteer();
 		List<OrganizationFollower> organizationFollowers = VolunteerService.getOrganizationFollowersByVolunteer(volunteer);
-		
-		try {
-			for (Iterator<OrganizationFollower> iterator = organizationFollowers.iterator(); iterator.hasNext();) {
-				OrganizationFollower organizationFollower = (OrganizationFollower) iterator.next();
-				if (organizationFollower.getAdmin()) {
-					adminOrgs.add(organizationFollower);
-				} else if (organizationFollower.getMod()) {
-					memberOrgs.add(organizationFollower);
-				} else {
-					followerOrgs.add(organizationFollower);
-				}
+
+		for (Iterator<OrganizationFollower> iterator = organizationFollowers.iterator(); iterator.hasNext();) {
+			OrganizationFollower organizationFollower = (OrganizationFollower) iterator.next();
+			if (organizationFollower.getAdmin()) {
+				adminOrgs.add(organizationFollower);
+			} else if (organizationFollower.getMod()) {
+				memberOrgs.add(organizationFollower);
+			} else {
+				followerOrgs.add(organizationFollower);
 			}
-		} catch (NullPointerException e) {
-			
 		}
 	}
-	
+
 	public List<OrganizationFollower> getAdminOrgs() {
 		return adminOrgs;
 	}

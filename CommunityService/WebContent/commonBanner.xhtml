@@ -23,7 +23,7 @@
 							<p:outputLabel for="password" value="Password" />
 							<p:password id="password" value="#{currentVolunteerBean.password}" required="true" />
 							<p:commandButton type="submit" value="Login" action="#{currentVolunteerBean.Login}" ajax="false" />
-							<p:button value="Register" outcome="/Web/NewVolunteer.xhtml" />
+							<p:button value="Register" outcome="/NewVolunteer.xhtml" />
 							<p:commandLink action="/Home.xhtml?faces-redirect=true">
 								<h:graphicImage value="/images/logo.png"/>
 							</p:commandLink>

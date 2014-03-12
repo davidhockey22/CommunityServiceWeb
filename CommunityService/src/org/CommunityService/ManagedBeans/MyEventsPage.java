@@ -36,19 +36,15 @@ public class MyEventsPage {
 		List<EventVolunteer> eventVolunteers = VolunteerService.getEventVolunteersByVolunteer(volunteer);
 
 		Date now = new Date();
-		try {
-			for (Iterator<EventVolunteer> iterator = eventVolunteers.iterator(); iterator.hasNext();) {
-				EventVolunteer eventVolunteer = (EventVolunteer) iterator.next();
-				if (eventVolunteer.getEvent().getEndTime().before(now)) {
-					pastEvents.add(eventVolunteer);
-				} else if (eventVolunteer.getApproved()) {
-					acceptedEvents.add(eventVolunteer);
-				} else {
-					pendingEvents.add(eventVolunteer);
-				}
+		for (Iterator<EventVolunteer> iterator = eventVolunteers.iterator(); iterator.hasNext();) {
+			EventVolunteer eventVolunteer = (EventVolunteer) iterator.next();
+			if (eventVolunteer.getEvent().getEndTime().before(now)) {
+				pastEvents.add(eventVolunteer);
+			} else if (eventVolunteer.getApproved()) {
+				acceptedEvents.add(eventVolunteer);
+			} else {
+				pendingEvents.add(eventVolunteer);
 			}
-		} catch (NullPointerException e) {
-			 
 		}
 	}
 

@@ -54,46 +54,46 @@ public class VolunteerService {
 		try {
 			@SuppressWarnings("unchecked")
 			List<Event> events = (List<Event>) DBConnection.query(hql, params);
-			return events;
+			return (events != null ? events : new ArrayList<Event>());
 		} catch (HibernateException e) {
 			return new ArrayList<Event>();
 		}
 	}
 	
 	public static List<EventVolunteer> getEventVolunteersByVolunteer(Volunteer volunteer) {
-		String hql = "SELECT ev FROM EventVolunteer AS ev LEFT JOIN ev.events WHERE ev.volunteer.volunteerId=?";
+		String hql = "FROM EventVolunteer AS ev LEFT JOIN ev.events WHERE ev.volunteer.volunteerId=?";
 		ArrayList<Integer> params = new ArrayList<Integer>();
 		params.add(volunteer.getVolunteerId());
 		try {
 			@SuppressWarnings("unchecked")
 			List<EventVolunteer> eventVolunteers = (List<EventVolunteer>) DBConnection.query(hql, params);
-			return eventVolunteers;
+			return (eventVolunteers != null ? eventVolunteers : new ArrayList<EventVolunteer>());
 		} catch (HibernateException e) {
 			return new ArrayList<EventVolunteer>();
 		}
 	}
 	
 	public static List<GroupMember> getGroupMembersByVolunteer(Volunteer volunteer) {
-		String hql = "SELECT gm FROM Volunteer AS v LEFT JOIN v.groupMember AS gm LEFT JOIN gm.Group WHERE v.volunteerId=?";
+		String hql = "FROM GroupMember AS gm LEFT JOIN gm.volunteer AS v LEFT JOIN gm.Group WHERE v.volunteerId=?";
 		ArrayList<Integer> params = new ArrayList<Integer>();
 		params.add(volunteer.getVolunteerId());
 		try {
 			@SuppressWarnings("unchecked")
 			List<GroupMember> groupMembers = (List<GroupMember>) DBConnection.query(hql, params);
-			return groupMembers;
+			return (groupMembers != null ? groupMembers : new ArrayList<GroupMember>());
 		} catch (HibernateException e) {
 			return new ArrayList<GroupMember>();
 		}
 	}
 	
 	public static List<OrganizationFollower> getOrganizationFollowersByVolunteer(Volunteer volunteer) {
-		String hql = "SELECT orgf FROM Volunteer AS v LEFT JOIN v.organizationFollowers AS orgf LEFT JOIN orgf.organization WHERE v.volunteerId=?";
+		String hql = "FROM OrganizationFollower AS orgf LEFT JOIN orgf.volunteer as v LEFT JOIN orgf.organization WHERE v.volunteerId=?";
 		ArrayList<Integer> params = new ArrayList<Integer>();
 		params.add(volunteer.getVolunteerId());
 		try {
 			@SuppressWarnings("unchecked")
 			List<OrganizationFollower> organizationFollowers = (List<OrganizationFollower>) DBConnection.query(hql, params);
-			return organizationFollowers;
+			return (organizationFollowers != null ? organizationFollowers : new ArrayList<OrganizationFollower>());
 		} catch (HibernateException e) {
 			return new ArrayList<OrganizationFollower>();
 		}
