@@ -32,13 +32,17 @@ public class MyGroupsPage {
 		Volunteer volunteer = currentVolunteer.getVolunteer();
 		List<GroupMember> groupMembers = VolunteerService.getGroupMembersByVolunteer(volunteer);
 		
-		for (Iterator<GroupMember> iterator = groupMembers.iterator(); iterator.hasNext();) {
-			GroupMember groupMember = (GroupMember) iterator.next();
-			if (groupMember.getAdmin()) {
-				adminGroup.add(groupMember);
-			} else {
-				memberGroup.add(groupMember);
+		try {
+			for (Iterator<GroupMember> iterator = groupMembers.iterator(); iterator.hasNext();) {
+				GroupMember groupMember = (GroupMember) iterator.next();
+				if (groupMember.getAdmin()) {
+					adminGroup.add(groupMember);
+				} else {
+					memberGroup.add(groupMember);
+				}
 			}
+		} catch (NullPointerException e) {
+			
 		}
 	}
 	

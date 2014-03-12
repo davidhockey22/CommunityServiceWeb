@@ -34,15 +34,19 @@ public class MyOrganizationsPage {
 		Volunteer volunteer = currentVolunteer.getVolunteer();
 		List<OrganizationFollower> organizationFollowers = VolunteerService.getOrganizationFollowersByVolunteer(volunteer);
 		
-		for (Iterator<OrganizationFollower> iterator = organizationFollowers.iterator(); iterator.hasNext();) {
-			OrganizationFollower organizationFollower = (OrganizationFollower) iterator.next();
-			if (organizationFollower.getAdmin()) {
-				adminOrgs.add(organizationFollower);
-			} else if (organizationFollower.getMod()) {
-				memberOrgs.add(organizationFollower);
-			} else {
-				followerOrgs.add(organizationFollower);
+		try {
+			for (Iterator<OrganizationFollower> iterator = organizationFollowers.iterator(); iterator.hasNext();) {
+				OrganizationFollower organizationFollower = (OrganizationFollower) iterator.next();
+				if (organizationFollower.getAdmin()) {
+					adminOrgs.add(organizationFollower);
+				} else if (organizationFollower.getMod()) {
+					memberOrgs.add(organizationFollower);
+				} else {
+					followerOrgs.add(organizationFollower);
+				}
 			}
+		} catch (NullPointerException e) {
+			
 		}
 	}
 	

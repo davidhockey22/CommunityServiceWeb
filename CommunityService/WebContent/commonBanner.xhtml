@@ -10,7 +10,7 @@
 				<p:menubar>
 					<p:menuitem value="Home" icon="ui-icon-home" url="/" />
 					<p:menuitem rendered="#{currentVolunteerBean.loggedIn}" value="My Profile" icon="ui-icon-person" url="/editProfile" />
-					<p:menuitem rendered="#{currentVolunteerBean.loggedIn}" value="My Organizations" icon="ui-icon-person" url="/editProfile" />
+					<p:menuitem rendered="#{currentVolunteerBean.loggedIn}" value="My Organizations" icon="ui-icon-person" url="/organizations" />
 					<p:menuitem rendered="#{currentVolunteerBean.loggedIn}" value="My Groups" icon="ui-icon-person" url="/groups" />
 					<p:menuitem rendered="#{currentVolunteerBean.loggedIn}" value="My Events" icon="ui-icon-star" url="/events" />
 					<p:menuitem rendered="#{currentVolunteerBean.loggedIn}" value="My Schedule" icon="ui-icon-calendar" url="/schedule" />
@@ -24,7 +24,7 @@
 							<p:password id="password" value="#{currentVolunteerBean.password}" required="true" />
 							<p:commandButton type="submit" value="Login" action="#{currentVolunteerBean.Login}" ajax="false" />
 							<p:button value="Register" outcome="/Web/NewVolunteer.xhtml" />
-							<p:commandLink action="/Web/Home.xhtml?faces-redirect=true">
+							<p:commandLink action="/Home.xhtml?faces-redirect=true">
 								<h:graphicImage value="/images/logo.png"/>
 							</p:commandLink>
 						</h:form>
@@ -34,7 +34,7 @@
 							</h:outputFormat>
 							<h:graphicImage value="#{currentVolunteerBean.gravatarURL}" style="height:30px; width:30px" />
 							<p:commandButton type="submit" value="Logout" immediate="true" action="#{currentVolunteerBean.Logout}" ajax="false" />
-							<h:link outcome="/Web/Home.xhtml">
+							<h:link outcome="/Home.xhtml">
 								<h:graphicImage value="/images/logo.png"/>
 							</h:link>
 						</h:form>
