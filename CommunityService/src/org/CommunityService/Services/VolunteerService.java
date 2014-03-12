@@ -56,7 +56,7 @@ public class VolunteerService {
 			List<Event> events = (List<Event>) DBConnection.query(hql, params);
 			return events;
 		} catch (HibernateException e) {
-			return null;
+			return new ArrayList<Event>();
 		}
 	}
 	
@@ -69,7 +69,7 @@ public class VolunteerService {
 			List<EventVolunteer> eventVolunteers = (List<EventVolunteer>) DBConnection.query(hql, params);
 			return eventVolunteers;
 		} catch (HibernateException e) {
-			return null;
+			return new ArrayList<EventVolunteer>();
 		}
 	}
 	
@@ -82,7 +82,7 @@ public class VolunteerService {
 			List<GroupMember> groupMembers = (List<GroupMember>) DBConnection.query(hql, params);
 			return groupMembers;
 		} catch (HibernateException e) {
-			return null;
+			return new ArrayList<GroupMember>();
 		}
 	}
 	
@@ -95,7 +95,7 @@ public class VolunteerService {
 			List<OrganizationFollower> organizationFollowers = (List<OrganizationFollower>) DBConnection.query(hql, params);
 			return organizationFollowers;
 		} catch (HibernateException e) {
-			return null;
+			return new ArrayList<OrganizationFollower>();
 		}
 	}
 	
