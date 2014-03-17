@@ -18,12 +18,22 @@
 
 					<br />
 
-					<p:selectCheckboxMenu value="#{searchBean.selectedInterests}" label="Interests" filter="true" filterText="Filter" filterMatchMode="startsWith">
+
+					<h:outputText value="Starts after" />
+					<p:calendar value="#{searchBean.beginTime}" id="begintime" pattern="EEE, MMM d, yyyy - h:mm a" effect="fadeIn" />
+
+					<h:outputText value="Ends before" />
+					<p:calendar value="#{searchBean.endTime}" id="endtime" pattern="EEE, MMM d, yyyy - hh:mm a" effect="fadeIn" />
+					<br />
+
+					<p:selectCheckboxMenu value="#{searchBean.selectedInterests}" label="Interests" filter="true" filterText="Filter"
+						filterMatchMode="startsWith">
 						<f:selectItems value="#{searchBean.interests}" var="interest" itemLabel="#{interest.name}" itemValue="#{interest.name}" />
 					</p:selectCheckboxMenu>
 					<br />
 
-					<p:selectCheckboxMenu value="#{searchBean.selectedSkills}" label="Skills" filter="true" filterText="Filter" filterMatchMode="startsWith">
+					<p:selectCheckboxMenu value="#{searchBean.selectedSkills}" label="Skills" filter="true" filterText="Filter"
+						filterMatchMode="startsWith">
 						<f:selectItems value="#{searchBean.skills}" var="skill" itemLabel="#{skill.skillName}" itemValue="#{skill.skillName}" />
 					</p:selectCheckboxMenu>
 					<br />
@@ -33,28 +43,34 @@
 				<br />
 				<div id="results">
 					<p:panel id="panel" header="Events">
-						<p:dataTable rendered="#{not empty searchBean.events}" var="event" value="#{searchBean.events}" rowKey="#{event.eventId}" paginator="true"
-							paginatorPosition="bottom" paginatorAlwaysVisible="false" rows="10" selection="#{searchBean.selectedEvents}" selectionMode="single"
-							id="eventstable">
+						<p:dataTable rendered="#{not empty searchBean.events}" var="event" value="#{searchBean.events}" rowKey="#{event.eventId}"
+							paginator="true" paginatorPosition="bottom" paginatorAlwaysVisible="false" rows="10" selection="#{searchBean.selectedEvents}"
+							selectionMode="single" id="eventstable">
 							<p:column headerText="Event Name" sortBy="eventName" id="eventsName">  
 			          			#{event.eventName}  
 			      			</p:column>
 
-							<p:column headerText="Starting at" sortBy="beginTime" id="begTime">
+							<p:column headerText="Starting time" sortBy="beginTime" id="begTime">
 								<h:outputText value="#{event.beginTime}">
-									<f:convertDateTime pattern="EEE, MMM d - hh:mm aaa" />
+									<f:convertDateTime pattern="EEE, MMM d, yyyy - h:mm a" locale="en_US" type="both" timeStyle="full" timeZone="EDT" />
 								</h:outputText>
 							</p:column>
 
-							<p:column headerText="Starting at" sortBy="endTime" id="endTime">
+							<p:column headerText="Ending time" sortBy="endTime" id="endTime">
 								<h:outputText value="#{event.endTime}">
-									<f:convertDateTime pattern="EEE, MMM d - hh:mm aaa" />
+									<f:convertDateTime pattern="EEE, MMM d, yyyy - h:mm a" locale="en_US" type="both" timeStyle="full" timeZone="EDT" />
 								</h:outputText>
 							</p:column>
 
 							<p:column headerText="Location" sortBy="location" id="locations">  
 					            #{event.location}  
 					        </p:column>
+					        
+							<p:column headerText="View Event" id="buttons">
+								<p:button icon="ui-icon-search" title="View Event" outcome="ViewEvent.xhtml">
+									<f:param name="eventId" value="#{event.eventId}" />
+								</p:button>
+							</p:column>
 						</p:dataTable>
 					</p:panel>
 				</div>

@@ -48,7 +48,7 @@ public class EventService {
 	public static boolean signUp(Volunteer v, Event e) {
 		//if (v != null) {
 			EventVolunteer ev = new EventVolunteer(e, v);
-			DBConnection.persist(ev);
+			DBConnection.update(ev);
 			//return true;
 		//}
 		return false;

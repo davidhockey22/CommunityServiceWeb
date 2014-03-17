@@ -27,8 +27,9 @@
 						</f:facet>
 						<h:outputLabel for="description" value="Description: " />
 						<h:outputText id="description" value="#{eventPage.event.description}" label="Description" />
-						<p:commandButton value="Sign Up!" actionListener="#{eventPage.signUp}" />
-
+						<h:form rendered="#{currentVolunteerBean.loggedIn and !eventPage.signedUp}">
+							<p:commandButton value="Sign Up!" actionListener="#{eventPage.signUp}" />
+						</h:form>
 					</p:panelGrid>
 				</ui:fragment>
 			</div>

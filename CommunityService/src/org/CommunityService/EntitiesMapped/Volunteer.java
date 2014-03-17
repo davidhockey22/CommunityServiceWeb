@@ -159,7 +159,7 @@ public class Volunteer implements java.io.Serializable {
 		this.lastLoginDate = lastLoginDate;
 	}
 
-	@Column(name = "Points", precision = 12, scale = 0)
+	@Column(name = "Points", precision = 12, scale = 0, insertable=false)
 	public Float getPoints() {
 		return this.points;
 	}

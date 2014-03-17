@@ -1,6 +1,7 @@
 package org.CommunityService.ManagedBeans;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
@@ -16,7 +17,7 @@ import org.ocpsoft.rewrite.annotation.Join;
 
 @ManagedBean
 @SessionScoped
-@Join(path="/search", to="/Web/Search.xhtml")
+@Join(path = "/search", to = "/Web/Search.xhtml")
 public class SearchBean {
 
 	private String eventName;
@@ -30,13 +31,15 @@ public class SearchBean {
 	private List<Interest> interests;
 	private List<Skill> skills;
 	private List<Event> events = null;
+	private Date beginTime;
+	private Date endTime;
 
 	@SuppressWarnings("unchecked")
 	public String Search() throws Exception {
 		if (events != null) {
 			events.clear();
 		}
-		List<String> params = new ArrayList<String>();
+		List params = new ArrayList();
 		params.clear();
 		String like = "%" + eventName + "%";
 		params.add(like);
@@ -71,11 +74,32 @@ public class SearchBean {
 			query += ")";
 		}
 
+		if (this.endTime != null) {
+			query += "and e.endTime<=? ";
+			System.out.println(beginTime);
+			System.out.println(endTime);
+			params.add(endTime);
+
+		}
+		if (this.beginTime != null) {
+			query += "and e.beginTime>=? ";
+			System.out.println(beginTime);
+			System.out.println(endTime);
+			params.add(beginTime);
+
+		}
+
 		System.out.println(query);
 		// System.out.println(Arrays.toString(params.toArray()));
 
 		setEvents((List<Event>) DBConnection.query(query, params));
+		//events.get(0).getBeginTime();
+		
+		for(Event e : this.getEvents()){
+			System.out.println(e.getBeginTime());
 
+			System.out.println(e.getEndTime());
+		}
 		return "Search?faces-redirect=true";
 	}
 
@@ -155,6 +179,22 @@ public class SearchBean {
 
 	public void setSelectedEvents(List<String> selectedEvents) {
 		this.selectedEvents = selectedEvents;
+	}
+
+	public Date getBeginTime() {
+		return beginTime;
+	}
+
+	public void setBeginTime(Date beginTime) {
+		this.beginTime = beginTime;
+	}
+
+	public Date getEndTime() {
+		return endTime;
+	}
+
+	public void setEndTime(Date endTime) {
+		this.endTime = endTime;
 	}
 
 }
