@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>Events</title>
+	<h:outputStylesheet library="css" name="WebContent/css/main.css" />
+</h:head>
+<h:body>
+	<ui:composition template="commonTemplate.xhtml">
+		<ui:define name="content">
+
+			<ui:fragment rendered="#{!loginBean.loggedIn}">
+				<h:outputText value="Please login to see your events." />
+				<!--
+				<ui:include src="Login.xhtml" />
+				-->
+			</ui:fragment>
+			<ui:fragment rendered="#{loginBean.loggedIn}">
+
+				<h:outputText value="Accepted Events:" />
+
+				<p:dataTable var="e" value="#{myEventsBean.acceptedEvents}">
+					<p:column headerText="Event ID">
+						<h:link value="#{e.event.eventId}" outcome="ViewEvent.xhtml">
+							<f:param name="eventId" value="#{e.event.eventId}" />
+						</h:link>
+					</p:column>
+					<p:column headerText="Event Name">
+						<h:outputText value="#{e.event.eventName}" />
+					</p:column>
+					<p:column headerText="Start Time">
+						<h:outputText value="#{e.event.beginTime}" />
+					</p:column>
+					<p:column headerText="End Time">
+						<h:outputText value="#{e.event.endTime}" />
+					</p:column>
+				</p:dataTable>
+
+				<h:outputText value="Pending Events:" />
+
+				<p:dataTable var="e" value="#{myEventsBean.pendingEvents}">
+					<p:column headerText="Event ID">
+						<h:link value="#{e.event.eventId}" outcome="ViewEvent.xhtml">
+							<f:param name="eventId" value="#{e.event.eventId}" />
+						</h:link>
+					</p:column>
+					<p:column headerText="Event Name">
+						<h:outputText value="#{e.event.eventName}" />
+					</p:column>
+					<p:column headerText="Start Time">
+						<h:outputText value="#{e.event.beginTime}" />
+					</p:column>
+					<p:column headerText="End Time">
+						<h:outputText value="#{e.event.endTime}" />
+					</p:column>
+				</p:dataTable>
+
+				<h:outputText value="Past Events:" />
+
+				<p:dataTable var="e" value="#{myEventsBean.pastEvents}">
+					<p:column headerText="Event ID">
+						<h:link value="#{e.event.eventId}" outcome="ViewEvent.xhtml">
+							<f:param name="eventId" value="#{e.event.eventId}" />
+						</h:link>
+					</p:column>
+					<p:column headerText="Event Name">
+						<h:outputText value="#{e.event.eventName}" />
+					</p:column>
+					<p:column headerText="Verified hours worked">
+						<h:outputText value="#{e.attendedHours == 0} ? Verification needed : e.attendedHours}" />
+					</p:column>
+					<p:column headerText="Start Time">
+						<h:outputText value="#{e.event.beginTime}" />
+					</p:column>
+					<p:column headerText="End Time">
+						<h:outputText value="#{e.event.endTime}" />
+					</p:column>
+				</p:dataTable>
+			</ui:fragment>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

@@ -33,6 +33,29 @@ public class DBConnection {
 		return v;
 
 	}
+	
+	public static Object query(String query, List params, int MaxResults) throws HibernateException {
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
+		Query q = session.createQuery(query);
+		q.setMaxResults(MaxResults);
+		
+		Object v = null;
+		if (params != null) {
+			for (int i = 0; i < params.size(); i++) {
+				q = q.setParameter(i, params.get(i));
+			}
+		}
+		if (q != null) {
+			v = q.list();
+
+		}
+		session.getTransaction().commit();
+		session.close();
+
+		return v;
+
+	}	
 
 	public static Object persist(Object object) throws HibernateException {
 		Session session = sessionFactory.openSession();

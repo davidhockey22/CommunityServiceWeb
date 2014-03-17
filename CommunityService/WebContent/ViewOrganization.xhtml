@@ -11,22 +11,22 @@
 	<ui:composition template="commonTemplate.xhtml">
 		<ui:define name="metadata">
 			<f:metadata>
-				<f:viewParam id="orgId" name="orgId" value="#{organizationPage.orgId}" />
-				<f:event type="preRenderView" listener="#{organizationPage.fetchOrganization}" />
+				<f:viewParam id="orgId" name="orgId" value="#{viewOrganizationBean.orgId}" />
+				<f:event type="preRenderView" listener="#{viewOrganizationBean.fetchOrganization}" />
 			</f:metadata>
 		</ui:define>
 		<ui:define name="content">
 			<div style="float: left; clear: left">
-				<ui:fragment rendered="#{organizationPage.organization == null}">
+				<ui:fragment rendered="#{viewOrganizationBean.organization == null}">
 					<h:outputFormat value="Oops! This organization doesn't exist!" />
 				</ui:fragment>
-				<ui:fragment rendered="#{organizationPage.organization != null}">
+				<ui:fragment rendered="#{viewOrganizationBean.organization != null}">
 					<p:panelGrid columns="2">
 						<f:facet name="header">
-							<h:outputText value="#{organizationPage.organization.orgName}" />
+							<h:outputText value="#{viewOrganizationBean.organization.orgName}" />
 						</f:facet>
 						<h:outputLabel for="description" value="Description: " />
-						<h:outputText id="description" value="#{organizationPage.organization.description}" label="Description" />
+						<h:outputText id="description" value="#{viewOrganizationBean.organization.description}" label="Description" />
 					</p:panelGrid>
 				</ui:fragment>
 			</div>

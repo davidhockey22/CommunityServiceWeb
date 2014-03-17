@@ -15,32 +15,39 @@
 
 		<h:panelGrid columns="2" cellpadding="2">
 
-			<h:outputLabel for="#{createEvent.eventname}" value="Event Name" />
+			<h:outputLabel for="#{newEventBean.eventname}" value="Event Name" />
 
-			<p:inputText id="eventname" value="#{createEvent.eventname}" label="Event Name" required="true">
+			<p:inputText id="eventname" value="#{newEventBean.eventname}" label="Event Name" required="true">
 				<f:validateLength minimum="5" maximum="20" />
 			</p:inputText>
 
-			<h:outputLabel for="#{createEvent.description}" value="Desscription" />
-			<p:inputTextarea id="description" cols="30" rows="10" value="#{createEvent.description}">
+			<h:outputLabel for="#{newEventBean.description}" value="Desscription" />
+			<p:inputTextarea id="description" cols="30" rows="10" value="#{newEventBean.description}">
 				<f:validateLength maximum="500" />
 			</p:inputTextarea>
 
-			<h:outputLabel for="#{createEvent.location}" value="Location" />
-			<p:inputText id="location" value="#{createEvent.location}" required="true">
+			<h:outputLabel for="#{newEventBean.location}" value="Location" />
+			<p:inputText id="location" value="#{newEventBean.location}" required="true">
 				<f:validateLength maximum="30" />
 			</p:inputText>
 
 			<h:outputText value="Start Time/Date" />
+<<<<<<< HEAD
 			<p:calendar value="#{createEvent.begintime}" id="begintime" pattern="EEE, MMM d, yyyy - h:mm a" timeZone="EDT"/>
 
 			<h:outputText value="End Time/Date" />
 			<p:calendar value="#{createEvent.endtime}" id="endtime" pattern="EEE, MMM d, yyyy - h:mm a" timeZone="EDT"/>
+=======
+			<p:calendar value="#{newEventBean.begintime}" id="begintime" pattern="MM/dd/yyyy HH:mm" />
+
+			<h:outputText value="End Time/Date" />
+			<p:calendar value="#{newEventBean.endtime}" id="endtime" pattern="MM/dd/yyyy HH:mm" />
+>>>>>>> e62e0bed9ea27284a2f7106e698a3060f8e44373
 
 
 
 		</h:panelGrid>
-		<h:commandButton type="submit" value="Create Event" action="#{createEvent.Create}"></h:commandButton>
+		<h:commandButton type="submit" value="Create Event" action="#{newEventBean.Create}"></h:commandButton>
 		<p:remoteCommand name="sendMessage" update="messages" actionListener="#{messageController.addError}" />
 		<h:inputHidden id="message" value="#{messageController.message}"></h:inputHidden>
 	</h:form>

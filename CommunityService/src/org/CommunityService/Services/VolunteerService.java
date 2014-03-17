@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.CommunityService.EntitiesMapped.Event;
+import org.CommunityService.EntitiesMapped.EventVolunteer;
+import org.CommunityService.EntitiesMapped.GroupMember;
+import org.CommunityService.EntitiesMapped.OrganizationFollower;
 import org.CommunityService.EntitiesMapped.Volunteer;
 import org.hibernate.HibernateException;
 
@@ -51,12 +54,63 @@ public class VolunteerService {
 		try {
 			@SuppressWarnings("unchecked")
 			List<Event> events = (List<Event>) DBConnection.query(hql, params);
-			return events;
+			return (events != null ? events : new ArrayList<Event>());
 		} catch (HibernateException e) {
-			return null;
+			return new ArrayList<Event>();
 		}
 	}
-
+	
+	public static List<EventVolunteer> getEventVolunteersByVolunteer(Volunteer volunteer) {
+		String hql = "FROM EventVolunteer AS ev LEFT JOIN ev.events WHERE ev.volunteer.volunteerId=?";
+		ArrayList<Integer> params = new ArrayList<Integer>();
+		params.add(volunteer.getVolunteerId());
+		try {
+			@SuppressWarnings("unchecked")
+			List<EventVolunteer> eventVolunteers = (List<EventVolunteer>) DBConnection.query(hql, params);
+			return (eventVolunteers != null ? eventVolunteers : new ArrayList<EventVolunteer>());
+		} catch (HibernateException e) {
+			return new ArrayList<EventVolunteer>();
+		}
+	}
+	
+	public static List<GroupMember> getGroupMembersByVolunteer(Volunteer volunteer) {
+		String hql = "FROM GroupMember AS gm LEFT JOIN gm.volunteer AS v LEFT JOIN gm.Group WHERE v.volunteerId=?";
+		ArrayList<Integer> params = new ArrayList<Integer>();
+		params.add(volunteer.getVolunteerId());
+		try {
+			@SuppressWarnings("unchecked")
+			List<GroupMember> groupMembers = (List<GroupMember>) DBConnection.query(hql, params);
+			return (groupMembers != null ? groupMembers : new ArrayList<GroupMember>());
+		} catch (HibernateException e) {
+			return new ArrayList<GroupMember>();
+		}
+	}
+	
+	public static List<OrganizationFollower> getOrganizationFollowersByVolunteer(Volunteer volunteer) {
+		String hql = "FROM OrganizationFollower AS orgf LEFT JOIN orgf.volunteer as v LEFT JOIN orgf.organization WHERE v.volunteerId=?";
+		ArrayList<Integer> params = new ArrayList<Integer>();
+		params.add(volunteer.getVolunteerId());
+		try {
+			@SuppressWarnings("unchecked")
+			List<OrganizationFollower> organizationFollowers = (List<OrganizationFollower>) DBConnection.query(hql, params);
+			return (organizationFollowers != null ? organizationFollowers : new ArrayList<OrganizationFollower>());
+		} catch (HibernateException e) {
+			return new ArrayList<OrganizationFollower>();
+		}
+	}
+	
+	public static List<Volunteer> getLeaderboardByPoints() throws HibernateException {
+		String hql = "from Volunteer as v order by v.points desc";
+		@SuppressWarnings("unchecked")
+		List<Volunteer> v = (List<Volunteer>) DBConnection.query(hql, null, 25);
+		return v;
+	}
+	public static List<Volunteer> getLeaderboardByHours() throws HibernateException {
+		String hql = "from Volunteer as v order by v.hoursWorked desc";
+		@SuppressWarnings("unchecked")
+		List<Volunteer> v = (List<Volunteer>) DBConnection.query(hql, null, 25);
+		return v;
+	}
 	public static List<Volunteer> getVolunteers() throws HibernateException {
 		String hql = "from Volunteer as v";
 		@SuppressWarnings("unchecked")

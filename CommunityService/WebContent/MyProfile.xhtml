@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:head>
+	<title>Profile</title>
+</h:head>
+<h:body>
+	<ui:composition template="commonTemplate.xhtml">
+
+		<ui:define name="content">
+			<div style="clear: left">
+				<h:form rendered="#{!loginBean.loggedIn}">
+
+					<h:outputFormat value="You're not logged in. ">
+					</h:outputFormat>
+
+				</h:form>
+				<h:form id="profileForm" rendered="#{loginBean.loggedIn}">
+
+					<p:panel header="Profile">
+						<h:panelGrid columns="2" columnClasses="column" cellpadding="5">
+
+							<h:outputText value="UserName: " />
+							<p:inplace id="ajaxInplace0" editor="true">
+								<p:inputText value="#{loginBean.volunteer.volunteerName}" required="true" label="text" onkeyup="showUnsaved()" />
+							</p:inplace>
+
+							<h:outputText value="Gravatar: " />
+							<h:panelGrid>
+								<h:graphicImage value="#{loginBean.gravatarURL}" />
+								<h:outputLink value="https://gravatar.com/emails/">
+									<h:outputText value="Change Gravatar" />
+								</h:outputLink>
+							</h:panelGrid>
+
+							<h:outputText value="Phone Number: " />
+							<p:inplace id="ajaxInplace1" editor="true">
+								<p:inputText value="#{loginBean.volunteer.phoneNumber}" required="true" label="text" onkeyup="showUnsaved()" />
+							</p:inplace>
+
+							<h:outputText value="Email: " />
+
+							<f:event listener="#{myProfileBean.saveEmail}" type="preRenderComponent"></f:event>
+
+							<p:inplace id="ajaxInplace2" editor="true">
+								<p:inputText value="#{loginBean.volunteer.emailAddress}" required="true" label="text" onkeyup="showUnsaved()" />
+							</p:inplace>
+
+							<h:outputText value="Last Login Date: " />
+							<h:outputText value="#{loginBean.volunteer.lastLoginDate}" required="true" label="text" />
+
+							<h:outputText value="Points: " />
+							<h:outputText value="#{loginBean.volunteer.points}" required="true" label="text" />
+
+							<h:outputText value="Hours Worked: " />
+							<h:outputText value="#{loginBean.volunteer.hoursWorked}" required="true" label="text" />
+
+							<h:outputText value="Average Rating: " />
+							<h:outputText value="#{loginBean.volunteer.avgRating}" required="true" label="text" />
+
+							<h:commandButton type="submit" value="Save" action="#{myProfileBean.updateProfile()}"></h:commandButton>
+							<h:outputText id="unsavedMessage" style="color: red;" value="" />
+
+						</h:panelGrid>
+
+
+					</p:panel>
+
+				</h:form>
+				<script type="text/javascript">
+					function showUnsaved() {
+						var mess = document
+								.getElementById('profileForm:unsavedMessage');
+						mess.innerHTML = 'Unsaved changes';
+					}
+				</script>
+			</div>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

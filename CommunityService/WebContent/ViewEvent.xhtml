@@ -11,25 +11,31 @@
 	<ui:composition template="commonTemplate.xhtml">
 		<ui:define name="metadata">
 			<f:metadata>
-				<f:viewParam id="eventId" name="eventId" value="#{eventPage.eventId}" />
-				<f:event type="preRenderView" listener="#{eventPage.fetchEvent}" />
+				<f:viewParam id="eventId" name="eventId" value="#{viewEventBean.eventId}" />
+				<f:event type="preRenderView" listener="#{viewEventBean.fetchEvent}" />
 			</f:metadata>
 		</ui:define>
 		<ui:define name="content">
 			<div style="float: left; clear: left">
-				<ui:fragment rendered="#{eventPage.event == null}">
+				<ui:fragment rendered="#{viewEventBean.event == null}">
 					<h:outputFormat value="Oops! This event doesn't exist!" />
 				</ui:fragment>
-				<ui:fragment rendered="#{eventPage.event != null}">
+				<ui:fragment rendered="#{viewEventBean.event != null}">
 					<p:panelGrid columns="3">
 						<f:facet name="header">
-							<h:outputText value="#{eventPage.event.eventName}" />
+							<h:outputText value="#{viewEventBean.event.eventName}" />
 						</f:facet>
 						<h:outputLabel for="description" value="Description: " />
+<<<<<<< HEAD
 						<h:outputText id="description" value="#{eventPage.event.description}" label="Description" />
 						<h:form rendered="#{currentVolunteerBean.loggedIn and !eventPage.signedUp}">
 							<p:commandButton value="Sign Up!" actionListener="#{eventPage.signUp}" />
 						</h:form>
+=======
+						<h:outputText id="description" value="#{viewEventBean.event.description}" label="Description" />
+						<p:commandButton value="Sign Up!" actionListener="#{viewEventBean.signUp}" />
+
+>>>>>>> e62e0bed9ea27284a2f7106e698a3060f8e44373
 					</p:panelGrid>
 				</ui:fragment>
 			</div>

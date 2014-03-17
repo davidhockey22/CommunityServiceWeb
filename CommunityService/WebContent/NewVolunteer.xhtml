@@ -14,16 +14,16 @@
 			<h:form id="registerForm">
 				<p:message for="username" id="userMessage" />
 				<h:panelGrid columns="3" cellpadding="2">
-					<h:outputLabel for="#{registrationBean.username}" value="UserName" />
-					<p:inputText id="username" value="#{registrationBean.username}" label="UserName" required="true">
+					<h:outputLabel for="#{newVolunteerBean.username}" value="UserName" />
+					<p:inputText id="username" value="#{newVolunteerBean.username}" label="UserName" required="true">
 						<f:validateLength minimum="5" maximum="20" />
 						<f:validator validatorId="org.CommunityService.Validators.UserValidator" />
 						<p:ajax update="userMessage" event="blur" />
 					</p:inputText>
 					<h:outputText id="userValidation" style="color: red;" value="" />
 
-					<h:outputLabel for="#{registrationBean.password}" value="Password" />
-					<p:password id="password" value="#{registrationBean.password}" required="true"
+					<h:outputLabel for="#{newVolunteerBean.password}" value="Password" />
+					<p:password id="password" value="#{newVolunteerBean.password}" required="true"
 						onblur="checkPassword(value, 'registerForm', 'passwordValidation')"></p:password>
 					<h:outputText id="passwordValidation" style="color: red;" value="" />
 
@@ -31,24 +31,24 @@
 					<p:password id="confirm" required="true" onblur="confirmPassword(value, 'password', 'registerForm', 'confirmValidation')"></p:password>
 					<h:outputText id="confirmValidation" style="color: red;" value="" />
 
-					<h:outputLabel for="#{registrationBean.firstName}" value="First Name" />
-					<p:inputText id="firstName" value="#{registrationBean.firstName}" required="true" onblur=""></p:inputText>
+					<h:outputLabel for="#{newVolunteerBean.firstName}" value="First Name" />
+					<p:inputText id="firstName" value="#{newVolunteerBean.firstName}" required="true" onblur=""></p:inputText>
 					<h:outputText id="firstNameValidation" style="color: red;" value="" />
 
-					<h:outputLabel for="#{registrationBean.lastName}" value="Last Name" />
-					<p:inputText id="lastName2" value="#{registrationBean.lastName}" required="true" onblur=""></p:inputText>
+					<h:outputLabel for="#{newVolunteerBean.lastName}" value="Last Name" />
+					<p:inputText id="lastName2" value="#{newVolunteerBean.lastName}" required="true" onblur=""></p:inputText>
 					<h:outputText id="lastNameValidation" style="color: red;" value="" />
 
-					<h:outputLabel for="#{registrationBean.phoneNumber}" value="Phone Number" />
-					<p:inputText id="phoneNumber" value="#{registrationBean.phoneNumber}" required="true"
+					<h:outputLabel for="#{newVolunteerBean.phoneNumber}" value="Phone Number" />
+					<p:inputText id="phoneNumber" value="#{newVolunteerBean.phoneNumber}" required="true"
 						onblur="checkPhoneNumber(value, 'registerForm', 'phoneValidation')"></p:inputText>
 					<h:outputText id="phoneValidation" style="color: red;" value="" />
 
-					<h:outputLabel for="#{registrationBean.email}" value="Email" />
-					<p:inputText id="email" value="#{registrationBean.email}" required="true" onblur="checkEmail(value, 'registerForm', 'emailValidation')"></p:inputText>
+					<h:outputLabel for="#{newVolunteerBean.email}" value="Email" />
+					<p:inputText id="email" value="#{newVolunteerBean.email}" required="true" onblur="checkEmail(value, 'registerForm', 'emailValidation')"></p:inputText>
 					<h:outputText id="emailValidation" style="color: red;" value="" />
 
-					<p:commandButton type="submit" value="Register" action="#{registrationBean.Register}"
+					<p:commandButton type="submit" value="Register" action="#{newVolunteerBean.Register}"
 						onclick="if(validateRegistration()==false){return false}"></p:commandButton>
 					<h:outputText id="submitValidation" style="color: red;" value="" />
 

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>Organizations</title>
+	<h:outputStylesheet library="css" name="WebContent/css/main.css" />
+</h:head>
+<h:body>
+	<ui:composition template="commonTemplate.xhtml">
+		<ui:define name="content">
+
+			<ui:fragment rendered="#{!loginBean.loggedIn}">
+				<h:outputText value="Please login to see your organizaions." />
+			</ui:fragment>
+			<ui:fragment rendered="#{loginBean.loggedIn}">
+				<h:outputText value="My Organizations" />
+
+				<p:button value="Create new organization" outcome="/NewOrganization.xhtml"/>
+
+				<h:outputText value="Organization Administrator:" />
+
+				<p:dataTable var="o" value="#{myOrganizationsBean.adminOrgs}">
+					<p:column headerText="Organization Name">
+						<h:link value="#{o.organization.orgName}" outcome="ViewOrganization.xhtml">
+							<f:param name="orgId" value="#{o.organization.orgId}" />
+						</h:link>
+					</p:column>
+					<p:column headerText="Description">
+						<h:outputText value="#{o.organization.description}" />
+					</p:column>
+				</p:dataTable>
+
+				<h:outputText value="Organization Member:" />
+
+				<p:dataTable var="o" value="#{myOrganizationsBean.memberOrgs}">
+					<p:column headerText="Organization Name">
+						<h:link value="#{o.organization.orgName}" outcome="ViewOrganization.xhtml">
+							<f:param name="orgId" value="#{o.organization.orgId}" />
+						</h:link>
+					</p:column>
+					<p:column headerText="Description">
+						<h:outputText value="#{o.organization.description}" />
+					</p:column>
+				</p:dataTable>
+
+				<h:outputText value="Organization Follower:" />
+				
+				<p:dataTable var="o" value="#{myOrganizationsBean.followerOrgs}">
+					<p:column headerText="Organization Name">
+						<h:link value="#{o.organization.orgName}" outcome="ViewOrganization.xhtml">
+							<f:param name="orgId" value="#{o.organization.orgId}" />
+						</h:link>
+					</p:column>
+					<p:column headerText="Description">
+						<h:outputText value="#{o.organization.description}" />
+					</p:column>
+				</p:dataTable>
+				
+			</ui:fragment>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

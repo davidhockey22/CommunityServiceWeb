@@ -11,23 +11,23 @@
 	<ui:composition template="commonTemplate.xhtml">
 		<ui:define name="metadata">
 			<f:metadata>
-				<f:viewParam id="volunteerId" name="volunteerId" value="#{volunteerPage.volunteerId}" />
-				<f:event type="preRenderView" listener="#{volunteerPage.fetchVolunteer}" />
+				<f:viewParam id="volunteerId" name="volunteerId" value="#{viewVolunteerBean.volunteerId}" />
+				<f:event type="preRenderView" listener="#{viewVolunteerBean.fetchVolunteer}" />
 			</f:metadata>
 		</ui:define>
 		<ui:define name="content">
 			<div style="float: left; clear: left">
-				<ui:fragment rendered="#{volunteerPage.volunteer == null}">
+				<ui:fragment rendered="#{viewVolunteerBean.volunteer == null}">
 					<h:outputFormat value="Oops! This volunteer doesn't exist!" />
 				</ui:fragment>
-				<ui:fragment rendered="#{volunteerPage.volunteer != null}">
+				<ui:fragment rendered="#{viewVolunteerBean.volunteer != null}">
 					<p:panelGrid columns="2">
 						<f:facet name="header">
-							<h:outputText value="#{volunteerPage.volunteer.volunteerName}" />
+							<h:outputText value="#{viewVolunteerBean.volunteer.volunteerName}" />
 						</f:facet>
 						<h:outputLabel for="hoursWorked" value="Description: " />
-						<h:outputText id="description" value="#{volunteerPage.volunteer.hoursWorked}" label="Description" />
-						<h:graphicImage value="#{volunteerPage.gravatarURL}"/>
+						<h:outputText id="description" value="#{viewVolunteerBean.volunteer.hoursWorked}" label="Description" />
+						<h:graphicImage value="#{viewVolunteerBean.gravatarURL}"/>
 					</p:panelGrid>
 				</ui:fragment>
 			</div>

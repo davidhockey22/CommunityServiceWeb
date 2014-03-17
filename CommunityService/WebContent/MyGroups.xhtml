@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>Groups</title>
+	<h:outputStylesheet library="css" name="WebContent/css/main.css" />
+</h:head>
+<h:body>
+	<ui:composition template="commonTemplate.xhtml">
+		<ui:define name="content">
+
+			<ui:fragment rendered="#{!loginBean.loggedIn}">
+				<h:outputText value="Please login to see your groups." />
+			</ui:fragment>
+			<ui:fragment rendered="#{loginBean.loggedIn}">
+				<h:outputText value="My Groups" />
+
+				<p:button value="Create new group" outcome="/NewGroup.xhtml"/>
+
+				<h:outputText value="Group Administrator:" />
+
+				<p:dataTable var="g" value="#{myGroupsBean.adminGroup}">
+					<p:column headerText="Group Name">
+						<h:link value="#{g.group.groupName}" outcome="ViewGroup.xhtml">
+							<f:param name="groupId" value="#{g.group.groupId}" />
+						</h:link>
+					</p:column>
+					<p:column headerText="Group Creation Date">
+						<h:outputText value="#{g.group.creationDate}" />
+					</p:column>
+				</p:dataTable>
+
+				<h:outputText value="Group Member:" />
+
+				<p:dataTable var="g" value="#{myGroupsBean.memberGroup}">
+					<p:column headerText="Group Name">
+						<h:link value="#{g.group.groupName}" outcome="ViewGroup.xhtml">
+							<f:param name="groupId" value="#{g.group.groupId}" />
+						</h:link>
+					</p:column>
+					<p:column headerText="Group Join Date">
+						<h:outputText value="#{g.joinedDate}" />
+					</p:column>
+				</p:dataTable>
+			</ui:fragment>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>
