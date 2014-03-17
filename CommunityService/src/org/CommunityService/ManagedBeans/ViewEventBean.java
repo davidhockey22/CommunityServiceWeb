@@ -1,22 +1,16 @@
 package org.CommunityService.ManagedBeans;
 
-import java.util.Set;
-
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.RequestScoped;
 
 import org.CommunityService.EntitiesMapped.Event;
-import org.CommunityService.EntitiesMapped.EventVolunteer;
 import org.CommunityService.Services.EventService;
 import org.ocpsoft.rewrite.annotation.Join;
 
 @ManagedBean
 @RequestScoped
-@Join(path="/event/{eventId}", to="/Web/ViewEvent.xhtml")
-public class ViewEventBean {
-@RequestScoped
-@Join(path="/event/{eventId}", to="/Web/ViewEvent.xhtml")
+@Join(path = "/event/{eventId}", to = "/Web/ViewEvent.xhtml")
 public class ViewEventBean {
 	private Event event;
 	private String eventId;
@@ -30,9 +24,6 @@ public class ViewEventBean {
 		return "?faces-redirect=true";
 	}
 
-	
-	
-	
 	public void fetchEvent() {
 		try {
 			this.event = EventService.getEventById(Integer.parseInt(eventId));
@@ -41,11 +32,11 @@ public class ViewEventBean {
 		}
 	}
 
-	public boolean isSignedUp(){
-		//Set<Event> userEvents = EventService.
+	public boolean isSignedUp() {
+		// Set<Event> userEvents = EventService.
 		return false;
 	}
-	
+
 	public String getEventId() {
 		return eventId;
 	}
