@@ -11,17 +11,17 @@
 	<ui:composition template="commonTemplate.xhtml">
 		<ui:define name="content">
 
-			<ui:fragment rendered="#{!currentVolunteerBean.loggedIn}">
+			<ui:fragment rendered="#{!loginBean.loggedIn}">
 				<h:outputText value="Please login to see your groups." />
 			</ui:fragment>
-			<ui:fragment rendered="#{currentVolunteerBean.loggedIn}">
+			<ui:fragment rendered="#{loginBean.loggedIn}">
 				<h:outputText value="My Groups" />
 
 				<p:button value="Create new group" outcome="/NewGroup.xhtml"/>
 
 				<h:outputText value="Group Administrator:" />
 
-				<p:dataTable var="g" value="#{myGroupsPage.adminGroup}">
+				<p:dataTable var="g" value="#{myGroupsBean.adminGroup}">
 					<p:column headerText="Group Name">
 						<h:link value="#{g.group.groupName}" outcome="ViewGroup.xhtml">
 							<f:param name="groupId" value="#{g.group.groupId}" />
@@ -34,7 +34,7 @@
 
 				<h:outputText value="Group Member:" />
 
-				<p:dataTable var="g" value="#{myGroupsPage.memberGroup}">
+				<p:dataTable var="g" value="#{myGroupsBean.memberGroup}">
 					<p:column headerText="Group Name">
 						<h:link value="#{g.group.groupName}" outcome="ViewGroup.xhtml">
 							<f:param name="groupId" value="#{g.group.groupId}" />

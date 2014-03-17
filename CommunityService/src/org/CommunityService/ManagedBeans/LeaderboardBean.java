@@ -13,8 +13,8 @@ import org.CommunityService.Services.VolunteerService;
 @SessionScoped
 public class LeaderboardBean {
 
-	@ManagedProperty(value = "#{currentVolunteerBean}")
-	private CurrentVolunteerBean currentVolunteer;
+	@ManagedProperty(value = "#{loginBean}")
+	private LoginBean currentVolunteer;
 	
 	public List<Volunteer> getResults() {
 		return results;
@@ -34,11 +34,11 @@ public class LeaderboardBean {
 		
 		results = VolunteerService.getLeaderboardByPoints();
 	}	
-	public CurrentVolunteerBean getCurrentVolunteer() {
+	public LoginBean getCurrentVolunteer() {
 		return currentVolunteer;
 	}
 
-	public void setCurrentVolunteer(CurrentVolunteerBean currentVolunteer) {
+	public void setCurrentVolunteer(LoginBean currentVolunteer) {
 		this.currentVolunteer = currentVolunteer;
 	}
 }

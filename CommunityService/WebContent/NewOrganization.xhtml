@@ -17,25 +17,25 @@
 				<p:panel header="Register Organization">
 
 					<h:panelGrid columns="2" cellpadding="2">
-						<h:outputLabel for="#{registerOrgBean.name}" value="Name" />
-						<h:inputText id="name" value="#{registerOrgBean.name}" required="true">
+						<h:outputLabel for="#{newOrganizationBean.name}" value="Name" />
+						<h:inputText id="name" value="#{newOrganizationBean.name}" required="true">
 						</h:inputText>
 
-						<h:outputLabel for="#{registerOrgBean.address}" value="Address" />
-						<h:inputText id="address" value="#{registerOrgBean.address}" required="true"></h:inputText>
+						<h:outputLabel for="#{newOrganizationBean.address}" value="Address" />
+						<h:inputText id="address" value="#{newOrganizationBean.address}" required="true"></h:inputText>
 
-						<h:outputLabel for="#{registerOrgBean.phoneNumber}" value="Phone Number" />
-						<h:inputText id="phoneNumber" value="#{registerOrgBean.phoneNumber}" required="true"></h:inputText>
+						<h:outputLabel for="#{newOrganizationBean.phoneNumber}" value="Phone Number" />
+						<h:inputText id="phoneNumber" value="#{newOrganizationBean.phoneNumber}" required="true"></h:inputText>
 
-						<h:outputLabel for="#{registerOrgBean.email}" value="Email" />
-						<h:inputText id="email" value="#{registerOrgBean.email}" required="true"></h:inputText>
+						<h:outputLabel for="#{newOrganizationBean.email}" value="Email" />
+						<h:inputText id="email" value="#{newOrganizationBean.email}" required="true"></h:inputText>
 
-						<h:outputLabel for="#{registerOrgBean.description}" value="Description" />
-						<p:inputTextarea id="description" cols="30" rows="10" value="#{registerOrgBean.description}" required="true">
+						<h:outputLabel for="#{newOrganizationBean.description}" value="Description" />
+						<p:inputTextarea id="description" cols="30" rows="10" value="#{newOrganizationBean.description}" required="true">
 							<f:validateLength maximum="500" />
 						</p:inputTextarea>
 
-						<h:commandButton type="submit" value="Register" action="#{registerOrgBean.Register}" />
+						<h:commandButton type="submit" value="Register" action="#{newOrganizationBean.Register}" />
 
 					</h:panelGrid>
 				</p:panel>

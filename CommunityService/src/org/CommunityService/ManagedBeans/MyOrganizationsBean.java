@@ -17,9 +17,9 @@ import org.ocpsoft.rewrite.annotation.Join;
 @Join(path = "/organizations", to = "/Web/MyOrganizations.xhtml")
 @ManagedBean
 @RequestScoped
-public class MyOrganizationsPage {
-	@ManagedProperty(value = "#{currentVolunteerBean}")
-	private CurrentVolunteerBean currentVolunteer;
+public class MyOrganizationsBean {
+	@ManagedProperty(value = "#{loginBean}")
+	private LoginBean currentVolunteer;
 
 	List<OrganizationFollower> adminOrgs;
 	List<OrganizationFollower> memberOrgs;
@@ -58,11 +58,11 @@ public class MyOrganizationsPage {
 		return followerOrgs;
 	}
 
-	public CurrentVolunteerBean getCurrentVolunteer() {
+	public LoginBean getCurrentVolunteer() {
 		return currentVolunteer;
 	}
 
-	public void setCurrentVolunteer(CurrentVolunteerBean currentVolunteer) {
+	public void setCurrentVolunteer(LoginBean currentVolunteer) {
 		this.currentVolunteer = currentVolunteer;
 	}
 }

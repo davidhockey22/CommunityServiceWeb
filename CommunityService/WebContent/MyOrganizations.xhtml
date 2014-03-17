@@ -11,17 +11,17 @@
 	<ui:composition template="commonTemplate.xhtml">
 		<ui:define name="content">
 
-			<ui:fragment rendered="#{!currentVolunteerBean.loggedIn}">
+			<ui:fragment rendered="#{!loginBean.loggedIn}">
 				<h:outputText value="Please login to see your organizaions." />
 			</ui:fragment>
-			<ui:fragment rendered="#{currentVolunteerBean.loggedIn}">
+			<ui:fragment rendered="#{loginBean.loggedIn}">
 				<h:outputText value="My Organizations" />
 
 				<p:button value="Create new organization" outcome="/NewOrganization.xhtml"/>
 
 				<h:outputText value="Organization Administrator:" />
 
-				<p:dataTable var="o" value="#{myOrganizationsPage.adminOrgs}">
+				<p:dataTable var="o" value="#{myOrganizationsBean.adminOrgs}">
 					<p:column headerText="Organization Name">
 						<h:link value="#{o.organization.orgName}" outcome="ViewOrganization.xhtml">
 							<f:param name="orgId" value="#{o.organization.orgId}" />
@@ -34,7 +34,7 @@
 
 				<h:outputText value="Organization Member:" />
 
-				<p:dataTable var="o" value="#{myOrganizationsPage.memberOrgs}">
+				<p:dataTable var="o" value="#{myOrganizationsBean.memberOrgs}">
 					<p:column headerText="Organization Name">
 						<h:link value="#{o.organization.orgName}" outcome="ViewOrganization.xhtml">
 							<f:param name="orgId" value="#{o.organization.orgId}" />
@@ -47,7 +47,7 @@
 
 				<h:outputText value="Organization Follower:" />
 				
-				<p:dataTable var="o" value="#{myOrganizationsPage.followerOrgs}">
+				<p:dataTable var="o" value="#{myOrganizationsBean.followerOrgs}">
 					<p:column headerText="Organization Name">
 						<h:link value="#{o.organization.orgName}" outcome="ViewOrganization.xhtml">
 							<f:param name="orgId" value="#{o.organization.orgId}" />

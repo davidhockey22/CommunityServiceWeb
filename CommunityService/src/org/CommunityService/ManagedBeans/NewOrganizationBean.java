@@ -13,10 +13,10 @@ import org.ocpsoft.rewrite.annotation.Join;
 @ManagedBean
 @SessionScoped
 @Join(path="/createOrganization", to="/Web/NewOrganization.xhtml")
-public class RegisterOrgBean {
+public class NewOrganizationBean {
 
-	@ManagedProperty(value = "#{currentVolunteerBean}")
-	private CurrentVolunteerBean currentVolunteer;
+	@ManagedProperty(value = "#{loginBean}")
+	private LoginBean currentVolunteer;
 	
 	private String name;
 	private String address;
@@ -48,11 +48,11 @@ public class RegisterOrgBean {
 		return "LandingPage";
 	}
 	
-	public CurrentVolunteerBean getCurrentVolunteer() {
+	public LoginBean getCurrentVolunteer() {
 		return currentVolunteer;
 	}
 
-	public void setCurrentVolunteer(CurrentVolunteerBean currentVolunteer) {
+	public void setCurrentVolunteer(LoginBean currentVolunteer) {
 		this.currentVolunteer = currentVolunteer;
 	}	
 	

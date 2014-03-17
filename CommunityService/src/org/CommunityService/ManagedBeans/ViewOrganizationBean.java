@@ -4,11 +4,14 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 
 import org.CommunityService.EntitiesMapped.Organization;
+import org.CommunityService.Services.Gravatar;
 import org.CommunityService.Services.OrganizationService;
+import org.ocpsoft.rewrite.annotation.Join;
 
 @ManagedBean
 @RequestScoped
-public class OrganizationPage {
+@Join(path="/organization/{orgId}", to="/Web/ViewOrganization.xhtml")
+public class ViewOrganizationBean {
 	private Organization organization;
 	private String orgId;
 	
@@ -20,12 +23,13 @@ public class OrganizationPage {
 		}
 	}
 
-	public String getOrgId() {
-		return orgId;
-	}
-
 	public void setOrgId(String orgId) {
 		this.orgId = orgId;
+	}
+
+	public String getGravatarURL() {
+		String email = (this.getOrganization() != null ? this.getOrganization().getEmailAddress() : null);
+		return Gravatar.getGravatarImage(email);
 	}
 
 	public Organization getOrganization() {

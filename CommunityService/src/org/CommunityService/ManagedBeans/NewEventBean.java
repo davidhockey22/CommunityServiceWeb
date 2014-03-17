@@ -10,7 +10,7 @@ import org.ocpsoft.rewrite.annotation.Join;
 
 @ManagedBean
 @Join(path="/createEvent", to="/Web/NewEvent.xhtml")
-public class CreateEvent {
+public class NewEventBean {
 
 	private String eventname;
 

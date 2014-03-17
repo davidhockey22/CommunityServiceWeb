@@ -10,10 +10,10 @@ import org.ocpsoft.rewrite.annotation.Join;
 @ManagedBean
 @SessionScoped
 @Join(path="/editProfile", to="/Web/MyProfile.xhtml")
-public class ProfileBean {
+public class MyProfileBean {
 
-	@ManagedProperty(value = "#{currentVolunteerBean}")
-	private CurrentVolunteerBean currentVolunteer;
+	@ManagedProperty(value = "#{loginBean}")
+	private LoginBean currentVolunteer;
 
 	private String oldEmail = null;
 	
@@ -47,11 +47,11 @@ public class ProfileBean {
 		return null;
 	}
 
-	public CurrentVolunteerBean getCurrentVolunteer() {
+	public LoginBean getCurrentVolunteer() {
 		return currentVolunteer;
 	}
 
-	public void setCurrentVolunteer(CurrentVolunteerBean currentVolunteer) {
+	public void setCurrentVolunteer(LoginBean currentVolunteer) {
 		this.currentVolunteer = currentVolunteer;
 	}
 	

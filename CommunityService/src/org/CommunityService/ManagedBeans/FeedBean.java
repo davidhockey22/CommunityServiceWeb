@@ -12,9 +12,9 @@ import org.ocpsoft.rewrite.annotation.Join;
 
 @ManagedBean
 @Join(path="/", to="/Web/Home.xhtml")
-public class FeedPage {
-	@ManagedProperty(value = "#{currentVolunteerBean}")
-	private CurrentVolunteerBean currentVolunteer;
+public class FeedBean {
+	@ManagedProperty(value = "#{loginBean}")
+	private LoginBean currentVolunteer;
 	
 	List<Event> volunteerEvents;
 	
@@ -28,11 +28,11 @@ public class FeedPage {
 		this.volunteerEvents = volunteerEvents;
 	}
 
-	public CurrentVolunteerBean getCurrentVolunteer() {
+	public LoginBean getCurrentVolunteer() {
 		return currentVolunteer;
 	}
 
-	public void setCurrentVolunteer(CurrentVolunteerBean currentVolunteer) {
+	public void setCurrentVolunteer(LoginBean currentVolunteer) {
 		this.currentVolunteer = currentVolunteer;
 	}
 }

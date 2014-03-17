@@ -11,7 +11,7 @@ import org.ocpsoft.rewrite.annotation.Join;
 @ManagedBean
 @RequestScoped
 @Join(path="/register", to="/Web/NewVolunteer.xhtml")
-public class RegistrationBean {
+public class NewVolunteerBean {
 
 	private String username;
 	private String password;

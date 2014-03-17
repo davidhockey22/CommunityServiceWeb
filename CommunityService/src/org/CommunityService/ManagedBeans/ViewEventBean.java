@@ -10,12 +10,13 @@ import org.ocpsoft.rewrite.annotation.Join;
 
 @ManagedBean
 @RequestScoped
-public class EventPage {
+@Join(path="/event/{eventId}", to="/Web/ViewEvent.xhtml")
+public class ViewEventBean {
 	private Event event;
 	private String eventId;
 
-	@ManagedProperty(value = "#{currentVolunteerBean}")
-	private CurrentVolunteerBean currentVolunteer;
+	@ManagedProperty(value = "#{loginBean}")
+	private LoginBean currentVolunteer;
 
 	public String signUp() {
 		EventService.signUp(currentVolunteer.getVolunteer(), event);
@@ -43,11 +44,11 @@ public class EventPage {
 		return event;
 	}
 
-	public CurrentVolunteerBean getCurrentVolunteer() {
+	public LoginBean getCurrentVolunteer() {
 		return currentVolunteer;
 	}
 
-	public void setCurrentVolunteer(CurrentVolunteerBean currentVolunteer) {
+	public void setCurrentVolunteer(LoginBean currentVolunteer) {
 		this.currentVolunteer = currentVolunteer;
 	}
 }

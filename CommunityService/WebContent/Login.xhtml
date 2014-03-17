@@ -10,22 +10,22 @@
 <h:body>
 	<ui:composition template="commonTemplate.xhtml">
 		<ui:define name="content">
-			<h:form rendered="#{!currentVolunteerBean.loggedIn}">
+			<h:form rendered="#{!loginBean.loggedIn}">
 				<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
 				<p:panelGrid columns="3" cellpadding="2">
-					<h:outputLabel for="#{currentVolunteerBean.username}" value="UserName" />
-					<p:inputText id="username" value="#{currentVolunteerBean.username}" label="UserName" required="true" />
-					<p:commandButton type="submit" value="Login" action="#{currentVolunteerBean.Login}" ajax="false" />
-					<h:outputLabel for="#{currentVolunteerBean.password}" value="Password" />
-					<p:password id="password" value="#{currentVolunteerBean.password}" required="true" />
+					<h:outputLabel for="#{loginBean.username}" value="UserName" />
+					<p:inputText id="username" value="#{loginBean.username}" label="UserName" required="true" />
+					<p:commandButton type="submit" value="Login" action="#{loginBean.Login}" ajax="false" />
+					<h:outputLabel for="#{loginBean.password}" value="Password" />
+					<p:password id="password" value="#{loginBean.password}" required="true" />
 					<p:button value="Register" outcome="/NewVolunteer.xhtml" />
 				</p:panelGrid>
 			</h:form>
-			<h:form rendered="#{currentVolunteerBean.loggedIn}">
+			<h:form rendered="#{loginBean.loggedIn}">
 				<h:outputFormat value="Hello, {0}. ">
-					<f:param value="#{currentVolunteerBean.volunteer.volunteerName}" />
+					<f:param value="#{loginBean.volunteer.volunteerName}" />
 				</h:outputFormat>
-				<p:commandButton type="submit" value="Logout" action="#{currentVolunteerBean.Logout}" ajax="false" />
+				<p:commandButton type="submit" value="Logout" action="#{loginBean.Logout}" ajax="false" />
 			</h:form>
 		</ui:define>
 	</ui:composition>

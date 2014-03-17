@@ -13,7 +13,7 @@ import org.ocpsoft.rewrite.annotation.Join;
 @ManagedBean
 @SessionScoped
 @Join(path="/login", to="/Web/Login.xhtml")
-public class CurrentVolunteerBean {
+public class LoginBean {
 	private Volunteer volunteer;
 
 	public boolean isLoggedIn() {
@@ -61,27 +61,33 @@ public class CurrentVolunteerBean {
 		return "?faces-redirect=true";
 	}
 	
-	public String getGravatarURL () {
-		String email = (this.volunteer != null ? this.volunteer.getEmailAddress() : "");
-		return Gravatar.getGravatarImage(email);
-	}
-	
 	// Getters and Setters
 	// ---------------------------------------------------------------------------------------------------
+	
+	
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
 	public String getUsername() {
 		return username;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
-	}
+
 
 	public String getPassword() {
 		return password;
 	}
 
+
+
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	
+	public String getGravatarURL() {
+		String email = (this.getVolunteer() != null ? this.getVolunteer().getEmailAddress() : null);
+		return Gravatar.getGravatarImage(email);
 	}
 	
 	public Volunteer getVolunteer() {

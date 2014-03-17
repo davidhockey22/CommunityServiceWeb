@@ -12,10 +12,10 @@
 		<ui:define name="content">
 			<div id="container">
 				<div id="center" class="column">
-					<ui:fragment rendered="#{!currentVolunteerBean.loggedIn}">
+					<ui:fragment rendered="#{!loginBean.loggedIn}">
 						<ui:include src="IntroContent.xhtml" />
 					</ui:fragment>
-					<ui:fragment rendered="#{currentVolunteerBean.loggedIn}">
+					<ui:fragment rendered="#{loginBean.loggedIn}">
 						<div style="width:100%; margin:auto;"><ui:include src="Feed.xhtml" /> </div>
 					</ui:fragment>
 				</div>

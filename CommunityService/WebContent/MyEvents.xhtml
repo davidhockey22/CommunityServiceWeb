@@ -11,17 +11,17 @@
 	<ui:composition template="commonTemplate.xhtml">
 		<ui:define name="content">
 
-			<ui:fragment rendered="#{!currentVolunteerBean.loggedIn}">
+			<ui:fragment rendered="#{!loginBean.loggedIn}">
 				<h:outputText value="Please login to see your events." />
 				<!--
 				<ui:include src="Login.xhtml" />
 				-->
 			</ui:fragment>
-			<ui:fragment rendered="#{currentVolunteerBean.loggedIn}">
+			<ui:fragment rendered="#{loginBean.loggedIn}">
 
 				<h:outputText value="Accepted Events:" />
 
-				<p:dataTable var="e" value="#{myEventsPage.acceptedEvents}">
+				<p:dataTable var="e" value="#{myEventsBean.acceptedEvents}">
 					<p:column headerText="Event ID">
 						<h:link value="#{e.event.eventId}" outcome="ViewEvent.xhtml">
 							<f:param name="eventId" value="#{e.event.eventId}" />
@@ -40,7 +40,7 @@
 
 				<h:outputText value="Pending Events:" />
 
-				<p:dataTable var="e" value="#{myEventsPage.pendingEvents}">
+				<p:dataTable var="e" value="#{myEventsBean.pendingEvents}">
 					<p:column headerText="Event ID">
 						<h:link value="#{e.event.eventId}" outcome="ViewEvent.xhtml">
 							<f:param name="eventId" value="#{e.event.eventId}" />
@@ -59,7 +59,7 @@
 
 				<h:outputText value="Past Events:" />
 
-				<p:dataTable var="e" value="#{myEventsPage.pastEvents}">
+				<p:dataTable var="e" value="#{myEventsBean.pastEvents}">
 					<p:column headerText="Event ID">
 						<h:link value="#{e.event.eventId}" outcome="ViewEvent.xhtml">
 							<f:param name="eventId" value="#{e.event.eventId}" />

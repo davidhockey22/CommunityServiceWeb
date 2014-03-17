@@ -6,17 +6,16 @@ import javax.faces.bean.SessionScoped;
 
 import org.CommunityService.EntitiesMapped.Organization;
 import org.CommunityService.Services.OrganizationService;
-import org.CommunityService.Services.VolunteerService;
 
 @ManagedBean
 @SessionScoped
-public class OrgProfileBean {
+public class EditOrganizationBean {
 
 	boolean renderError;
 	boolean renderPage;
 
-	@ManagedProperty(value = "#{currentVolunteerBean}")
-	private CurrentVolunteerBean currentVolunteer;
+	@ManagedProperty(value = "#{loginBean}")
+	private LoginBean currentVolunteer;
 
 	private Organization currentOrg = null;
 
@@ -88,11 +87,11 @@ public class OrgProfileBean {
 		this.renderPage = renderPage;
 	}
 
-	public CurrentVolunteerBean getCurrentVolunteer() {
+	public LoginBean getCurrentVolunteer() {
 		return currentVolunteer;
 	}
 
-	public void setCurrentVolunteer(CurrentVolunteerBean currentVolunteer) {
+	public void setCurrentVolunteer(LoginBean currentVolunteer) {
 		this.currentVolunteer = currentVolunteer;
 	}
 

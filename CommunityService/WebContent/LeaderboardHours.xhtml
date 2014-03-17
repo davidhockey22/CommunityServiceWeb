@@ -12,13 +12,13 @@
 
 		<ui:define name="content">
 			<div style="clear: left">
-				<h:form rendered="#{!currentVolunteerBean.loggedIn}">
+				<h:form rendered="#{!loginBean.loggedIn}">
 
 					<h:outputFormat value="You're not logged in. ">
 					</h:outputFormat>
 
 				</h:form>
-				<h:form id="leaderboardByHoursForm" rendered="#{currentVolunteerBean.loggedIn}">
+				<h:form id="leaderboardByHoursForm" rendered="#{loginBean.loggedIn}">
 
 					<p:panel header="Leaderboard By Hours">
 					

@@ -12,13 +12,13 @@
 
 		<ui:define name="content">
 			<div style="clear: left">
-				<h:form rendered="#{!currentVolunteerBean.loggedIn}">
+				<h:form rendered="#{!loginBean.loggedIn}">
 
 					<h:outputFormat value="You're not logged in. ">
 					</h:outputFormat>
 
 				</h:form>
-				<h:form id="form" rendered="#{currentVolunteerBean.loggedIn}">
+				<h:form id="form" rendered="#{loginBean.loggedIn}">
 
 					<p:growl id="messages" showDetail="true" />
 
