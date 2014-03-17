@@ -26,16 +26,14 @@
 							<h:outputText value="#{viewEventBean.event.eventName}" />
 						</f:facet>
 						<h:outputLabel for="description" value="Description: " />
-<<<<<<< HEAD
-						<h:outputText id="description" value="#{eventPage.event.description}" label="Description" />
+						<h:outputText id="description" value="#{viewEventBean.event.description}" label="Description" />
+						<p:commandButton value="Sign Up!" actionListener="#{viewEventBean.signUp}" />
 						<h:form rendered="#{currentVolunteerBean.loggedIn and !eventPage.signedUp}">
 							<p:commandButton value="Sign Up!" actionListener="#{eventPage.signUp}" />
 						</h:form>
-=======
 						<h:outputText id="description" value="#{viewEventBean.event.description}" label="Description" />
 						<p:commandButton value="Sign Up!" actionListener="#{viewEventBean.signUp}" />
 
->>>>>>> e62e0bed9ea27284a2f7106e698a3060f8e44373
 					</p:panelGrid>
 				</ui:fragment>
 			</div>

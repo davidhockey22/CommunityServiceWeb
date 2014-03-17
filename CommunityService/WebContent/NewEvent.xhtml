@@ -32,17 +32,16 @@
 			</p:inputText>
 
 			<h:outputText value="Start Time/Date" />
-<<<<<<< HEAD
+			<p:calendar value="#{newEventBean.begintime}" id="begintime" pattern="MM/dd/yyyy HH:mm" />
 			<p:calendar value="#{createEvent.begintime}" id="begintime" pattern="EEE, MMM d, yyyy - h:mm a" timeZone="EDT"/>
 
 			<h:outputText value="End Time/Date" />
-			<p:calendar value="#{createEvent.endtime}" id="endtime" pattern="EEE, MMM d, yyyy - h:mm a" timeZone="EDT"/>
-=======
+			<p:calendar value="#{newEventBean.endtime}" id="endtime" pattern="MM/dd/yyyy HH:mm" />
 			<p:calendar value="#{newEventBean.begintime}" id="begintime" pattern="MM/dd/yyyy HH:mm" />
 
 			<h:outputText value="End Time/Date" />
 			<p:calendar value="#{newEventBean.endtime}" id="endtime" pattern="MM/dd/yyyy HH:mm" />
->>>>>>> e62e0bed9ea27284a2f7106e698a3060f8e44373
+
 
 
 

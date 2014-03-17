@@ -9,16 +9,15 @@ import javax.faces.bean.SessionScoped;
 import org.CommunityService.EntitiesMapped.Event;
 import org.CommunityService.EntitiesMapped.EventVolunteer;
 import org.CommunityService.Services.EventService;
+import org.ocpsoft.rewrite.annotation.Join;
 
 @ManagedBean
-<<<<<<< HEAD:CommunityService/src/org/CommunityService/ManagedBeans/EventPage.java
-@SessionScoped
-public class EventPage {
-=======
 @RequestScoped
 @Join(path="/event/{eventId}", to="/Web/ViewEvent.xhtml")
 public class ViewEventBean {
->>>>>>> e62e0bed9ea27284a2f7106e698a3060f8e44373:CommunityService/src/org/CommunityService/ManagedBeans/ViewEventBean.java
+@RequestScoped
+@Join(path="/event/{eventId}", to="/Web/ViewEvent.xhtml")
+public class ViewEventBean {
 	private Event event;
 	private String eventId;
 
@@ -27,6 +26,7 @@ public class ViewEventBean {
 
 	public String signUp() {
 		EventService.signUp(currentVolunteer.getVolunteer(), event);
+
 		return "?faces-redirect=true";
 	}
 
