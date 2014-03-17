@@ -66,6 +66,14 @@ public class Login extends Activity {
             		MySQLRequest.Create(Login.this, Integer.toString(MySQLRequest.kindVolQuery), username);        			
         	}
         });
+        final Button reg = (Button)findViewById(R.id.register);
+        reg.setOnClickListener(new OnClickListener(){
+        	public void onClick(View v){
+
+        		//launch main activity
+    			startActivity(new Intent(Login.this,Register.class).putExtra("test",""));
+        	}
+        });        
         
         //example
         //image = (ImageView) findViewById(R.id.imageView1);

@@ -120,6 +120,14 @@ public class RequestReceiver extends BroadcastReceiver{
 			if(kind == MySQLRequest.kindFindQuery)
 				MainFragment.current.onFindQueryDone();
 		}
+		else if(kind == MySQLRequest.kindRegister) {
+			
+			if(response.contains("1")) { //servlet actually returns "1/n"
+				Register.current.onRegistration(true);
+			}
+			else
+				Register.current.onRegistration(false);
+		}
 
 		if(kind == MySQLRequest.kindEventQuery)
 			EventData.status = EventData.statusLoaded;

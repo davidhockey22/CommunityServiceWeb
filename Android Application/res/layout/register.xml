@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginLeft="20dip"
+        android:layout_marginRight="20dip" >
+
+        <TextView
+            android:id="@+id/title"
+            style="@style/defText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dip"
+            android:text="Register" />
+
+        <TextView
+            android:id="@+id/userName"
+            style="@style/defText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/title"
+            android:layout_marginTop="20dip"
+            android:text="Username" />
+
+        <EditText
+            android:id="@+id/userEdit"
+            style="@style/defText"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/title"
+            android:layout_marginTop="10dip"
+            android:layout_toRightOf="@id/userName"
+            android:singleLine="true"
+            android:text="" />
+
+        <!-- android:layout_centerVertical="true" -->
+
+        <TextView
+            android:id="@+id/password"
+            style="@style/defText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/userName"
+            android:layout_marginTop="20dip"
+            android:text="Password" />
+
+        <EditText
+            android:id="@+id/passwordEdit"
+            style="@style/defText"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/userName"
+            android:layout_marginTop="10dip"
+            android:layout_toRightOf="@id/password"
+            android:inputType="textPassword"
+            android:singleLine="true"
+            android:text="" />
+
+        <TextView
+            android:id="@+id/confirmPassword"
+            style="@style/defText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/password"
+            android:layout_marginTop="20dip"
+            android:text="Confirm Password" />
+
+        <EditText
+            android:id="@+id/confirmPasswordEdit"
+            style="@style/defText"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/password"
+            android:layout_marginTop="10dip"
+            android:layout_toRightOf="@id/confirmPassword"
+            android:inputType="textPassword"
+            android:singleLine="true"
+            android:text="" />
+
+        <TextView
+            android:id="@+id/firstName"
+            style="@style/defText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/confirmPassword"
+            android:layout_marginTop="20dip"
+            android:text="First Name" />
+
+        <EditText
+            android:id="@+id/firstNameEdit"
+            style="@style/defText"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/confirmPassword"
+            android:layout_marginTop="10dip"
+            android:layout_toRightOf="@id/firstName"
+            android:singleLine="true"
+            android:text="" />
+
+        <TextView
+            android:id="@+id/lastName"
+            style="@style/defText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/firstName"
+            android:layout_marginTop="20dip"
+            android:text="Last Name" />
+
+        <EditText
+            android:id="@+id/lastNameEdit"
+            style="@style/defText"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/firstName"
+            android:layout_marginTop="10dip"
+            android:layout_toRightOf="@id/lastName"
+            android:singleLine="true"
+            android:text="" />
+
+        <TextView
+            android:id="@+id/phone"
+            style="@style/defText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/lastName"
+            android:layout_marginTop="20dip"
+            android:text="Phone Number" />
+
+        <EditText
+            android:id="@+id/phoneEdit"
+            style="@style/defText"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/lastName"
+            android:layout_marginTop="10dip"
+            android:layout_toRightOf="@id/phone"
+            android:singleLine="true"
+            android:text="" />
+
+        <TextView
+            android:id="@+id/email"
+            style="@style/defText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/phone"
+            android:layout_marginTop="20dip"
+            android:text="Email" />
+
+        <EditText
+            android:id="@+id/emailEdit"
+            style="@style/defText"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/phone"
+            android:layout_marginTop="10dip"
+            android:layout_toRightOf="@id/email"
+            android:singleLine="true"
+            android:text="" />
+
+        <TextView
+            android:id="@+id/error"
+            style="@style/defText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/email"
+            android:layout_marginTop="20dip"
+            android:text=""
+            android:textColor="#ffff0000" />
+
+        <Button
+            android:id="@+id/registerButton"
+            style="@style/defText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/error"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dip"
+            android:text="Register" />
+    </RelativeLayout>
+
+</ScrollView>

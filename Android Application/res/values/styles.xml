@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-<style name="mainTheme" parent="@android:style/Theme.Holo.Light">
-</style>
+
+    <style name="mainTheme" parent="@android:style/Theme.Holo.Light"></style>
+
+    <style name="defText" >
+        <item name="android:textSize">20sp</item>
+    </style>
+
 </resources>

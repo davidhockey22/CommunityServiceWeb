@@ -37,7 +37,8 @@ public class MySQLRequest extends IntentService{
 	
     public static final int kindVolQuery = 1, //id = name
     		kindEventQuery = 3, //id = volunteer id   		
-    		kindFindQuery = 4; //id = null (returns all events)
+    		kindFindQuery = 4, //id = null (returns all events)
+    		kindRegister = 5;
  
     private String inMessage;
     
@@ -133,6 +134,21 @@ public class MySQLRequest extends IntentService{
         		
         		response = sendHttpRequest(url, nameValuePairs);        		
         	}
+        	else if(kindInt == kindRegister) {
+        		
+        		url = "http://54.200.107.187:8080/CommunityService/Android/register";
+        		//url += "?username=" + Login.current.username;
+        		//url += "&password=" + Login.current.password;
+        		
+        		nameValuePairs.add(new BasicNameValuePair("username", Register.current.user));
+        		nameValuePairs.add(new BasicNameValuePair("password", Register.current.password));
+        		nameValuePairs.add(new BasicNameValuePair("firstName", Register.current.first));
+        		nameValuePairs.add(new BasicNameValuePair("lastName", Register.current.last));
+        		nameValuePairs.add(new BasicNameValuePair("phoneNumber", Register.current.phone));
+        		nameValuePairs.add(new BasicNameValuePair("email", Register.current.email));
+
+        		response = sendHttpRequest(url, nameValuePairs);
+        	}        	
         	else
         		Obj.BreakPoint();
         }        	
