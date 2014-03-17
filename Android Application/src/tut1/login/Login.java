@@ -34,7 +34,7 @@ public class Login extends Activity {
         setContentView(R.layout.login);
 
         current = this;
-        
+
         //Register your receiver so that the Activity can be notified
         IntentFilter filter = new IntentFilter(RequestReceiver.PROCESS_RESPONSE);
         filter.addCategory(Intent.CATEGORY_DEFAULT);

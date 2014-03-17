@@ -22,7 +22,7 @@ public class FindKindAdapter extends BaseExpandableListAdapter {
 
     @Override
     public int getGroupCount() {
-        return 2;
+        return 3;
     }
 
     @Override
@@ -37,7 +37,10 @@ public class FindKindAdapter extends BaseExpandableListAdapter {
         	int size = InterestData.GetListSize();
         	return size;
         }
-        
+        else if(groupPosition == 1) {
+        	
+        	return 0;
+        }        
         return 0;
     }
 
@@ -52,7 +55,10 @@ public class FindKindAdapter extends BaseExpandableListAdapter {
         	
         	return "Find by interest";
         }
-        
+        else if(groupPosition == 2) {
+        	
+        	return "Find by Date";
+        }        
         return null;
     }
 

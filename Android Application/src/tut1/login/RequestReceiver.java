@@ -79,7 +79,8 @@ public class RequestReceiver extends BroadcastReceiver{
 				Login.current.OnMySQLRequest(); //notify login screen
 		}
 		else if(kind == MySQLRequest.kindEventQuery ||
-				kind == MySQLRequest.kindFindQuery ) {
+				kind == MySQLRequest.kindFindQuery ||
+				kind == MySQLRequest.kindByDate ) {
 
 			Gson gson = new Gson();
 			List<Event> list = gson.fromJson(response, new TypeToken<List<Event>>(){}.getType());
@@ -101,7 +102,10 @@ public class RequestReceiver extends BroadcastReceiver{
 				ev.AddToAllEventsList();
 
 				if(kind == MySQLRequest.kindEventQuery)
-					ev.AddToEventsSignedUpForList();		    
+					ev.AddToEventsSignedUpForList();
+				
+				if(kind == MySQLRequest.kindByDate)
+					ev.AddToEventsByDateList();					
 
 				//pass interests to custom class.
 				InterestData interest;

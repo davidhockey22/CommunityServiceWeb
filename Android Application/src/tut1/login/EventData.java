@@ -17,6 +17,9 @@ public class EventData extends Obj{
 	
     private static List<String> findListString = null;
     private static List<EventData> findList = null;
+    
+    private static List<String> byDateString = new ArrayList<String>();
+    private static List<EventData> byDate = new ArrayList<EventData>();    
 
     private List<String> interestIDList = new ArrayList<String>();
     
@@ -74,7 +77,15 @@ public class EventData extends Obj{
     	
     	eventsSignedUpForString.add(eventID);
     	eventsSignedUpFor.add(this);
-    }    
+    }
+    public void AddToEventsByDateList() {
+    	
+    	if( eventsSignedUpForString.contains(eventID) )
+    		return;
+    	
+    	byDateString.add(eventID);
+    	byDate.add(this);
+    }
     public static void AddToInterestList(String EventID, String InterestID) {
     	
     	EventData ev = GetFromList(EventID);
@@ -98,15 +109,23 @@ public class EventData extends Obj{
     }
     public static void SetFindList(int EventAdapterKind) {
     	
+		if(EventAdapterKind == EventAdapter.kindFindByDate){
+			
+			findListString = byDateString;
+			findList = byDate;
+			
+			return;
+		}    	
+    	
         findListString = new ArrayList<String>();
-        findList = new ArrayList<EventData>();
+        findList = new ArrayList<EventData>();        
     	
     	Iterator<String> stI = allEventsString.iterator();
     	Iterator<EventData> evI = allEvents.iterator();
     	
     	String st = null;
     	EventData ev = null;
-    	
+
     	while(stI.hasNext() && evI.hasNext()) {
     		st = stI.next();
     		ev = evI.next();

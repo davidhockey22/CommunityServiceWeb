@@ -1,6 +1,7 @@
 package org.CommunityService.Services;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.CommunityService.EntitiesMapped.Event;
@@ -43,8 +44,36 @@ public class EventService {
 		} catch (HibernateException e) {
 			return null;
 		}
-	}	
-
+	}
+	
+	public static List<Event> getEventsByDate() {
+		
+		Date date = new Date();
+		
+		String hql = "FROM Event as ev where ev.beginTime > ? order by ev.beginTime asc";
+		ArrayList<Date> params = new ArrayList<Date>();
+		params.add(date);
+		try {
+			@SuppressWarnings("unchecked")
+			List<Event> events = (List<Event>) DBConnection.query(hql, params);
+			return events;
+		} catch (HibernateException e) {
+			return null;
+		}
+	}		
+	public static List<Event> getEventsByInterest(Integer interestID) {
+		
+		String hql = "???";
+		ArrayList<Integer> params = new ArrayList<Integer>();
+		params.add(interestID);
+		try {
+			@SuppressWarnings("unchecked")
+			List<Event> events = (List<Event>) DBConnection.query(hql, params);
+			return events;
+		} catch (HibernateException e) {
+			return null;
+		}
+	}
 	public static boolean signUp(Volunteer v, Event e) {
 		//if (v != null) {
 			EventVolunteer ev = new EventVolunteer(e, v);

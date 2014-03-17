@@ -54,6 +54,18 @@ public class FindKindFragment extends Fragment {
 					
 					return true;
 				}
+				else if(groupPosition == 2) { //if "Find by date" clicked on
+					
+					EventAdapter.findByKind = EventAdapter.kindFindByDate;
+					
+					//replace fragment
+					Fragment fragment = new FindFragment();
+					
+			        FragmentManager fragmentManager = getFragmentManager();
+			        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+					
+					return true;
+				}				
 				
 				return false;
 			}
