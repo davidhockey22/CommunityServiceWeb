@@ -8,6 +8,7 @@ import org.CommunityService.EntitiesMapped.EventVolunteer;
 import org.CommunityService.EntitiesMapped.GroupMember;
 import org.CommunityService.EntitiesMapped.OrganizationFollower;
 import org.CommunityService.EntitiesMapped.Volunteer;
+import org.CommunityService.Validators.PasswordHash;
 import org.hibernate.HibernateException;
 
 public class VolunteerService {
@@ -59,7 +60,7 @@ public class VolunteerService {
 			return new ArrayList<Event>();
 		}
 	}
-	
+
 	public static List<EventVolunteer> getEventVolunteersByVolunteer(Volunteer volunteer) {
 		String hql = "FROM EventVolunteer AS ev LEFT JOIN ev.events WHERE ev.volunteer.volunteerId=?";
 		ArrayList<Integer> params = new ArrayList<Integer>();
@@ -72,7 +73,7 @@ public class VolunteerService {
 			return new ArrayList<EventVolunteer>();
 		}
 	}
-	
+
 	public static List<GroupMember> getGroupMembersByVolunteer(Volunteer volunteer) {
 		String hql = "FROM GroupMember AS gm LEFT JOIN gm.volunteer AS v LEFT JOIN gm.Group WHERE v.volunteerId=?";
 		ArrayList<Integer> params = new ArrayList<Integer>();
@@ -85,7 +86,7 @@ public class VolunteerService {
 			return new ArrayList<GroupMember>();
 		}
 	}
-	
+
 	public static List<OrganizationFollower> getOrganizationFollowersByVolunteer(Volunteer volunteer) {
 		String hql = "FROM OrganizationFollower AS orgf LEFT JOIN orgf.volunteer as v LEFT JOIN orgf.organization WHERE v.volunteerId=?";
 		ArrayList<Integer> params = new ArrayList<Integer>();
@@ -98,19 +99,21 @@ public class VolunteerService {
 			return new ArrayList<OrganizationFollower>();
 		}
 	}
-	
+
 	public static List<Volunteer> getLeaderboardByPoints() throws HibernateException {
 		String hql = "from Volunteer as v order by v.points desc";
 		@SuppressWarnings("unchecked")
 		List<Volunteer> v = (List<Volunteer>) DBConnection.query(hql, null, 25);
 		return v;
 	}
+
 	public static List<Volunteer> getLeaderboardByHours() throws HibernateException {
 		String hql = "from Volunteer as v order by v.hoursWorked desc";
 		@SuppressWarnings("unchecked")
 		List<Volunteer> v = (List<Volunteer>) DBConnection.query(hql, null, 25);
 		return v;
 	}
+
 	public static List<Volunteer> getVolunteers() throws HibernateException {
 		String hql = "from Volunteer as v";
 		@SuppressWarnings("unchecked")
@@ -119,6 +122,14 @@ public class VolunteerService {
 	}
 
 	public static void addVolunteer(Volunteer v) throws Exception {
+		DBConnection.persist(v);
+		return;
+	}
+
+	public static void registerVolunteer(String username, String password, String email, String phoneNumber, String firstName, String lastName)
+			throws Exception {
+		password = PasswordHash.getHash(password, email);
+		Volunteer v = new Volunteer(username, password, phoneNumber, email, firstName, lastName);
 		DBConnection.persist(v);
 		return;
 	}
