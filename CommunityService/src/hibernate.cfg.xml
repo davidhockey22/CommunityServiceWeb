@@ -9,7 +9,7 @@
 		<property name="connection.password">password0</property>
 		<property name="connection.url">jdbc:mysql://dbcsdata.cjoqwx9xyg10.us-west-2.rds.amazonaws.com/volunteerMeData</property>
 		<property name="connection.username">csuser</property>
-		<property name="dialect">org.hibernate.dialect.MySQLInnoDBDialect</property>
+		<property name="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</property>
         
 
 		        <!-- Use the C3P0 connection pool. -->

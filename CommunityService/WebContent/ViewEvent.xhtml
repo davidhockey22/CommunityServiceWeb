@@ -31,9 +31,6 @@
 						<h:form rendered="#{currentVolunteerBean.loggedIn and !eventPage.signedUp}">
 							<p:commandButton value="Sign Up!" actionListener="#{eventPage.signUp}" />
 						</h:form>
-						<h:outputText id="description" value="#{viewEventBean.event.description}" label="Description" />
-						<p:commandButton value="Sign Up!" actionListener="#{viewEventBean.signUp}" />
-
 					</p:panelGrid>
 				</ui:fragment>
 			</div>

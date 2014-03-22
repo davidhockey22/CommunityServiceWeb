@@ -1,61 +1,74 @@
 package org.CommunityService.ManagedBeans;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 
 import org.CommunityService.EntitiesMapped.Organization;
+import org.CommunityService.EntitiesMapped.OrganizationFollower;
+import org.CommunityService.Services.DBConnection;
 import org.CommunityService.Services.OrganizationService;
+import org.CommunityService.Services.VolunteerService;
 import org.ocpsoft.rewrite.annotation.Join;
 
 @ManagedBean
 @SessionScoped
-@Join(path="/createOrganization", to="/Web/NewOrganization.xhtml")
+@Join(path = "/createOrganization", to = "/Web/NewOrganization.xhtml")
 public class NewOrganizationBean {
 
 	@ManagedProperty(value = "#{loginBean}")
 	private LoginBean currentVolunteer;
-	
+
 	private String name;
 	private String address;
 	private String phoneNumber;
 	private String email;
 	private String description;
-	
-	public String Register(){
-		
+
+	public String Register() {
+
 		try {
-			
-			//new organization
+
+			// new organization
 			Organization org = new Organization(name, address, phoneNumber, email);
 			org.setCreatedOn(new Date());
 			org.setDescription(description);
-
-			//add organization to mysql
+			Set<OrganizationFollower> orgFollowers = new HashSet<OrganizationFollower>();
+			OrganizationFollower follower = new OrganizationFollower();
+			follower.setAdmin(true);
+			follower.setMod(true);
+			follower.setVolunteer(VolunteerService.getVolunteerById(currentVolunteer.getVolunteer().getVolunteerId()));
+			follower.setOrganization(org);
+			orgFollowers.add(follower);
+			org.setOrganizationFollowers(orgFollowers);
+			// add organization to mysql
 			OrganizationService.addOrganization(org);
+			//DBConnection.persistRelationalEntity(follower);
 			
-			//update volunteer which is now the admin of the org
-//			currentVolunteer.getVolunteer().setOrganization(org);
-//			VolunteerService.updateVolunteer(currentVolunteer.getVolunteer());
-			
+			// update volunteer which is now the admin of the org
+			// currentVolunteer.getVolunteer().setOrganization(org);
+			// VolunteerService.updateVolunteer(currentVolunteer.getVolunteer());
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "Error";
 		}
-		
+
 		return "LandingPage";
 	}
-	
+
 	public LoginBean getCurrentVolunteer() {
 		return currentVolunteer;
 	}
 
 	public void setCurrentVolunteer(LoginBean currentVolunteer) {
 		this.currentVolunteer = currentVolunteer;
-	}	
-	
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -94,6 +107,6 @@ public class NewOrganizationBean {
 
 	public void setDescription(String description) {
 		this.description = description;
-	}	
+	}
 
 }

@@ -35,4 +35,12 @@ public class ViewOrganizationBean {
 	public Organization getOrganization() {
 		return organization;
 	}
+
+	public String getOrgId() {
+		return orgId;
+	}
+
+	public void setOrganization(Organization organization) {
+		this.organization = organization;
+	}
 }

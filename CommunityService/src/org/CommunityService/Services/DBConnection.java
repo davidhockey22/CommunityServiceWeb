@@ -68,6 +68,18 @@ public class DBConnection {
 		return null;
 
 	}
+	
+	public static Object persistRelationalEntity(Object object) throws HibernateException {
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
+		if (object != null) {
+			session.saveOrUpdate(object);
+		}
+		session.getTransaction().commit();
+		session.close();
+		return null;
+
+	}
 
 	public static Object update(Object object) throws HibernateException {
 		Session session = sessionFactory.openSession();

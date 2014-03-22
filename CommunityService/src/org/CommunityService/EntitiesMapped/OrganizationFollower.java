@@ -78,7 +78,7 @@ public class OrganizationFollower implements java.io.Serializable {
 		this.volunteer = volunteer;
 	}
 
-	@Column(name = "Mod")
+	@Column(name = "Moderator")
 	public Boolean getMod() {
 		return this.mod;
 	}

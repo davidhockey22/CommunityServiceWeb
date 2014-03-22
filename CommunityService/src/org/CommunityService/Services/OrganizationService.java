@@ -39,7 +39,7 @@ public class OrganizationService {
 	}
 	
 	public static void addOrganization(Organization o) throws Exception {
-		DBConnection.persist(o);
+		DBConnection.persistRelationalEntity(o);
 		return;
 	}
 	
