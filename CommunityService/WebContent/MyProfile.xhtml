@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui"
-	xmlns:ui="http://java.sun.com/jsf/facelets">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui" xmlns:ui="http://java.sun.com/jsf/facelets">
 
 <h:head>
 	<title>Profile</title>
+	<style>
+.ui-picklist .ui-picklist-list {
+	width: 300px !important;
+}
+</style>
 </h:head>
 <h:body>
 	<ui:composition template="commonTemplate.xhtml">
-
 		<ui:define name="content">
 			<div style="clear: left">
 				<h:form rendered="#{!loginBean.loggedIn}">
@@ -18,58 +22,139 @@
 					</h:outputFormat>
 
 				</h:form>
-				<h:form id="profileForm" rendered="#{loginBean.loggedIn}">
+				<p:panel header="Profile" rendered="#{loginBean.loggedIn}">
+					<f:metadata>
+						<f:event type="preRenderView" listener="#{myProfileBean.check}" />
+					</f:metadata>
+					<h:form id="profileForm" rendered="#{loginBean.loggedIn}">
 
-					<p:panel header="Profile">
-						<h:panelGrid columns="2" columnClasses="column" cellpadding="5">
+						<p:panelGrid columnClasses="column" cellpadding="5" style="width:100%;">
+							<f:facet name="header">
+								<p:row>
+									<p:column colspan="2">
+										<h:outputText value="Personal Information" />
+									</p:column>
+								</p:row>
+							</f:facet>
+							<p:row>
+								<p:column style="width:200px">
+									<h:outputText value="UserName: " />
+								</p:column>
+								<p:column>
+									<p:inplace id="ajaxInplace0" editor="true">
+										<p:inputText value="#{loginBean.volunteer.volunteerName}" required="true" label="text" onkeyup="showUnsaved()" />
+									</p:inplace>
+								</p:column>
+							</p:row>
+							<p:row>
+								<p:column>
+									<h:outputText value="Gravatar: " />
+								</p:column>
+								<p:column>
+									<h:graphicImage value="#{loginBean.gravatarURL}" />
+									<br />
+									<h:outputLink value="https://gravatar.com/emails/">
+										<h:outputText value="Change Gravatar" />
+									</h:outputLink>
+								</p:column>
+							</p:row>
+							<p:row>
+								<p:column>
+									<h:outputText value="Phone Number: " />
+								</p:column>
+								<p:column>
+									<p:inplace id="ajaxInplace1" editor="true">
+										<p:inputText value="#{loginBean.volunteer.phoneNumber}" required="true" label="text" onkeyup="showUnsaved()" />
+									</p:inplace>
+								</p:column>
+							</p:row>
+							<p:row>
+								<p:column>
+									<h:outputText value="Email: " />
+								</p:column>
+								<f:event listener="#{myProfileBean.saveEmail}" type="preRenderComponent"></f:event>
+								<p:column>
+									<p:inplace id="ajaxInplace2" editor="true">
+										<p:inputText value="#{loginBean.volunteer.emailAddress}" required="true" label="text" onkeyup="showUnsaved()" />
+									</p:inplace>
+								</p:column>
+							</p:row>
+							<p:row>
+								<p:column>
+									<h:commandButton type="submit" value="Save" action="#{myProfileBean.updateProfile()}"></h:commandButton>
+								</p:column>
+								<p:column>
+									<h:outputText id="unsavedMessage" style="color: red;" value="" />
+								</p:column>
+							</p:row>
+						</p:panelGrid>
+					</h:form>
+					<br />
+					<!-- SECOND PANEL -->
+					<h:form>
+						<p:pickList id="interestList" value="#{myProfileBean.interestModel}" var="interest" effect="bounce" itemValue="#{interest}"
+							itemLabel="#{interest.name}" showCheckbox="true" showSourceFilter="true" showTargetFilter="true" filterMatchMode="contains" style="width:1000px">
 
-							<h:outputText value="UserName: " />
-							<p:inplace id="ajaxInplace0" editor="true">
-								<p:inputText value="#{loginBean.volunteer.volunteerName}" required="true" label="text" onkeyup="showUnsaved()" />
-							</p:inplace>
+							<f:facet name="sourceCaption">Interest</f:facet>
+							<f:facet name="targetCaption">Your Listed Interests</f:facet>
 
-							<h:outputText value="Gravatar: " />
-							<h:panelGrid>
-								<h:graphicImage value="#{loginBean.gravatarURL}" />
-								<h:outputLink value="https://gravatar.com/emails/">
-									<h:outputText value="Change Gravatar" />
-								</h:outputLink>
-							</h:panelGrid>
+							<p:ajax event="transfer" listener="#{myProfile.changeInterests}" />
+							<p:column>
+								<h:outputText value="#{interest.name}" style="width:500px"></h:outputText>
+							</p:column>
+							<p:column>
+								<h:outputText value="#{interest.description}" style="width:500px"></h:outputText>
+							</p:column>
 
-							<h:outputText value="Phone Number: " />
-							<p:inplace id="ajaxInplace1" editor="true">
-								<p:inputText value="#{loginBean.volunteer.phoneNumber}" required="true" label="text" onkeyup="showUnsaved()" />
-							</p:inplace>
+						</p:pickList>
+						<p:commandButton id="saveInterests" value="Submit" style="margin-top:5px" />
+					</h:form>
+					<br />
+					<!-- THIRD PANEL -->
+					<p:panelGrid columnClasses="column" cellpadding="5" style="width:100%">
+						<f:facet name="header">
+							<p:row>
+								<p:column colspan="2">
+									<h:outputText value="Account Information" />
+								</p:column>
+							</p:row>
+						</f:facet>
+						<p:row>
+							<p:column style="width:200px">
+								<h:outputText value="Last Login Date: " />
+							</p:column>
+							<p:column>
+								<h:outputText value="#{loginBean.volunteer.lastLoginDate}" required="true" label="text" />
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column>
+								<h:outputText value="Points: " />
+							</p:column>
+							<p:column>
+								<h:outputText value="#{loginBean.volunteer.points}" required="true" label="text" />
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column>
+								<h:outputText value="Hours Worked: " />
+							</p:column>
+							<p:column>
+								<h:outputText value="#{loginBean.volunteer.hoursWorked}" required="true" label="text" />
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column>
+								<h:outputText value="Average Rating: " />
+							</p:column>
+							<p:column>
+								<h:outputText value="#{loginBean.volunteer.avgRating}" required="true" label="text" />
+							</p:column>
+						</p:row>
+					</p:panelGrid>
+				</p:panel>
 
-							<h:outputText value="Email: " />
 
-							<f:event listener="#{myProfileBean.saveEmail}" type="preRenderComponent"></f:event>
-
-							<p:inplace id="ajaxInplace2" editor="true">
-								<p:inputText value="#{loginBean.volunteer.emailAddress}" required="true" label="text" onkeyup="showUnsaved()" />
-							</p:inplace>
-
-							<h:outputText value="Last Login Date: " />
-							<h:outputText value="#{loginBean.volunteer.lastLoginDate}" required="true" label="text" />
-
-							<h:outputText value="Points: " />
-							<h:outputText value="#{loginBean.volunteer.points}" required="true" label="text" />
-
-							<h:outputText value="Hours Worked: " />
-							<h:outputText value="#{loginBean.volunteer.hoursWorked}" required="true" label="text" />
-
-							<h:outputText value="Average Rating: " />
-							<h:outputText value="#{loginBean.volunteer.avgRating}" required="true" label="text" />
-
-							<h:commandButton type="submit" value="Save" action="#{myProfileBean.updateProfile()}"></h:commandButton>
-							<h:outputText id="unsavedMessage" style="color: red;" value="" />
-
-						</h:panelGrid>
-
-
-					</p:panel>
-
-				</h:form>
 				<script type="text/javascript">
 					function showUnsaved() {
 						var mess = document

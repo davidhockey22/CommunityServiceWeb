@@ -11,37 +11,42 @@
 <h:body>
 	<ui:composition template="commonTemplate.xhtml">
 		<ui:define name="content">
-			<h:form>
-				<p:message for="name" id="userMessage" />
+			<ui:fragment rendered="#{!loginBean.loggedIn}">
+				<h:outputFormat value="Please sign in to access this page." />
+			</ui:fragment>
 
-				<p:panel header="Register Organization">
+			<ui:fragment rendered="#{loginBean.loggedIn}">
+				<h:form>
+					<p:message for="name" id="userMessage" />
 
-					<h:panelGrid columns="2" cellpadding="2">
-						<h:outputLabel for="#{newOrganizationBean.name}" value="Name" />
-						<h:inputText id="name" value="#{newOrganizationBean.name}" required="true">
-						</h:inputText>
+					<p:panel header="Register Organization">
 
-						<h:outputLabel for="#{newOrganizationBean.address}" value="Address" />
-						<h:inputText id="address" value="#{newOrganizationBean.address}" required="true"></h:inputText>
+						<h:panelGrid columns="2" cellpadding="2">
+							<h:outputLabel for="#{newOrganizationBean.name}" value="Name" />
+							<h:inputText id="name" value="#{newOrganizationBean.name}" required="true">
+							</h:inputText>
 
-						<h:outputLabel for="#{newOrganizationBean.phoneNumber}" value="Phone Number" />
-						<h:inputText id="phoneNumber" value="#{newOrganizationBean.phoneNumber}" required="true"></h:inputText>
+							<h:outputLabel for="#{newOrganizationBean.address}" value="Address" />
+							<h:inputText id="address" value="#{newOrganizationBean.address}" required="true"></h:inputText>
 
-						<h:outputLabel for="#{newOrganizationBean.email}" value="Email" />
-						<h:inputText id="email" value="#{newOrganizationBean.email}" required="true"></h:inputText>
+							<h:outputLabel for="#{newOrganizationBean.phoneNumber}" value="Phone Number" />
+							<h:inputText id="phoneNumber" value="#{newOrganizationBean.phoneNumber}" required="true"></h:inputText>
 
-						<h:outputLabel for="#{newOrganizationBean.description}" value="Description" />
-						<p:inputTextarea id="description" cols="30" rows="10" value="#{newOrganizationBean.description}" required="true">
-							<f:validateLength maximum="500" />
-						</p:inputTextarea>
+							<h:outputLabel for="#{newOrganizationBean.email}" value="Email" />
+							<h:inputText id="email" value="#{newOrganizationBean.email}" required="true"></h:inputText>
 
-						<h:commandButton type="submit" value="Register" action="#{newOrganizationBean.Register}" />
+							<h:outputLabel for="#{newOrganizationBean.description}" value="Description" />
+							<p:inputTextarea id="description" cols="30" rows="10" value="#{newOrganizationBean.description}" required="true">
+								<f:validateLength maximum="500" />
+							</p:inputTextarea>
 
-					</h:panelGrid>
-				</p:panel>
+							<h:commandButton type="submit" value="Register" action="#{newOrganizationBean.Register}" />
 
-			</h:form>
+						</h:panelGrid>
+					</p:panel>
 
+				</h:form>
+			</ui:fragment>
 		</ui:define>
 	</ui:composition>
 

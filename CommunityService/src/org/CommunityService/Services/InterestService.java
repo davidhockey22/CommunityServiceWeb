@@ -1,9 +1,12 @@
 package org.CommunityService.Services;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.CommunityService.EntitiesMapped.Interest;
+import org.CommunityService.EntitiesMapped.VolunteerInterest;
 import org.hibernate.HibernateException;
 
 public class InterestService {
@@ -31,4 +34,19 @@ public class InterestService {
 		}
 	}
 
+	public static Set<VolunteerInterest> getVolunteerInterestsByVolunteerId(Integer vId) {
+		if (vId == null)
+			return null;
+		String hql = "from VolunteerInterest as VI left join fetch VI.interest where VI.volunteer.volunteerId=?";
+		ArrayList<Integer> params = new ArrayList<Integer>();
+		params.add(vId);
+		try {
+			@SuppressWarnings("unchecked")
+			Set<VolunteerInterest> v = new HashSet((((List<VolunteerInterest>) DBConnection.query(hql, params))));
+			return v;
+		} catch (HibernateException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 }

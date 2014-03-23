@@ -4,6 +4,7 @@ import java.util.List;
 
 import hibernate.HibernateUtil;
 
+import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -33,13 +34,31 @@ public class DBConnection {
 		return v;
 
 	}
-	
-	public static Object query(String query, List params, int MaxResults) throws HibernateException {
+
+	public static Object queryWithSession(String query, List params) throws HibernateException {
 		Session session = sessionFactory.openSession();
 		session.beginTransaction();
 		Query q = session.createQuery(query);
-		q.setMaxResults(MaxResults);
-		
+		List v = null;
+		if (params != null) {
+			for (int i = 0; i < params.size(); i++) {
+				q = q.setParameter(i, params.get(i));
+			}
+		}
+		if (q != null) {
+			v = q.list();
+
+		}
+		session.getTransaction().commit();
+
+		return new sessionEntity(session, v);
+
+	}
+
+	public static Object queryWithInitialize(String query, List params) throws HibernateException {
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
+		Query q = session.createQuery(query);
 		Object v = null;
 		if (params != null) {
 			for (int i = 0; i < params.size(); i++) {
@@ -55,7 +74,30 @@ public class DBConnection {
 
 		return v;
 
-	}	
+	}
+
+	public static Object query(String query, List params, int MaxResults) throws HibernateException {
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
+		Query q = session.createQuery(query);
+		q.setMaxResults(MaxResults);
+
+		Object v = null;
+		if (params != null) {
+			for (int i = 0; i < params.size(); i++) {
+				q = q.setParameter(i, params.get(i));
+			}
+		}
+		if (q != null) {
+			v = q.list();
+
+		}
+		session.getTransaction().commit();
+		session.close();
+
+		return v;
+
+	}
 
 	public static Object persist(Object object) throws HibernateException {
 		Session session = sessionFactory.openSession();
@@ -68,7 +110,7 @@ public class DBConnection {
 		return null;
 
 	}
-	
+
 	public static Object persistRelationalEntity(Object object) throws HibernateException {
 		Session session = sessionFactory.openSession();
 		session.beginTransaction();
@@ -91,5 +133,16 @@ public class DBConnection {
 		session.close();
 		return null;
 
+	}
+
+}
+
+class sessionEntity {
+	List o;
+	Session s;
+
+	public sessionEntity(Session s, List o) {
+		this.o = o;
+		this.s = s;
 	}
 }

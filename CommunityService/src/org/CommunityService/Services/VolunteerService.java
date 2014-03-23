@@ -9,6 +9,7 @@ import org.CommunityService.EntitiesMapped.GroupMember;
 import org.CommunityService.EntitiesMapped.OrganizationFollower;
 import org.CommunityService.EntitiesMapped.Volunteer;
 import org.CommunityService.Validators.PasswordHash;
+import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 
 public class VolunteerService {
@@ -41,6 +42,30 @@ public class VolunteerService {
 		try {
 			@SuppressWarnings("unchecked")
 			Volunteer v = (Volunteer) (((List<Volunteer>) DBConnection.query(hql, params)).get(0));
+			return v;
+		} catch (HibernateException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	public static Volunteer getVolunteerById(Integer id, boolean interests, boolean skills) {
+		if (id == null)
+			return null;
+		String hql = "from Volunteer as v ";
+		ArrayList<Integer> params = new ArrayList<Integer>();
+		params.add(id);
+
+		hql += "where v.volunteerId=?";
+		try {
+			@SuppressWarnings("unchecked")
+			Volunteer v = (Volunteer) ((List<Volunteer>) DBConnection.query(hql, params)).get(0);
+			if (interests) {
+				v.setVolunteerInterests(InterestService.getVolunteerInterestsByVolunteerId(v.getVolunteerId()));
+			}
+			if (skills) {
+				v.setVolunteerSkills(SkillService.getVolunteerSkillsByVolunteerId(v.getVolunteerId()));
+			}
 			return v;
 		} catch (HibernateException e) {
 			e.printStackTrace();

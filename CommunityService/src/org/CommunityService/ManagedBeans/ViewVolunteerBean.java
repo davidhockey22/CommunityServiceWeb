@@ -11,7 +11,7 @@ import org.hibernate.HibernateException;
 import org.ocpsoft.rewrite.annotation.Join;
 
 @ManagedBean
-@Join(path="/volunteer/{volunteerId}", to="/Web/ViewVolunteer.xhtml")
+@Join(path = "/volunteer/{volunteerId}", to = "/Web/ViewVolunteer.xhtml")
 public class ViewVolunteerBean {
 
 	String volunteerEmail = "No email provided";
@@ -38,7 +38,7 @@ public class ViewVolunteerBean {
 			this.volunteer = null;
 		} else {
 			try {
-				this.volunteer = VolunteerService.getVolunteerById(this.volunteerId);
+				this.volunteer = VolunteerService.getVolunteerById(this.volunteerId, true, true);
 			} catch (HibernateException e) {
 				this.volunteer = null;
 				e.printStackTrace();
@@ -46,7 +46,7 @@ public class ViewVolunteerBean {
 		}
 	}
 
-	public String getGravatarURL () {
+	public String getGravatarURL() {
 		String email = (this.volunteer != null ? this.volunteer.getEmailAddress() : null);
 		return Gravatar.getGravatarImage(email);
 	}
