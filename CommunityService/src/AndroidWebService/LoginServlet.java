@@ -41,7 +41,6 @@ public class LoginServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		String volunteerId;
 		PrintWriter out = response.getWriter();
 		response.setContentType("text/html");
 		response.setHeader("Cache-control", "no-cache, no-store");
@@ -52,8 +51,7 @@ public class LoginServlet extends HttpServlet {
 		response.setHeader("Access-Control-Allow-Headers", "Content-Type");
 		response.setHeader("Access-Control-Max-Age", "86400");
 
-		volunteerId = ((String) request.getParameter("username"));
-
+		String volunteerId = ((String) request.getParameter("username"));
 		String password = ((String) request.getParameter("password"));
 
 		GsonBuilder b = new GsonBuilder();
@@ -63,6 +61,9 @@ public class LoginServlet extends HttpServlet {
 		Volunteer v;
 
 		v = VolunteerService.getVolunteerByName(volunteerId);
+		
+		if(v != null)
+			VolunteerService.resetLoginToken(v);		
 
 		try {
 			if (v != null && v.getVolunteerPassword().equals(PasswordHash.getHash(password, v.getSalt()))) {

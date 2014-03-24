@@ -1,6 +1,7 @@
 package org.CommunityService.Services;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
@@ -9,6 +10,7 @@ import org.CommunityService.EntitiesMapped.EventVolunteer;
 import org.CommunityService.EntitiesMapped.GroupMember;
 import org.CommunityService.EntitiesMapped.OrganizationFollower;
 import org.CommunityService.EntitiesMapped.Volunteer;
+import org.CommunityService.EntitiesMapped.VolunteerDevice;
 import org.CommunityService.Validators.PasswordHash;
 import org.hibernate.HibernateException;
 
@@ -67,11 +69,22 @@ public class VolunteerService {
 	}
 	public static void resetLoginToken(Volunteer v) {
 		
-		//token
+		//new token
 		Long token = UUID.randomUUID().getMostSignificantBits();
 		
-		//v.resetLoginToken(token.toString());
-
+		VolunteerDevice device = null;
+		if( v.getVolunteerDevices().isEmpty() ) {
+			
+			//new device
+			device = new VolunteerDevice(v, token.toString());
+			v.getVolunteerDevices().add(device);
+		}
+		else {
+			Iterator<VolunteerDevice> iter = v.getVolunteerDevices().iterator();
+			device = iter.next();
+		}
+		device.setDeviceTokenInternal(token.toString());
+		
 		//persist
 		try {
 			VolunteerService.updateVolunteer(v);
