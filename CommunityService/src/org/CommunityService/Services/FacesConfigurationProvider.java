@@ -14,6 +14,7 @@ public class FacesConfigurationProvider extends HttpConfigurationProvider{
 	@Override
 	public Configuration getConfiguration(final ServletContext context) {
 		return ConfigurationBuilder.begin()
+				.addRule(Join.path("/organization/{orgId}").to("/Web/ViewOrganization.xhtml"))
 				.addRule(Join.path("/group/{groupId}").to("/Web/ViewGroup.xhtml"))
 				
 				.addRule(Join.path("/createGroup").to("/Web/NewGroup.xhtml"))

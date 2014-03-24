@@ -9,6 +9,7 @@ import org.CommunityService.EntitiesMapped.GroupMember;
 import org.CommunityService.EntitiesMapped.OrganizationFollower;
 import org.CommunityService.EntitiesMapped.Volunteer;
 import org.CommunityService.Validators.PasswordHash;
+import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 
 public class VolunteerService {
@@ -86,7 +87,7 @@ public class VolunteerService {
 	}
 
 	public static List<EventVolunteer> getEventVolunteersByVolunteer(Volunteer volunteer) {
-		String hql = "FROM EventVolunteer AS ev JOIN FETCH ev.event WHERE ev.volunteer.volunteerId=?";
+		String hql = "FROM EventVolunteer AS ev LEFT JOIN ev.events WHERE ev.volunteer.volunteerId=?";
 		ArrayList<Integer> params = new ArrayList<Integer>();
 		params.add(volunteer.getVolunteerId());
 		try {
@@ -94,7 +95,6 @@ public class VolunteerService {
 			List<EventVolunteer> eventVolunteers = (List<EventVolunteer>) DBConnection.query(hql, params);
 			return (eventVolunteers != null ? eventVolunteers : new ArrayList<EventVolunteer>());
 		} catch (HibernateException e) {
-			e.printStackTrace();
 			return new ArrayList<EventVolunteer>();
 		}
 	}
@@ -113,7 +113,7 @@ public class VolunteerService {
 	}
 
 	public static List<OrganizationFollower> getOrganizationFollowersByVolunteer(Volunteer volunteer) {
-		String hql = "FROM OrganizationFollower AS orgf JOIN FETCH orgf.volunteer as v JOIN FETCH orgf.organization WHERE v.volunteerId=?";
+		String hql = "FROM OrganizationFollower AS orgf LEFT JOIN orgf.volunteer as v LEFT JOIN orgf.organization WHERE v.volunteerId=?";
 		ArrayList<Integer> params = new ArrayList<Integer>();
 		params.add(volunteer.getVolunteerId());
 		try {
