@@ -11,7 +11,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 
-import org.CommunityService.EntitiesMapped.Event;
 import org.CommunityService.EntitiesMapped.EventVolunteer;
 import org.CommunityService.Services.VolunteerService;
 import org.ocpsoft.rewrite.annotation.Join;
@@ -36,7 +35,7 @@ public class MyScheduleBean implements Serializable {
 
 	private ScheduleModel eventModel;
 
-	private ScheduleEvent event = new DefaultScheduleEvent();
+	private ScheduleEvent event = null;
 
 	@PostConstruct
 	public void postConstructor() {
@@ -62,6 +61,10 @@ public class MyScheduleBean implements Serializable {
 		return eventModel;
 	}
 
+	public EventVolunteer getEventVolunteer() {
+		return event == null ? null : (EventVolunteer) event.getData();
+	}
+	
 	public ScheduleEvent getEvent() {
 		return event;
 	}
@@ -87,13 +90,7 @@ class MyScheduleEvent extends DefaultScheduleEvent {
 	public MyScheduleEvent(EventVolunteer eventVolunteer) {
 		super();
 		this.eventVolunteer = eventVolunteer;
-		Event event = eventVolunteer.getEvent();
-		long MILLIS_PER_DAY = 24 * 60 * 60 * 1000;
-		if (event.getBeginTime().getTime() % MILLIS_PER_DAY == 0 && event.getEndTime().getTime() % MILLIS_PER_DAY == 0
-				&& event.getBeginTime().compareTo(event.getEndTime()) != 0)
-			allDay = true;
-		else
-			allDay = false;
+		allDay = false;
 	}
 
 	@Override

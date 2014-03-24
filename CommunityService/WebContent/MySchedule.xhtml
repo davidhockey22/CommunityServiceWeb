@@ -22,23 +22,17 @@
 
 					<p:growl id="messages" showDetail="true" />
 
-					<p:schedule id="schedule" value="#{myScheduleBean.eventModel}" widgetVar="myschedule" />
+					<p:schedule id="schedule" value="#{myScheduleBean.eventModel}" widgetVar="myschedule">
+						<p:ajax event="eventSelect" listener="#{scheduleController.onEventSelect}" update="eventDetails" oncomplete="PF('eventDialog').show()" />
+					</p:schedule>
 
-					<p:dialog widgetVar="eventDialog" header="Event Details" showEffect="clip" hideEffect="clip">
-						<h:panelGrid id="eventDetails" columns="2">
-							<h:outputLabel for="title" value="Title:" />
-							<p:inputText id="title" value="#{myScheduleBean.event.title}" required="true" />
-
-							<h:outputLabel for="from" value="From:" />
-							<p:inputMask id="from" value="#{myScheduleBean.event.startDate}" mask="99/99/9999">
-								<f:convertDateTime pattern="dd/MM/yyyy" />
-							</p:inputMask>
-
-							<h:outputLabel for="to" value="To:" />
-							<p:inputMask id="to" value="#{myScheduleBean.event.endDate}" mask="99/99/9999">
-								<f:convertDateTime pattern="dd/MM/yyyy" />
-							</p:inputMask>
+					<p:dialog widgetVar="eventDialog" header="#{myScheduleBean.eventVolunteer.event.eventName}" showEffect="clip" hideEffect="clip">
+						<h:panelGrid id="eventDetails" columns="1">
+							<h:outputText value="#{myScheduleBean.eventVolunteer.event.description}" />
 						</h:panelGrid>
+						<p:button icon="ui-icon-search" title="View Event" outcome="ViewEvent.xhtml">
+							<f:param name="eventId" value="#{myScheduleBean.eventVolunteer.event.eventId}" />
+						</p:button>
 					</p:dialog>
 
 				</h:form>
