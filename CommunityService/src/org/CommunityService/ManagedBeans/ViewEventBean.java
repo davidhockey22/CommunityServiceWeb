@@ -1,7 +1,7 @@
 package org.CommunityService.ManagedBeans;
 
 import java.util.Iterator;
-import java.util.Set;
+import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -11,7 +11,7 @@ import org.CommunityService.EntitiesMapped.Event;
 import org.CommunityService.Services.EventService;
 import org.ocpsoft.rewrite.annotation.Join;
 
-@ManagedBean
+@ManagedBean(name = "viewEventBean")
 @RequestScoped
 @Join(path = "/event/{eventId}", to = "/Web/ViewEvent.xhtml")
 public class ViewEventBean {
@@ -37,7 +37,7 @@ public class ViewEventBean {
 
 	public boolean isSignedUp() {
 		if (currentVolunteer.getVolunteer() != null) {
-			Set<Event> userEvents = (Set<Event>) EventService.getEventsByVolunteer(currentVolunteer.getVolunteer().getVolunteerId());
+			List<Event> userEvents = (List<Event>) EventService.getEventsByVolunteer(currentVolunteer.getVolunteer().getVolunteerId());
 			for (Iterator iterator = userEvents.iterator(); iterator.hasNext();) {
 				Event event = (Event) iterator.next();
 				if (event.getEventId() == Integer.parseInt(this.eventId)) {

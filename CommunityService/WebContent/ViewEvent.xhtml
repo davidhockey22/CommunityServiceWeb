@@ -21,44 +21,47 @@
 					<h:outputFormat value="Oops! This event doesn't exist!" />
 				</ui:fragment>
 				<ui:fragment rendered="#{viewEventBean.event != null}">
-					<h:form>
+					<p:panelGrid style="width:100%" id="panel">
+						<f:facet name="header">
+							<p:row>
+								<p:column colspan="2">
+									<h:outputText value="#{viewEventBean.event.eventName}" />
+								</p:column>
+							</p:row>
+						</f:facet>
+						<p:row>
+							<p:column style="width:50%">
+								<h:outputLabel for="description" value="Description " />
+							</p:column>
+							<p:column>
+								<h:outputText id="description" value="#{viewEventBean.event.description}" />
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column>
+								<h:outputLabel for="location" value="Location " />
+							</p:column>
+							<p:column>
+								<h:outputText id="location" value="#{viewEventBean.event.location}" />
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column colspan="2" style="text-align:center;">
+								<h:form id="form2">
+									<h:inputHidden id="buttonData" value="#{viewEventBean.eventId}" />
+									<p:commandButton value="SignUp!" actionListener="#{viewEventBean.signUp}"
+										rendered="#{loginBean.loggedIn and !viewEventBean.signedUp}" process="@form" update="form2" />
+								</h:form>
 
-						<p:panelGrid style="width:100%">
-							<f:facet name="header">
-								<p:row>
-									<p:column colspan="2">
-										<h:outputText value="#{viewEventBean.event.eventName}" />
-									</p:column>
-								</p:row>
-							</f:facet>
-							<p:row>
-								<p:column style="width:50%">
-									<h:outputLabel for="description" value="Description " />
-								</p:column>
-								<p:column>
-									<h:outputText id="description" value="#{viewEventBean.event.description}" />
-								</p:column>
-							</p:row>
-							<p:row>
-								<p:column>
-									<h:outputLabel for="location" value="Location " />
-								</p:column>
-								<p:column>
-									<h:outputText id="location" value="#{viewEventBean.event.location}" />
-								</p:column>
-							</p:row>
-							<p:row>
-								<p:column colspan="2" style="text-align:center;">
-									<p:commandButton value="Sign Up!" actionListener="#{viewEventBean.signUp()}" rendered="#{loginBean.loggedIn and !viewEventBean.signedUp}" />
-									<h:outputText id="noSignIn" value="Log in to your account to sign up for this event." rendered="#{!loginBean.loggedIn}" />
-									<h:outputText id="signedUp" value="You are already signed up for this event!" rendered="#{viewEventBean.signedUp}" />
-								</p:column>
-							</p:row>
-						</p:panelGrid>
+								<h:outputText id="noSignIn" value="Log in to your account to sign up for this event." rendered="#{!loginBean.loggedIn}" />
+								<h:outputText id="signedUp" value="You are already signed up for this event!" rendered="#{viewEventBean.signedUp}" />
+							</p:column>
+						</p:row>
+					</p:panelGrid>
 
-					</h:form>
 				</ui:fragment>
 			</div>
+			<h:messages />
 		</ui:define>
 	</ui:composition>
 </h:body>
