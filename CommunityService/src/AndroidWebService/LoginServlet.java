@@ -65,7 +65,7 @@ public class LoginServlet extends HttpServlet {
 		v = VolunteerService.getVolunteerByName(volunteerId);
 
 		try {
-			if (v != null && v.getVolunteerPassword().equals(PasswordHash.getHash(password, v.getEmailAddress()))) {
+			if (v != null && v.getVolunteerPassword().equals(PasswordHash.getHash(password, v.getSalt()))) {
 				HibernateUtil.clean(v);
 				out.println(gson.toJson(v));
 

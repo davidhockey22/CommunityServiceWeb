@@ -30,7 +30,7 @@ public class LoginBean {
 			try {
 				Volunteer v = VolunteerService.getVolunteerByName(username);
 
-				if (v != null && v.getVolunteerPassword().equals(PasswordHash.getHash(password, v.getEmailAddress()))) {
+				if (v != null && v.getVolunteerPassword().equals(PasswordHash.getHash(password, v.getSalt()))) {
 					volunteer = VolunteerService.getVolunteerById(v.getVolunteerId(), true, true);
 					return "?faces-redirect=true";
 				} else {

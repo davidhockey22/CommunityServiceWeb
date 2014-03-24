@@ -25,6 +25,7 @@ public class NewVolunteerBean {
 		try {
 			password = PasswordHash.getHash(password, email);
 			Volunteer v = new Volunteer(username, password, phoneNumber, email, firstName, lastName);
+			v.setSalt(email);
 			VolunteerService.addVolunteer(v);
 		} catch (Exception e) {
 			e.printStackTrace();
