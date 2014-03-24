@@ -2,6 +2,7 @@ package org.CommunityService.Services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.CommunityService.EntitiesMapped.Event;
 import org.CommunityService.EntitiesMapped.EventVolunteer;
@@ -47,7 +48,38 @@ public class VolunteerService {
 			return null;
 		}
 	}
+	public static Volunteer getVolunteerByToken(String token) {
+		
+		String hql = "SELECT v.volunteer FROM VolunteerDevice as v where v.deviceTokenInternal=?";
+		ArrayList<String> params = new ArrayList<String>();
+		params.add(token);
+		try {
+			@SuppressWarnings("unchecked")
+			List<Volunteer> list = (List<Volunteer>) DBConnection.query(hql, params);
+			Volunteer v = null;
+			if(list != null)
+				v = list.get(0);
+			return v;
+		} catch (HibernateException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	public static void resetLoginToken(Volunteer v) {
+		
+		//token
+		Long token = UUID.randomUUID().getMostSignificantBits();
+		
+		//v.resetLoginToken(token.toString());
 
+		//persist
+		try {
+			VolunteerService.updateVolunteer(v);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	public static Volunteer getVolunteerById(Integer id, boolean interests, boolean skills) {
 		if (id == null)
 			return null;
