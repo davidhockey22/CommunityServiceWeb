@@ -47,8 +47,7 @@ public class LoginTokenServlet extends HttpServlet {
 		response.setHeader("Access-Control-Allow-Headers", "Content-Type");
 		response.setHeader("Access-Control-Max-Age", "86400");
 
-		//String str = ((String) request.getParameter("token"));
-		String str = "test";
+		String str = ((String) request.getParameter("token"));
 
 		GsonBuilder b = new GsonBuilder();
 		// b.registerTypeAdapterFactory(HibernateProxyTypeAdapter.FACTORY);

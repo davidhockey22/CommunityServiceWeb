@@ -59,7 +59,7 @@ public class VolunteerService {
 			@SuppressWarnings("unchecked")
 			List<Volunteer> list = (List<Volunteer>) DBConnection.query(hql, params);
 			Volunteer v = null;
-			if(list != null)
+			if(list != null && list.isEmpty() == false)
 				v = list.get(0);
 			return v;
 		} catch (HibernateException e) {
