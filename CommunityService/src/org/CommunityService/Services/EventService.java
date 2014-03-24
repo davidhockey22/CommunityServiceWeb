@@ -61,11 +61,25 @@ public class EventService {
 			return null;
 		}
 	}		
-	public static List<Event> getEventsByInterest(Integer interestID) {
-		
-		String hql = "???";
+	public static List<Event> getEventsByInterest(Integer interestId) {
+
+		String hql = "select i.events from Interest as i where i.interestId=?";
 		ArrayList<Integer> params = new ArrayList<Integer>();
-		params.add(interestID);
+		params.add(interestId);
+		try {
+			@SuppressWarnings("unchecked")
+			List<Event> events = (List<Event>) DBConnection.query(hql, params);
+			return events;
+		} catch (HibernateException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}	
+	public static List<Event> getEventsBySkill(Integer skillID) {
+		
+		String hql = "SELECT ev.event FROM EventSkill as ev where ev.skill.skillId=?";
+		ArrayList<Integer> params = new ArrayList<Integer>();
+		params.add(skillID);
 		try {
 			@SuppressWarnings("unchecked")
 			List<Event> events = (List<Event>) DBConnection.query(hql, params);
@@ -74,6 +88,7 @@ public class EventService {
 			return null;
 		}
 	}
+
 	public static void signUp(Volunteer v, Event e) {
 		//if (v != null) {
 			EventVolunteer ev = new EventVolunteer(e, v);

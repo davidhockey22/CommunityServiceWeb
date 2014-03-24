@@ -14,18 +14,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.CommunityService.EntitiesMapped.Event;
-import org.CommunityService.EntitiesMapped.Interest;
 import org.CommunityService.Services.EventService;
-import org.CommunityService.Services.InterestService;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-@WebServlet(urlPatterns = { "/Android/byInterest" })
-public class EventsByInterestServlet extends HttpServlet {
+@WebServlet(urlPatterns = { "/Android/bySkill" })
+public class EventsBySkillServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	public EventsByInterestServlet() {
+	public EventsBySkillServlet() {
 		super();
 	}
 
@@ -46,18 +44,16 @@ public class EventsByInterestServlet extends HttpServlet {
 		response.setHeader("Access-Control-Allow-Headers", "Content-Type");
 		response.setHeader("Access-Control-Max-Age", "86400");
 		
-		//.... .... .... ....
-		
-		String interestId = ((String) request.getParameter("ID"));
+		String Id = ((String) request.getParameter("ID"));
 
 		GsonBuilder b = new GsonBuilder();
 		// b.registerTypeAdapterFactory(HibernateProxyTypeAdapter.FACTORY);
 		Gson gson = b.create();
 
 		List<Event> list;
-		list = EventService.getEventsByInterest(Integer.parseInt(interestId));
-		
-		if(list != null) {
+		Event o;
+		if ( true ) {
+			list = EventService.getEventsBySkill(Integer.parseInt(Id));
 			try {
 				for (Event clean : list) {
 					HibernateUtil.clean(clean);
@@ -69,7 +65,23 @@ public class EventsByInterestServlet extends HttpServlet {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-	
+
+			out.println(gson.toJson(list));
+		} else {
+			
+			list = EventService.getEventsByDate();
+			try {
+				for (Event clean : list) {
+					HibernateUtil.clean(clean);
+				}
+			} catch (IllegalArgumentException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 			out.println(gson.toJson(list));
 		}
 
