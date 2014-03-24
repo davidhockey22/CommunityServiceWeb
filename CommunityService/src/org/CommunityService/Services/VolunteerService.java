@@ -52,7 +52,7 @@ public class VolunteerService {
 	}
 	public static Volunteer getVolunteerByToken(String token) {
 		
-		String hql = "SELECT v.volunteer FROM VolunteerDevice as v where v.deviceTokenInternal=?";
+		String hql = "SELECT v.volunteer FROM VolunteerDevice as v join fetch v.volunteer.volunteerDevices where v.deviceTokenInternal=?";
 		ArrayList<String> params = new ArrayList<String>();
 		params.add(token);
 		try {
