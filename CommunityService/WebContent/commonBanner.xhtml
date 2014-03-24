@@ -7,6 +7,17 @@
 	<ui:composition>
 		<div id="header">
 			<div style="clear: both">
+				<p:ajaxStatus id="ajaxStatusPanel">
+					<f:facet name="start">
+						<div
+							style="text-align: center; width: 100%; height: 100%; display: block; /* float: left; */ margin-left: auto; margin-right: auto; /* margin-top: 300px; */ position: fixed; z-index: 10; background-color: rgba(22, 21, 10, 0.26);">
+							<h:graphicImage value="/images/ajax-loader.gif" style="margin-top: 300px;" />
+						</div>
+					</f:facet>
+					<f:facet name="complete">
+						<h:outputText value="" />
+					</f:facet>
+				</p:ajaxStatus>
 				<p:menubar>
 					<p:menuitem value="Home" icon="ui-icon-home" url="/" />
 					<p:menuitem rendered="#{loginBean.loggedIn}" value="My Profile" icon="ui-icon-person" url="/editProfile" />
@@ -25,7 +36,7 @@
 							<p:commandButton type="submit" value="Login" action="#{loginBean.Login}" ajax="false" />
 							<p:button value="Register" outcome="/NewVolunteer.xhtml" />
 							<p:commandLink action="/Home.xhtml?faces-redirect=true">
-								<h:graphicImage value="/images/logo.png"/>
+								<h:graphicImage value="/images/logo.png" />
 							</p:commandLink>
 						</h:form>
 						<h:form rendered="#{loginBean.loggedIn}">
@@ -35,7 +46,7 @@
 							<h:graphicImage value="#{loginBean.gravatarURL}" style="height:30px; width:30px" />
 							<p:commandButton type="submit" value="Logout" immediate="true" action="#{loginBean.Logout}" ajax="false" />
 							<h:link outcome="/Home.xhtml">
-								<h:graphicImage value="/images/logo.png"/>
+								<h:graphicImage value="/images/logo.png" />
 							</h:link>
 						</h:form>
 					</f:facet>

@@ -74,13 +74,12 @@ public class EventService {
 			return null;
 		}
 	}
-	public static boolean signUp(Volunteer v, Event e) {
+	public static void signUp(Volunteer v, Event e) {
 		//if (v != null) {
 			EventVolunteer ev = new EventVolunteer(e, v);
 			DBConnection.update(ev);
 			//return true;
 		//}
-		return false;
 	}
 
 	public static void addEvent(Event event) throws HibernateException {

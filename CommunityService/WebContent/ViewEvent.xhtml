@@ -16,22 +16,47 @@
 			</f:metadata>
 		</ui:define>
 		<ui:define name="content">
-			<div style="float: left; clear: left">
+			<div>
 				<ui:fragment rendered="#{viewEventBean.event == null}">
 					<h:outputFormat value="Oops! This event doesn't exist!" />
 				</ui:fragment>
 				<ui:fragment rendered="#{viewEventBean.event != null}">
-					<p:panelGrid columns="3">
-						<f:facet name="header">
-							<h:outputText value="#{viewEventBean.event.eventName}" />
-						</f:facet>
-						<h:outputLabel for="description" value="Description: " />
-						<h:outputText id="description" value="#{viewEventBean.event.description}" label="Description" />
-						<p:commandButton value="Sign Up!" actionListener="#{viewEventBean.signUp}" />
-						<h:form rendered="#{currentVolunteerBean.loggedIn and !eventPage.signedUp}">
-							<p:commandButton value="Sign Up!" actionListener="#{eventPage.signUp}" />
-						</h:form>
-					</p:panelGrid>
+					<h:form>
+
+						<p:panelGrid style="width:100%">
+							<f:facet name="header">
+								<p:row>
+									<p:column colspan="2">
+										<h:outputText value="#{viewEventBean.event.eventName}" />
+									</p:column>
+								</p:row>
+							</f:facet>
+							<p:row>
+								<p:column style="width:50%">
+									<h:outputLabel for="description" value="Description " />
+								</p:column>
+								<p:column>
+									<h:outputText id="description" value="#{viewEventBean.event.description}" />
+								</p:column>
+							</p:row>
+							<p:row>
+								<p:column>
+									<h:outputLabel for="location" value="Location " />
+								</p:column>
+								<p:column>
+									<h:outputText id="location" value="#{viewEventBean.event.location}" />
+								</p:column>
+							</p:row>
+							<p:row>
+								<p:column colspan="2" style="text-align:center;">
+									<p:commandButton value="Sign Up!" actionListener="#{viewEventBean.signUp()}" rendered="#{loginBean.loggedIn and !viewEventBean.signedUp}" />
+									<h:outputText id="noSignIn" value="Log in to your account to sign up for this event." rendered="#{!loginBean.loggedIn}" />
+									<h:outputText id="signedUp" value="You are already signed up for this event!" rendered="#{viewEventBean.signedUp}" />
+								</p:column>
+							</p:row>
+						</p:panelGrid>
+
+					</h:form>
 				</ui:fragment>
 			</div>
 		</ui:define>

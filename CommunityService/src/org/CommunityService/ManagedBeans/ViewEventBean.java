@@ -1,5 +1,8 @@
 package org.CommunityService.ManagedBeans;
 
+import java.util.Iterator;
+import java.util.Set;
+
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
@@ -19,8 +22,8 @@ public class ViewEventBean {
 	private LoginBean currentVolunteer;
 
 	public String signUp() {
+		System.out.println("Signing up!");
 		EventService.signUp(currentVolunteer.getVolunteer(), event);
-
 		return "?faces-redirect=true";
 	}
 
@@ -33,7 +36,15 @@ public class ViewEventBean {
 	}
 
 	public boolean isSignedUp() {
-		// Set<Event> userEvents = EventService.
+		if (currentVolunteer.getVolunteer() != null) {
+			Set<Event> userEvents = (Set<Event>) EventService.getEventsByVolunteer(currentVolunteer.getVolunteer().getVolunteerId());
+			for (Iterator iterator = userEvents.iterator(); iterator.hasNext();) {
+				Event event = (Event) iterator.next();
+				if (event.getEventId() == Integer.parseInt(this.eventId)) {
+					return true;
+				}
+			}
+		}
 		return false;
 	}
 
