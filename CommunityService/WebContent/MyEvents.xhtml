@@ -69,7 +69,7 @@
 						<h:outputText value="#{e.event.eventName}" />
 					</p:column>
 					<p:column headerText="Verified hours worked">
-						<h:outputText value="#{e.attendedHours == 0} ? Verification needed : e.attendedHours}" />
+						<h:outputText value="#{e.attendedHours > 0 ? e.attendedHours : 'Verification needed'}" />
 					</p:column>
 					<p:column headerText="Start Time">
 						<h:outputText value="#{e.event.beginTime}" />
