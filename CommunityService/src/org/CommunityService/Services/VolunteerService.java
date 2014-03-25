@@ -17,7 +17,7 @@ import org.hibernate.HibernateException;
 public class VolunteerService {
 
 	public static Volunteer getVolunteerByName(String name) {
-		String hql = "from Volunteer as v where v.volunteerName=?";
+		String hql = "from Volunteer as v join fetch v.volunteerDevices where v.volunteerName=?";
 		ArrayList<String> params = new ArrayList<String>();
 		params.add(name);
 		try {
