@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
-import java.util.List;
+import java.util.Iterator;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.CommunityService.EntitiesMapped.Volunteer;
+import org.CommunityService.EntitiesMapped.VolunteerDevice;
 import org.CommunityService.Services.VolunteerService;
 import org.CommunityService.Validators.PasswordHash;
 
@@ -53,6 +54,9 @@ public class LoginServlet extends HttpServlet {
 
 		String volunteerId = ((String) request.getParameter("username"));
 		String password = ((String) request.getParameter("password"));
+		
+//		volunteerId = new String("henry");
+//		password = new String("password1");
 
 		GsonBuilder b = new GsonBuilder();
 		// b.registerTypeAdapterFactory(HibernateProxyTypeAdapter.FACTORY);
@@ -67,6 +71,7 @@ public class LoginServlet extends HttpServlet {
 
 		try {
 			if (v != null && v.getVolunteerPassword().equals(PasswordHash.getHash(password, v.getSalt()))) {
+								
 				HibernateUtil.clean(v);
 				out.println(gson.toJson(v));
 

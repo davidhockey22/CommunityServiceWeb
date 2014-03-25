@@ -92,6 +92,11 @@ public class VolunteerService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		//move token to "salt" field because HibernateUtil.clean() deletes the volunteerDevice set
+		Iterator<VolunteerDevice> i = v.getVolunteerDevices().iterator();
+		VolunteerDevice dev = i.next();
+		v.setSalt(dev.getDeviceTokenInternal());		
 	}
 	public static Volunteer getVolunteerById(Integer id, boolean interests, boolean skills) {
 		if (id == null)
