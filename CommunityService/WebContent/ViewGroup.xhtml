@@ -9,9 +9,36 @@
 </h:head>
 <h:body>
 	<ui:composition template="commonTemplate.xhtml">
+		<ui:define name="metadata">
+			<f:metadata>
+				<f:viewParam id="groupId" name="groupId" value="#{viewGroupBean.groupId}" />
+				<f:event type="preRenderView" listener="#{viewGroupBean.fetchGroup}" />
+			</f:metadata>
+		</ui:define>	
 		<ui:define name="content">
 			<div style="clear: left">
-				<h:outputText value="Placeholder for group page." />
+				<ui:fragment rendered="#{viewGroupBean.group == null}">
+					<h:outputFormat value="Oops! This group doesn't exist!" />
+				</ui:fragment>
+				<ui:fragment rendered="#{viewGroupBean.group != null}">
+					<p:panelGrid columns="2">
+						<f:facet name="header">
+							<h:outputText value="#{viewGroupBean.group.groupName}" />
+						</f:facet>
+						<h:outputLabel for="hoursWorked" value="Hours Worked: " />
+						<h:outputText id="hoursWorked" value="#{viewGroupBean.group.hoursWorked}" label="hoursWorked" />
+
+						<h:outputLabel for="points" value="Points: " />
+						<h:outputText id="points" value="#{viewGroupBean.group.points}" label="points" />
+
+						<h:outputLabel for="rating" value="Rating: " />
+						<h:outputText id="rating" value="#{viewGroupBean.group.avgRatingOfVolunteers}" label="rating" />
+
+						<h:outputLabel for="created" value="Created On: " />
+						<h:outputText id="created" value="#{viewGroupBean.group.creationDate}" label="created" />
+
+					</p:panelGrid>
+				</ui:fragment>
 			</div>
 		</ui:define>
 	</ui:composition>

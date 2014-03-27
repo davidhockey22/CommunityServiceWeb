@@ -7,6 +7,7 @@ import java.util.Set;
 
 import org.CommunityService.EntitiesMapped.Group;
 import org.CommunityService.EntitiesMapped.GroupMember;
+import org.CommunityService.EntitiesMapped.Organization;
 import org.hibernate.HibernateException;
 
 public class GroupService {
@@ -16,11 +17,30 @@ public class GroupService {
 		DBConnection.persistRelationalEntity(o);
 		return;
 	}
+	public static void addGroupMember(GroupMember o) throws Exception {
+		DBConnection.persist(o);
+		return;
+	}
 	
 	public static void updateGroup(Group o) throws Exception {
 		DBConnection.update(o);
 		return;
 	}
+	
+	public static Group getGroupById(int groupId) throws HibernateException {
+		String hql = "from Group as o where o.groupId=?";
+		ArrayList<Integer> params = new ArrayList<Integer>();
+		params.add(groupId);
+		try {
+			@SuppressWarnings("unchecked")
+			Group o = (Group) (((List<Group>) DBConnection.query(hql, params)).get(0));
+			return o;
+		} catch (HibernateException e) {
+			return null;
+		} catch (IndexOutOfBoundsException e) {
+			return null;
+		}
+	}	
 	
 	public static Set<GroupMember> getVolunteerGroupsByVolunteerId(Integer vId) {
 		if (vId == null)

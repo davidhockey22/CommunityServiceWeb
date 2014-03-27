@@ -14,6 +14,7 @@ import org.CommunityService.EntitiesMapped.Group;
 import org.CommunityService.EntitiesMapped.GroupMember;
 import org.CommunityService.EntitiesMapped.Organization;
 import org.CommunityService.EntitiesMapped.OrganizationFollower;
+import org.CommunityService.EntitiesMapped.Volunteer;
 import org.CommunityService.Services.GroupService;
 import org.CommunityService.Services.VolunteerService;
 import org.hibernate.Session;
@@ -49,20 +50,32 @@ public class NewGroupBean {
 			members.add(founder);
 			group.setGroupMembers(members);
 			
-			GroupService.addGroup(group);
+			GroupService.addGroup(group);	
 			
 			/*
+			SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+			Session session = sessionFactory.openSession();
+			session.beginTransaction();
+			
 			Group group = new Group(name);
+			group.setHoursWorked(0);
+			group.setPoints(0.0f);
+			group.setAvgRatingOfVolunteers(0.0f);
+			group.setCreationDate(new Date());
 			
-			GroupMember founding = new GroupMember(group, currentVolunteer.getVolunteer(), new Date(), true, true);
-			group.getGroupMembers().add(founding);					
+			session.persist(group);
+						
+			Volunteer v = (Volunteer)session.merge(currentVolunteer.getVolunteer());
+			GroupMember founder = new GroupMember(group, v);
+			founder.setAdmin(true);
+			founder.setMod(true);
 			
-			currentVolunteer.getVolunteer().getGroupMembers().add(founding);
-			VolunteerService.updateVolunteer(currentVolunteer.getVolunteer()); //hibernate bad grammar error
-
-			GroupService.addGroup(group); //hibernate detached entity error: currentVolunteer.getVolunteer()
+			session.persist(founder);
+			
+			session.getTransaction().commit();
+			session.close();
 			*/
-
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "Error";

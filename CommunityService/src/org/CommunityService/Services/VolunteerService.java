@@ -153,7 +153,8 @@ public class VolunteerService {
 	}
 
 	public static List<GroupMember> getGroupMembersByVolunteer(Volunteer volunteer) {
-		String hql = "FROM GroupMember AS gm LEFT JOIN gm.volunteer AS v LEFT JOIN gm.Group WHERE v.volunteerId=?";
+		//String hql = "FROM GroupMember AS gm LEFT JOIN gm.volunteer AS v LEFT JOIN gm.Group WHERE v.volunteerId=?";
+		String hql = "FROM GroupMember AS ev JOIN FETCH ev.group WHERE ev.volunteer.volunteerId=?";
 		ArrayList<Integer> params = new ArrayList<Integer>();
 		params.add(volunteer.getVolunteerId());
 		try {
