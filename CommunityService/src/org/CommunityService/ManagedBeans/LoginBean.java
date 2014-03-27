@@ -31,7 +31,7 @@ public class LoginBean {
 				Volunteer v = VolunteerService.getVolunteerByName(username);
 
 				if (v != null && v.getVolunteerPassword().equals(PasswordHash.getHash(password, v.getSalt()))) {
-					volunteer = VolunteerService.getVolunteerById(v.getVolunteerId(), true, true);
+					volunteer = VolunteerService.getVolunteerById(v.getVolunteerId(), true, true, true);
 					return "?faces-redirect=true";
 				} else {
 					MessageController.addError("Login credentials didn't match.");

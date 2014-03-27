@@ -38,7 +38,7 @@ public class ViewVolunteerBean {
 			this.volunteer = null;
 		} else {
 			try {
-				this.volunteer = VolunteerService.getVolunteerById(this.volunteerId, true, true);
+				this.volunteer = VolunteerService.getVolunteerById(this.volunteerId, true, true, true);
 			} catch (HibernateException e) {
 				this.volunteer = null;
 				e.printStackTrace();

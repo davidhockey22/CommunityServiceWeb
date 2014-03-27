@@ -12,9 +12,28 @@
 <h:body>
 	<ui:composition template="commonTemplate.xhtml">
 		<ui:define name="content">
-			<div style="clear: left">
-				<h:outputText value="Placeholder for group create page." />
-			</div>
+			<ui:fragment rendered="#{!loginBean.loggedIn}">
+				<h:outputFormat value="Please sign in to access this page." />
+			</ui:fragment>
+
+			<ui:fragment rendered="#{loginBean.loggedIn}">
+				<h:form>
+					<p:message for="name" id="userMessage" />
+
+					<p:panel header="Register Group">
+
+						<h:panelGrid columns="2" cellpadding="2">
+							<h:outputLabel for="#{newGroupBean.name}" value="Name" />
+							<h:inputText id="name" value="#{newGroupBean.name}" required="true">
+							</h:inputText>
+
+							<h:commandButton type="submit" value="Register" action="#{newGroupBean.Register}" />
+
+						</h:panelGrid>
+					</p:panel>
+
+				</h:form>
+			</ui:fragment>
 		</ui:define>
 	</ui:composition>
 </h:body>

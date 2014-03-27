@@ -98,7 +98,7 @@ public class VolunteerService {
 		VolunteerDevice dev = i.next();
 		v.setSalt(dev.getDeviceTokenInternal());		
 	}
-	public static Volunteer getVolunteerById(Integer id, boolean interests, boolean skills) {
+	public static Volunteer getVolunteerById(Integer id, boolean interests, boolean skills, boolean groups) {
 		if (id == null)
 			return null;
 		String hql = "from Volunteer as v ";
@@ -114,6 +114,9 @@ public class VolunteerService {
 			}
 			if (skills) {
 				v.setVolunteerSkills(SkillService.getVolunteerSkillsByVolunteerId(v.getVolunteerId()));
+			}
+			if(groups) {
+				v.setGroupMembers(GroupService.getVolunteerGroupsByVolunteerId(v.getVolunteerId()));
 			}
 			return v;
 		} catch (HibernateException e) {
