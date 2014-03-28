@@ -1,7 +1,5 @@
 package org.CommunityService.ManagedBeans;
 
-import hibernate.HibernateUtil;
-
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -12,13 +10,8 @@ import javax.faces.bean.SessionScoped;
 
 import org.CommunityService.EntitiesMapped.Group;
 import org.CommunityService.EntitiesMapped.GroupMember;
-import org.CommunityService.EntitiesMapped.Organization;
-import org.CommunityService.EntitiesMapped.OrganizationFollower;
-import org.CommunityService.EntitiesMapped.Volunteer;
 import org.CommunityService.Services.GroupService;
 import org.CommunityService.Services.VolunteerService;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.ocpsoft.rewrite.annotation.Join;
 
 @ManagedBean
@@ -30,12 +23,15 @@ public class NewGroupBean {
 	private LoginBean currentVolunteer;
 
 	private String name;
+
+	private int newGroupId;
 	
 	public String Register() {
 
+		Group group = null;
 		try {
 			
-			Group group = new Group(name);
+			group = new Group(name);
 			group.setCreationDate(new Date());
 			group.setAvgRatingOfVolunteers(0.0f);
 			group.setHoursWorked(0);
@@ -50,7 +46,7 @@ public class NewGroupBean {
 			members.add(founder);
 			group.setGroupMembers(members);
 			
-			GroupService.addGroup(group);	
+			GroupService.addGroup(group);
 			
 			/*
 			SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
@@ -81,7 +77,7 @@ public class NewGroupBean {
 			return "Error";
 		}
 
-		return "LandingPage";
+		return "/ViewGroup.xhtml?faces-redirect=true&groupId=" + group.getGroupId();
 	}
 
 	public LoginBean getCurrentVolunteer() {

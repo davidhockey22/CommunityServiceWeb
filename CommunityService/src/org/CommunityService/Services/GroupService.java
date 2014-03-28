@@ -28,12 +28,27 @@ public class GroupService {
 	}
 	
 	public static Group getGroupById(int groupId) throws HibernateException {
-		String hql = "from Group as o where o.groupId=?";
+		String hql = "from Group as o JOIN FETCH o.groupMembers where o.groupId=?";
 		ArrayList<Integer> params = new ArrayList<Integer>();
 		params.add(groupId);
 		try {
 			@SuppressWarnings("unchecked")
 			Group o = (Group) (((List<Group>) DBConnection.query(hql, params)).get(0));
+			return o;
+		} catch (HibernateException e) {
+			return null;
+		} catch (IndexOutOfBoundsException e) {
+			return null;
+		}
+	}
+	
+	public static GroupMember getGroupMemberById(int groupMemberId) throws HibernateException {
+		String hql = "from GroupMember as o JOIN FETCH o.volunteer where o.groupMemberId=?";
+		ArrayList<Integer> params = new ArrayList<Integer>();
+		params.add(groupMemberId);
+		try {
+			@SuppressWarnings("unchecked")
+			GroupMember o = (GroupMember) (((List<GroupMember>) DBConnection.query(hql, params)).get(0));
 			return o;
 		} catch (HibernateException e) {
 			return null;
