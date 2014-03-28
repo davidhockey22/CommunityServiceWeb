@@ -94,7 +94,7 @@ public class GroupMember implements java.io.Serializable {
 		this.joinedDate = joinedDate;
 	}
 
-	@Column(name = "Mod")
+	@Column(name = "Moderator")
 	public Boolean getMod() {
 		return this.mod;
 	}
