@@ -1,7 +1,6 @@
 package org.CommunityService.ManagedBeans;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -9,118 +8,85 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
 
 import org.CommunityService.EntitiesMapped.EventVolunteer;
 import org.CommunityService.Services.VolunteerService;
 import org.ocpsoft.rewrite.annotation.Join;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.model.DefaultScheduleEvent;
-import org.primefaces.model.DefaultScheduleModel;
+import org.primefaces.model.LazyScheduleModel;
 import org.primefaces.model.ScheduleEvent;
 import org.primefaces.model.ScheduleModel;
 
 @Join(path = "/schedule", to = "/Web/MySchedule.xhtml")
 @ManagedBean
-@RequestScoped
+@SessionScoped
 public class MyScheduleBean implements Serializable {
 
 	@ManagedProperty(value = "#{loginBean}")
-	private LoginBean currentVolunteer;
+	private LoginBean login;
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private ScheduleModel eventModel;
+	private ScheduleModel model;
 
-	private ScheduleEvent event = null;
+	private ScheduleEvent currentEvent = new DefaultScheduleEvent("", new Date(), new Date(), null);
 
 	@PostConstruct
 	public void postConstructor() {
-		List<EventVolunteer> events = VolunteerService.getEventVolunteersByVolunteer(currentVolunteer.getVolunteer());
-		List<ScheduleEvent> scheduleEvents = new ArrayList<ScheduleEvent>();
-		for (Iterator<EventVolunteer> iterator = events.iterator(); iterator.hasNext();) {
-			EventVolunteer eventVolunteer = (EventVolunteer) iterator.next();
-			System.out.println(eventVolunteer.getEvent().getEventName());
-			scheduleEvents.add(new MyScheduleEvent(eventVolunteer));
-		}
-		eventModel = new DefaultScheduleModel(scheduleEvents);
+		model = new LazyScheduleModel() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override 
+			public void loadEvents(Date start, Date end) {
+				List<EventVolunteer> events = VolunteerService.getEventVolunteersByVolunteer(login.getVolunteer());
+				for (Iterator<EventVolunteer> iterator = events.iterator(); iterator.hasNext();) {
+					EventVolunteer eventVolunteer = (EventVolunteer) iterator.next();
+					DefaultScheduleEvent scheduleEvent = new DefaultScheduleEvent();
+					scheduleEvent.setData(eventVolunteer);
+					scheduleEvent.setStartDate(eventVolunteer.getEvent().getBeginTime());
+					scheduleEvent.setEndDate(eventVolunteer.getEvent().getEndTime());
+					scheduleEvent.setTitle(eventVolunteer.getEvent().getEventName().replace("'", "\\'"));
+					scheduleEvent.setAllDay(false);
+					scheduleEvent.setEditable(false);
+					this.addEvent(scheduleEvent);
+				}
+			}
+		};
 	}
 
-	public LoginBean getCurrentVolunteer() {
-		return currentVolunteer;
+	public LoginBean getLogin() {
+		return login;
 	}
 
-	public void setCurrentVolunteer(LoginBean currentVolunteer) {
-		this.currentVolunteer = currentVolunteer;
+	public void setLogin(LoginBean login) {
+		this.login = login;
 	}
 
 	public ScheduleModel getEventModel() {
-		return eventModel;
+		return model;
 	}
 
 	public EventVolunteer getEventVolunteer() {
-		return event == null ? null : (EventVolunteer) event.getData();
+		return (EventVolunteer) currentEvent.getData();
 	}
 	
 	public ScheduleEvent getEvent() {
-		return event;
+		return currentEvent;
 	}
 
 	public void setEvent(ScheduleEvent event) {
-		this.event = event;
+		this.currentEvent = event;
 	}
-
+	
 	public void onEventSelect(SelectEvent selectEvent) {
-		event = (ScheduleEvent) selectEvent.getObject();
+		currentEvent = (ScheduleEvent) selectEvent.getObject();
 	}
-}
-
-class MyScheduleEvent extends DefaultScheduleEvent {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	EventVolunteer eventVolunteer;
-	boolean allDay;
-
-	public MyScheduleEvent(EventVolunteer eventVolunteer) {
-		super();
-		this.eventVolunteer = eventVolunteer;
-		allDay = false;
-	}
-
-	@Override
-	public Object getData() {
-		return eventVolunteer;
-	}
-
-	@Override
-	public Date getEndDate() {
-		return eventVolunteer.getEvent().getEndTime();
-	}
-
-	@Override
-	public Date getStartDate() {
-		return eventVolunteer.getEvent().getBeginTime();
-	}
-
-	@Override
-	public String getTitle() {
-		return eventVolunteer.getEvent().getEventName();
-	}
-
-	@Override
-	public boolean isAllDay() {
-		return allDay;
-	}
-
-	@Override
-	public boolean isEditable() {
-		return false;
-	}
-
 }

@@ -22,19 +22,18 @@
 
 					<p:growl id="messages" showDetail="true" />
 
-					<p:schedule id="schedule" value="#{myScheduleBean.eventModel}" widgetVar="myschedule">
-						<p:ajax event="eventSelect" listener="#{scheduleController.onEventSelect}" update="eventDetails" oncomplete="PF('eventDialog').show()" />
+					<p:schedule id="schedule" value="#{myScheduleBean.eventModel}" widgetVar="myschedule" aspectRatio="2.5">
+						<p:ajax event="eventSelect" listener="#{myScheduleBean.onEventSelect}" update="eventDialogPopup, eventDetails, eventLink" oncomplete="PF('eventDialog').show()" />
 					</p:schedule>
 
-					<p:dialog widgetVar="eventDialog" header="#{myScheduleBean.eventVolunteer.event.eventName}" showEffect="clip" hideEffect="clip">
+					<p:dialog widgetVar="eventDialog" id="eventDialogPopup" header="#{myScheduleBean.eventVolunteer.event.eventName}" showEffect="clip" hideEffect="clip">
 						<h:panelGrid id="eventDetails" columns="1">
 							<h:outputText value="#{myScheduleBean.eventVolunteer.event.description}" />
 						</h:panelGrid>
-						<p:button icon="ui-icon-search" title="View Event" outcome="ViewEvent.xhtml">
+						<p:button id="eventLink" value="View Event" outcome="ViewEvent.xhtml">
 							<f:param name="eventId" value="#{myScheduleBean.eventVolunteer.event.eventId}" />
 						</p:button>
 					</p:dialog>
-
 				</h:form>
 
 			</div>
