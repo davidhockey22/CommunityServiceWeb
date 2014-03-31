@@ -1,19 +1,69 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui"
-	xmlns:ui="http://java.sun.com/jsf/facelets">
-
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui">
 <h:head>
-	<title>Manage Group</title>
+	<title>Edit Group</title>
+	<h:outputStylesheet library="css" name="WebContent/css/main.css" />
 </h:head>
 <h:body>
 	<ui:composition template="commonTemplate.xhtml">
+		<ui:define name="metadata">
+			<f:metadata>
+				<f:viewParam id="groupId" name="groupId" value="#{editGroupBean.groupId}" />
+				<f:event type="preRenderView" listener="#{editGroupBean.fetchGroup}" />
+			</f:metadata>
+		</ui:define>	
 		<ui:define name="content">
 			<div style="clear: left">
-				<h:outputText value="Placeholder for group edit page." />
+				<ui:fragment rendered="#{editGroupBean.group == null}">
+					<h:outputFormat value="Oops! This group doesn't exist!" />
+				</ui:fragment>
+				<ui:fragment rendered="#{editGroupBean.group != null}">
+					<p:panelGrid columns="2">
+						<p:row>
+							<p:column style="width:200px">
+								<h:outputText value="Name: " />
+							</p:column>
+							<ui:fragment rendered="#{editGroupBean.admin}">
+								<p:column>
+									<p:inplace id="ajaxInplace0" editor="true">
+										<p:inputText value="#{editGroupBean.group.groupName}" required="true" label="text" onkeyup="showUnsaved()" />
+									</p:inplace>
+								</p:column>
+							</ui:fragment>
+							<ui:fragment rendered="#{editGroupBean.admin == false}">
+								<p:column>
+									<h:outputText value="#{editGroupBean.group.groupName}"></h:outputText>
+								</p:column>
+							</ui:fragment>							
+						</p:row>
+					</p:panelGrid>
+					
+				<ui:fragment rendered="#{editGroupBean.admin}">
+				<p:dataTable var="g" value="#{editGroupBean.mods}">
+					<p:column headerText="Moderators">
+						<h:link value="#{g.volunteerName}" outcome="ViewVolunteer.xhtml">
+							<f:param name="volunteerId" value="#{g.volunteerId}" />
+						</h:link>
+					</p:column>
+					<p:column headerText="">				
+					<h:commandButton id="removeButton1" type="submit" value="Remove" action="#{editGroupBean.updateProfile()}"></h:commandButton>
+					</p:column>					
+				</p:dataTable>
+				</ui:fragment>	
+									
+				</ui:fragment>
 			</div>
 		</ui:define>
 	</ui:composition>
+	
+<script type="text/javascript">
+	function test() {
+		document.getElementById("removeButton").value="Test";
+		return false;
+	}
+</script>	
 </h:body>
 </html>
