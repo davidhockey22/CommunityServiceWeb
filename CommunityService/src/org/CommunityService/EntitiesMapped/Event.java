@@ -148,7 +148,7 @@ public class Event implements java.io.Serializable {
 		this.hoursBonus = hoursBonus;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "event", cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
 	public Set<EventVolunteer> getEventVolunteers() {
 		return this.eventVolunteers;
 	}
@@ -176,7 +176,7 @@ public class Event implements java.io.Serializable {
 		this.interests = interests;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "event", cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
 	public Set<EventSkill> getEventSkills() {
 		return this.eventSkills;
 	}

@@ -263,7 +263,7 @@ public class Volunteer implements java.io.Serializable {
 		this.facebookLogIns = facebookLogIns;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "volunteer", cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "volunteer", cascade = CascadeType.ALL, orphanRemoval = true)
 	public Set<EventVolunteer> getEventVolunteers() {
 		return this.eventVolunteers;
 	}
@@ -281,7 +281,7 @@ public class Volunteer implements java.io.Serializable {
 		this.pictures = pictures;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "volunteer", cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "volunteer", cascade = CascadeType.ALL, orphanRemoval = true)
 	public Set<VolunteerInterest> getVolunteerInterests() {
 		return this.volunteerInterests;
 	}
@@ -290,7 +290,7 @@ public class Volunteer implements java.io.Serializable {
 		this.volunteerInterests = volunteerInterests;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "volunteer", cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "volunteer", cascade = CascadeType.ALL, orphanRemoval = true)
 	public Set<OrganizationFollower> getOrganizationFollowers() {
 		return this.organizationFollowers;
 	}
@@ -317,7 +317,7 @@ public class Volunteer implements java.io.Serializable {
 		this.googleLogIns = googleLogIns;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "volunteer", cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "volunteer", cascade = CascadeType.ALL, orphanRemoval = true)
 	public Set<VolunteerSkill> getVolunteerSkills() {
 		return this.volunteerSkills;
 	}

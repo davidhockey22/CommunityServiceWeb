@@ -78,7 +78,7 @@ public class Skill implements java.io.Serializable {
 		this.description = description;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "skill", cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "skill", cascade = CascadeType.ALL, orphanRemoval = true)
 	public Set<VolunteerSkill> getVolunteerSkills() {
 		return this.volunteerSkills;
 	}
@@ -87,7 +87,7 @@ public class Skill implements java.io.Serializable {
 		this.volunteerSkills = volunteerSkills;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "skill", cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "skill", cascade = CascadeType.ALL, orphanRemoval = true)
 	public Set<EventSkill> getEventSkills() {
 		return this.eventSkills;
 	}

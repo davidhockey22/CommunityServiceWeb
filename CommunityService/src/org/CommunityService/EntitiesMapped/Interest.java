@@ -79,7 +79,7 @@ public class Interest implements java.io.Serializable {
 		this.description = description;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "interest", cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "interest", cascade = CascadeType.ALL, orphanRemoval = true)
 	public Set<VolunteerInterest> getVolunteerInterests() {
 		return this.volunteerInterests;
 	}

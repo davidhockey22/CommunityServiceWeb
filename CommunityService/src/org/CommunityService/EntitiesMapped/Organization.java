@@ -143,7 +143,7 @@ public class Organization implements java.io.Serializable {
 		this.groups = groups;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "organization", cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "organization", cascade = CascadeType.ALL, orphanRemoval = true)
 	public Set<OrganizationFollower> getOrganizationFollowers() {
 		return this.organizationFollowers;
 	}
