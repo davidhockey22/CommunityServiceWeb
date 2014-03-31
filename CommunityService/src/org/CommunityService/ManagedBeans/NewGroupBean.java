@@ -11,7 +11,6 @@ import javax.faces.bean.SessionScoped;
 import org.CommunityService.EntitiesMapped.Group;
 import org.CommunityService.EntitiesMapped.GroupMember;
 import org.CommunityService.Services.GroupService;
-import org.CommunityService.Services.VolunteerService;
 import org.ocpsoft.rewrite.annotation.Join;
 
 @ManagedBean
@@ -24,7 +23,7 @@ public class NewGroupBean {
 
 	private String name;
 
-	private int newGroupId;
+//	private int newGroupId;
 	
 	public String Register() {
 
@@ -37,12 +36,7 @@ public class NewGroupBean {
 			group.setHoursWorked(0);
 			group.setPoints(0.0f);
 			Set<GroupMember> members = new HashSet<GroupMember>();
-			GroupMember founder = new GroupMember();
-			founder.setAdmin(true);
-			founder.setGroup(group);
-			founder.setJoinedDate(new Date());
-			founder.setMod(true);
-			founder.setVolunteer(VolunteerService.getVolunteerById(currentVolunteer.getVolunteer().getVolunteerId()));
+			GroupMember founder = new GroupMember(group, currentVolunteer.getVolunteer(), new Date(), true, true);
 			members.add(founder);
 			group.setGroupMembers(members);
 			
@@ -77,7 +71,7 @@ public class NewGroupBean {
 			return "Error";
 		}
 
-		return "/ViewGroup.xhtml?faces-redirect=true&groupId=" + group.getGroupId();
+		return "/EditGroup.xhtml?faces-redirect=true&groupId=" + group.getGroupId();
 	}
 
 	public LoginBean getCurrentVolunteer() {

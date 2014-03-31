@@ -2,7 +2,6 @@ package org.CommunityService.EntitiesMapped;
 
 // Generated Feb 22, 2014 8:45:42 PM by Hibernate Tools 3.4.0.CR1
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;

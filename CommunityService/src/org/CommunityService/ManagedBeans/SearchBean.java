@@ -111,7 +111,7 @@ public class SearchBean {
 		this.eventName = eventName;
 	}
 
-	public List<Interest> getInterests() throws Exception {
+	public List<Interest> getInterests() {
 		if (interests == null) {
 			interests = InterestService.getInterests();
 		}

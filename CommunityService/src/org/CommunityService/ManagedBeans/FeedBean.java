@@ -7,7 +7,7 @@ import javax.faces.bean.ManagedProperty;
 
 import org.CommunityService.EntitiesMapped.Event;
 import org.CommunityService.EntitiesMapped.Volunteer;
-import org.CommunityService.Services.VolunteerService;
+import org.CommunityService.Services.EventService;
 import org.ocpsoft.rewrite.annotation.Join;
 
 @ManagedBean
@@ -20,7 +20,7 @@ public class FeedBean {
 	
 	public List<Event> getVolunteerEvents() {
 		Volunteer volunteer = currentVolunteer.getVolunteer();
-		List<Event> events = VolunteerService.getEventsByVolunteer(volunteer);
+		List<Event> events = EventService.getEventsByVolunteer(volunteer);
 		return events;
 	}
 

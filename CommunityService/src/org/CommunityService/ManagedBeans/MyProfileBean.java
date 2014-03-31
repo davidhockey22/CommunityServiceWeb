@@ -25,16 +25,16 @@ public class MyProfileBean {
 
 	private String oldEmail = null;
 
-	private DualListModel<Interest> interestModel = new DualListModel();
+	private DualListModel<Interest> interestModel = new DualListModel<Interest>();
 
 	public void saveEmail() {
 		oldEmail = new String(currentVolunteer.getVolunteer().getEmailAddress());
 	}
 
-	public void check() throws Exception {
+	public void check() {
 		if (currentVolunteer.getVolunteer() != null) {
-			currentVolunteer.attachInterests();
-			currentVolunteer.attachSkills();
+			currentVolunteer.refreshInterests();
+			currentVolunteer.refreshSkills();
 			List<Interest> interests = InterestService.getInterests();
 			Set<VolunteerInterest> vInt = currentVolunteer.getVolunteer().getVolunteerInterests();
 			int x = vInt.size();

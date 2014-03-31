@@ -10,12 +10,18 @@ import org.CommunityService.EntitiesMapped.VolunteerInterest;
 import org.hibernate.HibernateException;
 
 public class InterestService {
-
-	@SuppressWarnings("unchecked")
-	public static List<Interest> getInterests() throws Exception {
+	
+	
+	public static List<Interest> getInterests() {
 		String hql = "from Interest";
-		List<Interest> events = (List<Interest>) DBConnection.query(hql, null);
-		return events;
+		try {
+			@SuppressWarnings("unchecked")
+			List<Interest> events = (List<Interest>) DBConnection.query(hql, null);
+			return events;
+		} catch (HibernateException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	public static Interest getInterestsById(Integer interestId) {
@@ -42,7 +48,7 @@ public class InterestService {
 		params.add(vId);
 		try {
 			@SuppressWarnings("unchecked")
-			Set<VolunteerInterest> v = new HashSet((((List<VolunteerInterest>) DBConnection.query(hql, params))));
+			Set<VolunteerInterest> v = new HashSet<VolunteerInterest>((((List<VolunteerInterest>) DBConnection.query(hql, params))));
 			return v;
 		} catch (HibernateException e) {
 			e.printStackTrace();

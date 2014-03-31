@@ -1,11 +1,15 @@
 package org.CommunityService.ManagedBeans;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 
 import org.CommunityService.EntitiesMapped.Volunteer;
 import org.CommunityService.Services.VolunteerService;
 import org.CommunityService.Validators.PasswordHash;
+import org.hibernate.HibernateException;
 import org.ocpsoft.rewrite.annotation.Join;
 
 @ManagedBean
@@ -27,11 +31,17 @@ public class NewVolunteerBean {
 			Volunteer v = new Volunteer(username, password, phoneNumber, email, firstName, lastName);
 			v.setSalt(email);
 			VolunteerService.addVolunteer(v);
-		} catch (Exception e) {
+		} catch (HibernateException e) {
 			e.printStackTrace();
-			return "Error";
+			return "Error.xhtml?faces-redirect=true";
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+			return "Error.xhtml?faces-redirect=true";
+		} catch (InvalidKeySpecException e) {
+			e.printStackTrace();
+			return "Error.xhtml?faces-redirect=true";
 		}
-		return "Home";
+		return "Home.xhtml?faces-redirect=true";
 	}
 
 	// Getters and Setters

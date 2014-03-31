@@ -49,10 +49,15 @@ public class EventService {
 		try {
 			@SuppressWarnings("unchecked")
 			List<Event> events = (List<Event>) DBConnection.query(hql, params);
-			return events;
+			return (events != null ? events : new ArrayList<Event>());
 		} catch (HibernateException e) {
-			return null;
+			e.printStackTrace();
+			return new ArrayList<Event>();
 		}
+	}
+	
+	public static List<Event> getEventsByVolunteer(Volunteer volunteer) {
+		return getEventsByVolunteer(volunteer.getVolunteerId());
 	}
 
 	public static List<Event> getEventsByDate() {

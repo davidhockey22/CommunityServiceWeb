@@ -1,6 +1,8 @@
 package org.CommunityService.ManagedBeans;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.faces.bean.ManagedBean;
 
@@ -38,7 +40,12 @@ public class ViewVolunteerBean {
 			this.volunteer = null;
 		} else {
 			try {
-				this.volunteer = VolunteerService.getVolunteerById(this.volunteerId, true, true, true);
+				Set<String> entities = new HashSet<String>();
+				entities.add("GroupMembers");
+				entities.add("VolunteerInterests");
+				entities.add("OrganizationFollowers");
+				entities.add("VolunteerSkills");
+				this.volunteer = VolunteerService.getVolunteerByIdWithAttachedEntities(this.volunteerId, entities);
 			} catch (HibernateException e) {
 				this.volunteer = null;
 				e.printStackTrace();

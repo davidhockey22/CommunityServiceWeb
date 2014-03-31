@@ -17,32 +17,35 @@
 			<ui:fragment rendered="#{loginBean.loggedIn}">
 				<h:outputText value="My Groups" />
 
-				<p:button value="Create new group" outcome="/NewGroup.xhtml"/>
+				<p:button value="Create new group" outcome="/NewGroup.xhtml" />
 
 				<h:outputText value="Group Administrator:" />
 
-				<p:dataTable var="g" value="#{myGroupsBean.adminGroup}">
-					<p:column headerText="Group Name">
-						<h:link value="#{g.group.groupName}" outcome="ViewGroup.xhtml">
-							<f:param name="groupId" value="#{g.group.groupId}" />
-						</h:link>
-					</p:column>
-					<p:column headerText="Group Creation Date">
-						<h:outputText value="#{g.group.creationDate}" />
-					</p:column>
-				</p:dataTable>
-
-				<h:outputText value="Group Member:" />
-
-				<p:dataTable var="g" value="#{myGroupsBean.memberGroup}">
-					<p:column headerText="Group Name">
-						<h:link value="#{g.group.groupName}" outcome="ViewGroup.xhtml">
-							<f:param name="groupId" value="#{g.group.groupId}" />
-						</h:link>
-					</p:column>
-					<p:column headerText="Group Join Date">
-						<h:outputText value="#{g.joinedDate}" />
-					</p:column>
+				<p:dataTable var="level" value="#{myGroupsBean.levels}">
+					<f:facet name="header">
+						My Groups
+					</f:facet>
+					
+					<p:columnGroup type="header">
+						<p:row>
+							<p:column value="Group Name" />
+							<p:column value="Created Date" />
+						</p:row>
+					</p:columnGroup>
+					
+					<p:subTable var="groupMember" value="#{level.groupMembers}">
+						<f:facet name="header">
+							<h:outputText value="#{level.name}" />
+						</f:facet>
+						<p:column>
+							<h:link value="#{groupMember.group.groupName}" outcome="ViewGroup.xhtml">
+								<f:param name="groupId" value="#{groupMember.group.groupId}" />
+							</h:link>
+						</p:column>
+						<p:column>
+							<h:outputText value="#{groupMember.group.creationDate}" />
+						</p:column>
+					</p:subTable>
 				</p:dataTable>
 			</ui:fragment>
 		</ui:define>
