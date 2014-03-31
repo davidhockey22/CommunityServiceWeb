@@ -35,6 +35,20 @@ public class DBConnection {
 
 	}
 
+	public static void queryDelete(String query, List params) throws HibernateException {
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
+		Query q = session.createQuery(query);
+		if (params != null) {
+			for (int i = 0; i < params.size(); i++) {
+				q = q.setParameter(i, params.get(i));
+			}
+		}
+		q.executeUpdate();
+		session.getTransaction().commit();
+		session.close();
+	}
+
 	public static Object queryWithSession(String query, List params) throws HibernateException {
 		Session session = sessionFactory.openSession();
 		session.beginTransaction();

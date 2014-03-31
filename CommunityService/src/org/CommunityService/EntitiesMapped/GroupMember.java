@@ -64,7 +64,7 @@ public class GroupMember implements java.io.Serializable {
 		this.groupMemberId = groupMemberId;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "GroupID", nullable = false)
 	public Group getGroup() {
 		return this.group;
@@ -74,7 +74,7 @@ public class GroupMember implements java.io.Serializable {
 		this.group = group;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "VolunteerID", nullable = false)
 	public Volunteer getVolunteer() {
 		return this.volunteer;

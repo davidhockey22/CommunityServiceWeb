@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 
 import org.CommunityService.EntitiesMapped.Event;
 import org.CommunityService.EntitiesMapped.Interest;
@@ -16,7 +16,7 @@ import org.CommunityService.Services.SkillService;
 import org.ocpsoft.rewrite.annotation.Join;
 
 @ManagedBean
-@SessionScoped
+@ViewScoped
 @Join(path = "/search", to = "/Web/Search.xhtml")
 public class SearchBean {
 

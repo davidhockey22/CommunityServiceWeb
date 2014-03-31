@@ -56,7 +56,7 @@ public class VolunteerInterest implements java.io.Serializable {
 		this.volunteerInterestId = volunteerInterestId;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "InterestID", nullable = false)
 	public Interest getInterest() {
 		return this.interest;
@@ -66,7 +66,7 @@ public class VolunteerInterest implements java.io.Serializable {
 		this.interest = interest;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "VolunteerID", nullable = false)
 	public Volunteer getVolunteer() {
 		return this.volunteer;

@@ -18,6 +18,15 @@ public class EventService {
 		return events;
 	}
 
+	public static void removeEventVolunteer(Integer eventId, Integer vId) {
+		List params = new ArrayList();
+		params.add(vId);
+		params.add(eventId);
+		DBConnection.queryDelete("delete EventVolunteer v where v.volunteer.volunteerId=? and v.event.eventId=?", params);
+		System.out.println("EventService.removeEventVolunteer()");
+		
+	}
+
 	public static Event getEventById(int eventId) throws HibernateException {
 		String hql = "from Event as e where e.eventId=?";
 		ArrayList<Integer> params = new ArrayList<Integer>();
@@ -32,7 +41,7 @@ public class EventService {
 			return null;
 		}
 	}
-	
+
 	public static List<Event> getEventsByVolunteer(Integer volunteerId) {
 		String hql = "SELECT ev.event FROM EventVolunteer as ev where ev.volunteer.volunteerId=?";
 		ArrayList<Integer> params = new ArrayList<Integer>();
@@ -45,11 +54,11 @@ public class EventService {
 			return null;
 		}
 	}
-	
+
 	public static List<Event> getEventsByDate() {
-		
+
 		Date date = new Date();
-		
+
 		String hql = "FROM Event as ev where ev.beginTime > ? order by ev.beginTime asc";
 		ArrayList<Date> params = new ArrayList<Date>();
 		params.add(date);
@@ -60,7 +69,8 @@ public class EventService {
 		} catch (HibernateException e) {
 			return null;
 		}
-	}		
+	}
+
 	public static List<Event> getEventsByInterest(Integer interestId) {
 
 		String hql = "select i.events from Interest as i where i.interestId=?";
@@ -74,9 +84,10 @@ public class EventService {
 			e.printStackTrace();
 			return null;
 		}
-	}	
+	}
+
 	public static List<Event> getEventsBySkill(Integer skillID) {
-		
+
 		String hql = "SELECT ev.event FROM EventSkill as ev where ev.skill.skillId=?";
 		ArrayList<Integer> params = new ArrayList<Integer>();
 		params.add(skillID);
@@ -90,11 +101,11 @@ public class EventService {
 	}
 
 	public static void signUp(Volunteer v, Event e) {
-		//if (v != null) {
-			EventVolunteer ev = new EventVolunteer(e, v);
-			DBConnection.update(ev);
-			//return true;
-		//}
+		// if (v != null) {
+		EventVolunteer ev = new EventVolunteer(e, v);
+		DBConnection.update(ev);
+		// return true;
+		// }
 	}
 
 	public static void addEvent(Event event) throws HibernateException {

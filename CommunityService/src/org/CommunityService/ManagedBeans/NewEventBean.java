@@ -3,12 +3,14 @@ package org.CommunityService.ManagedBeans;
 import java.util.Date;
 
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 
 import org.CommunityService.EntitiesMapped.Event;
 import org.CommunityService.Services.EventService;
 import org.ocpsoft.rewrite.annotation.Join;
 
 @ManagedBean
+@ViewScoped
 @Join(path="/createEvent", to="/Web/NewEvent.xhtml")
 public class NewEventBean {
 

@@ -49,12 +49,16 @@
 							<p:column colspan="2" style="text-align:center;">
 								<h:form id="form2">
 									<h:inputHidden id="buttonData" value="#{viewEventBean.eventId}" />
-									<p:commandButton value="SignUp!" actionListener="#{viewEventBean.signUp}"
-										rendered="#{loginBean.loggedIn and !viewEventBean.signedUp}" process="@form" update="form2" />
+									<p:commandButton value="Sign Up!" actionListener="#{viewEventBean.signUp}"
+										rendered="#{loginBean.loggedIn and !viewEventBean.signedUp}" process="@form" update="form2" ajax="false" />
+
+									<h:outputText id="noSignIn" value="Log in to your account to sign up for this event." rendered="#{!loginBean.loggedIn}" />
+									<h:outputText id="signedUp" value="You are signed up for this event!" rendered="#{viewEventBean.signedUp}" />
+									<br />
+									<p:commandButton value="Remove Event from my events." actionListener="#{viewEventBean.removeEventFromVolunteer}"
+										rendered="#{viewEventBean.signedUp}" process="@form" update="form2" ajax="false" />
 								</h:form>
 
-								<h:outputText id="noSignIn" value="Log in to your account to sign up for this event." rendered="#{!loginBean.loggedIn}" />
-								<h:outputText id="signedUp" value="You are already signed up for this event!" rendered="#{viewEventBean.signedUp}" />
 							</p:column>
 						</p:row>
 					</p:panelGrid>

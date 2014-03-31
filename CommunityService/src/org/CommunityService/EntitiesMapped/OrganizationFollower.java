@@ -58,7 +58,7 @@ public class OrganizationFollower implements java.io.Serializable {
 		this.orgFollowerId = orgFollowerId;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "OrgID", nullable = false)
 	public Organization getOrganization() {
 		return this.organization;
@@ -68,7 +68,7 @@ public class OrganizationFollower implements java.io.Serializable {
 		this.organization = organization;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "VolunteerID", nullable = false)
 	public Volunteer getVolunteer() {
 		return this.volunteer;

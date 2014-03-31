@@ -50,7 +50,7 @@ public class VolunteerDevice implements java.io.Serializable {
 		this.deviceId = deviceId;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "VolunteerID", nullable = false)
 	public Volunteer getVolunteer() {
 		return this.volunteer;
