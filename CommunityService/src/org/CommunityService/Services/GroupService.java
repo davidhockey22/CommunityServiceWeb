@@ -21,7 +21,18 @@ public class GroupService {
 		DBConnection.persist(o);
 		return;
 	}
-	
+	public static void removeGroupMember(int groupMemberId) throws Exception {
+		String hql = "delete GroupMember as g where g.groupMemberId=?";
+		ArrayList<Integer> params = new ArrayList<Integer>();
+		params.add(groupMemberId);
+		try {
+			DBConnection.query(hql, params);
+		} catch (HibernateException e) {
+			e.printStackTrace();
+		} catch (IndexOutOfBoundsException e) {
+			e.printStackTrace();
+		}
+	}	
 	public static void updateGroup(Group o) throws Exception {
 		DBConnection.update(o);
 		return;
