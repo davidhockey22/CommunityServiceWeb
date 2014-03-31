@@ -140,7 +140,7 @@ public class Group implements java.io.Serializable {
 		this.pictures = pictures;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "group", cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "group", cascade = CascadeType.ALL, orphanRemoval = true)
 	public Set<GroupMember> getGroupMembers() {
 		return this.groupMembers;
 	}
