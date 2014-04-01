@@ -18,7 +18,7 @@
 
 			<ui:fragment rendered="#{loginBean.loggedIn}">
 				<h:form>
-					<p:message for="name" id="userMessage" />
+					<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
 
 					<p:panel header="Register Group">
 
@@ -27,8 +27,8 @@
 							<h:inputText id="name" value="#{newGroupBean.name}" required="true">
 							</h:inputText>
 
-							<h:commandButton type="submit" value="Register" action="#{newGroupBean.Register}">
-							</h:commandButton>
+							<p:commandButton type="submit" value="Register" action="#{newGroupBean.Register}">
+							</p:commandButton>
 
 						</h:panelGrid>
 					</p:panel>

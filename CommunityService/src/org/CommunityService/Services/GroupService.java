@@ -7,21 +7,21 @@ import java.util.Set;
 
 import org.CommunityService.EntitiesMapped.Group;
 import org.CommunityService.EntitiesMapped.GroupMember;
-import org.CommunityService.EntitiesMapped.Organization;
 import org.hibernate.HibernateException;
 
 public class GroupService {
 	
-	public static void addGroup(Group o) throws Exception {
-		//DBConnection.persist(o);
-		DBConnection.persistRelationalEntity(o);
+	public static void addGroup(Group o) throws HibernateException {
+		DBConnection.save(o);
 		return;
 	}
-	public static void addGroupMember(GroupMember o) throws Exception {
+	
+	public static void addGroupMember(GroupMember o) throws HibernateException {
 		DBConnection.persist(o);
 		return;
 	}
-	public static void removeGroupMember(int groupMemberId) throws Exception {
+	
+	public static void removeGroupMember(int groupMemberId) {
 		String hql = "delete GroupMember as g where g.groupMemberId=?";
 		ArrayList<Integer> params = new ArrayList<Integer>();
 		params.add(groupMemberId);
@@ -33,9 +33,22 @@ public class GroupService {
 			e.printStackTrace();
 		}
 	}	
-	public static void updateGroup(Group o) throws Exception {
+	public static void updateGroup(Group o) throws HibernateException {
 		DBConnection.update(o);
 		return;
+	}
+	
+	public static Group getGroupByName(String groupName) throws HibernateException {
+		String hql = "from Group as g where g.groupName=?";
+		ArrayList<String> params = new ArrayList<String>();
+		params.add(groupName);
+		try {
+			@SuppressWarnings("unchecked")
+			Group o = (Group) (((List<Group>) DBConnection.query(hql, params)).get(0));
+			return o;
+		} catch (IndexOutOfBoundsException e) {
+			return null;
+		}
 	}
 	
 	public static Group getGroupById(int groupId) throws HibernateException {
@@ -76,7 +89,7 @@ public class GroupService {
 		params.add(vId);
 		try {
 			@SuppressWarnings("unchecked")
-			Set<GroupMember> v = new HashSet((((List<GroupMember>) DBConnection.query(hql, params))));
+			Set<GroupMember> v = new HashSet<GroupMember>((((List<GroupMember>) DBConnection.query(hql, params))));
 			return v;
 		} catch (HibernateException e) {
 			e.printStackTrace();

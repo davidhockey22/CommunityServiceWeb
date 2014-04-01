@@ -124,7 +124,19 @@ public class DBConnection {
 		return null;
 
 	}
+	
+	public static Object save(Object object) throws HibernateException {
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
+		if (object != null) {
+			session.save(object);
+		}
+		session.getTransaction().commit();
+		session.close();
+		return null;
 
+	}
+	
 	public static Object persistRelationalEntity(Object object) throws HibernateException {
 		Session session = sessionFactory.openSession();
 		session.beginTransaction();

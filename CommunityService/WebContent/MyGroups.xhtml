@@ -5,22 +5,15 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui">
 <h:head>
 	<title>Groups</title>
-	<h:outputStylesheet library="css" name="WebContent/css/main.css" />
 </h:head>
 <h:body>
 	<ui:composition template="commonTemplate.xhtml">
 		<ui:define name="content">
-
 			<ui:fragment rendered="#{!loginBean.loggedIn}">
 				<h:outputText value="Please login to see your groups." />
 			</ui:fragment>
 			<ui:fragment rendered="#{loginBean.loggedIn}">
-				<h:outputText value="My Groups" />
-
 				<p:button value="Create new group" outcome="/NewGroup.xhtml" />
-
-				<h:outputText value="Group Administrator:" />
-
 				<p:dataTable var="level" value="#{myGroupsBean.levels}">
 					<f:facet name="header">
 						My Groups
