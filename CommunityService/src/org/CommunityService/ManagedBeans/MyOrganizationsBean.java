@@ -3,6 +3,7 @@ package org.CommunityService.ManagedBeans;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -11,7 +12,7 @@ import javax.faces.bean.RequestScoped;
 
 import org.CommunityService.EntitiesMapped.OrganizationFollower;
 import org.CommunityService.EntitiesMapped.Volunteer;
-import org.CommunityService.Services.VolunteerService;
+import org.CommunityService.util.MembershipLevel;
 import org.ocpsoft.rewrite.annotation.Join;
 
 @Join(path = "/organizations", to = "/Web/MyOrganizations.xhtml")
@@ -21,19 +22,18 @@ public class MyOrganizationsBean {
 	@ManagedProperty(value = "#{loginBean}")
 	private LoginBean currentVolunteer;
 
-	List<OrganizationFollower> adminOrgs;
-	List<OrganizationFollower> memberOrgs;
-	List<OrganizationFollower> followerOrgs;
-
+	private List<MembershipLevel<OrganizationFollower>> levels;
+	
 	@PostConstruct
 	public void postConstructor() {
-		adminOrgs = new ArrayList<OrganizationFollower>();
-		memberOrgs = new ArrayList<OrganizationFollower>();
-		followerOrgs = new ArrayList<OrganizationFollower>();
+		List<OrganizationFollower> adminOrgs = new ArrayList<OrganizationFollower>();
+		List<OrganizationFollower> memberOrgs = new ArrayList<OrganizationFollower>();
+		List<OrganizationFollower> followerOrgs = new ArrayList<OrganizationFollower>();
 
+		currentVolunteer.refreshOrganizations();
 		Volunteer volunteer = currentVolunteer.getVolunteer();
-		List<OrganizationFollower> organizationFollowers = VolunteerService.getOrganizationFollowersByVolunteer(volunteer);
-
+		Set<OrganizationFollower> organizationFollowers = volunteer.getOrganizationFollowers();
+		
 		for (Iterator<OrganizationFollower> iterator = organizationFollowers.iterator(); iterator.hasNext();) {
 			OrganizationFollower organizationFollower = (OrganizationFollower) iterator.next();
 			if (organizationFollower.getAdmin()) {
@@ -44,18 +44,15 @@ public class MyOrganizationsBean {
 				followerOrgs.add(organizationFollower);
 			}
 		}
+		
+		levels = new ArrayList<MembershipLevel<OrganizationFollower>>();
+		levels.add(new MembershipLevel<OrganizationFollower>("Administrator", adminOrgs));
+		levels.add(new MembershipLevel<OrganizationFollower>("Member", memberOrgs));
+		levels.add(new MembershipLevel<OrganizationFollower>("Follower", followerOrgs));
 	}
-
-	public List<OrganizationFollower> getAdminOrgs() {
-		return adminOrgs;
-	}
-
-	public List<OrganizationFollower> getMemberOrgs() {
-		return memberOrgs;
-	}
-
-	public List<OrganizationFollower> getFollowerOrgs() {
-		return followerOrgs;
+	
+	public List<MembershipLevel<OrganizationFollower>> getLevels() {
+		return levels;
 	}
 
 	public LoginBean getCurrentVolunteer() {

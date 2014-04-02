@@ -30,6 +30,7 @@ import javax.persistence.UniqueConstraint;
 		@UniqueConstraint(columnNames = "VolunteerName") })
 public class Volunteer implements java.io.Serializable {
 
+	private static final long serialVersionUID = 1L;
 	/**
 	 * 
 	 */

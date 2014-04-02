@@ -13,11 +13,11 @@ import org.CommunityService.EntitiesMapped.EventVolunteer;
 import org.CommunityService.EntitiesMapped.GroupMember;
 import org.CommunityService.EntitiesMapped.OrganizationFollower;
 import org.CommunityService.EntitiesMapped.Volunteer;
-import org.CommunityService.Services.Gravatar;
 import org.CommunityService.Services.InterestService;
 import org.CommunityService.Services.SkillService;
 import org.CommunityService.Services.VolunteerService;
 import org.CommunityService.Validators.PasswordHash;
+import org.CommunityService.util.Gravatar;
 import org.hibernate.HibernateException;
 import org.ocpsoft.rewrite.annotation.Join;
 

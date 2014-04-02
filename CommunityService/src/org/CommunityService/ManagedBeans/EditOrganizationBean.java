@@ -6,6 +6,7 @@ import javax.faces.bean.SessionScoped;
 
 import org.CommunityService.EntitiesMapped.Organization;
 import org.CommunityService.Services.OrganizationService;
+import org.hibernate.HibernateException;
 
 @ManagedBean
 @SessionScoped
@@ -63,7 +64,7 @@ public class EditOrganizationBean {
 			// test
 			OrganizationService.updateOrganization(currentOrg);
 
-		} catch (Exception e) {
+		} catch (HibernateException e) {
 			e.printStackTrace();
 			return "Error";
 		}

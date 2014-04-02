@@ -20,9 +20,6 @@ import org.hibernate.HibernateException;
 public class VolunteerService {
 
 	public static Volunteer getVolunteerByName(String name) {
-//		Used the following to check the error page.
-//		if (name.matches("banana"))
-//			throw new HibernateException("banana");
 		String hql = "from Volunteer as v left join fetch v.volunteerDevices where v.volunteerName=?";
 		ArrayList<String> params = new ArrayList<String>();
 		params.add(name);

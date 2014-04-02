@@ -21,12 +21,12 @@
 					
 					<p:columnGroup type="header">
 						<p:row>
-							<p:column headerText="Group Name" />
+							<p:column headerText="Name" />
 							<p:column headerText="Created Date" />
 						</p:row>
 					</p:columnGroup>
 					
-					<p:subTable var="groupMember" value="#{level.groupMembers}">
+					<p:subTable var="groupMember" value="#{level.members}">
 						<f:facet name="header">
 							<h:outputText value="#{level.name}" />
 						</f:facet>

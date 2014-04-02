@@ -4,8 +4,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 
 import org.CommunityService.EntitiesMapped.Organization;
-import org.CommunityService.Services.Gravatar;
 import org.CommunityService.Services.OrganizationService;
+import org.CommunityService.util.Gravatar;
 import org.ocpsoft.rewrite.annotation.Join;
 
 @ManagedBean

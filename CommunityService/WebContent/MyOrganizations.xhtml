@@ -15,49 +15,35 @@
 				<h:outputText value="Please login to see your organizaions." />
 			</ui:fragment>
 			<ui:fragment rendered="#{loginBean.loggedIn}">
-				<h:outputText value="My Organizations" />
 
-				<p:button value="Create new organization" outcome="/NewOrganization.xhtml"/>
+				<p:button value="Create new organization" outcome="/NewOrganization.xhtml" />
 
-				<h:outputText value="Organization Administrator:" />
+				<p:dataTable var="level" value="#{myOrganizationsBean.levels}">
+					<f:facet name="header">
+						My Organizations
+					</f:facet>
 
-				<p:dataTable var="o" value="#{myOrganizationsBean.adminOrgs}">
-					<p:column headerText="Organization Name">
-						<h:link value="#{o.organization.orgName}" outcome="ViewOrganization.xhtml">
-							<f:param name="orgId" value="#{o.organization.orgId}" />
-						</h:link>
-					</p:column>
-					<p:column headerText="Description">
-						<h:outputText value="#{o.organization.description}" />
-					</p:column>
+					<p:columnGroup type="header">
+						<p:row>
+							<p:column headerText="Name" />
+							<p:column headerText="Description" />
+						</p:row>
+					</p:columnGroup>
+
+					<p:subTable var="orgFollower" value="#{level.members}">
+						<f:facet name="header">
+							<h:outputText value="#{level.name}" />
+						</f:facet>
+						<p:column>
+							<h:link value="#{orgFollower.organization.orgName}" outcome="ViewOrganiation.xhtml">
+								<f:param name="orgId" value="#{orgFollower.organization.orgId}" />
+							</h:link>
+						</p:column>
+						<p:column>
+							<h:outputText value="#{orgFollower.organization.description}" />
+						</p:column>
+					</p:subTable>
 				</p:dataTable>
-
-				<h:outputText value="Organization Member:" />
-
-				<p:dataTable var="o" value="#{myOrganizationsBean.memberOrgs}">
-					<p:column headerText="Organization Name">
-						<h:link value="#{o.organization.orgName}" outcome="ViewOrganization.xhtml">
-							<f:param name="orgId" value="#{o.organization.orgId}" />
-						</h:link>
-					</p:column>
-					<p:column headerText="Description">
-						<h:outputText value="#{o.organization.description}" />
-					</p:column>
-				</p:dataTable>
-
-				<h:outputText value="Organization Follower:" />
-				
-				<p:dataTable var="o" value="#{myOrganizationsBean.followerOrgs}">
-					<p:column headerText="Organization Name">
-						<h:link value="#{o.organization.orgName}" outcome="ViewOrganization.xhtml">
-							<f:param name="orgId" value="#{o.organization.orgId}" />
-						</h:link>
-					</p:column>
-					<p:column headerText="Description">
-						<h:outputText value="#{o.organization.description}" />
-					</p:column>
-				</p:dataTable>
-				
 			</ui:fragment>
 		</ui:define>
 	</ui:composition>

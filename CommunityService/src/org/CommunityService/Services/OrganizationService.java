@@ -38,13 +38,43 @@ public class OrganizationService {
 		}
 	}
 	
-	public static void addOrganization(Organization o) throws Exception {
-		DBConnection.persistRelationalEntity(o);
+	public static void addOrganization(Organization o) throws HibernateException {
+		DBConnection.save(o);
 		return;
 	}
 	
-	public static void updateOrganization(Organization o) throws Exception {
+	public static void updateOrganization(Organization o) throws HibernateException {
 		DBConnection.update(o);
 		return;
+	}
+
+	public static Object getOrganizationByName(String name) {
+		String hql = "from Organization as o where o.orgName=?";
+		ArrayList<String> params = new ArrayList<String>();
+		params.add(name);
+		try {
+			@SuppressWarnings("unchecked")
+			Organization o = (Organization) (((List<Organization>) DBConnection.query(hql, params)).get(0));
+			return o;
+		} catch (HibernateException e) {
+			return null;
+		} catch (IndexOutOfBoundsException e) {
+			return null;
+		}
+	}
+
+	public static Object getOrganizationByAddress(String address) {
+		String hql = "from Organization as o where o.address=?";
+		ArrayList<String> params = new ArrayList<String>();
+		params.add(address);
+		try {
+			@SuppressWarnings("unchecked")
+			Organization o = (Organization) (((List<Organization>) DBConnection.query(hql, params)).get(0));
+			return o;
+		} catch (HibernateException e) {
+			return null;
+		} catch (IndexOutOfBoundsException e) {
+			return null;
+		}
 	}	
 }

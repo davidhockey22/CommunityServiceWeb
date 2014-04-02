@@ -17,7 +17,7 @@
 
 			<ui:fragment rendered="#{loginBean.loggedIn}">
 				<h:form>
-					<p:message for="name" id="userMessage" />
+					<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
 
 					<p:panel header="Register Organization">
 
@@ -40,7 +40,7 @@
 								<f:validateLength maximum="500" />
 							</p:inputTextarea>
 
-							<h:commandButton type="submit" value="Register" action="#{newOrganizationBean.Register}" />
+							<p:commandButton type="submit" value="Register" action="#{newOrganizationBean.Register}" />
 
 						</h:panelGrid>
 					</p:panel>

@@ -10,9 +10,8 @@ import javax.faces.bean.SessionScoped;
 
 import org.CommunityService.EntitiesMapped.Organization;
 import org.CommunityService.EntitiesMapped.OrganizationFollower;
-import org.CommunityService.Services.DBConnection;
 import org.CommunityService.Services.OrganizationService;
-import org.CommunityService.Services.VolunteerService;
+import org.hibernate.HibernateException;
 import org.ocpsoft.rewrite.annotation.Join;
 
 @ManagedBean
@@ -30,35 +29,36 @@ public class NewOrganizationBean {
 	private String description;
 
 	public String Register() {
-
 		try {
-
-			// new organization
-			Organization org = new Organization(name, address, phoneNumber, email);
-			org.setCreatedOn(new Date());
-			org.setDescription(description);
-			Set<OrganizationFollower> orgFollowers = new HashSet<OrganizationFollower>();
-			OrganizationFollower follower = new OrganizationFollower();
-			follower.setAdmin(true);
-			follower.setMod(true);
-			follower.setVolunteer(VolunteerService.getVolunteerById(currentVolunteer.getVolunteer().getVolunteerId()));
-			follower.setOrganization(org);
-			orgFollowers.add(follower);
-			org.setOrganizationFollowers(orgFollowers);
-			// add organization to mysql
-			OrganizationService.addOrganization(org);
-			//DBConnection.persistRelationalEntity(follower);
-			
-			// update volunteer which is now the admin of the org
-			// currentVolunteer.getVolunteer().setOrganization(org);
-			// VolunteerService.updateVolunteer(currentVolunteer.getVolunteer());
-
-		} catch (Exception e) {
+			boolean orgExists = false;
+			if (OrganizationService.getOrganizationByName(name) != null) {
+				MessageController.addInfo("An organization with this name already exists, please enter a different name.");
+				orgExists = true;
+			}
+			if (OrganizationService.getOrganizationByAddress(address) != null) {
+				MessageController.addInfo("An organization with this address already exists, please enter a different address.");
+				orgExists = true;
+			}
+			if (!orgExists) {
+				Organization org = new Organization(name, address, phoneNumber, email);
+				org.setCreatedOn(new Date());
+				org.setDescription(description);
+				
+				Set<OrganizationFollower> orgFollowers = new HashSet<OrganizationFollower>();
+				OrganizationFollower follower = new OrganizationFollower(org, currentVolunteer.getVolunteer(), true, true);
+				orgFollowers.add(follower);
+				
+				org.setOrganizationFollowers(orgFollowers);
+				
+				OrganizationService.addOrganization(org);
+				return "/EditOrganization.xhtml?faces-redirect=true&orgId=" + org.getOrgId();
+			} else {
+				return "";
+			}
+		} catch (HibernateException e) {
 			e.printStackTrace();
-			return "Error";
+			return "Error.xhtml?faces-redirect=true";
 		}
-
-		return "LandingPage";
 	}
 
 	public LoginBean getCurrentVolunteer() {

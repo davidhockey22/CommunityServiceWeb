@@ -12,7 +12,7 @@ import javax.faces.bean.RequestScoped;
 
 import org.CommunityService.EntitiesMapped.GroupMember;
 import org.CommunityService.EntitiesMapped.Volunteer;
-import org.CommunityService.util.GroupMembershipLevel;
+import org.CommunityService.util.MembershipLevel;
 import org.ocpsoft.rewrite.annotation.Join;
 
 @Join(path = "/groups", to = "/Web/MyGroups.xhtml")
@@ -22,7 +22,7 @@ public class MyGroupsBean {
 	@ManagedProperty(value = "#{loginBean}")
 	private LoginBean currentVolunteer;
 	
-	private List<GroupMembershipLevel> levels = new ArrayList<GroupMembershipLevel>();
+	private List<MembershipLevel<GroupMember>> levels = new ArrayList<MembershipLevel<GroupMember>>();
 	
 	@PostConstruct
 	public void postConstructor() {
@@ -45,13 +45,13 @@ public class MyGroupsBean {
 			}
 		}
 		
-		levels = new ArrayList<GroupMembershipLevel>();
-		levels.add(new GroupMembershipLevel("Administrator", adminGroup));
-		levels.add(new GroupMembershipLevel("Moderator", moderatorGroup));
-		levels.add(new GroupMembershipLevel("Member", memberGroup));
+		levels = new ArrayList<MembershipLevel<GroupMember>>();
+		levels.add(new MembershipLevel<GroupMember>("Administrator", adminGroup));
+		levels.add(new MembershipLevel<GroupMember>("Moderator", moderatorGroup));
+		levels.add(new MembershipLevel<GroupMember>("Member", memberGroup));
 	}
 	
-	public List<GroupMembershipLevel> getLevels() {
+	public List<MembershipLevel<GroupMember>> getLevels() {
 		return levels;
 	}
 	

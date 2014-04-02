@@ -1,4 +1,4 @@
-package org.CommunityService.Services;
+package org.CommunityService.util;
 
 public class Gravatar {
 	// see https://en.gravatar.com/site/implement/images/ for details

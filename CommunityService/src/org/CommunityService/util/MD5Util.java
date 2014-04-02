@@ -1,4 +1,4 @@
-package org.CommunityService.Services;
+package org.CommunityService.util;
 
 //copied from https://en.gravatar.com/site/implement/images/java/
 
