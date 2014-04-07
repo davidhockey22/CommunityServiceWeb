@@ -7,55 +7,53 @@
 </h:head>
 <h:body>
 	<ui:composition>
-		<div id="header">
-			<div style="clear: both">
-				<p:ajaxStatus id="ajaxStatusPanel">
-					<f:facet name="start">
-						<div
-							style="text-align: center; width: 100%; height: 100%; display: block; /* float: left; */ margin-left: auto; margin-right: auto; /* margin-top: 300px; */ position: fixed; z-index: 10; background-color: rgba(22, 21, 10, 0.26);">
-							<h:graphicImage value="/images/ajax-loader.gif" style="margin-top: 300px;" />
-						</div>
-					</f:facet>
-					<f:facet name="complete">
-						<h:outputText value="" />
-					</f:facet>
-				</p:ajaxStatus>
-				<p:menubar>
-					<p:menuitem value="Home" icon="ui-icon-home" url="/" />
-					<p:menuitem rendered="#{loginBean.loggedIn}" value="My Profile" icon="ui-icon-person" url="/editProfile" />
-					<p:menuitem rendered="#{loginBean.loggedIn}" value="My Organizations" icon="ui-icon-person" url="/organizations" />
-					<p:menuitem rendered="#{loginBean.loggedIn}" value="My Groups" icon="ui-icon-person" url="/groups" />
-					<p:menuitem rendered="#{loginBean.loggedIn}" value="My Events" icon="ui-icon-star" url="/events" />
-					<p:menuitem rendered="#{loginBean.loggedIn}" value="My Schedule" icon="ui-icon-calendar" url="/schedule" />
-					<p:menuitem value="Search" icon="ui-icon-search" url="/search" />
-					<f:facet name="options">
-						<h:form rendered="#{!loginBean.loggedIn}">
-							<p:message for="username" id="userMessage" />
-							<p:outputLabel for="username" value="UserName" />
-							<p:inputText id="username" value="#{loginBean.username}" label="UserName" required="true" />
-							<p:outputLabel for="password" value="Password" />
-							<p:password id="password" value="#{loginBean.password}" required="true" />
-							<p:commandButton type="submit" value="Login" action="#{loginBean.Login}" ajax="false" />
-							<p:button value="Register" outcome="/NewVolunteer.xhtml" />
-							<p:commandLink action="/Home.xhtml?faces-redirect=true">
-								<h:graphicImage value="/images/logo.png" />
-							</p:commandLink>
-						</h:form>
-						<h:form rendered="#{loginBean.loggedIn}">
-							<h:outputFormat value="Hello, {0}. ">
-								<f:param value="#{loginBean.volunteer.volunteerName}" />
-							</h:outputFormat>
-							<h:graphicImage value="#{loginBean.gravatarURL}" style="height:30px; width:30px" />
-							<p:commandButton type="submit" value="Logout" immediate="true" action="#{loginBean.Logout}" ajax="false" />
-							<h:link outcome="/Home.xhtml">
-								<h:graphicImage value="/images/logo.png" />
-							</h:link>
-						</h:form>
-					</f:facet>
-				</p:menubar>
+		<div>
+			<p:ajaxStatus id="ajaxStatusPanel">
+				<f:facet name="start">
+					<div
+						style="text-align: center; width: 100%; height: 100%; display: block; /* float: left; */ margin-left: auto; margin-right: auto; /* margin-top: 300px; */ position: fixed; z-index: 10; background-color: rgba(22, 21, 10, 0.26);">
+						<h:graphicImage value="/images/ajax-loader.gif" style="margin-top: 300px;" />
+					</div>
+				</f:facet>
+				<f:facet name="complete">
+					<h:outputText value="" />
+				</f:facet>
+			</p:ajaxStatus>
+			<div>
+				<div style="float: left">
+					<h:graphicImage url="/images/logo.png" style="float:left" />
+					<h:outputText value="search goes here" />
+				</div>
+				<div style="float: right">
+					<h:form rendered="#{!currentVolunteerBean.loggedIn}">
+						<p:commandButton id="loginButton" value="Login" type="button" />
+						<p:button value="Register" outcome="/NewVolunteer.xhtml?faces-redirect=true" />
+						<p:overlayPanel id="loginPanel" for="loginButton" showEffect="clip" hideEffect="clip">
+							<h:form>
+								<p:message for="username" id="userMessage" />
+								<p:panelGrid columns="2" cellpadding="2">
+									<p:outputLabel for="username" value="UserName" />
+									<p:inputText id="username" value="#{currentVolunteerBean.username}" label="UserName" required="true" />
+									<p:outputLabel for="password" value="Password" />
+									<p:password id="password" value="#{currentVolunteerBean.password}" required="true" />
+									<p:commandButton type="submit" value="Login" action="#{currentVolunteerBean.Login}" ajax="false" />
+									<p:button value="Register" outcome="/NewVolunteer.xhtml?faces-redirect=true" />
+								</p:panelGrid>
+							</h:form>
+						</p:overlayPanel>
+					</h:form>
+					<h:form rendered="#{currentVolunteerBean.loggedIn}">
+						<h:outputFormat value="Hello, {0}. Your volunteer ID is {1}.">
+							<f:param value="#{currentVolunteerBean.volunteer.volunteerName}" />
+							<f:param value="#{currentVolunteerBean.volunteer.volunteerId}" />
+						</h:outputFormat>
+						<h:graphicImage value="#{currentVolunteerBean.gravatarURL}" />
+						<p:commandButton type="submit" value="Logout" immediate="true" action="#{currentVolunteerBean.Logout}" ajax="false" />
+					</h:form>
+				</div>
 			</div>
-			<p:growl id="messages" />
 		</div>
+		<p:growl id="messages" />
 	</ui:composition>
 </h:body>
 </html>
