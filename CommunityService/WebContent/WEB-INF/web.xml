@@ -37,7 +37,28 @@
 	<listener>
 		<listener-class>hibernate.HibernateListener</listener-class>
 	</listener>
-
+	
+	<error-page>
+		<error-code>400</error-code>
+		<location>/Web/Error400.xhtml</location>
+	</error-page>
+	<error-page>
+		<error-code>401</error-code>
+		<location>/Web/Error401.xhtml</location>
+	</error-page>
+	<error-page>
+		<error-code>403</error-code>
+		<location>/Web/Error403.xhtml</location>
+	</error-page>
+	<error-page>
+		<error-code>404</error-code>
+		<location>/Web/Error404.xhtml</location>
+	</error-page>
+	<error-page>
+		<error-code>500</error-code>
+		<location>/Web/Error.xhtml</location>
+	</error-page>
+	
 
 
 

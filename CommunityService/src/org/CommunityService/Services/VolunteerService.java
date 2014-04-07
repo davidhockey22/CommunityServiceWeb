@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.UUID;
 
 import org.CommunityService.EntitiesMapped.EventVolunteer;
@@ -19,71 +18,70 @@ import org.hibernate.HibernateException;
 
 public class VolunteerService {
 
-	public static Volunteer getVolunteerByName(String name) {
+	public static void addVolunteer(Volunteer v) throws HibernateException {
+		DBConnection.persist(v);
+		return;
+	}
+
+	public static void updateVolunteer(Volunteer v) throws HibernateException {
+		DBConnection.update(v);
+		return;
+	}
+
+	public static void registerVolunteer(String username, String password, String email, String phoneNumber,
+			String firstName, String lastName) throws Exception {
+		password = PasswordHash.getHash(password, email);
+		Volunteer v = new Volunteer(username, password, phoneNumber, email, firstName, lastName);
+		DBConnection.persist(v);
+		return;
+	}
+
+	public static Volunteer getVolunteerByName(String name) throws HibernateException {
 		String hql = "from Volunteer as v left join fetch v.volunteerDevices where v.volunteerName=?";
 		ArrayList<String> params = new ArrayList<String>();
 		params.add(name);
-		try {
-			@SuppressWarnings("unchecked")
-			List<Volunteer> vList = (List<Volunteer>) DBConnection.query(hql, params);
-			if (vList.size() > 0) {
-				Volunteer v = vList.get(0);
-				return v;
-			} else {
-				return null;
-			}
-		} catch (HibernateException e) {
-			e.printStackTrace();
-			return null;
-		}
+		@SuppressWarnings("unchecked")
+		List<Volunteer> volunteers = (List<Volunteer>) DBConnection.query(hql, params);
+		return volunteers.isEmpty() ? null : volunteers.get(0);
 	}
 
-	public static Volunteer getVolunteerById(Integer id) {
+	public static Volunteer getVolunteerById(Integer id) throws HibernateException {
 		if (id == null)
 			return null;
 		String hql = "from Volunteer as v where v.volunteerId=?";
 		ArrayList<Integer> params = new ArrayList<Integer>();
 		params.add(id);
-		try {
-			@SuppressWarnings("unchecked")
-			Volunteer v = (Volunteer) (((List<Volunteer>) DBConnection.query(hql, params)).get(0));
-			return v;
-		} catch (HibernateException e) {
-			e.printStackTrace();
-			return null;
-		}
+		@SuppressWarnings("unchecked")
+		List<Volunteer> volunteers = (List<Volunteer>) DBConnection.query(hql, params);
+		return volunteers.isEmpty() ? null : volunteers.get(0);
 	}
 
 	private static final Map<String, String> entitiesMap;
 	static {
 		Map<String, String> map = new HashMap<String, String>();
-		map.put("GroupMembers", " left join fetch v.groupMembers ");
+		map.put("GroupMembers", " left join fetch v.groupMembers as gm left join fetch gm.group ");
 		map.put("VolunteerInterests", " left join fetch v.volunteerInterests ");
-		map.put("OrganizationFollowers", " left join fetch v.organizationFollowers as orgf left join fetch orgf.organization ");
+		map.put("OrganizationFollowers",
+				" left join fetch v.organizationFollowers as orgf left join fetch orgf.organization ");
 		map.put("VolunteerSkills", " left join fetch v.volunteerSkills as vs left join fetch vs.skill ");
 		map.put("EventVolunteers", " left join fetch v.eventVolunteers as ev left join fetch ev.event ");
 		entitiesMap = Collections.unmodifiableMap(map);
 	}
 
-	public static Volunteer getVolunteerByIdWithAttachedEntities(Integer id, Set<String> attachedEntities) {
+	public static Volunteer getVolunteerByIdWithAttachedEntities(Integer id, String... attachedEntities)
+			throws HibernateException {
 		String hql = "from Volunteer as v ";
 		if (attachedEntities != null) {
-			for (Iterator<String> iterator = attachedEntities.iterator(); iterator.hasNext();) {
-				String entity = (String) iterator.next();
-				hql += entitiesMap.get(entity);
+			for (int i = 0; i < attachedEntities.length; i++) {
+				hql += entitiesMap.get(attachedEntities[i]);
 			}
 		}
 		hql += " where v.volunteerId=?";
 		ArrayList<Integer> params = new ArrayList<Integer>();
 		params.add(id);
-		try {
-			@SuppressWarnings("unchecked")
-			Volunteer v = (Volunteer) (((List<Volunteer>) DBConnection.query(hql, params)).get(0));
-			return v;
-		} catch (HibernateException e) {
-			e.printStackTrace();
-			return null;
-		}
+		@SuppressWarnings("unchecked")
+		List<Volunteer> volunteers = (List<Volunteer>) DBConnection.query(hql, params);
+		return volunteers.isEmpty() ? null : volunteers.get(0);
 	}
 
 	public static Volunteer getVolunteerByToken(String token) {
@@ -136,46 +134,32 @@ public class VolunteerService {
 		v.setSalt(dev.getDeviceTokenInternal());
 	}
 
-	public static List<EventVolunteer> getEventVolunteersByVolunteer(Volunteer volunteer) {
+	public static List<EventVolunteer> getEventVolunteersByVolunteer(Volunteer volunteer) throws HibernateException {
 		String hql = "FROM EventVolunteer AS ev JOIN FETCH ev.event WHERE ev.volunteer.volunteerId=?";
 		ArrayList<Integer> params = new ArrayList<Integer>();
 		params.add(volunteer.getVolunteerId());
-		try {
-			@SuppressWarnings("unchecked")
-			List<EventVolunteer> eventVolunteers = (List<EventVolunteer>) DBConnection.query(hql, params);
-			return (eventVolunteers != null ? eventVolunteers : new ArrayList<EventVolunteer>());
-		} catch (HibernateException e) {
-			e.printStackTrace();
-			return new ArrayList<EventVolunteer>();
-		}
+		@SuppressWarnings("unchecked")
+		List<EventVolunteer> eventVolunteers = (List<EventVolunteer>) DBConnection.query(hql, params);
+		return (eventVolunteers != null ? eventVolunteers : new ArrayList<EventVolunteer>());
 	}
 
-	public static List<GroupMember> getGroupMembersByVolunteer(Volunteer volunteer) {
+	public static List<GroupMember> getGroupMembersByVolunteer(Volunteer volunteer) throws HibernateException {
 		String hql = "FROM GroupMember AS gm LEFT JOIN FETCH gm.group WHERE gm.volunteer.volunteerId=?";
 		ArrayList<Integer> params = new ArrayList<Integer>();
 		params.add(volunteer.getVolunteerId());
-		try {
-			@SuppressWarnings("unchecked")
-			List<GroupMember> groupMembers = (List<GroupMember>) DBConnection.query(hql, params);
-			return (groupMembers != null ? groupMembers : new ArrayList<GroupMember>());
-		} catch (HibernateException e) {
-			e.printStackTrace();
-			return new ArrayList<GroupMember>();
-		}
+		@SuppressWarnings("unchecked")
+		List<GroupMember> groupMembers = (List<GroupMember>) DBConnection.query(hql, params);
+		return (groupMembers != null ? groupMembers : new ArrayList<GroupMember>());
 	}
 
-	public static List<OrganizationFollower> getOrganizationFollowersByVolunteer(Volunteer volunteer) {
+	public static List<OrganizationFollower> getOrganizationFollowersByVolunteer(Volunteer volunteer)
+			throws HibernateException {
 		String hql = "FROM OrganizationFollower AS orgf LEFT JOIN FETCH orgf.organization WHERE orgf.volunteer.volunteerId=?";
 		ArrayList<Integer> params = new ArrayList<Integer>();
 		params.add(volunteer.getVolunteerId());
-		try {
-			@SuppressWarnings("unchecked")
-			List<OrganizationFollower> organizationFollowers = (List<OrganizationFollower>) DBConnection.query(hql, params);
-			return (organizationFollowers != null ? organizationFollowers : new ArrayList<OrganizationFollower>());
-		} catch (HibernateException e) {
-			e.printStackTrace();
-			return new ArrayList<OrganizationFollower>();
-		}
+		@SuppressWarnings("unchecked")
+		List<OrganizationFollower> organizationFollowers = (List<OrganizationFollower>) DBConnection.query(hql, params);
+		return (organizationFollowers != null ? organizationFollowers : new ArrayList<OrganizationFollower>());
 	}
 
 	public static List<Volunteer> getLeaderboardByPoints() throws HibernateException {
@@ -197,23 +181,5 @@ public class VolunteerService {
 		@SuppressWarnings("unchecked")
 		List<Volunteer> v = (List<Volunteer>) DBConnection.query(hql, null);
 		return v;
-	}
-
-	public static void addVolunteer(Volunteer v) throws HibernateException {
-		DBConnection.persist(v);
-		return;
-	}
-
-	public static void registerVolunteer(String username, String password, String email, String phoneNumber, String firstName,
-			String lastName) throws Exception {
-		password = PasswordHash.getHash(password, email);
-		Volunteer v = new Volunteer(username, password, phoneNumber, email, firstName, lastName);
-		DBConnection.persist(v);
-		return;
-	}
-
-	public static void updateVolunteer(Volunteer v) throws HibernateException {
-		DBConnection.update(v);
-		return;
 	}
 }

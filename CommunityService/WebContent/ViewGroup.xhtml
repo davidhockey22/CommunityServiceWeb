@@ -11,52 +11,46 @@
 	<ui:composition template="commonTemplate.xhtml">
 		<ui:define name="metadata">
 			<f:metadata>
-				<f:viewParam id="groupId" name="groupId" value="#{viewGroupBean.groupId}" />
 				<f:event type="preRenderView" listener="#{viewGroupBean.fetchGroup}" />
 			</f:metadata>
-		</ui:define>	
+		</ui:define>
 		<ui:define name="content">
 			<div style="clear: left">
-				<ui:fragment rendered="#{viewGroupBean.group == null}">
-					<h:outputFormat value="Oops! This group doesn't exist!" />
-				</ui:fragment>
-				<ui:fragment rendered="#{viewGroupBean.group != null}">
-					<p:panelGrid columns="2">
+				<p:panelGrid columns="2">
+					<f:facet name="header">
+						<h:outputText value="#{viewGroupBean.group.groupName}" />
+					</f:facet>
+
+					<h:outputLabel for="created" value="Created On: " />
+					<h:outputText id="created" value="#{viewGroupBean.group.creationDate}" label="created" />
+
+					<h:outputLabel for="hoursWorked" value="Hours Worked: " />
+					<h:outputText id="hoursWorked" value="#{viewGroupBean.group.hoursWorked}" label="hoursWorked" />
+
+					<h:outputLabel for="points" value="Points: " />
+					<h:outputText id="points" value="#{viewGroupBean.group.points}" label="points" />
+
+					<h:outputLabel for="rating" value="Avg Rating of Members: " />
+					<h:outputText id="rating" value="#{viewGroupBean.group.avgRatingOfVolunteers}" label="rating" />
+
+				</p:panelGrid>
+
+				<p:dataTable var="level" value="#{viewGroupBean.levels}">
+					<f:facet name="header">
+						<h:outputText value="Group Members" />
+					</f:facet>
+
+					<p:subTable var="member" value="#{level.members}">
 						<f:facet name="header">
-							<h:outputText value="#{viewGroupBean.group.groupName}" />
+							<h:outputText value="#{level.name}" />
 						</f:facet>
-						
-						<h:outputLabel for="created" value="Created On: " />
-						<h:outputText id="created" value="#{viewGroupBean.group.creationDate}" label="created" />						
-						
-						<h:outputLabel for="hoursWorked" value="Hours Worked: " />
-						<h:outputText id="hoursWorked" value="#{viewGroupBean.group.hoursWorked}" label="hoursWorked" />
-
-						<h:outputLabel for="points" value="Points: " />
-						<h:outputText id="points" value="#{viewGroupBean.group.points}" label="points" />
-
-						<h:outputLabel for="rating" value="Avg Rating of Members: " />
-						<h:outputText id="rating" value="#{viewGroupBean.group.avgRatingOfVolunteers}" label="rating" />
-
-					</p:panelGrid>
-					
-				<p:dataTable var="g" value="#{viewGroupBean.admins}">
-					<p:column headerText="Moderators">
-						<h:link value="#{g.volunteerName}" outcome="ViewVolunteer.xhtml">
-							<f:param name="volunteerId" value="#{g.volunteerId}" />
-						</h:link>
-					</p:column>
+						<p:column>
+							<h:link value="#{member.volunteer.volunteerName}" outcome="ViewVolunteer.xhtml">
+								<f:param name="volunteerId" value="#{member.volunteer.volunteerId}" />
+							</h:link>
+						</p:column>
+					</p:subTable>
 				</p:dataTable>
-					
-				<p:dataTable var="g" value="#{viewGroupBean.members}">
-					<p:column headerText="Members">
-						<h:link value="#{g.volunteerName}" outcome="ViewVolunteer.xhtml">
-							<f:param name="volunteerId" value="#{g.volunteerId}" />
-						</h:link>
-					</p:column>
-				</p:dataTable>					
-					
-				</ui:fragment>
 			</div>
 		</ui:define>
 	</ui:composition>

@@ -3,7 +3,6 @@ package org.CommunityService.ManagedBeans;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.HashSet;
-import java.util.Set;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -114,13 +113,8 @@ public class LoginBean {
 	}
 
 	public void refreshAllData() {
-		Set<String> entities = new HashSet<String>();
-		entities.add("GroupMembers");
-		entities.add("VolunteerInterests");
-		entities.add("OrganizationFollowers");
-		entities.add("VolunteerSkills");
-		entities.add("EventVolunteers");
-		volunteer = VolunteerService.getVolunteerByIdWithAttachedEntities(volunteer.getVolunteerId(), entities);
+		volunteer = VolunteerService.getVolunteerByIdWithAttachedEntities(volunteer.getVolunteerId(), "GroupMembers",
+				"VolunteerInterests", "OrganizationFollowers", "VolunteerSkills", "EventVolunteers");
 	}
 
 	public void attachEvents() {

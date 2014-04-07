@@ -2,11 +2,11 @@ package org.CommunityService.util;
 
 import java.util.List;
 
-public class MembershipLevel <T>{
+public class MemberLevel <T>{
 	private String name;
 	private List<T> members;
 	
-	public MembershipLevel(String name, List<T> members) {
+	public MemberLevel(String name, List<T> members) {
 		this.name = name;
 		this.members = members;
 	}

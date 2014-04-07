@@ -12,7 +12,7 @@ import javax.faces.bean.RequestScoped;
 
 import org.CommunityService.EntitiesMapped.OrganizationFollower;
 import org.CommunityService.EntitiesMapped.Volunteer;
-import org.CommunityService.util.MembershipLevel;
+import org.CommunityService.util.MemberLevel;
 import org.ocpsoft.rewrite.annotation.Join;
 
 @Join(path = "/organizations", to = "/Web/MyOrganizations.xhtml")
@@ -22,7 +22,7 @@ public class MyOrganizationsBean {
 	@ManagedProperty(value = "#{loginBean}")
 	private LoginBean currentVolunteer;
 
-	private List<MembershipLevel<OrganizationFollower>> levels;
+	private List<MemberLevel<OrganizationFollower>> levels;
 	
 	@PostConstruct
 	public void postConstructor() {
@@ -45,13 +45,13 @@ public class MyOrganizationsBean {
 			}
 		}
 		
-		levels = new ArrayList<MembershipLevel<OrganizationFollower>>();
-		levels.add(new MembershipLevel<OrganizationFollower>("Administrator", adminOrgs));
-		levels.add(new MembershipLevel<OrganizationFollower>("Member", memberOrgs));
-		levels.add(new MembershipLevel<OrganizationFollower>("Follower", followerOrgs));
+		levels = new ArrayList<MemberLevel<OrganizationFollower>>();
+		levels.add(new MemberLevel<OrganizationFollower>("Administrator", adminOrgs));
+		levels.add(new MemberLevel<OrganizationFollower>("Member", memberOrgs));
+		levels.add(new MemberLevel<OrganizationFollower>("Follower", followerOrgs));
 	}
 	
-	public List<MembershipLevel<OrganizationFollower>> getLevels() {
+	public List<MemberLevel<OrganizationFollower>> getLevels() {
 		return levels;
 	}
 

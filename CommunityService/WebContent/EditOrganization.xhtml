@@ -1,86 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:p="http://primefaces.org/ui"
-	xmlns:ui="http://java.sun.com/jsf/facelets">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui" xmlns:ui="http://java.sun.com/jsf/facelets">
 
 <h:head>
 	<title>OrgProfile</title>
 </h:head>
 <h:body>
 	<ui:composition template="commonTemplate.xhtml">
-
-		<ui:define name="content">
-
+		<ui:define name="metadata">
 			<f:metadata>
-				<f:event type="preRenderView" listener="#{orgProfileBean.init}" />
+				<!-- <f:event type="preRenderView" listener="#{editOrganizationBean.init}" /> -->
 			</f:metadata>
-
+		</ui:define>
+		<ui:define name="content">
 			<div style="clear: left">
-				<h:form rendered="#{orgProfileBean.renderError}">
+				<p:tabView id="tabView" dynamic="true" cache="false">
+					<p:tab id="orgView" title="Page View">
+						<!-- TODO: copied from ViewOrganization.xhtml, find a better way to do this -->
+						<p:panelGrid columns="2">
+							<f:facet name="header">
+								<h:outputText value="#{viewOrganizationBean.organization.orgName}" />
+							</f:facet>
+							<h:outputLabel for="description" value="Description: " />
+							<h:outputText id="description" value="#{viewOrganizationBean.organization.description}" label="Description" />
+						</p:panelGrid>
+					</p:tab>
 
-					<h:outputFormat value="Error.">
-					</h:outputFormat>
+					<p:tab id="editView" title="Edit Organization Details">
 
-				</h:form>
-				<h:form id="orgProfileForm" rendered="#{orgProfileBean.renderPage}">
+					</p:tab>
+					<p:tab id="permissions" title="Member Permissions">
 
-					<p:panel header="Organization Profile">
-						<h:panelGrid columns="2" columnClasses="column" cellpadding="5">
+					</p:tab>
+					<p:tab id="groups" title="Groups">
 
-							<h:outputText value="Name: " />
-							<p:inplace id="ajaxInplace0" editor="true">
-								<p:inputText value="#{orgProfileBean.currentOrg.orgName}"
-									required="true" label="text" onkeyup="showUnsaved()" />
-							</p:inplace>
-
-							<h:outputText value="Address: " />
-							<p:inplace id="ajaxInplace1" editor="true">
-								<p:inputText value="#{orgProfileBean.currentOrg.address}"
-									required="true" label="text" onkeyup="showUnsaved()" />
-							</p:inplace>
-
-							<h:outputText value="Phone Number: " />
-							<p:inplace id="ajaxInplace2" editor="true">
-								<p:inputText value="#{orgProfileBean.currentOrg.phoneNumber}"
-									required="true" label="text" onkeyup="showUnsaved()" />
-							</p:inplace>
-
-							<h:outputText value="Email: " />
-
-							<f:event listener="#{profileBean.saveEmail}"
-								type="preRenderComponent"></f:event>
-
-							<p:inplace id="ajaxInplace3" editor="true">
-								<p:inputText value="#{orgProfileBean.currentOrg.emailAddress}"
-									required="true" label="text" onkeyup="showUnsaved()" />
-							</p:inplace>
-
-							<h:outputText value="Description: " />
-							<p:inplace id="ajaxInplace4" editor="true">
-								<p:inputText value="#{orgProfileBean.currentOrg.description}"
-									required="true" label="text" onkeyup="showUnsaved()" />
-							</p:inplace>
-
-							<h:commandButton type="submit" value="Save"
-								action="#{orgProfileBean.updateProfile()}"></h:commandButton>
-							<h:outputText id="unsavedMessage" style="color: red;" value="" />
-
-						</h:panelGrid>
-
-
-					</p:panel>
-
-				</h:form>
-				<script type="text/javascript">
-					function showUnsaved() {
-						var mess = document.getElementById('orgProfileForm:unsavedMessage');
-						mess.innerHTML = 'Unsaved changes';
-					}
-				</script>
+					</p:tab>
+					<p:tab id="events" title="Manage Events">
+						<h:outputText value="Event owner mappings don't exist" />
+					</p:tab>
+				</p:tabView>
 			</div>
 		</ui:define>
 	</ui:composition>

@@ -1,5 +1,6 @@
 package org.CommunityService.ManagedBeans;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -7,6 +8,8 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletResponse;
 
 import org.CommunityService.EntitiesMapped.Group;
 import org.CommunityService.EntitiesMapped.GroupMember;
@@ -16,11 +19,13 @@ import org.ocpsoft.rewrite.annotation.Join;
 
 @ManagedBean
 @ViewScoped
-@Join(path = "/group/{groupId}", to = "/Web/EditGroup.xhtml")
+@Join(path = "/manageGroup/{groupId}", to = "/Web/EditGroup.xhtml")
 public class EditGroupBean {
 
 	@ManagedProperty(value = "#{loginBean}")
 	private LoginBean currentVolunteer;
+
+	private String groupId;
 
 	List<GroupMember> groupMembers = null;
 	List<GroupMember> removed = null;
@@ -30,53 +35,71 @@ public class EditGroupBean {
 	List<Volunteer> selectedMembers = null;
 
 	private Group group;
-	private String groupId;
+
 	private boolean admin = false;
 
-	public void fetchGroup() {
-		
-		if(groupMembers != null)
-			return;
-		
+	public void fetchGroup() throws IOException {
+		FacesContext context = FacesContext.getCurrentInstance();
+
+		try {
+			this.group = GroupService.getGroupByIdWithAttachedEntities(Integer.parseInt(groupId), "GroupMembers",
+					"Organizations");
+		} catch (NumberFormatException e) {
+			// Throw an HTTP Response Error - Invalid Syntax in case invalid groupId was supplied
+			context.getExternalContext().responseSendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid group id");
+			context.responseComplete();
+		}
+
+		// Throw an HTTP Response Error - Page Not Found in case group cannot be found from provided id
+		if (this.group == null) {
+			context.getExternalContext().responseSendError(HttpServletResponse.SC_NOT_FOUND, "Invalid group id");
+			context.responseComplete();
+		}
+
+		boolean authorized = false;
+		if (currentVolunteer.getVolunteer() != null) {
+			for (Iterator<GroupMember> iterator = currentVolunteer.getVolunteer().getGroupMembers().iterator(); iterator
+					.hasNext();) {
+				GroupMember groupMember = (GroupMember) iterator.next();
+				if (groupMember.getGroup().getGroupId() == this.group.getGroupId()) {
+					authorized = (groupMember.getAdmin());
+					break;
+				}
+			}
+		} else {
+			// Throw an HTTP Response Error - Missing Credentials in case user is not logged in
+			context.getExternalContext().responseSendError(HttpServletResponse.SC_UNAUTHORIZED, "Not logged in");
+			context.responseComplete();
+		}
+		if (!authorized) {
+			// Throw an HTTP Response Error - Forbidden access in case user is not logged in
+			context.getExternalContext().responseSendError(HttpServletResponse.SC_FORBIDDEN,
+					"Not authorized to view page");
+			context.responseComplete();
+		}
+
 		groupMembers = new ArrayList<GroupMember>();
 		removed = new ArrayList<GroupMember>();
 		members = new ArrayList<Volunteer>();
 		mods = new ArrayList<Volunteer>();
 		selected = new ArrayList<Volunteer>();
-		
-		try {
-			this.group = GroupService.getGroupById(Integer.parseInt(groupId));
 
-			if (this.group != null) {
-
-				GroupMember eagerMember;
-				for (GroupMember m : this.group.getGroupMembers()) {
-
-					eagerMember = GroupService.getGroupMemberById(m
-							.getGroupMemberId());
-					groupMembers.add(eagerMember);
-
-					if (eagerMember.getAdmin() == true) {
-
-						// if current volunteer is the admin
-						if (eagerMember.getVolunteer().getVolunteerId() == currentVolunteer
-								.getVolunteer().getVolunteerId())
-							admin = true;
-
-						continue; // skip admins
-					}
-
-					if (eagerMember.getMod())
-						mods.add(eagerMember.getVolunteer());
-					else
-						members.add(eagerMember.getVolunteer());
+		if (this.group != null) {
+			for (GroupMember m : this.group.getGroupMembers()) {
+				if (m.getAdmin() == true) {
+					// if current volunteer is the admin
+					if (m.getVolunteer().getVolunteerId() == currentVolunteer.getVolunteer().getVolunteerId())
+						admin = true;
+					continue; // skip admins
+				} else if (m.getMod()) {
+					mods.add(m.getVolunteer());
+				} else {
+					members.add(m.getVolunteer());
 				}
 			}
-
-		} catch (NumberFormatException e) {
-			this.group = null;
 		}
 	}
+
 	public String removeMembers() {
 
 		if (selected.isEmpty())
@@ -107,6 +130,7 @@ public class EditGroupBean {
 
 		return null;
 	}
+
 	public String removeMods() {
 
 		if (selected.isEmpty())
@@ -131,10 +155,8 @@ public class EditGroupBean {
 					removed.add(g);
 
 					/*
-					 * try {
-					 * GroupService.removeGroupMember(g.getGroupMemberId()); }
-					 * catch (Exception e) { // TODO Auto-generated catch block
-					 * e.printStackTrace(); }
+					 * try { GroupService.removeGroupMember(g.getGroupMemberId()); } catch (Exception e) { // TODO
+					 * Auto-generated catch block e.printStackTrace(); }
 					 */
 
 				}
@@ -145,18 +167,16 @@ public class EditGroupBean {
 
 		return null;
 	}
-	public String save() {
-		
-		/*
-		for (GroupMember g : removed) {
 
-			try {
-				GroupService.removeGroupMember(g.getGroupMemberId()); }
-			catch (Exception e) { // TODO Auto-generated catch block
-				e.printStackTrace(); }
-		}
-		*/
-		
+	public String save() {
+
+		/*
+		 * for (GroupMember g : removed) {
+		 * 
+		 * try { GroupService.removeGroupMember(g.getGroupMemberId()); } catch (Exception e) { // TODO Auto-generated
+		 * catch block e.printStackTrace(); } }
+		 */
+
 		for (GroupMember g : removed) {
 			for (Iterator<GroupMember> iterator = group.getGroupMembers().iterator(); iterator.hasNext();) {
 				GroupMember m = (GroupMember) iterator.next();
@@ -167,16 +187,17 @@ public class EditGroupBean {
 				}
 			}
 		}
-		
+
 		try {
 			GroupService.updateGroup(group);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	
+
 		return null;
 	}
+
 	public LoginBean getCurrentVolunteer() {
 		return currentVolunteer;
 	}
@@ -191,14 +212,6 @@ public class EditGroupBean {
 
 	public void setGroup(Group group) {
 		this.group = group;
-	}
-
-	public String getGroupId() {
-		return groupId;
-	}
-
-	public void setGroupId(String groupId) {
-		this.groupId = groupId;
 	}
 
 	public List<Volunteer> getMembers() {
@@ -248,10 +261,20 @@ public class EditGroupBean {
 	public void setRemoved(List<GroupMember> removed) {
 		this.removed = removed;
 	}
+
 	public List<Volunteer> getSelectedMembers() {
 		return selectedMembers;
 	}
+
 	public void setSelectedMembers(List<Volunteer> selectedMembers) {
 		this.selectedMembers = selectedMembers;
-	}	
+	}
+
+	public String getGroupId() {
+		return groupId;
+	}
+
+	public void setGroupId(String groupId) {
+		this.groupId = groupId;
+	}
 }

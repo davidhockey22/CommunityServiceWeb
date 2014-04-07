@@ -10,75 +10,65 @@
 <h:body>
 	<ui:composition template="commonTemplate.xhtml">
 		<ui:define name="content">
+			<h:outputText value="Accepted Events:" />
 
-			<ui:fragment rendered="#{!loginBean.loggedIn}">
-				<h:outputText value="Please login to see your events." />
-				<!--
-				<ui:include src="Login.xhtml" />
-				-->
-			</ui:fragment>
-			<ui:fragment rendered="#{loginBean.loggedIn}">
+			<p:dataTable var="e" value="#{myEventsBean.acceptedEvents}">
+				<p:column headerText="Event ID">
+					<h:link value="#{e.event.eventId}" outcome="ViewEvent.xhtml">
+						<f:param name="eventId" value="#{e.event.eventId}" />
+					</h:link>
+				</p:column>
+				<p:column headerText="Event Name">
+					<h:outputText value="#{e.event.eventName}" />
+				</p:column>
+				<p:column headerText="Start Time">
+					<h:outputText value="#{e.event.beginTime}" />
+				</p:column>
+				<p:column headerText="End Time">
+					<h:outputText value="#{e.event.endTime}" />
+				</p:column>
+			</p:dataTable>
 
-				<h:outputText value="Accepted Events:" />
+			<h:outputText value="Pending Events:" />
 
-				<p:dataTable var="e" value="#{myEventsBean.acceptedEvents}">
-					<p:column headerText="Event ID">
-						<h:link value="#{e.event.eventId}" outcome="ViewEvent.xhtml">
-							<f:param name="eventId" value="#{e.event.eventId}" />
-						</h:link>
-					</p:column>
-					<p:column headerText="Event Name">
-						<h:outputText value="#{e.event.eventName}" />
-					</p:column>
-					<p:column headerText="Start Time">
-						<h:outputText value="#{e.event.beginTime}" />
-					</p:column>
-					<p:column headerText="End Time">
-						<h:outputText value="#{e.event.endTime}" />
-					</p:column>
-				</p:dataTable>
+			<p:dataTable var="e" value="#{myEventsBean.pendingEvents}">
+				<p:column headerText="Event ID">
+					<h:link value="#{e.event.eventId}" outcome="ViewEvent.xhtml">
+						<f:param name="eventId" value="#{e.event.eventId}" />
+					</h:link>
+				</p:column>
+				<p:column headerText="Event Name">
+					<h:outputText value="#{e.event.eventName}" />
+				</p:column>
+				<p:column headerText="Start Time">
+					<h:outputText value="#{e.event.beginTime}" />
+				</p:column>
+				<p:column headerText="End Time">
+					<h:outputText value="#{e.event.endTime}" />
+				</p:column>
+			</p:dataTable>
 
-				<h:outputText value="Pending Events:" />
+			<h:outputText value="Past Events:" />
 
-				<p:dataTable var="e" value="#{myEventsBean.pendingEvents}">
-					<p:column headerText="Event ID">
-						<h:link value="#{e.event.eventId}" outcome="ViewEvent.xhtml">
-							<f:param name="eventId" value="#{e.event.eventId}" />
-						</h:link>
-					</p:column>
-					<p:column headerText="Event Name">
-						<h:outputText value="#{e.event.eventName}" />
-					</p:column>
-					<p:column headerText="Start Time">
-						<h:outputText value="#{e.event.beginTime}" />
-					</p:column>
-					<p:column headerText="End Time">
-						<h:outputText value="#{e.event.endTime}" />
-					</p:column>
-				</p:dataTable>
-
-				<h:outputText value="Past Events:" />
-
-				<p:dataTable var="e" value="#{myEventsBean.pastEvents}">
-					<p:column headerText="Event ID">
-						<h:link value="#{e.event.eventId}" outcome="ViewEvent.xhtml">
-							<f:param name="eventId" value="#{e.event.eventId}" />
-						</h:link>
-					</p:column>
-					<p:column headerText="Event Name">
-						<h:outputText value="#{e.event.eventName}" />
-					</p:column>
-					<p:column headerText="Verified hours worked">
-						<h:outputText value="#{e.attendedHours > 0 ? e.attendedHours : 'Verification needed'}" />
-					</p:column>
-					<p:column headerText="Start Time">
-						<h:outputText value="#{e.event.beginTime}" />
-					</p:column>
-					<p:column headerText="End Time">
-						<h:outputText value="#{e.event.endTime}" />
-					</p:column>
-				</p:dataTable>
-			</ui:fragment>
+			<p:dataTable var="e" value="#{myEventsBean.pastEvents}">
+				<p:column headerText="Event ID">
+					<h:link value="#{e.event.eventId}" outcome="ViewEvent.xhtml">
+						<f:param name="eventId" value="#{e.event.eventId}" />
+					</h:link>
+				</p:column>
+				<p:column headerText="Event Name">
+					<h:outputText value="#{e.event.eventName}" />
+				</p:column>
+				<p:column headerText="Verified hours worked">
+					<h:outputText value="#{e.attendedHours > 0 ? e.attendedHours : 'Verification needed'}" />
+				</p:column>
+				<p:column headerText="Start Time">
+					<h:outputText value="#{e.event.beginTime}" />
+				</p:column>
+				<p:column headerText="End Time">
+					<h:outputText value="#{e.event.endTime}" />
+				</p:column>
+			</p:dataTable>
 		</ui:define>
 	</ui:composition>
 </h:body>

@@ -11,48 +11,42 @@
 	<ui:composition template="commonTemplate.xhtml">
 		<ui:define name="metadata">
 			<f:metadata>
-				<f:viewParam id="volunteerId" name="volunteerId" value="#{viewVolunteerBean.volunteerId}" />
 				<f:event type="preRenderView" listener="#{viewVolunteerBean.fetchVolunteer}" />
-
 			</f:metadata>
 		</ui:define>
 		<ui:define name="content">
 			<div>
-				<ui:fragment rendered="#{viewVolunteerBean.volunteer == null}">
-					<h:outputFormat value="Oops! This volunteer doesn't exist!" />
-				</ui:fragment>
-
-				<ui:fragment rendered="#{viewVolunteerBean.volunteer != null}">
-					<p:panelGrid columns="2" style="width:100%">
-						<f:facet name="header">
-							<h:outputText value="#{viewVolunteerBean.volunteer.volunteerName}" />
-						</f:facet>
-						<h:outputText value="Profile Picture " />
-						<h:graphicImage value="#{viewVolunteerBean.gravatarURL}" />
-						<h:outputText value="Hours worked " />
-						<h:outputText id="hoursWorked" value="#{viewVolunteerBean.volunteer.hoursWorked != null ? viewVolunteerBean.volunteer.hoursWorked : '0'}" />
-						<h:outputText value="Points" />
-						<h:outputText id="points" value="#{viewVolunteerBean.volunteer.points != null ? viewVolunteerBean.volunteer.points : '0'}" />	
-						<h:outputText value="Interests" />
-						<p:dataTable rendered="#{not empty viewVolunteerBean.volunteer.volunteerInterests}" var="VI"
-							value="#{viewVolunteerBean.volunteer.volunteerInterests.toArray()}" paginator="false" rows="10" id="interestTable">
-							<p:column id="Test">
-								<h:outputText value="#{VI.interest.name}"></h:outputText>
-							</p:column>
-						</p:dataTable>
-						<h:outputText value="This user hasn't specified any interests." rendered="#{empty viewVolunteerBean.volunteer.volunteerInterests}" />
-						<h:outputText value="Skills" />
-						<p:dataTable rendered="#{not empty viewVolunteerBean.volunteer.volunteerSkills}" var="VS"
-							value="#{viewVolunteerBean.volunteer.volunteerSkills.toArray()}" paginator="false" rows="10" id="skillTable">
-							<p:column id="Test">
-								<h:outputText value="#{VS.skill.skillName}"></h:outputText>
-							</p:column>
-						</p:dataTable>
-						<h:outputText value="This user hasn't specified any Skills." rendered="#{empty viewVolunteerBean.volunteer.volunteerSkills}" />
-
-					</p:panelGrid>
-				</ui:fragment>
-
+				<p:panelGrid columns="2" style="width:100%">
+					<f:facet name="header">
+						<h:outputText value="#{viewVolunteerBean.volunteer.volunteerName}" />
+					</f:facet>
+					<h:outputText value="Profile Picture " />
+					<h:graphicImage value="#{viewVolunteerBean.gravatarURL}" />
+					<h:outputText value="Hours worked " />
+					<h:outputText id="hoursWorked"
+						value="#{viewVolunteerBean.volunteer.hoursWorked != null ? viewVolunteerBean.volunteer.hoursWorked : '0'}" />
+					<h:outputText value="Points" />
+					<h:outputText id="points"
+						value="#{viewVolunteerBean.volunteer.points != null ? viewVolunteerBean.volunteer.points : '0'}" />
+					<h:outputText value="Interests" />
+					<p:dataTable rendered="#{not empty viewVolunteerBean.volunteer.volunteerInterests}" var="VI"
+						value="#{viewVolunteerBean.volunteer.volunteerInterests.toArray()}" paginator="false" rows="10" id="interestTable">
+						<p:column id="Test">
+							<h:outputText value="#{VI.interest.name}"></h:outputText>
+						</p:column>
+					</p:dataTable>
+					<h:outputText value="This user hasn't specified any interests."
+						rendered="#{empty viewVolunteerBean.volunteer.volunteerInterests}" />
+					<h:outputText value="Skills" />
+					<p:dataTable rendered="#{not empty viewVolunteerBean.volunteer.volunteerSkills}" var="VS"
+						value="#{viewVolunteerBean.volunteer.volunteerSkills.toArray()}" paginator="false" rows="10" id="skillTable">
+						<p:column id="Test">
+							<h:outputText value="#{VS.skill.skillName}"></h:outputText>
+						</p:column>
+					</p:dataTable>
+					<h:outputText value="This user hasn't specified any Skills."
+						rendered="#{empty viewVolunteerBean.volunteer.volunteerSkills}" />
+				</p:panelGrid>
 			</div>
 		</ui:define>
 	</ui:composition>

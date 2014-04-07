@@ -1,55 +1,42 @@
 package org.CommunityService.ManagedBeans;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.io.IOException;
 
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.RequestScoped;
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletResponse;
 
 import org.CommunityService.EntitiesMapped.Volunteer;
 import org.CommunityService.Services.VolunteerService;
 import org.CommunityService.util.Gravatar;
-import org.hibernate.HibernateException;
 import org.ocpsoft.rewrite.annotation.Join;
 
 @ManagedBean
+@RequestScoped
 @Join(path = "/volunteer/{volunteerId}", to = "/Web/ViewVolunteer.xhtml")
 public class ViewVolunteerBean {
-
-	String volunteerEmail = "No email provided";
-	List<Volunteer> allVolunteers;
+	@ManagedProperty(value = "#{param.volunteerId}")
+	private String volunteerId;
 
 	private Volunteer volunteer;
-	private Integer volunteerId;
 
-	public String getVolunteerEmail() {
-		fetchVolunteer();
-		if (volunteer != null)
-			return volunteer.getEmailAddress();
-		else
-			return null;
-	}
-
-	public List<Volunteer> getAllVolunteers() {
-		this.allVolunteers = VolunteerService.getVolunteers();
-		return allVolunteers;
-	}
-
-	public void fetchVolunteer() {
-		if (this.volunteerId == null) {
-			this.volunteer = null;
-		} else {
-			try {
-				Set<String> entities = new HashSet<String>();
-				entities.add("GroupMembers");
-				entities.add("VolunteerInterests");
-				entities.add("OrganizationFollowers");
-				entities.add("VolunteerSkills");
-				this.volunteer = VolunteerService.getVolunteerByIdWithAttachedEntities(this.volunteerId, entities);
-			} catch (HibernateException e) {
-				this.volunteer = null;
-				e.printStackTrace();
+	public void fetchVolunteer() throws IOException {
+		FacesContext context = FacesContext.getCurrentInstance();
+		try {
+			this.volunteer = VolunteerService.getVolunteerByIdWithAttachedEntities(Integer.parseInt(this.volunteerId),
+					"GroupMembers", "VolunteerInterests", "OrganizationFollowers", "VolunteerSkills");
+			if (this.volunteer == null) {
+				// Throw an HTTP Response Error - Page Not Found in case volunteer cannot be found from provided id
+				context.getExternalContext().responseSendError(HttpServletResponse.SC_NOT_FOUND,
+						"Volunteer with id " + this.volunteerId + " does not exist");
+				context.responseComplete();
 			}
+		} catch (NumberFormatException e) {
+			// Throw an HTTP Response Error - Invalid Syntax in case invalid volunteerId was supplied
+			context.getExternalContext().responseSendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid volunteer id");
+			context.responseComplete();
 		}
 	}
 
@@ -59,30 +46,15 @@ public class ViewVolunteerBean {
 	}
 
 	// Getters and Setters
-	public void setAllVolunteers(List<Volunteer> allVolunteer) {
-		this.allVolunteers = allVolunteer;
-	}
-
-	public void setVolunteerEmail(String volunteerEmail) {
-		this.volunteerEmail = volunteerEmail;
-	}
-
 	public Volunteer getVolunteer() {
 		return volunteer;
 	}
 
 	public void setVolunteerId(String volunteerId) {
-		try {
-			this.volunteerId = Integer.parseInt(volunteerId);
-		} catch (NumberFormatException e) {
-			this.volunteerId = null;
-		}
+		this.volunteerId = volunteerId;
 	}
 
 	public String getVolunteerId() {
-		if (volunteerId != null)
-			return volunteerId.toString();
-		else
-			return null;
+		return this.volunteerId;
 	}
 }
