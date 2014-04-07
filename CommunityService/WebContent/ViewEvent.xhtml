@@ -12,7 +12,7 @@
 		<ui:define name="metadata">
 			<f:metadata>
 				<f:viewParam id = "eventId" name="eventId" value = "#{viewEventBean.eventId}" />
-				<f:viewAction type="preRenderView" listener="#{viewEventBean.fetchEvent}" />
+				<f:viewAction type="preRenderView" action="#{viewEventBean.fetchEvent}" />
 			</f:metadata>
 		</ui:define>
 		<ui:define name="content">
