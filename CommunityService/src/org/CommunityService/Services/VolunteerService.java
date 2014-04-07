@@ -28,8 +28,8 @@ public class VolunteerService {
 		return;
 	}
 
-	public static void registerVolunteer(String username, String password, String email, String phoneNumber,
-			String firstName, String lastName) throws Exception {
+	public static void registerVolunteer(String username, String password, String email, String phoneNumber, String firstName,
+			String lastName) throws Exception {
 		password = PasswordHash.getHash(password, email);
 		Volunteer v = new Volunteer(username, password, phoneNumber, email, firstName, lastName);
 		DBConnection.persist(v);
@@ -61,15 +61,13 @@ public class VolunteerService {
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("GroupMembers", " left join fetch v.groupMembers as gm left join fetch gm.group ");
 		map.put("VolunteerInterests", " left join fetch v.volunteerInterests ");
-		map.put("OrganizationFollowers",
-				" left join fetch v.organizationFollowers as orgf left join fetch orgf.organization ");
+		map.put("OrganizationFollowers", " left join fetch v.organizationFollowers as orgf left join fetch orgf.organization ");
 		map.put("VolunteerSkills", " left join fetch v.volunteerSkills as vs left join fetch vs.skill ");
 		map.put("EventVolunteers", " left join fetch v.eventVolunteers as ev left join fetch ev.event ");
 		entitiesMap = Collections.unmodifiableMap(map);
 	}
 
-	public static Volunteer getVolunteerByIdWithAttachedEntities(Integer id, String... attachedEntities)
-			throws HibernateException {
+	public static Volunteer getVolunteerByIdWithAttachedEntities(Integer id, String... attachedEntities) throws HibernateException {
 		String hql = "from Volunteer as v ";
 		if (attachedEntities != null) {
 			for (int i = 0; i < attachedEntities.length; i++) {
@@ -152,8 +150,7 @@ public class VolunteerService {
 		return (groupMembers != null ? groupMembers : new ArrayList<GroupMember>());
 	}
 
-	public static List<OrganizationFollower> getOrganizationFollowersByVolunteer(Volunteer volunteer)
-			throws HibernateException {
+	public static List<OrganizationFollower> getOrganizationFollowersByVolunteer(Volunteer volunteer) throws HibernateException {
 		String hql = "FROM OrganizationFollower AS orgf LEFT JOIN FETCH orgf.organization WHERE orgf.volunteer.volunteerId=?";
 		ArrayList<Integer> params = new ArrayList<Integer>();
 		params.add(volunteer.getVolunteerId());
@@ -182,4 +179,15 @@ public class VolunteerService {
 		List<Volunteer> v = (List<Volunteer>) DBConnection.query(hql, null);
 		return v;
 	}
+
+	public static List<Volunteer> getVolunteersLikeName(String userName) throws HibernateException {
+		String hql = "from Volunteer as v where v.volunteerName LIKE ?";
+		userName = "%" + userName + "%";
+		List params = new ArrayList();
+		params.add(userName);
+		@SuppressWarnings("unchecked")
+		List<Volunteer> v = (List<Volunteer>) DBConnection.query(hql, params);
+		return v;
+	}
+
 }

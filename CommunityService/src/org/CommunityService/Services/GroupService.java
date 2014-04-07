@@ -36,6 +36,15 @@ public class GroupService {
 		return groups.isEmpty() ? null : groups.get(0);
 	}
 
+	public static List<Group> getGroupsLikeName(String groupName) throws HibernateException {
+		String hql = "from Group as g where g.groupName like ?";
+		ArrayList<String> params = new ArrayList<String>();
+		params.add("%" + groupName + "%");
+		@SuppressWarnings("unchecked")
+		List<Group> groups = ((List<Group>) DBConnection.query(hql, params));
+		return groups;
+	}
+
 	public static Group getGroupById(int groupId) throws HibernateException {
 		return getGroupByIdWithAttachedEntities(groupId, "");
 	}
@@ -49,8 +58,7 @@ public class GroupService {
 		entitiesMap = Collections.unmodifiableMap(map);
 	}
 
-	public static Group getGroupByIdWithAttachedEntities(int groupId, String... attachedEntities)
-			throws HibernateException {
+	public static Group getGroupByIdWithAttachedEntities(int groupId, String... attachedEntities) throws HibernateException {
 		String hql = "from Group as g ";
 		if (attachedEntities != null) {
 			for (int i = 0; i < attachedEntities.length; i++) {

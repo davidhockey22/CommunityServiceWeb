@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>Search</title>
+</h:head>
+<h:body>
+	<ui:composition template="commonTemplate.xhtml">
+
+		<ui:define name="content">
+			<br />
+			<h:form>
+				<div style="clear: left">
+					<h:panelGrid columns="2" cellpadding="2">
+						<h:outputLabel for="#{searchVolunteer.volunteer}" value="Search by volunteer's username " />
+						<p:inputText id="volunteerName" value="#{searchVolunteer.volunteerName}" />
+					</h:panelGrid>
+				</div>
+
+				<p:commandButton value="Search" actionListener="#{searchVolunteer.Search}" update="panel" />
+
+				<br />
+				<br />
+				<div id="results">
+					<p:panel id="panel" header="Volunteers">
+						<p:dataTable rendered="#{not empty searchVolunteer.volunteers}" var="volunteer" value="#{searchVolunteer.volunteers}"
+							rowKey="#{volunteer.volunteerId}" paginator="true" paginatorPosition="bottom" paginatorAlwaysVisible="false" rows="10"
+							selectionMode="single" id="volunteerstable">
+
+							<p:column headerText="Event Name" sortBy="eventName" id="eventsName">  
+			          			#{volunteer.volunteerName}  
+			      			</p:column>
+							<p:column headerText="View Volunteer" id="buttons">
+								<p:button icon="ui-icon-search" title="View Volunteer" outcome="ViewVolunteer.xhtml">
+									<f:param name="volunteerId" value="#{volunteer.volunteerId}" />
+								</p:button>
+							</p:column>
+
+						</p:dataTable>
+					</p:panel>
+				</div>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>
