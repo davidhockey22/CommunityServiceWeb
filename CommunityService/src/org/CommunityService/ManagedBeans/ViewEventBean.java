@@ -20,7 +20,6 @@ import org.ocpsoft.rewrite.annotation.Join;
 public class ViewEventBean {
 	private Event event;
 
-	@ManagedProperty(value = "#{param.eventId}")
 	private String eventId;
 
 	private boolean signedUp = false;
