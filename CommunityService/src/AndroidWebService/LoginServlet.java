@@ -55,8 +55,8 @@ public class LoginServlet extends HttpServlet {
 		String volunteerId = ((String) request.getParameter("username"));
 		String password = ((String) request.getParameter("password"));
 		
-//		volunteerId = new String("henry");
-//		password = new String("password1");
+		volunteerId = new String("howdy");
+		password = new String("password1");
 
 		GsonBuilder b = new GsonBuilder();
 		// b.registerTypeAdapterFactory(HibernateProxyTypeAdapter.FACTORY);
@@ -70,7 +70,8 @@ public class LoginServlet extends HttpServlet {
 			VolunteerService.resetLoginToken(v);		
 
 		try {
-			if (v != null && v.getVolunteerPassword().equals(PasswordHash.getHash(password, v.getSalt()))) {
+			String hashedPassword = PasswordHash.getHash(password, v.getSalt());
+			if (v != null && v.getVolunteerPassword().equals( hashedPassword )) {
 								
 				HibernateUtil.clean(v);
 				out.println(gson.toJson(v));
