@@ -6,11 +6,6 @@
 
 <h:head>
 	<title>Profile</title>
-	<style>
-.ui-picklist .ui-picklist-list {
-	width: 300px !important;
-}
-</style>
 </h:head>
 <h:body>
 	<ui:composition template="commonTemplate.xhtml">
@@ -93,17 +88,18 @@
 					<!-- SECOND PANEL -->
 					<h:form>
 						<p:pickList id="interestList" value="#{myProfileBean.interestModel}" var="interest" effect="bounce" itemValue="#{interest}"
-							itemLabel="#{interest.name}" showCheckbox="true" showSourceFilter="true" showTargetFilter="true" filterMatchMode="contains" style="width:1000px">
+							itemLabel="#{interest.name}" showCheckbox="true" showSourceFilter="true" showTargetFilter="true" filterMatchMode="contains"
+							>
 
 							<f:facet name="sourceCaption">Interest</f:facet>
 							<f:facet name="targetCaption">Your Listed Interests</f:facet>
 
 							<p:ajax event="transfer" listener="#{myProfile.changeInterests}" />
-							<p:column>
-								<h:outputText value="#{interest.name}" style="width:500px"></h:outputText>
+							<p:column style="width:100px">
+								<h:outputText value="#{interest.name}"></h:outputText>
 							</p:column>
-							<p:column>
-								<h:outputText value="#{interest.description}" style="width:500px"></h:outputText>
+							<p:column style="width:300px">
+								<h:outputText value="#{interest.description}"></h:outputText>
 							</p:column>
 
 						</p:pickList>
