@@ -2,18 +2,17 @@ package org.CommunityService.EntitiesMapped;
 
 // Generated Feb 22, 2014 8:45:42 PM by Hibernate Tools 3.4.0.CR1
 
+import static javax.persistence.GenerationType.IDENTITY;
+
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-
-import static javax.persistence.GenerationType.IDENTITY;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
@@ -61,6 +60,7 @@ public class Volunteer implements java.io.Serializable {
 	private Set<VolunteerSkill> volunteerSkills = new HashSet<VolunteerSkill>(0);
 	private Set<SocialLinks> socialLinkses = new HashSet<SocialLinks>(0);
 	private Set<Notification> notifications = new HashSet<Notification>(0);
+	private Set<Event> events = new HashSet<Event>(0);
 
 	public Volunteer() {
 	}
@@ -162,7 +162,7 @@ public class Volunteer implements java.io.Serializable {
 		this.lastLoginDate = lastLoginDate;
 	}
 
-	@Column(name = "Points", precision = 12, scale = 0, insertable=false)
+	@Column(name = "Points", precision = 12, scale = 0, insertable = false)
 	public Float getPoints() {
 		return this.points;
 	}
@@ -244,8 +244,7 @@ public class Volunteer implements java.io.Serializable {
 	public void setSalt(String salt) {
 		this.salt = salt;
 	}
-	
-	
+
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "volunteer", cascade = CascadeType.ALL)
 	public Set<GroupMember> getGroupMembers() {
 		return this.groupMembers;
@@ -345,4 +344,12 @@ public class Volunteer implements java.io.Serializable {
 		this.notifications = notifications;
 	}
 
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "volunteer", cascade = CascadeType.ALL)
+	public Set<Event> getEvents() {
+		return this.events;
+	}
+
+	public void setEvents(Set<Event> events) {
+		this.events = events;
+	}
 }

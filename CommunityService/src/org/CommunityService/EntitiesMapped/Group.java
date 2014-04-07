@@ -37,6 +37,7 @@ public class Group implements java.io.Serializable {
 	private static final long serialVersionUID = 6656613664581918523L;
 	private Integer groupId;
 	private String groupName;
+	private String emailAddress;
 	private Integer hoursWorked;
 	private Float points;
 	private Float avgRatingOfVolunteers;
@@ -147,6 +148,15 @@ public class Group implements java.io.Serializable {
 
 	public void setGroupMembers(Set<GroupMember> groupMembers) {
 		this.groupMembers = groupMembers;
+	}
+
+	@Column(name = "EmailAddress", unique = true, length = 254)
+	public String getEmailAddress() {
+		return emailAddress;
+	}
+
+	public void setEmailAddress(String emailAddress) {
+		this.emailAddress = emailAddress;
 	}
 
 }

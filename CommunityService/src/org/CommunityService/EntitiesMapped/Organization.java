@@ -2,19 +2,20 @@ package org.CommunityService.EntitiesMapped;
 
 // Generated Feb 22, 2014 8:45:42 PM by Hibernate Tools 3.4.0.CR1
 
+import static javax.persistence.GenerationType.IDENTITY;
+
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-
-import static javax.persistence.GenerationType.IDENTITY;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -44,6 +45,8 @@ public class Organization implements java.io.Serializable {
 	private Set<Group> groups = new HashSet<Group>(0);
 	private Set<OrganizationFollower> organizationFollowers = new HashSet<OrganizationFollower>(0);
 	private Set<Picture> pictures = new HashSet<Picture>(0);
+	private Set<Interest> interests = new HashSet<Interest>(0);
+	private Set<Event> events = new HashSet<Event>(0);
 
 	public Organization() {
 	}
@@ -161,4 +164,22 @@ public class Organization implements java.io.Serializable {
 		this.pictures = pictures;
 	}
 
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinTable(name = "Organization_Interest", catalog = "volunteerMeData", joinColumns = { @JoinColumn(name = "OrgId", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "InterestId", nullable = false, updatable = false) })
+	public Set<Interest> getInterests() {
+		return this.interests;
+	}
+
+	public void setInterests(Set<Interest> interests) {
+		this.interests = interests;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "organization", cascade = CascadeType.ALL)
+	public Set<Event> getEvents() {
+		return this.events;
+	}
+
+	public void setEvents(Set<Event> events) {
+		this.events = events;
+	}
 }

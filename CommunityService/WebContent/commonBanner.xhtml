@@ -25,7 +25,7 @@
 					<h:outputText value="search goes here" />
 				</div>
 				<div style="float: right">
-					<h:form rendered="#{!currentVolunteerBean.loggedIn}">
+					<h:form rendered="#{!loginBean.loggedIn}">
 						<p:commandButton id="loginButton" value="Login" type="button" />
 						<p:button value="Register" outcome="/NewVolunteer.xhtml?faces-redirect=true" />
 						<p:overlayPanel id="loginPanel" for="loginButton" showEffect="clip" hideEffect="clip">
@@ -33,22 +33,22 @@
 								<p:message for="username" id="userMessage" />
 								<p:panelGrid columns="2" cellpadding="2">
 									<p:outputLabel for="username" value="UserName" />
-									<p:inputText id="username" value="#{currentVolunteerBean.username}" label="UserName" required="true" />
+									<p:inputText id="username" value="#{loginBean.username}" label="UserName" required="true" />
 									<p:outputLabel for="password" value="Password" />
-									<p:password id="password" value="#{currentVolunteerBean.password}" required="true" />
-									<p:commandButton type="submit" value="Login" action="#{currentVolunteerBean.Login}" ajax="false" />
+									<p:password id="password" value="#{loginBean.password}" required="true" />
+									<p:commandButton type="submit" value="Login" action="#{loginBean.Login}" ajax="false" />
 									<p:button value="Register" outcome="/NewVolunteer.xhtml?faces-redirect=true" />
 								</p:panelGrid>
 							</h:form>
 						</p:overlayPanel>
 					</h:form>
-					<h:form rendered="#{currentVolunteerBean.loggedIn}">
+					<h:form rendered="#{loginBean.loggedIn}">
 						<h:outputFormat value="Hello, {0}. Your volunteer ID is {1}.">
-							<f:param value="#{currentVolunteerBean.volunteer.volunteerName}" />
-							<f:param value="#{currentVolunteerBean.volunteer.volunteerId}" />
+							<f:param value="#{loginBean.volunteer.volunteerName}" />
+							<f:param value="#{loginBean.volunteer.volunteerId}" />
 						</h:outputFormat>
-						<h:graphicImage value="#{currentVolunteerBean.gravatarURL}" />
-						<p:commandButton type="submit" value="Logout" immediate="true" action="#{currentVolunteerBean.Logout}" ajax="false" />
+						<h:graphicImage value="#{loginBean.gravatarURL}" />
+						<p:commandButton type="submit" value="Logout" immediate="true" action="#{loginBean.Logout}" ajax="false" />
 					</h:form>
 				</div>
 			</div>

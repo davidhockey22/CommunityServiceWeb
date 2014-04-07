@@ -35,6 +35,7 @@ public class GroupMember implements java.io.Serializable {
 	private Date joinedDate;
 	private Boolean mod;
 	private Boolean admin;
+	private Boolean approved;
 
 	public GroupMember() {
 	}
@@ -109,6 +110,15 @@ public class GroupMember implements java.io.Serializable {
 
 	public void setAdmin(Boolean admin) {
 		this.admin = admin;
+	}
+
+	@Column(name = "Approved")
+	public Boolean getApproved() {
+		return approved;
+	}
+
+	public void setApproved(Boolean approved) {
+		this.approved = approved;
 	}
 
 }

@@ -27,6 +27,8 @@
 						<p:row>
 							<p:column headerText="Name" />
 							<p:column headerText="Description" />
+							<p:column headerText="View Organization" style="width:5%" />
+
 						</p:row>
 					</p:columnGroup>
 
@@ -41,6 +43,11 @@
 						</p:column>
 						<p:column>
 							<h:outputText value="#{orgFollower.organization.description}" />
+						</p:column>
+						<p:column>
+							<p:button icon="ui-icon-search" title="View Organization" outcome="ViewOrganization.xhtml">
+								<f:param name="orgId" value="#{orgFollower.organization.orgId}" />
+							</p:button>
 						</p:column>
 					</p:subTable>
 				</p:dataTable>

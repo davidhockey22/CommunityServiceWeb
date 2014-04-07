@@ -15,6 +15,7 @@
   <table-filter match-catalog="volunteerMeData" match-name="Organization"/>
   <table-filter match-catalog="volunteerMeData" match-name="OccurrencePattern"/>
   <table-filter match-catalog="volunteerMeData" match-name="Organization_Follower"/>
+   <table-filter match-catalog="volunteerMeData" match-name="Organization_Interest"/>
   <table-filter match-catalog="volunteerMeData" match-name="Organization_Group"/>
   <table-filter match-catalog="volunteerMeData" match-name="Picture"/>
   <table-filter match-catalog="volunteerMeData" match-name="Picture_Event"/>
