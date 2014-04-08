@@ -60,7 +60,7 @@ public class VolunteerService {
 	static {
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("GroupMembers", " left join fetch v.groupMembers as gm left join fetch gm.group ");
-		map.put("VolunteerInterests", " left join fetch v.volunteerInterests ");
+		map.put("VolunteerInterests", " left join fetch v.volunteerInterests as VI left join fetch VI.interest");
 		map.put("OrganizationFollowers", " left join fetch v.organizationFollowers as orgf left join fetch orgf.organization ");
 		map.put("VolunteerSkills", " left join fetch v.volunteerSkills as vs left join fetch vs.skill ");
 		map.put("EventVolunteers", " left join fetch v.eventVolunteers as ev left join fetch ev.event ");

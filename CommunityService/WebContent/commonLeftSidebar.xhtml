@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
 <body>
 	<ui:composition>
 		<p:menu rendered="#{loginBean.loggedIn}">
-			<p:menuitem value="My Profile" icon="ui-icon-person" url="/editProfile" />
 			<p:menuitem value="My Organizations" icon="ui-icon-person" url="/organizations" />
 			<p:menuitem value="My Groups" icon="ui-icon-person" url="/groups" />
 			<p:menuitem value="My Events" icon="ui-icon-star" url="/events" />

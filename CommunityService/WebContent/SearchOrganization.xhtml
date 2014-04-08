@@ -14,33 +14,34 @@
 			<h:form>
 				<div style="clear: left">
 					<h:panelGrid columns="2" cellpadding="2">
-						<h:outputLabel for="#{searchBean.eventName}" value="Search by event name " />
-						<p:inputText id="eventName" value="#{searchBean.eventName}" />
+						<h:outputLabel for="#{searchOrganization.organizationName}" value="Search by organization name " />
+						<p:inputText id="orgName" value="#{searchOrganization.organizationName}" />
 
-						<p:selectCheckboxMenu value="#{searchBean.selectedInterests}" label="Interests" filter="true" filterText="Filter" filterMatchMode="startsWith">
-							<f:selectItems value="#{searchBean.interests}" var="interest" itemLabel="#{interest.name}" itemValue="#{interest.name}" />
+						<p:selectCheckboxMenu value="#{searchOrganization.selectedInterests}" label="Interests" filter="true" filterText="Filter"
+							filterMatchMode="startsWith">
+							<f:selectItems value="#{searchOrganization.interests}" var="interest" itemLabel="#{interest.name}" itemValue="#{interest.name}" />
 						</p:selectCheckboxMenu>
 
 					</h:panelGrid>
 				</div>
 
-				<p:commandButton value="Search" actionListener="#{searchBean.Search}" update="panel" />
+				<p:commandButton value="Search" actionListener="#{searchOrganization.Search}" update="panel" />
 
 				<br />
 				<br />
 				<div id="results">
-					<p:panel id="panel" header="Events">
-						<p:dataTable rendered="#{not empty searchBean.events}" var="event" value="#{searchBean.events}" rowKey="#{event.eventId}" paginator="true"
-							paginatorPosition="bottom" paginatorAlwaysVisible="false" rows="10" selection="#{searchBean.selectedEvents}" selectionMode="single"
-							id="eventstable">
+					<p:panel id="panel" header="Organizations">
+						<p:dataTable rendered="#{not empty searchOrganization.orgs}" var="org" value="#{searchOrganization.orgs}" rowKey="#{org.orgId}" paginator="true"
+							paginatorPosition="bottom" paginatorAlwaysVisible="false" rows="10" selection="#{searchOrganization.selectedOrganizations}" selectionMode="single"
+							id="orgstable">
 
-							<p:column headerText="Event Name" sortBy="eventName" id="eventsName">  
-			          			#{event.eventName}  
+							<p:column headerText="Organization Name" sortBy="orgName" id="orgsName">  
+			          			#{org.orgName}  
 			      			</p:column>
 
-							<p:column headerText="View Event" id="buttons">
-								<p:button icon="ui-icon-search" title="View Event" outcome="ViewEvent.xhtml">
-									<f:param name="eventId" value="#{event.eventId}" />
+							<p:column headerText="View Organization" id="buttons">
+								<p:button icon="ui-icon-search" title="View Event" outcome="ViewOrganization.xhtml">
+									<f:param name="orgId" value="#{org.orgId}" />
 								</p:button>
 							</p:column>
 						</p:dataTable>

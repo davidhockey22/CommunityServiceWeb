@@ -11,7 +11,7 @@ import org.ocpsoft.rewrite.annotation.Join;
 
 @ManagedBean
 @ViewScoped
-@Join(path = "/SearchGroup", to = "/Web/SearchGroups.xhtml")
+@Join(path = "/searchgroup", to = "/Web/SearchGroup.xhtml")
 public class SearchGroups {
 	private Group group;
 	private String groupName;

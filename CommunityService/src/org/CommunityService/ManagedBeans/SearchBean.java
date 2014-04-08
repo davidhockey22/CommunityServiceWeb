@@ -17,7 +17,7 @@ import org.ocpsoft.rewrite.annotation.Join;
 
 @ManagedBean
 @ViewScoped
-@Join(path = "/search", to = "/Web/Search.xhtml")
+@Join(path = "/searchevent", to = "/Web/Search.xhtml")
 public class SearchBean {
 
 	private String eventName;

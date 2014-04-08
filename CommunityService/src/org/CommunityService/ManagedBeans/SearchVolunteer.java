@@ -11,7 +11,7 @@ import org.ocpsoft.rewrite.annotation.Join;
 
 @ManagedBean
 @ViewScoped
-@Join(path = "/SearchVolunteer", to = "/Web/SearchVolunteer.xhtml")
+@Join(path = "/searchvolunteer", to = "/Web/SearchVolunteer.xhtml")
 public class SearchVolunteer {
 	private Volunteer volunteer;
 	private String volunteerName;
