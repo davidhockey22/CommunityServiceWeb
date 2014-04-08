@@ -7,9 +7,18 @@ import java.util.List;
 import java.util.Map;
 
 import org.CommunityService.EntitiesMapped.Organization;
+import org.CommunityService.EntitiesMapped.OrganizationFollower;
+import org.CommunityService.EntitiesMapped.Volunteer;
 import org.hibernate.HibernateException;
 
 public class OrganizationService {
+
+	public static void addFollower(Volunteer v, Organization o) {
+		OrganizationFollower OF = new OrganizationFollower();
+		OF.setVolunteer(v);
+		OF.setOrganization(o);
+		DBConnection.persist(OF);
+	}
 
 	public static void addOrganization(Organization o) throws HibernateException {
 		DBConnection.save(o);
@@ -29,14 +38,12 @@ public class OrganizationService {
 	static {
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("Groups", " left join fetch o.groups ");
-		map.put("OrganizationFollowers",
-				" left join fetch o.organizationFollowers as orgf left join fetch orgf.volunteer ");
+		map.put("OrganizationFollowers", " left join fetch o.organizationFollowers as orgf left join fetch orgf.volunteer ");
 		map.put("Pictures", " left join fetch o.pictures ");
 		entitiesMap = Collections.unmodifiableMap(map);
 	}
 
-	public static Organization getOrganizationByIdWithAttachedEntities(int orgId, String... attachedEntities)
-			throws HibernateException {
+	public static Organization getOrganizationByIdWithAttachedEntities(int orgId, String... attachedEntities) throws HibernateException {
 		String hql = "from Organization as o ";
 		if (attachedEntities != null) {
 			for (int i = 0; i < attachedEntities.length; i++) {

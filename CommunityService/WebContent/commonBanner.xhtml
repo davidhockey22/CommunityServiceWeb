@@ -21,8 +21,8 @@
 			</p:ajaxStatus>
 			<div>
 				<div style="float: left">
-					<h:graphicImage url="/images/logo.png" style="float:left" />
-					<h:outputText value="search goes here" />
+					<h:graphicImage url="/images/logo.png" style="float:left; margin-top:1em;" />
+					<h:outputText value="Helping You, Help Everyone." />
 				</div>
 				<div style="float: right">
 					<h:form rendered="#{!loginBean.loggedIn}">
@@ -42,15 +42,19 @@
 							</h:form>
 						</p:overlayPanel>
 					</h:form>
-					<h:form rendered="#{loginBean.loggedIn}">
-						<h:outputFormat value="Hello, {0}. Your volunteer ID is {1}.">
-							<f:param value="#{loginBean.volunteer.volunteerName}" />
-							<f:param value="#{loginBean.volunteer.volunteerId}" />
-						</h:outputFormat>
-						<h:graphicImage value="#{loginBean.gravatarURL}" />
-						<p:commandButton type="submit" value="Logout" immediate="true" action="#{loginBean.Logout}" ajax="false" />
+					<h:form rendered="#{loginBean.loggedIn}" style="margin-top:.4em; margin-right:1.4em">
+						<h:graphicImage value="#{loginBean.gravatarURL}" style="width: 40px; margin-right: .5em" />
+						<p:menubar autoDisplay="false" style="display:inline-flex; border:none;">
+							<p:submenu label="#{loginBean.volunteer.volunteerName}">
+								<p:menuitem value="View Profile" url="#" />
+								<p:separator />
+								<p:menuitem value="Log Out" actionListener="#{loginBean.Logout}" ajax="false" />
+							</p:submenu>
+						</p:menubar>
 					</h:form>
 				</div>
+				<div style="margin-right: auto; margin-left: auto; width: 200px">Search Bar goes here.</div>
+
 			</div>
 		</div>
 		<p:growl id="messages" />

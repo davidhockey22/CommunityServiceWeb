@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
 	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui">
 <h:head>
 	<title>Home</title>
@@ -11,32 +11,72 @@
 	<ui:composition template="commonTemplate.xhtml">
 		<ui:define name="metadata">
 			<f:metadata>
-				<f:event type="preRenderView" listener="#{viewOrganizationBean.fetchOrganization}" />
+				<f:viewAction type="preRenderView" action="#{viewOrganizationBean.fetchOrganization}" />
+				<f:viewParam id="orgId" name="orgId" value="#{viewOrganizationBean.orgId}" />
 			</f:metadata>
 		</ui:define>
 		<ui:define name="content">
 			<div style="width: 100%;">
-				<p:panelGrid columns="2" style="width:100%">
+				<p:panelGrid style="width:100%">
 					<f:facet name="header">
-						<h:outputText value="#{viewOrganizationBean.organization.orgName}" />
+						<p:row>
+							<p:column colspan="2">
+								<h:outputText value="#{viewOrganizationBean.organization.orgName}" />
+							</p:column>
+						</p:row>
 					</f:facet>
+					<p:row>
+						<p:column>
+							<h:outputLabel for="phoneNumber" value="Phone Number " />
+						</p:column>
+						<p:column>
+							<h:outputText id="phoneNumber" value="#{viewOrganizationBean.organization.phoneNumber}" />
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column>
+							<h:outputLabel for="email" value="Email Address " />
+						</p:column>
+						<p:column>
+							<h:outputText id="email" value="#{viewOrganizationBean.organization.emailAddress}" />
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column>
+							<h:outputLabel for="description" value="Description " />
+						</p:column>
+						<p:column>
+							<h:outputText id="description" value="#{viewOrganizationBean.organization.description}" />
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column>
+							<h:outputLabel for="address" value="Address " />
+						</p:column>
+						<p:column>
+							<h:outputText id="address" value="#{viewOrganizationBean.organization.address}" />
+						</p:column>
 
-					<h:outputLabel for="phoneNumber" value="Phone Number " />
-					<h:outputText id="phoneNumber" value="#{viewOrganizationBean.organization.phoneNumber}" />
+					</p:row>
+					<p:row>
+						<p:column colspan="2">
+							<h:form id="form2">
+								<h:inputHidden id="buttonData" value="#{viewOrganizationBean.orgId}" />
+								<p:commandButton value="Follow!" actionListener="#{viewOrganizationBean.follow}"
+									rendered="#{loginBean.loggedIn and !viewOrganizationBean.following}" process="@form" update="form2" ajax="false" />
 
-					<h:outputLabel for="email" value="Email Address " />
-					<h:outputText id="email" value="#{viewOrganizationBean.organization.emailAddress}" />
-
-					<h:outputLabel for="description" value="Description " />
-					<h:outputText id="description" value="#{viewOrganizationBean.organization.description}" />
-
-					<h:outputLabel for="address" value="Address " />
-					<h:outputText id="address" value="#{viewOrganizationBean.organization.address}" />
-
-				
-					<p:button value="Manage this organization" outcome="EditOrganization.xhtml" rendered="#{viewOrganizationBean.member}">
-					<f:param name="orgId" value="#{viewOrganizationBean.organization.orgId}" />
-				</p:button>
+								<h:outputText id="noSignIn" value="Log in to your account to sign up for this event." rendered="#{!loginBean.loggedIn}" />
+								<h:outputText id="following" value="You are following this organization!" rendered="#{viewOrganizationBean.following}" />
+								<br />
+								<p:commandButton value="UnFollow" actionListener="#{viewOrganizationBean.unFollow}"
+									rendered="#{viewOrganizationBean.following and !viewOrganizationBean.admin}" process="@form" update="form2" ajax="false" />
+							</h:form>
+							<br />
+							<p:button value="Manage this organization" outcome="EditOrganization.xhtml" rendered="#{viewOrganizationBean.member}">
+								<f:param name="orgId" value="#{viewOrganizationBean.organization.orgId}" />
+							</p:button>
+						</p:column>
+					</p:row>
 				</p:panelGrid>
 
 			</div>
