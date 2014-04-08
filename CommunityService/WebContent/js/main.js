@@ -1,3 +1,22 @@
+function validateEditPassword(){
+	
+	document.getElementById("passwordForm:submitValidation").innerHTML = "";
+	var returnVal = true;
+
+	if( document.getElementById("passwordForm:passwordValidation").innerHTML != "" )
+		returnVal = false;
+
+	if( document.getElementById("passwordForm:confirmValidation").innerHTML != "" )
+		returnVal = false;
+	
+	if( document.getElementById("passwordForm:oldPasswordValidation").innerHTML != "" )
+		returnVal = false;	
+	
+	if( returnVal == false )
+		document.getElementById("passwordForm:submitValidation").innerHTML = "Please correct errors";
+
+	return returnVal;
+}
 function validateRegistration(){
 	
 	document.getElementById("registerForm:submitValidation").innerHTML = "";
@@ -8,6 +27,7 @@ function validateRegistration(){
 
 	if( document.getElementById("registerForm:confirmValidation").innerHTML != "" )
 		returnVal = false;
+	
 	if( document.getElementById("registerForm:phoneValidation").innerHTML != "" )
 		returnVal = false;
 	
@@ -17,7 +37,7 @@ function validateRegistration(){
 	if( returnVal == false )
 		document.getElementById("registerForm:submitValidation").innerHTML = "Please correct errors";
 
-	return true;
+	return returnVal;
 }
 function confirmPassword(confirm, passwordID, formID, messageID) {
 	
