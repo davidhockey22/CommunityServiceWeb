@@ -74,7 +74,10 @@
 							action="#{viewGroupBean.leave}" onclick="showMessage( 'joinGroupForm', 'removed', 'You have been removed' )"></p:commandButton>
 
 						<h:outputText id="removed" style="color: red;" value="" />
-					</ui:fragment>					
+					</ui:fragment>
+					<ui:fragment rendered="#{viewGroupBean.renderPending}">
+						<h:outputText style="color: red;" value="Membership Pending approval" />
+					</ui:fragment>									
 				</h:form>
 			</div>
 		</ui:define>

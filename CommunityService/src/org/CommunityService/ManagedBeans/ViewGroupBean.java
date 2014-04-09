@@ -38,13 +38,14 @@ public class ViewGroupBean {
 	private List<MemberLevel<GroupMember>> levels = new ArrayList<MemberLevel<GroupMember>>();
 
 	boolean renderJoin = true;
+	boolean renderPending = false;
 	boolean renderLeave = false;
 
 	public void fetchGroup() throws IOException {
 		FacesContext context = FacesContext.getCurrentInstance();
 		
 		//test
-		groupId = "42";
+		//groupId = "42";
 		
 		try {
 			this.group = GroupService.getGroupByIdWithAttachedEntities(Integer.parseInt(groupId), "GroupMembers");
@@ -64,13 +65,20 @@ public class ViewGroupBean {
 
 						renderJoin = false;
 						
+						if( volGroupMember.getApproved() == false )
+							renderPending = true;
+						
 						if(volGroupMember.getAdmin()) //the admin can not leave the group
 							renderLeave = false;
 						else
 							renderLeave = true;						
 					}
 					
-					if (groupMember.getAdmin()) {
+					if(groupMember.getApproved() != null && groupMember.getApproved() == false) {
+						
+						//do nothing if group member is pending approval
+					}
+					else if (groupMember.getAdmin()) {
 						admins.add(groupMember);
 					} else if (groupMember.getMod()) {
 						moderators.add(groupMember);
@@ -163,5 +171,12 @@ public class ViewGroupBean {
 
 	public void setRenderLeave(boolean renderLeave) {
 		this.renderLeave = renderLeave;
+	}
+	public boolean isRenderPending() {
+		return renderPending;
+	}
+
+	public void setRenderPending(boolean renderPending) {
+		this.renderPending = renderPending;
 	}	
 }
