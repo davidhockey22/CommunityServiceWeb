@@ -56,7 +56,7 @@ public class GroupService {
 	static {
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("GroupMembers", " left join fetch g.groupMembers as gm left join fetch gm.volunteer ");
-		map.put("Organizations", " left join fetch g.organiztions ");
+		map.put("Organizations", " left join fetch g.organizations ");
 		map.put("Pictures", " left join fetch g.pictures ");
 		entitiesMap = Collections.unmodifiableMap(map);
 	}

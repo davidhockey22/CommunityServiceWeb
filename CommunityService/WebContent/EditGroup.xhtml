@@ -16,7 +16,7 @@
 			<f:metadata>
 				<f:viewParam id="groupId" name="groupId"
 					value="#{editGroupBean.groupId}" />
-				<f:event type="preRenderView" listener="#{editGroupBean.fetchGroup}" />
+				<f:viewAction type="preRenderView" action="#{editGroupBean.fetchGroup}" />
 			</f:metadata>
 		</ui:define>
 		<ui:define name="content">

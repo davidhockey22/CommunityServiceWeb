@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -38,7 +37,6 @@ public class EditGroupBean {
 
 	private Group group;
 
-	private static boolean fetchGroupCalled = false;
 	private boolean admin = false;
 	private boolean mod = false;
 	private boolean adminOrMod = false;
@@ -51,17 +49,12 @@ public class EditGroupBean {
 	private String[] actions;
 	private String[] actionsMods;
 	
+	// using f:viewAction will call this method only when the view is first generated
 	public void fetchGroup() throws IOException {
-		
-		//ajax will call this function every time a cell is changed in the data table
-		if(fetchGroupCalled)
-			return;
-		fetchGroupCalled = true;
-		
 		FacesContext context = FacesContext.getCurrentInstance();
 		
 		//test
-		groupId = "42";
+		// groupId = "42";
 		
     	actions = new String[3];  
     	actions[0] = strActive; 
@@ -79,12 +72,15 @@ public class EditGroupBean {
 			// Throw an HTTP Response Error - Invalid Syntax in case invalid groupId was supplied
 			context.getExternalContext().responseSendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid group id");
 			context.responseComplete();
+			return;
 		}
 
 		// Throw an HTTP Response Error - Page Not Found in case group cannot be found from provided id
 		if (this.group == null) {
-			context.getExternalContext().responseSendError(HttpServletResponse.SC_NOT_FOUND, "Invalid group id");
+			context.getExternalContext().responseSendError(HttpServletResponse.SC_NOT_FOUND,
+					"Group with id " + groupId + " not found.");
 			context.responseComplete();
+			return;
 		}
 
 		//authorize
@@ -102,12 +98,14 @@ public class EditGroupBean {
 			// Throw an HTTP Response Error - Missing Credentials in case user is not logged in
 			context.getExternalContext().responseSendError(HttpServletResponse.SC_UNAUTHORIZED, "Not logged in");
 			context.responseComplete();
+			return;
 		}
 		if (!authorized) {
 			// Throw an HTTP Response Error - Forbidden access in case user is not logged in
 			context.getExternalContext().responseSendError(HttpServletResponse.SC_FORBIDDEN,
 					"Not authorized to view page");
 			context.responseComplete();
+			return;
 		}
 
 		
