@@ -7,6 +7,7 @@ import javax.faces.bean.ViewScoped;
 
 import org.CommunityService.EntitiesMapped.Event;
 import org.CommunityService.Services.EventService;
+import org.CommunityService.Services.OrganizationService;
 import org.ocpsoft.rewrite.annotation.Join;
 
 @ManagedBean
@@ -20,6 +21,8 @@ public class NewEventBean {
 
 	private String location;
 
+	private String orgId;
+
 	private Date begintime = new Date();
 	private Date endtime = new Date();
 
@@ -32,8 +35,17 @@ public class NewEventBean {
 		Event event = new Event(eventname, begintime, endtime);
 		event.setDescription(description);
 		event.setLocation(location);
-		EventService.addEvent(event);
-		return "NewEvent";
+		event.setOrganization(OrganizationService.getOrganizationById(Integer.parseInt(orgId)));
+		int newEvent = EventService.addEvent(event);
+		return "/ViewEvent.xhtml?faces-redirect=true&eventId=" + newEvent;
+	}
+
+	public String getOrgId() {
+		return orgId;
+	}
+
+	public void setOrgId(String orgId) {
+		this.orgId = orgId;
 	}
 
 	public String getEventname() {

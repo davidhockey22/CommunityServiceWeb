@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:p="http://primefaces.org/ui" xmlns:ui="http://java.sun.com/jsf/facelets">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:p="http://primefaces.org/ui" xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
 <h:head>
-	<title>OrgProfile</title>
 </h:head>
 <h:body>
 	<ui:composition template="commonTemplate.xhtml">
+		<title>OrgProfile</title>
 		<ui:define name="metadata">
 			<f:metadata>
-				<!-- <f:event type="preRenderView" listener="#{editOrganizationBean.init}" /> -->
+				<f:viewParam id="orgId" name="orgId" value="#{editOrganizationBean.orgId}" />
+				<f:viewAction type="preRenderView" action="#{editOrganizationBean.fetchOrganization}" />
 			</f:metadata>
 		</ui:define>
 		<ui:define name="content">
@@ -27,18 +28,117 @@
 							<h:outputText id="description" value="#{viewOrganizationBean.organization.description}" label="Description" />
 						</p:panelGrid>
 					</p:tab>
-
+					
 					<p:tab id="editView" title="Edit Organization Details">
-
+						
 					</p:tab>
+					
 					<p:tab id="permissions" title="Member Permissions">
-
+						<p:dataTable var="member" value="#{editOrganizationBean.orgFollowers}">
+							<p:column headerText="Username">
+								<h:link value="#{member.volunteer.volunteerName}" outcome="/ViewVolunteer.xhtml">
+									<f:param name="volunteerId" value="#{member.volunteer.volunteerId}"/>
+								</h:link>
+							</p:column>
+							<p:column headerText="First">
+								<h:outputText value="#{member.volunteer.firstName}" />
+							</p:column>
+							<p:column headerText="Last">
+								<h:outputText value="#{member.volunteer.lastName}" />
+							</p:column>
+							<p:column headerText="email">
+								<h:outputText value="#{member.volunteer.emailAddress}" />
+							</p:column>
+							<p:column headerText="Phone">
+								<h:outputText value="#{member.volunteer.phoneNumber}" />
+							</p:column>
+						</p:dataTable>
 					</p:tab>
+					
 					<p:tab id="groups" title="Groups">
-
+						<p:dataTable var="group" value="#{editOrganizationBean.orgGroups}">
+							<p:column headerText="Group Name">								
+								<h:link value="#{group.groupName}" outcome="ViewGroup.xhtml"> 
+									<f:param name="groupId" value="#{group.groupId}" />
+								</h:link>
+							</p:column>
+							<p:column headerText="Creation Date">
+								<h:outputText value="#{group.creationDate}" />
+							</p:column>
+						</p:dataTable>
 					</p:tab>
+					
 					<p:tab id="events" title="Manage Events">
-						<h:outputText value="Event owner mappings don't exist" />
+					<p:button value="Create new event" outcome="/NewEvent.xhtml" >
+						<f:param name="orgId" value="#{editOrganizationBean.org.orgId}"/>
+					</p:button>
+						<h:outputText value="Events:" />
+
+						<p:dataTable var="e" value="#{editOrganizationBean.orgEvents}" sortMode="multiple" rows="10" paginator="true">
+							<p:column headerText="Event ID">
+								<h:link value="#{e.eventId}" outcome="ViewEvent.xhtml">
+									<f:param name="eventId" value="#{e.eventId}" />
+								</h:link>
+							</p:column>
+							<p:column headerText="Event Name">
+								<h:outputText value="#{e.eventName}" />
+							</p:column>
+							<p:column headerText="Start Time">
+								<h:outputText value="#{e.beginTime}" />
+							</p:column>
+							<p:column headerText="End Time">
+								<h:outputText value="#{e.endTime}" />
+							</p:column>
+							<p:column headerText="Approved Volunteers">
+								<h:outputText value="0" />
+							</p:column>
+							<p:column headerText="Unapproved Volunteers">
+								<h:outputText value="0" />
+							</p:column>
+							<p:column headerText="Volunteers Required">
+								<h:outputText value="0" />
+							</p:column>
+						</p:dataTable>
+
+						<!-- 
+						<h:outputText value="Past Events:" />
+
+						<p:dataTable var="e" value="#{editOrganizationBean.orgEvents}" sortMode="multiple" rows="10" paginator="true">
+							<p:column headerText="Event ID">
+								<h:link value="#{e.eventId}" outcome="ViewEvent.xhtml">
+									<f:param name="eventId" value="#{e.event.eventId}" />
+								</h:link>
+							</p:column>
+							<p:column headerText="Event Name">
+								<h:outputText value="#{e.eventName}" />
+							</p:column>
+							<p:column headerText="Start Time">
+								<h:outputText value="#{e.beginTime}" />
+							</p:column>
+							<p:column headerText="End Time">
+								<h:outputText value="#{e.endTime}" />
+							</p:column>
+							<p:column headerText="Attendance Verification Pending">
+								<h:outputText value="0" />
+							</p:column>
+						</p:dataTable> -->
+					</p:tab>
+					
+					<p:tab id="eventSchedule" title="Events Calendar">
+						<p:schedule id="schedule" value="#{editOrganizationBean.scheduleModel}" widgetVar="eventCalendar"
+							aspectRatio="1.8">
+							<p:ajax event="eventSelect" listener="#{editOrganizationBean.onEventSelect}"
+								update="eventDialogPopup, eventDetails, eventLink" oncomplete="PF('eventDialog').show()" />
+						</p:schedule>
+						<!-- TODO: load data from page bean -->
+						<p:dialog widgetVar="eventDialog" id="eventDialogPopup" header="Event Title" showEffect="clip" hideEffect="clip">
+							<h:panelGrid id="eventDetails" columns="1">
+								<h:outputText value="Event Details" />
+							</h:panelGrid>
+							<p:button id="eventLink" value="View Event" outcome="ViewEvent.xhtml">
+								<f:param name="eventId" value="0" />
+							</p:button>
+						</p:dialog>
 					</p:tab>
 				</p:tabView>
 			</div>

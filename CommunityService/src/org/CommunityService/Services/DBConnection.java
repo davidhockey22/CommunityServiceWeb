@@ -1,10 +1,9 @@
 package org.CommunityService.Services;
 
-import java.util.List;
-
 import hibernate.HibernateUtil;
 
-import org.hibernate.Hibernate;
+import java.util.List;
+
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -128,12 +127,13 @@ public class DBConnection {
 	public static Object save(Object object) throws HibernateException {
 		Session session = sessionFactory.openSession();
 		session.beginTransaction();
+		Object retObject = null;
 		if (object != null) {
-			session.save(object);
+			retObject = session.save(object);
 		}
 		session.getTransaction().commit();
 		session.close();
-		return null;
+		return retObject;
 
 	}
 	

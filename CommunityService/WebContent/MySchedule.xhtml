@@ -22,7 +22,7 @@
 
 					<p:growl id="messages" showDetail="true" />
 
-					<p:schedule id="schedule" value="#{myScheduleBean.eventModel}" widgetVar="myschedule" aspectRatio="2.5">
+					<p:schedule id="schedule" value="#{myScheduleBean.eventModel}" widgetVar="myschedule" aspectRatio="1.8">
 						<p:ajax event="eventSelect" listener="#{myScheduleBean.onEventSelect}" update="eventDialogPopup, eventDetails, eventLink" oncomplete="PF('eventDialog').show()" />
 					</p:schedule>
 

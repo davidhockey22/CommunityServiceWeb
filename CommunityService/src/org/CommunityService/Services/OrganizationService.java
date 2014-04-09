@@ -49,6 +49,7 @@ public class OrganizationService {
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("Groups", " left join fetch o.groups ");
 		map.put("OrganizationFollowers", " left join fetch o.organizationFollowers as orgf left join fetch orgf.volunteer ");
+		map.put("Events", " left join fetch o.events as ev left join fetch ev.eventVolunteers ");
 		map.put("Pictures", " left join fetch o.pictures ");
 		entitiesMap = Collections.unmodifiableMap(map);
 	}
