@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.CommunityService.EntitiesMapped.Organization;
 import org.CommunityService.EntitiesMapped.OrganizationFollower;
+import org.CommunityService.Services.DBConnection;
 import org.CommunityService.Services.OrganizationService;
 import org.CommunityService.util.Gravatar;
 import org.CommunityService.util.MemberLevel;
@@ -37,19 +38,22 @@ public class ViewOrganizationBean {
 
 	public String follow() {
 		OrganizationService.addFollower(currentVolunteer.getVolunteer(), organization);
+		currentVolunteer.attachOrganizations();
 		return "?faces-redirect=true";
 
 	}
 
 	public String unFollow() {
-
+		OrganizationService.removeOrgFollower(Integer.parseInt(orgId), currentVolunteer.getVolunteer().getVolunteerId());
+		currentVolunteer.attachOrganizations();
 		return "?faces-redirect=true";
 	}
 
 	public void fetchOrganization() throws IOException {
 		FacesContext context = FacesContext.getCurrentInstance();
 		try {
-			this.organization = OrganizationService.getOrganizationByIdWithAttachedEntities(Integer.parseInt(this.orgId), "OrganizationFollowers", "Groups");
+			this.organization = OrganizationService.getOrganizationByIdWithAttachedEntities(Integer.parseInt(this.orgId),
+					"OrganizationFollowers", "Groups");
 			List<OrganizationFollower> admins = new ArrayList<OrganizationFollower>();
 			List<OrganizationFollower> moderators = new ArrayList<OrganizationFollower>();
 			List<OrganizationFollower> members = new ArrayList<OrganizationFollower>();
@@ -73,7 +77,8 @@ public class ViewOrganizationBean {
 			if (organization == null) {
 				// Throw an HTTP Response Error - Page Not Found in case org
 				// cannot be found from provided id
-				context.getExternalContext().responseSendError(HttpServletResponse.SC_NOT_FOUND, "Org with id " + orgId + " does not exist");
+				context.getExternalContext()
+						.responseSendError(HttpServletResponse.SC_NOT_FOUND, "Org with id " + orgId + " does not exist");
 				context.responseComplete();
 			}
 		} catch (NumberFormatException e) {
@@ -98,7 +103,8 @@ public class ViewOrganizationBean {
 			}
 		}
 		if (currentVolunteer.getVolunteer() != null) {
-			for (Iterator<OrganizationFollower> iterator = currentVolunteer.getVolunteer().getOrganizationFollowers().iterator(); iterator.hasNext();) {
+			for (Iterator<OrganizationFollower> iterator = currentVolunteer.getVolunteer().getOrganizationFollowers().iterator(); iterator
+					.hasNext();) {
 				OrganizationFollower organizationFollower = (OrganizationFollower) iterator.next();
 				if (organizationFollower.getOrganization().getOrgId() == this.organization.getOrgId() && organizationFollower.getAdmin()) {
 					admin = "true";
@@ -120,7 +126,8 @@ public class ViewOrganizationBean {
 			}
 		}
 		if (currentVolunteer.getVolunteer() != null) {
-			for (Iterator<OrganizationFollower> iterator = currentVolunteer.getVolunteer().getOrganizationFollowers().iterator(); iterator.hasNext();) {
+			for (Iterator<OrganizationFollower> iterator = currentVolunteer.getVolunteer().getOrganizationFollowers().iterator(); iterator
+					.hasNext();) {
 				OrganizationFollower organizationFollower = (OrganizationFollower) iterator.next();
 				if (organizationFollower.getOrganization().getOrgId() == this.organization.getOrgId() && organizationFollower.getMod()) {
 					isMember = "true";
@@ -142,7 +149,8 @@ public class ViewOrganizationBean {
 			}
 		}
 		if (currentVolunteer.getVolunteer() != null) {
-			for (Iterator<OrganizationFollower> iterator = currentVolunteer.getVolunteer().getOrganizationFollowers().iterator(); iterator.hasNext();) {
+			for (Iterator<OrganizationFollower> iterator = currentVolunteer.getVolunteer().getOrganizationFollowers().iterator(); iterator
+					.hasNext();) {
 				OrganizationFollower organizationFollower = (OrganizationFollower) iterator.next();
 				if (organizationFollower.getOrganization().getOrgId() == this.organization.getOrgId()) {
 					following = "true";

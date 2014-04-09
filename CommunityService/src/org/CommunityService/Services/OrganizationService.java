@@ -17,7 +17,17 @@ public class OrganizationService {
 		OrganizationFollower OF = new OrganizationFollower();
 		OF.setVolunteer(v);
 		OF.setOrganization(o);
+		OF.setAdmin(false);
+		OF.setMod(false);
 		DBConnection.persist(OF);
+	}
+
+	public static void removeOrgFollower(Integer orgId, Integer vId) {
+		List params = new ArrayList();
+		params.add(orgId);
+		params.add(vId);
+		DBConnection.queryDelete("delete OrganizationFollower o where o.organization.orgId=? and o.volunteer.volunteerId=?", params);
+
 	}
 
 	public static void addOrganization(Organization o) throws HibernateException {
