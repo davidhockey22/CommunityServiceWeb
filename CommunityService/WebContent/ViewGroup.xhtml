@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
 	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
 <h:head>
 	<title>Group Page</title>
 	<h:outputStylesheet library="css" name="WebContent/css/main.css" />
@@ -22,16 +25,21 @@
 					</f:facet>
 
 					<h:outputLabel for="created" value="Created On: " />
-					<h:outputText id="created" value="#{viewGroupBean.group.creationDate}" label="created" />
+					<h:outputText id="created"
+						value="#{viewGroupBean.group.creationDate}" label="created" />
 
 					<h:outputLabel for="hoursWorked" value="Hours Worked: " />
-					<h:outputText id="hoursWorked" value="#{viewGroupBean.group.hoursWorked}" label="hoursWorked" />
+					<h:outputText id="hoursWorked"
+						value="#{viewGroupBean.group.hoursWorked}" label="hoursWorked" />
 
 					<h:outputLabel for="points" value="Points: " />
-					<h:outputText id="points" value="#{viewGroupBean.group.points}" label="points" />
+					<h:outputText id="points" value="#{viewGroupBean.group.points}"
+						label="points" />
 
 					<h:outputLabel for="rating" value="Avg Rating of Members: " />
-					<h:outputText id="rating" value="#{viewGroupBean.group.avgRatingOfVolunteers}" label="rating" />
+					<h:outputText id="rating"
+						value="#{viewGroupBean.group.avgRatingOfVolunteers}"
+						label="rating" />
 
 				</p:panelGrid>
 
@@ -45,12 +53,29 @@
 							<h:outputText value="#{level.name}" />
 						</f:facet>
 						<p:column>
-							<h:link value="#{member.volunteer.volunteerName}" outcome="ViewVolunteer.xhtml">
-								<f:param name="volunteerId" value="#{member.volunteer.volunteerId}" />
+							<h:link value="#{member.volunteer.volunteerName}"
+								outcome="ViewVolunteer.xhtml">
+								<f:param name="volunteerId"
+									value="#{member.volunteer.volunteerId}" />
 							</h:link>
 						</p:column>
 					</p:subTable>
 				</p:dataTable>
+
+				<h:form id="joinGroupForm">
+					<ui:fragment rendered="#{viewGroupBean.renderJoin}">
+						<p:commandButton type="submit" value="Join Group"
+							action="#{viewGroupBean.add}" onclick="showMessage( 'joinGroupForm', 'pending', 'Pending group approval' )"></p:commandButton>
+
+						<h:outputText id="pending" style="color: red;" value="" />
+					</ui:fragment>
+					<ui:fragment rendered="#{viewGroupBean.renderLeave}">
+						<p:commandButton type="submit" value="Leave Group"
+							action="#{viewGroupBean.leave}" onclick="showMessage( 'joinGroupForm', 'removed', 'You have been removed' )"></p:commandButton>
+
+						<h:outputText id="removed" style="color: red;" value="" />
+					</ui:fragment>					
+				</h:form>
 			</div>
 		</ui:define>
 	</ui:composition>

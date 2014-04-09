@@ -36,6 +36,7 @@ public class NewGroupBean {
 				Set<GroupMember> members = new HashSet<GroupMember>();
 				GroupMember founder = new GroupMember(group,
 						currentVolunteer.getVolunteer(), new Date(), true, true);
+				founder.setApproved(true);
 				members.add(founder);
 				group.setGroupMembers(members);
 				GroupService.addGroup(group);

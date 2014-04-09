@@ -2,34 +2,50 @@ package org.CommunityService.ManagedBeans;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletResponse;
 
 import org.CommunityService.EntitiesMapped.Group;
 import org.CommunityService.EntitiesMapped.GroupMember;
 import org.CommunityService.Services.GroupService;
+import org.CommunityService.Services.VolunteerService;
 import org.CommunityService.util.MemberLevel;
 import org.ocpsoft.rewrite.annotation.Join;
 
 @ManagedBean
-@RequestScoped
+@ViewScoped
 @Join(path = "/group/{groupId}", to = "/Web/ViewGroup.xhtml")
 public class ViewGroupBean {
-	@ManagedProperty(value = "#{param.groupId}")
+
 	private String groupId;
+	
+	@ManagedProperty(value = "#{loginBean}")
+	private LoginBean currentVolunteer;	
 
 	private Group group = null;
+	private GroupMember volGroupMember = null;
 
 	private List<MemberLevel<GroupMember>> levels = new ArrayList<MemberLevel<GroupMember>>();
 
+	boolean renderJoin = true;
+	boolean renderLeave = false;
+
 	public void fetchGroup() throws IOException {
 		FacesContext context = FacesContext.getCurrentInstance();
+		
+		//test
+		groupId = "42";
+		
 		try {
 			this.group = GroupService.getGroupByIdWithAttachedEntities(Integer.parseInt(groupId), "GroupMembers");
 
@@ -41,6 +57,19 @@ public class ViewGroupBean {
 
 				for (Iterator<GroupMember> iterator = this.group.getGroupMembers().iterator(); iterator.hasNext();) {
 					GroupMember groupMember = (GroupMember) iterator.next();
+					
+					if(groupMember.getVolunteer().getVolunteerId() == currentVolunteer.getVolunteer().getVolunteerId()) {
+						
+						volGroupMember = groupMember;
+
+						renderJoin = false;
+						
+						if(volGroupMember.getAdmin()) //the admin can not leave the group
+							renderLeave = false;
+						else
+							renderLeave = true;						
+					}
+					
 					if (groupMember.getAdmin()) {
 						admins.add(groupMember);
 					} else if (groupMember.getMod()) {
@@ -66,11 +95,28 @@ public class ViewGroupBean {
 			context.responseComplete();
 		}
 	}
+	
+	public String add() {
 
-	public Group getGroup() {
-		return group;
+		GroupMember member = new GroupMember(group,
+				currentVolunteer.getVolunteer(), new Date(), false, false);
+		member.setApproved(false);
+		group.getGroupMembers().add(member);
+		GroupService.updateGroup(group);
+	
+		return null;
 	}
-
+	public String leave() {
+		
+		if(volGroupMember == null)
+			return null;
+		
+		group.getGroupMembers().remove(volGroupMember);
+		GroupService.updateGroup(group);		
+		
+		return null;
+	}
+	
 	public String getGroupId() {
 		return groupId;
 	}
@@ -79,7 +125,43 @@ public class ViewGroupBean {
 		this.groupId = groupId;
 	}
 
+	public LoginBean getCurrentVolunteer() {
+		return currentVolunteer;
+	}
+
+	public void setCurrentVolunteer(LoginBean currentVolunteer) {
+		this.currentVolunteer = currentVolunteer;
+	}
+
+	public Group getGroup() {
+		return group;
+	}
+
+	public void setGroup(Group group) {
+		this.group = group;
+	}
+
 	public List<MemberLevel<GroupMember>> getLevels() {
 		return levels;
 	}
+
+	public void setLevels(List<MemberLevel<GroupMember>> levels) {
+		this.levels = levels;
+	}
+
+	public boolean isRenderJoin() {
+		return renderJoin;
+	}
+
+	public void setRenderJoin(boolean renderJoin) {
+		this.renderJoin = renderJoin;
+	}
+
+	public boolean isRenderLeave() {
+		return this.renderLeave;
+	}
+
+	public void setRenderLeave(boolean renderLeave) {
+		this.renderLeave = renderLeave;
+	}	
 }
