@@ -71,7 +71,8 @@ public class VolunteerService {
 		String hql = "from Volunteer as v ";
 		if (attachedEntities != null) {
 			for (int i = 0; i < attachedEntities.length; i++) {
-				hql += entitiesMap.get(attachedEntities[i]);
+				String next = entitiesMap.get(attachedEntities[i]);
+				hql += next == null ? "" : next;
 			}
 		}
 		hql += " where v.volunteerId=?";

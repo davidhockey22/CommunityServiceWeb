@@ -65,7 +65,8 @@ public class GroupService {
 		String hql = "from Group as g ";
 		if (attachedEntities != null) {
 			for (int i = 0; i < attachedEntities.length; i++) {
-				hql += entitiesMap.get(attachedEntities[i]);
+				String next = entitiesMap.get(attachedEntities[i]);
+				hql += next == null ? "" : next;
 			}
 		}
 		hql += " where g.groupId=?";

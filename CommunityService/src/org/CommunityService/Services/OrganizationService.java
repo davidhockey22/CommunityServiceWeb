@@ -57,7 +57,8 @@ public class OrganizationService {
 		String hql = "from Organization as o ";
 		if (attachedEntities != null) {
 			for (int i = 0; i < attachedEntities.length; i++) {
-				hql += entitiesMap.get(attachedEntities[i]);
+				String next = entitiesMap.get(attachedEntities[i]);
+				hql += next == null ? "" : next;
 			}
 		}
 		hql += " where o.orgId=?";
