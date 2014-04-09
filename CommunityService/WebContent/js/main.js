@@ -1,6 +1,8 @@
 function showMessage(formID, messageID, message) {
 	
 	document.getElementById(formID + ":" + messageID).innerHTML = message;
+	
+	return true;
 }
 
 function validateEditPassword(){

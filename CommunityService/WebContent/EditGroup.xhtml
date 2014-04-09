@@ -14,8 +14,9 @@
 	<ui:composition template="commonTemplate.xhtml">
 		<ui:define name="metadata">
 			<f:metadata>
-				<f:viewParam id = "groupId" name="groupId" value="#{editGroupBean.groupId}"/>
-				<f:viewAction type="preRenderView" listener="#{editGroupBean.fetchGroup}" />
+				<f:viewParam id="groupId" name="groupId"
+					value="#{editGroupBean.groupId}" />
+				<f:event type="preRenderView" listener="#{editGroupBean.fetchGroup}" />
 			</f:metadata>
 		</ui:define>
 		<ui:define name="content">
@@ -25,6 +26,10 @@
 				</ui:fragment>
 				<ui:fragment rendered="#{editGroupBean.group != null}">
 					<p:panelGrid columns="2">
+						<f:facet name="header">
+							<h:outputText value="Edit Group" />
+						</f:facet>					
+					
 						<p:row>
 							<p:column style="width:200px">
 								<h:outputText value="Name: " />
@@ -47,43 +52,96 @@
 
 					<h:form id="form">
 						<ui:fragment rendered="#{editGroupBean.admin}">
-							<p:dataTable id="mods" var="v" value="#{editGroupBean.mods}"
-								rowKey="#{v.volunteerName}"
-								selection="#{editGroupBean.selected}" selectionMode="multiple">
+
+							<p:contextMenu for="moders" widgetVar="cMenu">
+								<p:menuitem value="Edit Cell" icon="ui-icon-search"
+									onclick="PF('modersTable').showCellEditor();return false;" />
+								<p:menuitem value="Hide Menu" icon="ui-icon-close"
+									onclick="PF('cMenu').hide()" />
+							</p:contextMenu>
+
+							<p:dataTable id="moders" var="moder"
+								value="#{editGroupBean.mods}" editable="true" editMode="cell"
+								widgetVar="modersTable">
 
 								<f:facet name="header">Moderators</f:facet>
 
-								<p:column headerText="Name">
-									#{v.volunteerName}
+								<p:ajax event="cellEdit" listener="#{editGroupBean.onCellEdit}"
+									update=":form:moders" />
+
+								<p:column headerText="Name">#{moder.volunteerName}</p:column>
+
+								<p:column headerText="Action" style="width:50%">
+									<p:cellEditor>
+										<f:facet name="output">
+											<h:outputText value="#{moder.salt}" />
+										</f:facet>
+										<f:facet name="input">
+											<h:selectOneMenu value="#{moder.salt}" style="width:100%">
+												<f:selectItems value="#{editGroupBean.actionsMods}"
+													var="man" itemLabel="#{man}" itemValue="#{man}" />
+											</h:selectOneMenu>
+										</f:facet>
+									</p:cellEditor>
 								</p:column>
 
-								<f:facet name="footer">
-									<p:commandButton type="submit" value="Remove"
-										update=":form:mods"
-										actionListener="#{editGroupBean.removeMods}"></p:commandButton>
-								</f:facet>
 							</p:dataTable>
+
 						</ui:fragment>
 
-							<p:dataTable id="mems" var="v" value="#{editGroupBean.members}"
-								rowKey="#{v.volunteerName}"
-								selection="#{editGroupBean.selectedMembers}" selectionMode="multiple">
+						<p:contextMenu for="cars" widgetVar="cMenu">
+							<p:menuitem value="Edit Cell" icon="ui-icon-search"
+								onclick="PF('carsTable').showCellEditor();return false;" />
+							<p:menuitem value="Hide Menu" icon="ui-icon-close"
+								onclick="PF('cMenu').hide()" />
+						</p:contextMenu>
 
-								<f:facet name="header">Group Members</f:facet>
+						<p:dataTable id="cars" var="car" value="#{editGroupBean.members}"
+							editable="true" editMode="cell" widgetVar="carsTable">
 
-								<p:column headerText="Name">
-									#{v.volunteerName}
-								</p:column>
+							<f:facet name="header">Members</f:facet>
 
-								<f:facet name="footer">
-									<p:commandButton type="submit" value="Remove"
-										update=":form:mems"
-										actionListener="#{editGroupBean.removeMembers}"></p:commandButton>
-								</f:facet>
-							</p:dataTable>
-							
-							<p:commandButton type="submit" value="Save Changes"
-								actionListener="#{editGroupBean.save}"></p:commandButton>							
+							<p:ajax event="cellEdit" listener="#{editGroupBean.onCellEdit}"
+								update=":form:cars" />
+
+							<p:column headerText="Name">#{car.volunteerName}</p:column>
+
+							<p:column headerText="Action" style="width:50%">
+								<p:cellEditor>
+									<f:facet name="output">
+										<h:outputText value="#{car.salt}" />
+									</f:facet>
+									<f:facet name="input">
+										<h:selectOneMenu value="#{car.salt}" style="width:100%">
+											<f:selectItems value="#{editGroupBean.actions}" var="man"
+												itemLabel="#{man}" itemValue="#{man}" />
+										</h:selectOneMenu>
+									</f:facet>
+								</p:cellEditor>
+							</p:column>
+
+						</p:dataTable>
+
+						<p:commandButton type="submit" value="Save Changes"
+							actionListener="#{editGroupBean.save}"></p:commandButton>
+
+						<ui:fragment rendered="#{editGroupBean.admin}">
+
+							<p:commandButton style="float: right;" value="Delete Group"
+								actionListener="#{editGroupBean.deleteGroup}">
+								<p:confirm header="Confirmation" message="Are you sure?"
+									icon="ui-icon-alert" />
+							</p:commandButton>
+
+							<p:confirmDialog global="true" showEffect="fade"
+								hideEffect="explode">
+								<p:commandButton value="Yes" type="button"
+									styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+								<p:commandButton value="No" type="button"
+									styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+							</p:confirmDialog>
+
+						</ui:fragment>
 					</h:form>
 				</ui:fragment>
 			</div>

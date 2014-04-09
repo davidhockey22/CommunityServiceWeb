@@ -26,7 +26,10 @@ public class GroupService {
 		DBConnection.update(o);
 		return;
 	}
-
+	public static void updateGroupMember(GroupMember o) throws HibernateException {
+		DBConnection.update(o);
+		return;
+	}
 	public static Group getGroupByName(String groupName) throws HibernateException {
 		String hql = "from Group as g where g.groupName=?";
 		ArrayList<String> params = new ArrayList<String>();
@@ -72,4 +75,10 @@ public class GroupService {
 		List<Group> groups = ((List<Group>) DBConnection.query(hql, params));
 		return groups.isEmpty() ? null : groups.get(0);
 	}
+	public static void removeGroup(Integer groupId) {
+		List<Integer> params = new ArrayList<Integer>();
+		params.add(groupId);
+		DBConnection.queryDelete("delete Group g where g.groupId=?", params);
+		System.out.println("GroupService.removeGroup()");
+	}	
 }

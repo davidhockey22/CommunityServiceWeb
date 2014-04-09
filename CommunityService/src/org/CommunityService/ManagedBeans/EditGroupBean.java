@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -16,6 +17,7 @@ import org.CommunityService.EntitiesMapped.GroupMember;
 import org.CommunityService.EntitiesMapped.Volunteer;
 import org.CommunityService.Services.GroupService;
 import org.ocpsoft.rewrite.annotation.Join;
+import org.primefaces.event.CellEditEvent;
 
 @ManagedBean
 @ViewScoped
@@ -26,24 +28,53 @@ public class EditGroupBean {
 	private LoginBean currentVolunteer;
 
 	private String groupId;
-
-	List<GroupMember> groupMembers = null;
-	List<GroupMember> removed = null;
-	List<Volunteer> members = null;
+	
+	List<Volunteer> admins = null;
 	List<Volunteer> mods = null;
+	List<Volunteer> members = null;
+
+	List<Volunteer> pending = null;
 	List<Volunteer> selected = null;
-	List<Volunteer> selectedMembers = null;
 
 	private Group group;
 
+	private static boolean fetchGroupCalled = false;
 	private boolean admin = false;
+	private boolean mod = false;
+	private boolean adminOrMod = false;
+	
+	private String strActive = new String("Active");
+	private String strRemove = new String("Remove from group");
+	private String strMakeMod = new String("Make a moderator");
+	private String strRemoveMod = new String("Remove moderator status and make a regular member");
 
+	private String[] actions;
+	private String[] actionsMods;
+	
 	public void fetchGroup() throws IOException {
+		
+		//ajax will call this function every time a cell is changed in the data table
+		if(fetchGroupCalled)
+			return;
+		fetchGroupCalled = true;
+		
 		FacesContext context = FacesContext.getCurrentInstance();
+		
+		//test
+		groupId = "42";
+		
+    	actions = new String[3];  
+    	actions[0] = strActive; 
+    	actions[1] = strRemove;  
+    	actions[2] = strMakeMod;
+    	
+    	actionsMods = new String[3];  
+    	actionsMods[0] = strActive;
+    	actionsMods[1] = strRemove;
+    	actionsMods[2] = strRemoveMod;  	
 
 		try {
-			this.group = GroupService.getGroupByIdWithAttachedEntities(Integer.parseInt(groupId), "GroupMembers",
-					"Organizations");
+			this.group = GroupService.getGroupByIdWithAttachedEntities(Integer.parseInt(groupId), "GroupMembers");
 		} catch (NumberFormatException e) {
 			// Throw an HTTP Response Error - Invalid Syntax in case invalid groupId was supplied
 			context.getExternalContext().responseSendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid group id");
@@ -56,13 +87,14 @@ public class EditGroupBean {
 			context.responseComplete();
 		}
 
+		//authorize
 		boolean authorized = false;
 		if (currentVolunteer.getVolunteer() != null) {
 			for (Iterator<GroupMember> iterator = currentVolunteer.getVolunteer().getGroupMembers().iterator(); iterator
 					.hasNext();) {
 				GroupMember groupMember = (GroupMember) iterator.next();
 				if (groupMember.getGroup().getGroupId() == this.group.getGroupId()) {
-					authorized = (groupMember.getAdmin());
+					authorized = (groupMember.getAdmin() || groupMember.getMod());
 					break;
 				}
 			}
@@ -78,125 +110,116 @@ public class EditGroupBean {
 			context.responseComplete();
 		}
 
-		groupMembers = new ArrayList<GroupMember>();
-		removed = new ArrayList<GroupMember>();
+		
+		admins = new ArrayList<Volunteer>();
 		members = new ArrayList<Volunteer>();
 		mods = new ArrayList<Volunteer>();
+		pending = new ArrayList<Volunteer>();
 		selected = new ArrayList<Volunteer>();
 
 		if (this.group != null) {
 			for (GroupMember m : this.group.getGroupMembers()) {
+				
+				m.getVolunteer().setSalt("active");
+				
 				if (m.getAdmin() == true) {
 					// if current volunteer is the admin
-					if (m.getVolunteer().getVolunteerId() == currentVolunteer.getVolunteer().getVolunteerId())
+					if (m.getVolunteer().getVolunteerId() == currentVolunteer.getVolunteer().getVolunteerId()) {
 						admin = true;
-					continue; // skip admins
+						adminOrMod = true;
+					}
+					
+					admins.add(m.getVolunteer());
 				} else if (m.getMod()) {
+					// if current volunteer is the mod
+					if (m.getVolunteer().getVolunteerId() == currentVolunteer.getVolunteer().getVolunteerId()) {
+						mod = true;
+						adminOrMod = true;
+					}
+					
 					mods.add(m.getVolunteer());
-				} else {
+				} else if(m.getApproved() == null || m.getApproved() == true ){
 					members.add(m.getVolunteer());
+				} else {
+					pending.add(m.getVolunteer());
 				}
 			}
 		}
 	}
 
-	public String removeMembers() {
+	public String save() {		
 
-		if (selected.isEmpty())
-			return null;
-
-		for (Volunteer v : selected) {
-			for (Iterator<Volunteer> iterator = members.iterator(); iterator.hasNext();) {
-				Volunteer m = (Volunteer) iterator.next();
-
-				if (m.getVolunteerId() == v.getVolunteerId()) {
-
-					iterator.remove();
-				}
+		String salt;
+		boolean updateGroup = false;
+		
+		for (Iterator<GroupMember> iterator = group.getGroupMembers().iterator(); iterator.hasNext();) {
+			GroupMember g = (GroupMember) iterator.next();
+			
+			salt = g.getVolunteer().getSalt();
+						
+			if( salt.equals(strActive)){}
+			else if( g.getVolunteer().getSalt().equals(strRemove)){ //if remove group member
+				
+				updateGroup = true;
+				iterator.remove();
 			}
+			else if( salt.equals(strMakeMod)){
+				
+				g.setMod(true);
+				
+				try {
+					GroupService.updateGroupMember(g);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}	
+			}
+			else if( salt.equals(strRemoveMod)){
+				
+				g.setMod(false);
+				
+				try {
+					GroupService.updateGroupMember(g);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}				
+			}			
 		}
 
-		for (Volunteer v : selected) {
-			for (GroupMember g : groupMembers) {
-
-				if (v.getVolunteerId() == g.getVolunteer().getVolunteerId()) {
-
-					removed.add(g);
-				}
+		if(updateGroup) {
+			try {
+				GroupService.updateGroup(group);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
-
-		selected = new ArrayList<Volunteer>();
-
+		
 		return null;
 	}
-
-	public String removeMods() {
-
-		if (selected.isEmpty())
-			return null;
-
-		for (Volunteer v : selected) {
-			for (Iterator<Volunteer> iterator = mods.iterator(); iterator.hasNext();) {
-				Volunteer m = (Volunteer) iterator.next();
-
-				if (m.getVolunteerId() == v.getVolunteerId()) {
-
-					iterator.remove();
-				}
-			}
-		}
-
-		for (Volunteer v : selected) {
-			for (GroupMember g : groupMembers) {
-
-				if (v.getVolunteerId() == g.getVolunteer().getVolunteerId()) {
-
-					removed.add(g);
-
-					/*
-					 * try { GroupService.removeGroupMember(g.getGroupMemberId()); } catch (Exception e) { // TODO
-					 * Auto-generated catch block e.printStackTrace(); }
-					 */
-
-				}
-			}
-		}
-
-		selected = new ArrayList<Volunteer>();
-
-		return null;
+	
+	public String deleteGroup() {
+		
+		GroupService.removeGroup(group.getGroupId());
+		
+		return "/Home.xhtml?faces-redirect=true";
 	}
+	
+	public void onCellEdit(CellEditEvent event) {
+		
+        //Object oldValue = event.getOldValue();  
+        Object newValue = event.getNewValue();
+                  
+        if(newValue != null) {  
+            
+            int row = event.getRowIndex();
+            String action = (String)newValue;
 
-	public String save() {
-
-		/*
-		 * for (GroupMember g : removed) {
-		 * 
-		 * try { GroupService.removeGroupMember(g.getGroupMemberId()); } catch (Exception e) { // TODO Auto-generated
-		 * catch block e.printStackTrace(); } }
-		 */
-
-		for (GroupMember g : removed) {
-			for (Iterator<GroupMember> iterator = group.getGroupMembers().iterator(); iterator.hasNext();) {
-				GroupMember m = (GroupMember) iterator.next();
-
-				if (m.getGroupMemberId() == g.getGroupMemberId()) {
-
-					iterator.remove();
-				}
-			}
-		}
-
-		try {
-			GroupService.updateGroup(group);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		return null;
-	}
+            Volunteer mem = members.get(row);
+            mem.setSalt(action);
+        }
+    } 	
 
 	public LoginBean getCurrentVolunteer() {
 		return currentVolunteer;
@@ -246,35 +269,45 @@ public class EditGroupBean {
 		this.selected = selected;
 	}
 
-	public List<GroupMember> getGroupMembers() {
-		return groupMembers;
-	}
-
-	public void setGroupMembers(List<GroupMember> groupMembers) {
-		this.groupMembers = groupMembers;
-	}
-
-	public List<GroupMember> getRemoved() {
-		return removed;
-	}
-
-	public void setRemoved(List<GroupMember> removed) {
-		this.removed = removed;
-	}
-
-	public List<Volunteer> getSelectedMembers() {
-		return selectedMembers;
-	}
-
-	public void setSelectedMembers(List<Volunteer> selectedMembers) {
-		this.selectedMembers = selectedMembers;
-	}
-
 	public String getGroupId() {
 		return groupId;
 	}
 
 	public void setGroupId(String groupId) {
 		this.groupId = groupId;
+	}
+	public List<Volunteer> getAdmins() {
+		return admins;
+	}
+
+	public void setAdmins(List<Volunteer> admins) {
+		this.admins = admins;
+	}
+	public List<Volunteer> getPending() {
+		return pending;
+	}
+
+	public void setPending(List<Volunteer> pending) {
+		this.pending = pending;
+	}
+	public boolean isAdminOrMod() {
+		return adminOrMod;
+	}
+
+	public void setAdminOrMod(boolean adminOrMod) {
+		this.adminOrMod = adminOrMod;
+	}
+	public boolean isMod() {
+		return mod;
+	}
+
+	public void setMod(boolean mod) {
+		this.mod = mod;
+	}
+	public String[] getActions() {
+		return actions;
+	}
+	public String[] getActionsMods() {
+		return actionsMods;
 	}
 }
