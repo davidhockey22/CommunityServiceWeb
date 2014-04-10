@@ -17,6 +17,11 @@
 			<h:outputText value="Accepted Events:" />
 
 			<p:dataTable var="e" value="#{myEventsBean.acceptedEvents}">
+				<p:column headerText="Event ID">
+					<h:link value="#{e.event.eventId}" outcome="ViewEvent.xhtml">
+						<f:param name="eventId" value="#{e.event.eventId}" />
+					</h:link>
+				</p:column>
 				<p:column headerText="Event Name">
 					<h:outputText value="#{e.event.eventName}" />
 				</p:column>
@@ -26,12 +31,6 @@
 				<p:column headerText="End Time">
 					<h:outputText value="#{e.event.endTime}" />
 				</p:column>
-				<p:column headerText="View Event">
-					<p:button icon="ui-icon-search" title="View Event" outcome="ViewEvent.xhtml">
-						<f:param name="eventId" value="#{e.event.eventId}" />
-					</p:button>
-				</p:column>
-
 			</p:dataTable>
 
 			<h:outputText value="Pending Events:" />

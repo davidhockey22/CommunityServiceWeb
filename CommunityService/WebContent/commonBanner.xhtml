@@ -21,8 +21,7 @@
 			</p:ajaxStatus>
 			<div>
 				<div style="float: left">
-					<h:link outcome="/Home.xhtml">
-						<h:graphicImage url="/images/logo.png" style="float:left; margin-top:1em;" />
+					<h:link outcome="/Home.xhtml"><h:graphicImage url="/images/logo.png" style="float:left; margin-top:1em;" />
 					</h:link>
 					<h:outputText value="Helping You, Help Everyone." />
 				</div>
@@ -53,16 +52,15 @@
 								<p:menuitem value="Organizations" url="/searchorganization" />
 							</p:submenu>
 							<p:submenu label="#{loginBean.volunteer.volunteerName}">
-								<p:menuitem value="Edit Profile" url="/editProfile" />
-								<p:menuitem value="Change password" url="/editPassword" />
+								<p:menuitem value="View Profile" url="/editProfile" />
 								<p:separator />
 								<p:menuitem value="Log Out" actionListener="#{loginBean.Logout}" ajax="false" />
 							</p:submenu>
 						</p:menubar>
-						<h:outputLink value="/CommunityService/volunteer/#{loginBean.volunteer.volunteerId}" includeViewParams="true" ajax="false">
+						<h:link outcome="/CommunityService/volunteer" includeViewParams="true">
 							<h:graphicImage value="#{loginBean.gravatarURL}" style="width: 40px; margin-right: .5em" />
-						</h:outputLink>
-
+							<f:param name="orgId" value="#{loginBean.volunteer.volunteerId}" />
+						</h:link>
 					</h:form>
 				</div>
 				<!--  <div style="margin-right: auto; margin-left: auto; width: 200px">Search Bar goes here.</div>
