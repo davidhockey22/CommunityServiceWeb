@@ -32,7 +32,7 @@ public class EditOrganizationBean {
 		}
 
 		//do query
-		currentOrg = OrganizationService.getOrganizationByVolunteerId(currentVolunteer.getVolunteer().getVolunteerId());
+		//currentOrg = OrganizationService.getOrganizationByVolunteerId(currentVolunteer.getVolunteer().getVolunteerId());
 		
 		if(currentOrg == null)
 			return;

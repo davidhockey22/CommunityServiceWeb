@@ -24,7 +24,7 @@ public class EventService {
 		params.add(eventId);
 		DBConnection.queryDelete("delete EventVolunteer v where v.volunteer.volunteerId=? and v.event.eventId=?", params);
 		System.out.println("EventService.removeEventVolunteer()");
-		
+
 	}
 
 	public static Event getEventById(int eventId) throws HibernateException {
@@ -55,7 +55,7 @@ public class EventService {
 			return new ArrayList<Event>();
 		}
 	}
-	
+
 	public static List<Event> getEventsByVolunteer(Volunteer volunteer) {
 		return getEventsByVolunteer(volunteer.getVolunteerId());
 	}
@@ -107,7 +107,7 @@ public class EventService {
 
 	public static void signUp(Volunteer v, Event e) {
 		// if (v != null) {
-		EventVolunteer ev = new EventVolunteer(e, v);
+		EventVolunteer ev = new EventVolunteer(e, v, 0, false);
 		DBConnection.update(ev);
 		// return true;
 		// }
