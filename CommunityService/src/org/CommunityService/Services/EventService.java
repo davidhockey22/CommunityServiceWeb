@@ -19,7 +19,7 @@ public class EventService {
 	}
 
 	public static void removeEventVolunteer(Integer eventId, Integer vId) {
-		List params = new ArrayList();
+		List<Integer> params = new ArrayList<Integer>();
 		params.add(vId);
 		params.add(eventId);
 		DBConnection.queryDelete("delete EventVolunteer v where v.volunteer.volunteerId=? and v.event.eventId=?", params);
@@ -106,14 +106,11 @@ public class EventService {
 	}
 
 	public static void signUp(Volunteer v, Event e) {
-		// if (v != null) {
 		EventVolunteer ev = new EventVolunteer(e, v);
 		DBConnection.update(ev);
-		// return true;
-		// }
 	}
 
-	public static Integer addEvent(Event event) throws HibernateException {
-		return (Integer) DBConnection.save(event);
+	public static void addEvent(Event event) throws HibernateException {
+		DBConnection.save(event);
 	}
 }

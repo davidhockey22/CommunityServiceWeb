@@ -3,6 +3,7 @@ package org.CommunityService.ManagedBeans;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.HashSet;
+import java.util.Iterator;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -10,6 +11,7 @@ import javax.faces.context.FacesContext;
 
 import org.CommunityService.EntitiesMapped.EventVolunteer;
 import org.CommunityService.EntitiesMapped.GroupMember;
+import org.CommunityService.EntitiesMapped.Organization;
 import org.CommunityService.EntitiesMapped.OrganizationFollower;
 import org.CommunityService.EntitiesMapped.Volunteer;
 import org.CommunityService.Services.InterestService;
@@ -127,6 +129,31 @@ public class LoginBean {
 		if (volunteer != null) {
 			volunteer.setEventVolunteers(new HashSet<EventVolunteer>(VolunteerService.getEventVolunteersByVolunteer(volunteer)));
 		}
+	}
+
+	/**
+	 * @param org
+	 * @return up-to-date status of a Volunteer in a given Organization, or false if orgId is null
+	 */
+	public boolean isMemberOfOrganization(Organization org) {
+		return org == null ? false : isMemberOfOrganizatoin(org.getOrgId());
+	}
+
+	/**
+	 * @param orgId
+	 * @return cached status of a Volunteer in a given Organization, or false if orgId is null
+	 */
+	public boolean isMemberOfOrganizatoin(Integer orgId) {
+		if (orgId == null)
+			return false;
+		for (Iterator<OrganizationFollower> iterator = this.volunteer.getOrganizationFollowers().iterator(); iterator
+				.hasNext();) {
+			OrganizationFollower organizationFollower = (OrganizationFollower) iterator.next();
+			if (organizationFollower.getOrganization().getOrgId() == orgId) {
+				return organizationFollower.getAdmin() || organizationFollower.getMod();
+			}
+		}
+		return false;
 	}
 
 	public String Logout() {

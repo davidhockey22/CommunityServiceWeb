@@ -23,10 +23,11 @@ public class OrganizationService {
 	}
 
 	public static void removeOrgFollower(Integer orgId, Integer vId) {
-		List params = new ArrayList();
+		List<Integer> params = new ArrayList<Integer>();
 		params.add(orgId);
 		params.add(vId);
-		DBConnection.queryDelete("delete OrganizationFollower o where o.organization.orgId=? and o.volunteer.volunteerId=?", params);
+		DBConnection.queryDelete(
+				"delete OrganizationFollower o where o.organization.orgId=? and o.volunteer.volunteerId=?", params);
 
 	}
 
@@ -48,13 +49,15 @@ public class OrganizationService {
 	static {
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("Groups", " left join fetch o.groups ");
-		map.put("OrganizationFollowers", " left join fetch o.organizationFollowers as orgf left join fetch orgf.volunteer ");
+		map.put("OrganizationFollowers",
+				" left join fetch o.organizationFollowers as orgf left join fetch orgf.volunteer ");
 		map.put("Events", " left join fetch o.events as ev left join fetch ev.eventVolunteers ");
 		map.put("Pictures", " left join fetch o.pictures ");
 		entitiesMap = Collections.unmodifiableMap(map);
 	}
 
-	public static Organization getOrganizationByIdWithAttachedEntities(int orgId, String... attachedEntities) throws HibernateException {
+	public static Organization getOrganizationByIdWithAttachedEntities(int orgId, String... attachedEntities)
+			throws HibernateException {
 		String hql = "from Organization as o ";
 		if (attachedEntities != null) {
 			for (int i = 0; i < attachedEntities.length; i++) {
@@ -70,21 +73,35 @@ public class OrganizationService {
 		return organizations.isEmpty() ? null : organizations.get(0);
 	}
 
-	public static Object getOrganizationByName(String name) {
+	public static Organization getOrganizationByName(String name) {
 		String hql = "from Organization as o where o.orgName=?";
 		ArrayList<String> params = new ArrayList<String>();
 		params.add(name);
 		@SuppressWarnings("unchecked")
 		List<Organization> organizations = (List<Organization>) DBConnection.query(hql, params);
-		return organizations.isEmpty() ? null : organizations.get(0);
+		return organizations.isEmpty() ? null : (Organization) organizations.get(0);
 	}
 
-	public static Object getOrganizationByAddress(String address) throws HibernateException {
+	public static Organization getOrganizationByAddress(String address) throws HibernateException {
 		String hql = "from Organization as o where o.address=?";
 		ArrayList<String> params = new ArrayList<String>();
 		params.add(address);
 		@SuppressWarnings("unchecked")
 		List<Organization> organizations = (List<Organization>) DBConnection.query(hql, params);
-		return organizations.isEmpty() ? null : organizations.get(0);
+		return organizations.isEmpty() ? null : (Organization) organizations.get(0);
+	}
+
+	public static OrganizationFollower getOrganizationFollowerBy(Integer orgId, Integer volunteerId)
+			throws HibernateException {
+		if (orgId == null || volunteerId == null) {
+			return null;
+		}
+		String hql = "from OrganizationFollower as orgF where orgF.organization.orgId = ? and orgF.volunteer.volunteerId = ?";
+		ArrayList<Integer> params = new ArrayList<Integer>();
+		params.add(orgId);
+		params.add(volunteerId);
+		@SuppressWarnings("unchecked")
+		List<OrganizationFollower> orgFollowers = (List<OrganizationFollower>) DBConnection.query(hql, params);
+		return orgFollowers.isEmpty() ? null : (OrganizationFollower) orgFollowers.get(0);
 	}
 }
