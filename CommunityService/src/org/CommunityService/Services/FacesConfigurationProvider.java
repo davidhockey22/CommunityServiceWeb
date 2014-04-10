@@ -15,7 +15,6 @@ public class FacesConfigurationProvider extends HttpConfigurationProvider{
 	public Configuration getConfiguration(final ServletContext context) {
 		return ConfigurationBuilder.begin()
 				.addRule(Join.path("/manageEvent/{eventId}").to("/Web/EditEvent.xhtml"))
-				.addRule(Join.path("/manageOrganization/{orgId}").to("/Web/EditOrganization.xhtml"))
 				;
 	}
 	

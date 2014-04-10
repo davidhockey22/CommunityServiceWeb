@@ -113,8 +113,7 @@ public class EventService {
 		// }
 	}
 
-	public static void addEvent(Event event) throws HibernateException {
-		DBConnection.persist(event);
-		return;
+	public static Integer addEvent(Event event) throws HibernateException {
+		return (Integer) DBConnection.save(event);
 	}
 }

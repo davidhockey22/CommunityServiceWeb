@@ -114,7 +114,7 @@ public class Event implements java.io.Serializable {
 		this.location = location;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "EventHost")
 	public Organization getOrganization() {
 		return this.organization;
