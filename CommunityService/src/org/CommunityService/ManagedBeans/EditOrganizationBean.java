@@ -1,134 +1,91 @@
 package org.CommunityService.ManagedBeans;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpServletResponse;
+import javax.faces.bean.SessionScoped;
 
-import org.CommunityService.EntitiesMapped.Event;
-import org.CommunityService.EntitiesMapped.Group;
 import org.CommunityService.EntitiesMapped.Organization;
-import org.CommunityService.EntitiesMapped.OrganizationFollower;
 import org.CommunityService.Services.OrganizationService;
-import org.ocpsoft.rewrite.annotation.Join;
-import org.primefaces.event.SelectEvent;
-import org.primefaces.model.DefaultScheduleEvent;
-import org.primefaces.model.LazyScheduleModel;
-import org.primefaces.model.ScheduleEvent;
-import org.primefaces.model.ScheduleModel;
+import org.hibernate.HibernateException;
 
 @ManagedBean
-@ViewScoped
-@Join(path = "/manageOrganization/{orgId}", to = "/Web/EditOrganization.xhtml")
+@SessionScoped
 public class EditOrganizationBean {
+
+	boolean renderError;
+	boolean renderPage;
 
 	@ManagedProperty(value = "#{loginBean}")
 	private LoginBean currentVolunteer;
 
-	private String orgId;
-	private Organization org = null;
+	private Organization currentOrg = null;
 
-	private List<Event> orgEvents = new ArrayList<Event>();
-	private List<Group> orgGroups = new ArrayList<Group>();
+	private String oldEmail = null;
 
-	private List<OrganizationFollower> orgFollowers = new ArrayList<OrganizationFollower>();
+	public void init() {
 
-	private ScheduleModel scheduleModel = new LazyScheduleModel();
-	private ScheduleEvent currentEvent = new DefaultScheduleEvent("", new Date(), new Date(), null);
+		renderError = true;
+		renderPage = false;
 
-	public void fetchOrganization() throws IOException {
-		FacesContext context = FacesContext.getCurrentInstance();
+		if (currentVolunteer.getVolunteer() == null) {
+			return;
+		}
 
-		// TODO: add more attached entities when they are available
+		//do query
+		//currentOrg = OrganizationService.getOrganizationByVolunteerId(currentVolunteer.getVolunteer().getVolunteerId());
+		
+		if(currentOrg == null)
+			return;
+
+		renderError = false;
+		renderPage = true;
+	}
+
+	public void saveEmail() {
+
+		oldEmail = new String(currentVolunteer.getVolunteer().getEmailAddress());
+	}
+
+	public String updateProfile() {
+
 		try {
-			this.org = OrganizationService.getOrganizationByIdWithAttachedEntities(Integer.parseInt(orgId), "Groups",
-					"OrganizationFollowers", "Events");
-		} catch (NumberFormatException e) {
-			// Throw an HTTP Response Error - Invalid Syntax in case invalid orgId was supplied
-			context.getExternalContext().responseSendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid org id");
-			context.responseComplete();
-			return;
-		}
 
-		// Throw an HTTP Response Error - Page Not Found in case org cannot be found from provided id
-		if (this.org == null) {
-			context.getExternalContext().responseSendError(HttpServletResponse.SC_NOT_FOUND,
-					"Organization with id " + orgId + " not found.");
-			context.responseComplete();
-			return;
-		}
+			// if email changed, clear activation date
+			if (oldEmail != null) {
 
-		// authorize
-		boolean authorized = false;
-		if (currentVolunteer.getVolunteer() != null) {
-			for (Iterator<OrganizationFollower> iterator = currentVolunteer.getVolunteer().getOrganizationFollowers()
-					.iterator(); iterator.hasNext();) {
-				OrganizationFollower organizationFollower = (OrganizationFollower) iterator.next();
-				if (organizationFollower.getOrganization().getOrgId() == this.org.getOrgId()) {
-					authorized = (organizationFollower.getAdmin() || organizationFollower.getMod());
-					break;
+				String newEmail = currentVolunteer.getVolunteer().getEmailAddress();
+
+				if (!newEmail.equals(oldEmail)) {
+
+					// there is no activation date for organization
 				}
 			}
-		} else {
-			// Throw an HTTP Response Error - Missing Credentials in case user is not logged in
-			context.getExternalContext().responseSendError(HttpServletResponse.SC_UNAUTHORIZED, "Not logged in");
-			context.responseComplete();
-			return;
-		}
-		if (!authorized) {
-			// Throw an HTTP Response Error - Forbidden access in case user is not allowed view
-			context.getExternalContext().responseSendError(HttpServletResponse.SC_FORBIDDEN,
-					"Not authorized to view page");
-			context.responseComplete();
-			return;
+
+			// test
+			OrganizationService.updateOrganization(currentOrg);
+
+		} catch (HibernateException e) {
+			e.printStackTrace();
+			return "Error";
 		}
 
-		this.orgEvents = new ArrayList<Event>(org.getEvents());
-		this.orgFollowers = new ArrayList<OrganizationFollower>(org.getOrganizationFollowers());
-		this.orgGroups = new ArrayList<Group>(org.getGroups());
+		return null;
 	}
 
-	public void onEventSelect(SelectEvent selectEvent) {
-		currentEvent = (ScheduleEvent) selectEvent.getObject();
+	public boolean isRenderError() {
+		return renderError;
 	}
 
-	public List<Group> getOrgGroups() {
-		return orgGroups;
+	public void setRenderError(boolean renderError) {
+		this.renderError = renderError;
 	}
 
-	public List<OrganizationFollower> getOrgFollowers() {
-		return orgFollowers;
+	public boolean isRenderPage() {
+		return renderPage;
 	}
 
-	public List<Event> getOrgEvents() {
-		return orgEvents;
-	}
-
-	public String getOrgId() {
-		return orgId;
-	}
-
-	public Organization getOrg() {
-		return org;
-	}
-
-	public ScheduleModel getScheduleModel() {
-		return scheduleModel;
-	}
-
-	public ScheduleEvent getCurrentEvent() {
-		return currentEvent;
-	}
-
-	public void setOrgId(String orgId) {
-		this.orgId = orgId;
+	public void setRenderPage(boolean renderPage) {
+		this.renderPage = renderPage;
 	}
 
 	public LoginBean getCurrentVolunteer() {
@@ -137,5 +94,21 @@ public class EditOrganizationBean {
 
 	public void setCurrentVolunteer(LoginBean currentVolunteer) {
 		this.currentVolunteer = currentVolunteer;
+	}
+
+	public Organization getCurrentOrg() {
+		return currentOrg;
+	}
+
+	public void setCurrentOrg(Organization currentOrg) {
+		this.currentOrg = currentOrg;
+	}
+
+	public String getOldEmail() {
+		return oldEmail;
+	}
+
+	public void setOldEmail(String oldEmail) {
+		this.oldEmail = oldEmail;
 	}
 }
