@@ -16,9 +16,6 @@ function validateEditPassword(){
 	if( document.getElementById("passwordForm:confirmValidation").innerHTML != "" )
 		returnVal = false;
 	
-	if( document.getElementById("passwordForm:oldPasswordValidation").innerHTML != "" )
-		returnVal = false;	
-	
 	if( returnVal == false )
 		document.getElementById("passwordForm:submitValidation").innerHTML = "Please correct errors";
 

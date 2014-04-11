@@ -5,28 +5,35 @@ import java.security.spec.InvalidKeySpecException;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.SessionScoped;
+import javax.faces.view.ViewScoped;
 
 import org.CommunityService.Services.VolunteerService;
 import org.CommunityService.Validators.PasswordHash;
 import org.ocpsoft.rewrite.annotation.Join;
 
 @ManagedBean
-@SessionScoped
+@ViewScoped
 @Join(path = "/editPassword", to = "/Web/EditPassword.xhtml")
 public class EditPasswordBean {
 
 	@ManagedProperty(value = "#{loginBean}")
 	private LoginBean currentVolunteer;
 
-	String oldPassword = new String(), password = new String();
+	String confirmPassword = new String();
+	String oldPassword = new String();
 	String oldPasswordError = new String("");
+	String password = new String("");
+	String submit = new String("");
 
 	public void check() {
 	}
 	public String update() {
 		
 		String hashed = null;
+		
+		if(getOldPasswordError().equals("")){}
+		else
+			return null;
 		
 		try {
 			hashed = PasswordHash.getHash(password, currentVolunteer.getVolunteer().getSalt());
@@ -43,6 +50,13 @@ public class EditPasswordBean {
 		currentVolunteer.getVolunteer().setVolunteerPassword(hashed);
 
 		VolunteerService.updateVolunteer(currentVolunteer.getVolunteer());
+		
+		//clear form
+		confirmPassword = new String();
+		oldPassword = new String();
+		oldPasswordError = new String();
+		password = new String();
+		submit = new String("Password changed.");
 
 		return null;
 	}
@@ -96,4 +110,16 @@ public class EditPasswordBean {
 	public void setOldPasswordError(String oldPasswordError) {
 		this.oldPasswordError = oldPasswordError;
 	}
+	public String getConfirmPassword() {
+		return confirmPassword;
+	}
+	public void setConfirmPassword(String confirmPassword) {
+		this.confirmPassword = confirmPassword;
+	}
+	public String getSubmit() {
+		return submit;
+	}
+	public void setSubmit(String submit) {
+		this.submit = submit;
+	}	
 }
