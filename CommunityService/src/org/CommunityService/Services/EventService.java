@@ -28,6 +28,7 @@ public class EventService {
 	}
 
 	public static Event getEventById(int eventId) throws HibernateException {
+				
 		String hql = "from Event as e where e.eventId=?";
 		ArrayList<Integer> params = new ArrayList<Integer>();
 		params.add(eventId);
@@ -41,6 +42,22 @@ public class EventService {
 			return null;
 		}
 	}
+	
+	public static Event getEventByIdFetch(int eventId) throws HibernateException {
+		
+		String hql = "from Event as e left join fetch e.organization left join fetch e.interests left join fetch e.eventSkills as es left join fetch es.skill where e.eventId=?";
+		ArrayList<Integer> params = new ArrayList<Integer>();
+		params.add(eventId);
+		try {
+			@SuppressWarnings("unchecked")
+			Event e = (Event) (((List<Event>) DBConnection.query(hql, params)).get(0));
+			return e;
+		} catch (HibernateException e) {
+			return null;
+		} catch (IndexOutOfBoundsException e) {
+			return null;
+		}
+	}	
 
 	public static List<Event> getEventsByVolunteer(Integer volunteerId) {
 		String hql = "SELECT ev.event FROM EventVolunteer as ev where ev.volunteer.volunteerId=?";

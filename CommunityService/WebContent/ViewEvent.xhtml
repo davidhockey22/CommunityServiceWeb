@@ -41,6 +41,59 @@
 							<h:outputText id="location" value="#{viewEventBean.event.location}" />
 						</p:column>
 					</p:row>
+					
+					<p:row>
+						<p:column>
+							<h:outputLabel for="beginTime" value="Begin Time " />
+						</p:column>
+						<p:column>
+							<h:outputText id="beginTime" value="#{viewEventBean.event.beginTime}" />
+						</p:column>
+					</p:row>					
+
+					<p:row>
+						<p:column>
+							<h:outputLabel for="endTime" value="End Time " />
+						</p:column>
+						<p:column>
+							<h:outputText id="endTime" value="#{viewEventBean.event.endTime}" />
+						</p:column>
+					</p:row>					
+					
+					<p:row>
+						<p:column>
+							<h:outputLabel for="host" value="Hosted by " />
+						</p:column>
+						<p:column>
+							<h:outputText id="host" value="#{viewEventBean.hostedOrgName}" />
+						</p:column>
+					</p:row>
+
+					<p:row>
+						<p:column colspan="2" style="text-align:center;">
+							<h:form>
+								<p:dataTable var="item" value="#{viewEventBean.interests}">
+									<p:column headerText="Related Interests">
+										<h:outputText value="#{item.name}" />
+									</p:column>
+								</p:dataTable>
+							</h:form>
+						</p:column>
+					</p:row>
+
+					<p:row>
+						<p:column colspan="2" style="text-align:center;">
+							<h:form>
+								<p:dataTable var="item" value="#{viewEventBean.skills}">
+									<p:column headerText="Desired Skills">
+										<h:outputText value="#{item.skillName}" />
+									</p:column>
+								</p:dataTable>
+							</h:form>
+						</p:column>
+					</p:row>
+
+
 					<p:row>
 						<p:column colspan="2" style="text-align:center;">
 							<h:form id="form2">

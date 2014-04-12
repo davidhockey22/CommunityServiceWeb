@@ -1,6 +1,7 @@
 package org.CommunityService.ManagedBeans;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -11,6 +12,9 @@ import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletResponse;
 
 import org.CommunityService.EntitiesMapped.Event;
+import org.CommunityService.EntitiesMapped.EventSkill;
+import org.CommunityService.EntitiesMapped.Interest;
+import org.CommunityService.EntitiesMapped.Skill;
 import org.CommunityService.Services.EventService;
 import org.ocpsoft.rewrite.annotation.Join;
 
@@ -26,6 +30,10 @@ public class ViewEventBean {
 
 	@ManagedProperty(value = "#{loginBean}")
 	private LoginBean currentVolunteer;
+	
+	private List<Interest> interests = new ArrayList<Interest>();
+	private List<Skill> skills = new ArrayList<Skill>();;
+	private String hostedOrgName;
 
 	public String signUp() {
 		System.out.println("Signing up!");
@@ -42,7 +50,7 @@ public class ViewEventBean {
 		FacesContext context = FacesContext.getCurrentInstance();
 		try {
 			if (event == null || event.getEventId() != Integer.parseInt(eventId)) {
-				this.event = EventService.getEventById(Integer.parseInt(eventId));
+				this.event = EventService.getEventByIdFetch(Integer.parseInt(eventId));
 				System.out.println("Sign up!");
 				this.signedUp = this.signedUp();
 			} else {
@@ -56,6 +64,17 @@ public class ViewEventBean {
 			// Throw an HTTP Response Error - Invalid Syntax in case invalid eventId was supplied
 			context.getExternalContext().responseSendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid event id");
 			context.responseComplete();
+			return;
+		}
+		
+		if(event != null) {
+			
+			interests.addAll(event.getInterests());
+			
+			for(EventSkill es : event.getEventSkills()) {
+				
+				skills.add(es.getSkill());
+			}
 		}
 	}
 
@@ -98,4 +117,27 @@ public class ViewEventBean {
 	public void setCurrentVolunteer(LoginBean currentVolunteer) {
 		this.currentVolunteer = currentVolunteer;
 	}
+	public String getHostedOrgName() {
+				
+		if(event == null || event.getOrganization() == null) {
+			return "None";
+		}
+		
+		return event.getOrganization().getOrgName();
+	}
+	public List<Interest> getInterests() {
+		return interests;
+	}
+
+	public void setInterests(List<Interest> interests) {
+		this.interests = interests;
+	}
+
+	public List<Skill> getSkills() {
+		return skills;
+	}
+
+	public void setSkills(List<Skill> skills) {
+		this.skills = skills;
+	}	
 }
