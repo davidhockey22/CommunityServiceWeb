@@ -15,6 +15,7 @@ import org.CommunityService.EntitiesMapped.Event;
 import org.CommunityService.EntitiesMapped.EventSkill;
 import org.CommunityService.EntitiesMapped.Interest;
 import org.CommunityService.EntitiesMapped.Skill;
+import org.CommunityService.EntitiesMapped.EventVolunteer;
 import org.CommunityService.Services.EventService;
 import org.ocpsoft.rewrite.annotation.Join;
 
@@ -26,6 +27,7 @@ public class ViewEventBean {
 
 	private String eventId;
 
+	private boolean renderPending = false;		
 	private boolean signedUp = false;
 
 	@ManagedProperty(value = "#{loginBean}")
@@ -34,15 +36,19 @@ public class ViewEventBean {
 	private List<Interest> interests = new ArrayList<Interest>();
 	private List<Skill> skills = new ArrayList<Skill>();;
 	private String hostedOrgName;
-
+	
 	public String signUp() {
 		System.out.println("Signing up!");
 		EventService.signUp(currentVolunteer.getVolunteer(), event);
+		renderPending = true;
+		signedUp = true;
 		return "?faces-redirect=true";
 	}
 
 	public String removeEventFromVolunteer() {
 		EventService.removeEventVolunteer(Integer.parseInt(eventId), currentVolunteer.getVolunteer().getVolunteerId());
+		renderPending = false;
+		signedUp = false;		
 		return "?faces-redirect=true";
 	}
 
@@ -53,6 +59,12 @@ public class ViewEventBean {
 				this.event = EventService.getEventByIdFetch(Integer.parseInt(eventId));
 				System.out.println("Sign up!");
 				this.signedUp = this.signedUp();
+				
+				if(signedUp) {
+					
+					EventVolunteer ev = EventService.getEventVolunteerById(event.getEventId(), currentVolunteer.getVolunteer().getVolunteerId());
+					renderPending = !ev.getApproved();
+				}
 			} else {
 				// Throw an HTTP Response Error - Page Not Found in case event cannot be found from provided id
 				context.getExternalContext().responseSendError(HttpServletResponse.SC_NOT_FOUND,
@@ -139,5 +151,12 @@ public class ViewEventBean {
 
 	public void setSkills(List<Skill> skills) {
 		this.skills = skills;
+	}
+	public boolean isRenderPending() {
+		return renderPending;
+	}
+
+	public void setRenderPending(boolean renderPending) {
+		this.renderPending = renderPending;
 	}	
 }

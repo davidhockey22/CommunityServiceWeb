@@ -35,17 +35,23 @@ public class ViewGroupBean {
 	private Group group = null;
 	private GroupMember volGroupMember = null;
 
-	private List<MemberLevel<GroupMember>> levels = new ArrayList<MemberLevel<GroupMember>>();
+	private List<MemberLevel<GroupMember>> levels = null;
 
-	boolean renderJoin = true;
-	boolean renderPending = false;
-	boolean renderLeave = false;
+	boolean renderJoin;
+	boolean renderPending;
+	boolean renderLeave;
 
 	public void fetchGroup() throws IOException {
 		FacesContext context = FacesContext.getCurrentInstance();
 		
 		//test
 		//groupId = "42";
+		
+		List<MemberLevel<GroupMember>> levels = new ArrayList<MemberLevel<GroupMember>>();
+		
+		renderJoin = true;
+		renderPending = false;
+		renderLeave = false;		
 		
 		try {
 			this.group = GroupService.getGroupByIdWithAttachedEntities(Integer.parseInt(groupId), "GroupMembers");
@@ -106,11 +112,18 @@ public class ViewGroupBean {
 	
 	public String add() {
 
-		GroupMember member = new GroupMember(group,
+		volGroupMember = new GroupMember(group,
 				currentVolunteer.getVolunteer(), new Date(), false, false);
-		member.setApproved(false);
-		group.getGroupMembers().add(member);
+		volGroupMember.setApproved(false);
+		group.getGroupMembers().add(volGroupMember);
 		GroupService.updateGroup(group);
+		
+		try {
+			fetchGroup();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	
 		return null;
 	}
@@ -120,7 +133,14 @@ public class ViewGroupBean {
 			return null;
 		
 		group.getGroupMembers().remove(volGroupMember);
-		GroupService.updateGroup(group);		
+		GroupService.updateGroup(group);
+		
+		try {
+			fetchGroup();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		return null;
 	}

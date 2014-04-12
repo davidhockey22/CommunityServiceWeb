@@ -105,7 +105,9 @@
 								<h:outputText id="signedUp" value="You are signed up for this event!" rendered="#{viewEventBean.signedUp}" />
 								<br />
 								<p:commandButton value="Remove Event from my events." actionListener="#{viewEventBean.removeEventFromVolunteer}"
-									rendered="#{viewEventBean.signedUp}" process="@form" update="form2" ajax="false" />
+									rendered="#{viewEventBean.signedUp}" process="@form" update="form2, pending" ajax="false" />
+								<br />
+								<h:outputText id="pending" style="color: red;" value="Pending event approval" rendered="#{viewEventBean.renderPending}" />									
 							</h:form>
 
 						</p:column>

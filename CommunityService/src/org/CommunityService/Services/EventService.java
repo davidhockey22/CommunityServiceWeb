@@ -121,6 +121,23 @@ public class EventService {
 			return null;
 		}
 	}
+	
+	public static EventVolunteer getEventVolunteerById(int eventId, int volunteerId) throws HibernateException {
+		
+		String hql = "from EventVolunteer as e where EventID=? and VolunteerID=?";
+		ArrayList<Integer> params = new ArrayList<Integer>();
+		params.add(eventId);
+		params.add(volunteerId);
+		try {
+			@SuppressWarnings("unchecked")
+			EventVolunteer e = (EventVolunteer) (((List<EventVolunteer>) DBConnection.query(hql, params)).get(0));
+			return e;
+		} catch (HibernateException e) {
+			return null;
+		} catch (IndexOutOfBoundsException e) {
+			return null;
+		}
+	}		
 
 	public static void signUp(Volunteer v, Event e) {
 		// if (v != null) {

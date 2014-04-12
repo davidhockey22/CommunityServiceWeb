@@ -15,8 +15,9 @@
 		<ui:define name="metadata">
 			<f:metadata>
 				<f:viewParam id="groupId" name="groupId"
-					value="#{viewGroupBean.groupId}" />			
-				<f:viewAction type="preRenderView" action="#{viewGroupBean.fetchGroup}" />
+					value="#{viewGroupBean.groupId}" />
+				<f:viewAction type="preRenderView"
+					action="#{viewGroupBean.fetchGroup}" />
 			</f:metadata>
 		</ui:define>
 		<ui:define name="content">
@@ -65,21 +66,17 @@
 				</p:dataTable>
 
 				<h:form id="joinGroupForm">
-					<ui:fragment rendered="#{viewGroupBean.renderJoin}">
-						<p:commandButton type="submit" value="Join Group"
-							action="#{viewGroupBean.add}" onclick="showMessage( 'joinGroupForm', 'pending', 'Pending group approval' )"></p:commandButton>
+					<p:commandButton type="submit" value="Join Group"
+						action="#{viewGroupBean.add}"
+						rendered="#{viewGroupBean.renderJoin}" update="joinGroupForm"></p:commandButton>
 
-						<h:outputText id="pending" style="color: red;" value="" />
-					</ui:fragment>
-					<ui:fragment rendered="#{viewGroupBean.renderLeave}">
-						<p:commandButton type="submit" value="Leave Group"
-							action="#{viewGroupBean.leave}" onclick="showMessage( 'joinGroupForm', 'removed', 'You have been removed' )"></p:commandButton>
+					<p:commandButton type="submit" value="Leave Group"
+						action="#{viewGroupBean.leave}"
+						rendered="#{viewGroupBean.renderLeave}" update="joinGroupForm"></p:commandButton>
 
-						<h:outputText id="removed" style="color: red;" value="" />
-					</ui:fragment>
-					<ui:fragment rendered="#{viewGroupBean.renderPending}">
-						<h:outputText style="color: red;" value="Membership Pending approval" />
-					</ui:fragment>									
+					<h:outputText style="color: red;" value="Pending group approval"
+						rendered="#{viewGroupBean.renderPending}" />
+
 				</h:form>
 			</div>
 		</ui:define>
