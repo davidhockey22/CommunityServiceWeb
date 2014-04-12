@@ -31,9 +31,7 @@ public class EditGroupBean {
 	List<Volunteer> admins = null;
 	List<Volunteer> mods = null;
 	List<Volunteer> members = null;
-
 	List<Volunteer> pending = null;
-	List<Volunteer> selected = null;
 
 	private Group group;
 
@@ -46,9 +44,13 @@ public class EditGroupBean {
 	private String strMakeMod = new String("Make a moderator");
 	private String strRemoveMod = new String("Remove moderator status and make a regular member");
 
+	private String strApprove = new String("Accept into group");
+	private String strReject = new String("Reject");
+	
 	private String[] actions;
 	private String[] actionsMods;
-	
+	private String[] actionsPending;
+
 	// using f:viewAction will call this method only when the view is first generated
 	public void fetchGroup() throws IOException {
 		FacesContext context = FacesContext.getCurrentInstance();
@@ -64,7 +66,11 @@ public class EditGroupBean {
     	actionsMods = new String[3];  
     	actionsMods[0] = strActive;
     	actionsMods[1] = strRemove;
-    	actionsMods[2] = strRemoveMod;  	
+    	actionsMods[2] = strRemoveMod;
+    	
+    	actionsPending = new String[2];  
+    	actionsPending[0] = strApprove; 
+    	actionsPending[1] = strReject; 	
 
 		try {
 			this.group = GroupService.getGroupByIdWithAttachedEntities(Integer.parseInt(groupId), "GroupMembers");
@@ -113,12 +119,14 @@ public class EditGroupBean {
 		members = new ArrayList<Volunteer>();
 		mods = new ArrayList<Volunteer>();
 		pending = new ArrayList<Volunteer>();
-		selected = new ArrayList<Volunteer>();
 
 		if (this.group != null) {
 			for (GroupMember m : this.group.getGroupMembers()) {
 				
-				m.getVolunteer().setSalt("active");
+				if(m.getApproved() == false)
+					m.getVolunteer().setSalt(strApprove);
+				else 
+					m.getVolunteer().setSalt(strActive);
 				
 				if (m.getAdmin() == true) {
 					// if current volunteer is the admin
@@ -155,8 +163,20 @@ public class EditGroupBean {
 			
 			salt = g.getVolunteer().getSalt();
 						
-			if( salt.equals(strActive)){}
-			else if( g.getVolunteer().getSalt().equals(strRemove)){ //if remove group member
+			if( salt.equals(strActive)){}			
+			else if( g.getVolunteer().getSalt().equals(strApprove)){
+				
+				g.setApproved(true);
+				
+				try {
+					GroupService.updateGroupMember(g);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}				
+			}
+			else if( g.getVolunteer().getSalt().equals(strRemove) || //if remove group member
+					g.getVolunteer().getSalt().equals(strReject) ){ //if reject group member
 				
 				updateGroup = true;
 				iterator.remove();
@@ -194,6 +214,14 @@ public class EditGroupBean {
 			}
 		}
 		
+		//call fetchGroup again so page refreshed
+		try {
+			fetchGroup();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		return null;
 	}
 	
@@ -215,6 +243,34 @@ public class EditGroupBean {
             String action = (String)newValue;
 
             Volunteer mem = members.get(row);
+            mem.setSalt(action);
+        }
+    } 	
+	public void onCellEditMods(CellEditEvent event) {
+		
+        //Object oldValue = event.getOldValue();  
+        Object newValue = event.getNewValue();
+                  
+        if(newValue != null) {  
+            
+            int row = event.getRowIndex();
+            String action = (String)newValue;
+
+            Volunteer mem = mods.get(row);
+            mem.setSalt(action);
+        }
+    } 
+	public void onCellEditPending(CellEditEvent event) {
+		
+        //Object oldValue = event.getOldValue();  
+        Object newValue = event.getNewValue();
+                  
+        if(newValue != null) {  
+            
+            int row = event.getRowIndex();
+            String action = (String)newValue;
+
+            Volunteer mem = pending.get(row);
             mem.setSalt(action);
         }
     } 	
@@ -259,14 +315,6 @@ public class EditGroupBean {
 		this.mods = mods;
 	}
 
-	public List<Volunteer> getSelected() {
-		return selected;
-	}
-
-	public void setSelected(List<Volunteer> selected) {
-		this.selected = selected;
-	}
-
 	public String getGroupId() {
 		return groupId;
 	}
@@ -307,5 +355,8 @@ public class EditGroupBean {
 	}
 	public String[] getActionsMods() {
 		return actionsMods;
+	}
+	public String[] getActionsPending() {
+		return actionsPending;
 	}
 }

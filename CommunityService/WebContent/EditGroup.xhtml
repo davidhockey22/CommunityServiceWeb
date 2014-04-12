@@ -66,7 +66,7 @@
 
 								<f:facet name="header">Moderators</f:facet>
 
-								<p:ajax event="cellEdit" listener="#{editGroupBean.onCellEdit}"
+								<p:ajax event="cellEdit" listener="#{editGroupBean.onCellEditMods}"
 									update=":form:moders" />
 
 								<p:column headerText="Name">#{moder.volunteerName}</p:column>
@@ -121,9 +121,45 @@
 							</p:column>
 
 						</p:dataTable>
+						
+						
+						<p:contextMenu for="pend" widgetVar="cMenu">
+							<p:menuitem value="Edit Cell" icon="ui-icon-search"
+								onclick="PF('pendTable').showCellEditor();return false;" />
+							<p:menuitem value="Hide Menu" icon="ui-icon-close"
+								onclick="PF('cMenu').hide()" />
+						</p:contextMenu>
+
+						<p:dataTable id="pend" var="item" value="#{editGroupBean.pending}"
+							editable="true" editMode="cell" widgetVar="pendTable">
+
+							<f:facet name="header">Members Pending Approval</f:facet>
+
+							<p:ajax event="cellEdit" listener="#{editGroupBean.onCellEditPending}"
+								update=":form:pend" />
+
+							<p:column headerText="Name">#{item.volunteerName}</p:column>
+
+							<p:column headerText="Action" style="width:50%">
+								<p:cellEditor>
+									<f:facet name="output">
+										<h:outputText value="#{item.salt}" />
+									</f:facet>
+									<f:facet name="input">
+										<h:selectOneMenu value="#{item.salt}" style="width:100%">
+											<f:selectItems value="#{editGroupBean.actionsPending}" var="man"
+												itemLabel="#{man}" itemValue="#{man}" />
+										</h:selectOneMenu>
+									</f:facet>
+								</p:cellEditor>
+							</p:column>
+
+						</p:dataTable>						
+
 
 						<p:commandButton type="submit" value="Save Changes"
-							actionListener="#{editGroupBean.save}"></p:commandButton>
+							actionListener="#{editGroupBean.save}"
+							update="moders, cars, pend"></p:commandButton>
 
 						<ui:fragment rendered="#{editGroupBean.admin}">
 
