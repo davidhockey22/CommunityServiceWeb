@@ -7,6 +7,7 @@ import java.util.List;
 import org.CommunityService.EntitiesMapped.Event;
 import org.CommunityService.EntitiesMapped.EventVolunteer;
 import org.CommunityService.EntitiesMapped.Volunteer;
+import org.CommunityService.EntitiesUnmapped.Organization;
 import org.hibernate.HibernateException;
 
 public class EventService {
@@ -27,8 +28,22 @@ public class EventService {
 
 	}
 
+	public static List<Event> getEventsByOrg(Organization o) {
+		String hql = "from event as e where e.organization.orgId=?";
+		ArrayList<Integer> params = new ArrayList<Integer>();
+		params.add(o.getOrgId());
+		try {
+			@SuppressWarnings("unchecked")
+			List<Event> events = (List<Event>) DBConnection.query(hql, params);
+			return events;
+		} catch (HibernateException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
 	public static Event getEventById(int eventId) throws HibernateException {
-				
+
 		String hql = "from Event as e where e.eventId=?";
 		ArrayList<Integer> params = new ArrayList<Integer>();
 		params.add(eventId);
@@ -42,9 +57,9 @@ public class EventService {
 			return null;
 		}
 	}
-	
+
 	public static Event getEventByIdFetch(int eventId) throws HibernateException {
-		
+
 		String hql = "from Event as e left join fetch e.organization left join fetch e.interests left join fetch e.eventSkills as es left join fetch es.skill where e.eventId=?";
 		ArrayList<Integer> params = new ArrayList<Integer>();
 		params.add(eventId);
@@ -57,7 +72,7 @@ public class EventService {
 		} catch (IndexOutOfBoundsException e) {
 			return null;
 		}
-	}	
+	}
 
 	public static List<Event> getEventsByVolunteer(Integer volunteerId) {
 		String hql = "SELECT ev.event FROM EventVolunteer as ev where ev.volunteer.volunteerId=?";
@@ -121,9 +136,9 @@ public class EventService {
 			return null;
 		}
 	}
-	
+
 	public static EventVolunteer getEventVolunteerById(int eventId, int volunteerId) throws HibernateException {
-		
+
 		String hql = "from EventVolunteer as e where EventID=? and VolunteerID=?";
 		ArrayList<Integer> params = new ArrayList<Integer>();
 		params.add(eventId);
@@ -137,7 +152,7 @@ public class EventService {
 		} catch (IndexOutOfBoundsException e) {
 			return null;
 		}
-	}		
+	}
 
 	public static void signUp(Volunteer v, Event e) {
 		// if (v != null) {
