@@ -134,7 +134,7 @@ public class Event implements java.io.Serializable {
 		this.occurrencePattern = occurrencePattern;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "EventAdmin")
 	public Volunteer getVolunteer() {
 		return this.volunteer;
