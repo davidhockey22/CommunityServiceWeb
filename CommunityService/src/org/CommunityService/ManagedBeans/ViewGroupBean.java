@@ -37,6 +37,7 @@ public class ViewGroupBean {
 
 	private List<MemberLevel<GroupMember>> levels = null;
 
+	boolean renderEditGroup;
 	boolean renderJoin;
 	boolean renderPending;
 	boolean renderLeave;
@@ -49,6 +50,7 @@ public class ViewGroupBean {
 		
 		List<MemberLevel<GroupMember>> levels = new ArrayList<MemberLevel<GroupMember>>();
 		
+		renderEditGroup = false;
 		renderJoin = true;
 		renderPending = false;
 		renderLeave = false;		
@@ -68,6 +70,9 @@ public class ViewGroupBean {
 					if(groupMember.getVolunteer().getVolunteerId() == currentVolunteer.getVolunteer().getVolunteerId()) {
 						
 						volGroupMember = groupMember;
+						
+						if(groupMember.getAdmin() || groupMember.getMod())
+							renderEditGroup = true;
 
 						renderJoin = false;
 						
@@ -185,10 +190,12 @@ public class ViewGroupBean {
 		this.renderJoin = renderJoin;
 	}
 
-	public boolean isRenderLeave() {
+	public boolean renderEditGroup() {
 		return this.renderLeave;
 	}
-
+	public boolean isRenderLeave() {
+		return renderLeave;
+	}
 	public void setRenderLeave(boolean renderLeave) {
 		this.renderLeave = renderLeave;
 	}
@@ -198,5 +205,12 @@ public class ViewGroupBean {
 
 	public void setRenderPending(boolean renderPending) {
 		this.renderPending = renderPending;
+	}
+	public boolean isRenderEditGroup() {
+		return renderEditGroup;
+	}
+
+	public void setRenderEditGroup(boolean renderEditGroup) {
+		this.renderEditGroup = renderEditGroup;
 	}	
 }

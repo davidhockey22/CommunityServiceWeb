@@ -74,6 +74,11 @@
 						action="#{viewGroupBean.leave}"
 						rendered="#{viewGroupBean.renderLeave}" update="joinGroupForm"></p:commandButton>
 
+					<p:button outcome="/EditGroup.xhtml?faces-redirect=true"
+						value="Edit Group" rendered="#{viewGroupBean.renderEditGroup}">
+						<f:param name="groupId" value="#{viewGroupBean.groupId}" />
+					</p:button>
+
 					<h:outputText style="color: red;" value="Pending group approval"
 						rendered="#{viewGroupBean.renderPending}" />
 
