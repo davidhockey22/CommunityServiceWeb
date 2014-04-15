@@ -9,8 +9,10 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -21,14 +23,19 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.CommunityService.EntitiesMapped.Event;
 import org.CommunityService.EntitiesMapped.Group;
+import org.CommunityService.EntitiesMapped.Interest;
 import org.CommunityService.EntitiesMapped.Organization;
 import org.CommunityService.EntitiesMapped.OrganizationFollower;
+import org.CommunityService.EntitiesMapped.VolunteerInterest;
+import org.CommunityService.Services.InterestService;
 import org.CommunityService.Services.OrganizationService;
+import org.CommunityService.Services.VolunteerService;
 import org.CommunityService.util.CalculatedEvent;
 import org.ocpsoft.rewrite.annotation.Join;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.event.TabChangeEvent;
 import org.primefaces.model.DefaultScheduleEvent;
+import org.primefaces.model.DualListModel;
 import org.primefaces.model.LazyScheduleModel;
 import org.primefaces.model.ScheduleEvent;
 import org.primefaces.model.ScheduleModel;
@@ -66,6 +73,9 @@ public class EditOrganizationBean {
 	// event selected by clicking on event in calendar
 	private ScheduleEvent selectedScheduleEvent = new DefaultScheduleEvent("", new Date(), new Date(), null);
 
+	private DualListModel<String> interestModel = new DualListModel<String>();
+	List<Interest> allInterests = new ArrayList<Interest>();	
+
 	public void initialize() throws IOException {
 		//
 		this.refreshOrganization();
@@ -89,9 +99,47 @@ public class EditOrganizationBean {
 				}
 			}
 		};
+		
+		//interests
+		List<Interest> interests = InterestService.getInterests();
+		allInterests = new ArrayList<Interest>();
+		for(Interest i : interests)
+			allInterests.add(i);
+		Set<Interest> vInt = org.getInterests();
+		int x = vInt.size();
+		Interest[] temp = new Interest[x];
+		temp = vInt.toArray(temp);
+		List<Interest> myInterests = new ArrayList<Interest>();
+		for (int i = 0; i < temp.length; i++) {
+			myInterests.add(temp[i]);
+		}
+		interests.removeAll(myInterests);
+		
+		List<String> intStr = new ArrayList<String>();
+		for(Interest i : interests)
+			intStr.add(i.getName() + " - " + i.getDescription());
+		List<String> myIntStr = new ArrayList<String>();
+		for(Interest i : myInterests)
+			myIntStr.add(i.getName() + " - " + i.getDescription());			
+		
+		interestModel.setSource(intStr);
+		interestModel.setTarget(myIntStr);		
 	}
 
 	public String updateOrganization() {
+		
+		Set<Interest> interestSet = new HashSet<Interest>();
+		String str = null;
+		for(String s : interestModel.getTarget()) {
+			for(Interest i : allInterests) {
+				str = new String( i.getName() + " - " + i.getDescription() );
+				if( s.equals( str ) ) {
+					interestSet.add( i );
+				}
+			}
+		}
+		org.setInterests(interestSet);		
+		
 		OrganizationService.updateOrganization(org);
 		return null;
 	}
@@ -141,7 +189,7 @@ public class EditOrganizationBean {
 		// Load only entities used in the default view, other views should refresh data before display
 		try {
 			this.org = OrganizationService
-					.getOrganizationByIdWithAttachedEntities(Integer.parseInt(orgIdViewParameter));
+					.getOrganizationByIdWithAttachedEntities(Integer.parseInt(orgIdViewParameter), OrganizationService.INTERESTS);
 		} catch (NumberFormatException e) {
 			// Throw an HTTP Response Error - Invalid Syntax in case invalid orgId was supplied
 			context.getExternalContext().responseSendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid org id");
@@ -341,4 +389,20 @@ public class EditOrganizationBean {
 	public void setCurrentVolunteer(LoginBean currentVolunteer) {
 		this.currentVolunteer = currentVolunteer;
 	}
+	
+	public DualListModel<String> getInterestModel() {
+		return interestModel;
+	}
+
+	public void setInterestModel(DualListModel<String> interestModel) {
+		this.interestModel = interestModel;
+	}
+
+	public List<Interest> getAllInterests() {
+		return allInterests;
+	}
+
+	public void setAllInterests(List<Interest> allInterests) {
+		this.allInterests = allInterests;
+	}	
 }

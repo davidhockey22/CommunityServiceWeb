@@ -1,18 +1,28 @@
 package org.CommunityService.ManagedBeans;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 
+import org.CommunityService.EntitiesMapped.Interest;
 import org.CommunityService.EntitiesMapped.Organization;
 import org.CommunityService.EntitiesMapped.OrganizationFollower;
+import org.CommunityService.EntitiesMapped.Skill;
+import org.CommunityService.EntitiesMapped.VolunteerInterest;
+import org.CommunityService.EntitiesMapped.VolunteerSkill;
+import org.CommunityService.Services.InterestService;
 import org.CommunityService.Services.OrganizationService;
+import org.CommunityService.Services.SkillService;
+import org.CommunityService.Services.VolunteerService;
 import org.hibernate.HibernateException;
 import org.ocpsoft.rewrite.annotation.Join;
+import org.primefaces.model.DualListModel;
 
 @ManagedBean
 @SessionScoped
@@ -27,6 +37,24 @@ public class NewOrganizationBean {
 	private String phoneNumber;
 	private String email;
 	private String description;
+
+	private DualListModel<String> interestModel = new DualListModel<String>();
+	List<Interest> allInterests = new ArrayList<Interest>();	
+	
+	public void check() {
+		if (currentVolunteer.getVolunteer() != null) {
+			List<Interest> interests = InterestService.getInterests();
+			allInterests = new ArrayList<Interest>();
+			for(Interest i : interests)
+				allInterests.add(i);
+			
+			List<String> intStr = new ArrayList<String>();
+			for(Interest i : interests)
+				intStr.add(i.getName() + " - " + i.getDescription());
+						
+			interestModel.setSource(intStr);
+		}
+	}	
 
 	public String Register() {
 		try {
@@ -50,7 +78,37 @@ public class NewOrganizationBean {
 				
 				org.setOrganizationFollowers(orgFollowers);
 				
+				
+				Set<Interest> interestSet = new HashSet<Interest>();
+				String str = null;
+				for(String s : interestModel.getTarget()) {
+					for(Interest i : allInterests) {
+						str = new String( i.getName() + " - " + i.getDescription() );
+						if( s.equals( str ) ) {
+							interestSet.add( i );
+						}
+					}
+				}
+				org.setInterests(interestSet);
+								
 				OrganizationService.addOrganization(org);
+				
+				//update currentVolunteer
+				boolean found = false;
+				for (OrganizationFollower organizationFollower : currentVolunteer.getVolunteer().getOrganizationFollowers()) {
+					if (organizationFollower.getOrganization().getOrgId() == org.getOrgId()) {
+						found = true;
+						break;
+					}
+				}
+				if(!found) {
+					
+					//if new follower is not added, redirection to EditOrganization.xhtml will crash.
+					//new follower is not added automatically by hibernate
+					currentVolunteer.getVolunteer().getOrganizationFollowers().add(follower);
+				}
+
+				
 				return "/EditOrganization.xhtml?faces-redirect=true&orgId=" + org.getOrgId();
 			} else {
 				return "";
@@ -108,5 +166,19 @@ public class NewOrganizationBean {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+	public DualListModel<String> getInterestModel() {
+		return interestModel;
+	}
 
+	public void setInterestModel(DualListModel<String> interestModel) {
+		this.interestModel = interestModel;
+	}
+
+	public List<Interest> getAllInterests() {
+		return allInterests;
+	}
+
+	public void setAllInterests(List<Interest> allInterests) {
+		this.allInterests = allInterests;
+	}
 }

@@ -49,6 +49,21 @@
 					<h:outputText value="End Time/Date" />
 					<p:calendar value="#{newEventBean.endtime}" id="endtime" pattern="EEE, MMM d, yyyy - h:mm a" />
 				</p:panelGrid>
+				
+				<p:pickList id="interestList"
+					value="#{newEventBean.interestModel}" var="interest"
+					itemLabel="#{interest}" itemValue="#{interest}">
+					<f:facet name="sourceCaption">Interests</f:facet>
+					<f:facet name="targetCaption">Listed Interests</f:facet>
+				</p:pickList>
+				
+				<p:pickList id="skillList"
+					value="#{newEventBean.skillModel}" var="skill"
+					itemLabel="#{skill}" itemValue="#{skill}">
+					<f:facet name="sourceCaption">Skills</f:facet>
+					<f:facet name="targetCaption">Listed Skills</f:facet>
+				</p:pickList>		
+				
 				<p:commandButton type="submit" value="Create Event" action="#{newEventBean.Create}" />
 				<p:remoteCommand name="sendMessage" update="messages" actionListener="#{messageController.addError}" />
 				<h:inputHidden id="message" value="#{messageController.message}" />

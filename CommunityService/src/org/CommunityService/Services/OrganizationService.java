@@ -51,6 +51,7 @@ public class OrganizationService {
 	}
 
 	public static final String GROUPS = "Groups";
+	public static final String INTERESTS = "Interests";
 	public static final String ORGANIZATION_FOLLOWERS = "OrganizationFollowers";
 	public static final String EVENTS = "Events";
 	public static final String PICTURES = "Pictures";
@@ -58,6 +59,7 @@ public class OrganizationService {
 	static {
 		Map<String, String> map = new HashMap<String, String>();
 		map.put(GROUPS, " left join fetch o.groups ");
+		map.put(INTERESTS, " left join fetch o.interests ");		
 		map.put(ORGANIZATION_FOLLOWERS,
 				" left join fetch o.organizationFollowers as orgf left join fetch orgf.volunteer ");
 		map.put(EVENTS,

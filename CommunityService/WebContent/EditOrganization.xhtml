@@ -48,10 +48,20 @@
 									<p:inputTextarea rows="10" value="#{editOrganizationBean.org.description}" required="true" />
 								</p:inplace>
 							</p:panelGrid>
+							
+							<p:pickList id="interestList"
+								value="#{editOrganizationBean.interestModel}" var="interest"
+								itemLabel="#{interest}" itemValue="#{interest}">
+	
+								<f:facet name="sourceCaption">Interests</f:facet>
+								<f:facet name="targetCaption">Listed Interests</f:facet>
+	
+							</p:pickList>															
+							
 							<p:commandButton type="submit" icon="ui-icon-check" value="Save Changes"
 								action="#{editOrganizationBean.updateOrganization}" update="editPanel" />
 							<p:commandButton type="submit" icon="ui-icon-trash" value="Discard Changes"
-								action="#{editOrganizationBean.refreshOrganization}" update="editPanel" />
+								action="#{editOrganizationBean.refreshOrganization}" update="editPanel" />								
 						</h:form>
 					</p:tab>
 

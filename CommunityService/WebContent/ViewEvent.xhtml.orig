@@ -112,6 +112,8 @@
 									rendered="#{viewEventBean.signedUp}" process="@form" update="form2, pending" ajax="false" />
 								<br />
 								<h:outputText id="pending" style="color: red;" value="Pending event approval" rendered="#{viewEventBean.renderPending}" />
+<<<<<<< HEAD
+=======
 								
 								<!-- sign up for group -->
 								<p:commandButton value="Sign Up Group!" actionListener="#{viewEventBean.signUpGroup}" rendered="#{loginBean.loggedIn and viewEventBean.renderSignUpGroup}"
@@ -134,6 +136,7 @@
 										process="@form" update="form2" ajax="false" />						        
 								</ui:fragment>														
 																	
+>>>>>>> 8cf311dbb9c26444a16eb96a09fa68d1c642eea0
 							</h:form>
 
 						</p:column>
