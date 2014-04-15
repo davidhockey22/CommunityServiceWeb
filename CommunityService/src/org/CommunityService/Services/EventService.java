@@ -171,7 +171,7 @@ public class EventService {
 		DBConnection.update(ev);
 	}
 	
-	public static void update(Event ev) {
+	public static void update(Event ev) throws HibernateException { 
 
 		DBConnection.update(ev);
 	}

@@ -82,9 +82,12 @@ public class ViewEventBean {
 			return null; //error	
 		
 		event.getGroups().add(selected);
-		
+				
 		System.out.println("Signing up group!");
 		EventService.update(event);
+		
+		//fix detached instance
+		this.event = EventService.getEventByIdFetch(Integer.parseInt(eventId));
 		
 		doRenderGroupLogic();
 		
@@ -118,6 +121,9 @@ public class ViewEventBean {
 		
 		System.out.println("Removing group event!");
 		EventService.update(event);
+		
+		//fix detached instance
+		this.event = EventService.getEventByIdFetch(Integer.parseInt(eventId));		
 		
 		doRenderGroupLogic();
 		
