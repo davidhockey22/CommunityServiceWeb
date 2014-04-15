@@ -34,6 +34,28 @@ public class DBConnection {
 
 	}
 
+	public static Object queryLimit(String query, List params, int limit) throws HibernateException {
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
+		Query q = session.createQuery(query);
+		q.setMaxResults(limit);
+		Object v = null;
+		if (params != null) {
+			for (int i = 0; i < params.size(); i++) {
+				q = q.setParameter(i, params.get(i));
+			}
+		}
+		if (q != null) {
+			v = q.list();
+
+		}
+		session.getTransaction().commit();
+		session.close();
+
+		return v;
+
+	}
+
 	public static void queryDelete(String query, List params) throws HibernateException {
 		Session session = sessionFactory.openSession();
 		session.beginTransaction();
@@ -123,7 +145,7 @@ public class DBConnection {
 		return null;
 
 	}
-	
+
 	public static void save(Object object) throws HibernateException {
 		Session session = sessionFactory.openSession();
 		session.beginTransaction();
@@ -133,7 +155,7 @@ public class DBConnection {
 		session.getTransaction().commit();
 		session.close();
 	}
-	
+
 	public static Object persistRelationalEntity(Object object) throws HibernateException {
 		Session session = sessionFactory.openSession();
 		session.beginTransaction();

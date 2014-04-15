@@ -7,7 +7,7 @@ import java.util.List;
 import org.CommunityService.EntitiesMapped.Event;
 import org.CommunityService.EntitiesMapped.EventVolunteer;
 import org.CommunityService.EntitiesMapped.Volunteer;
-import org.CommunityService.EntitiesUnmapped.Organization;
+import org.CommunityService.EntitiesMapped.Organization;
 import org.hibernate.HibernateException;
 
 public class EventService {
@@ -16,6 +16,16 @@ public class EventService {
 		String hql = "from Event";
 		@SuppressWarnings("unchecked")
 		List<Event> events = (List<Event>) DBConnection.query(hql, null);
+		return events;
+	}
+
+	@SuppressWarnings("unchecked")
+	public static List<Event> getEvents(Date lowBound, Date upperBound) throws HibernateException {
+		String hql = "from Event as e where e.beginTime between ? and ? order by e.beginTime";
+		List<Date> params = new ArrayList<Date>();
+		params.add(lowBound);
+		params.add(upperBound);
+		List<Event> events = (List<Event>) DBConnection.queryLimit(hql, params, 5);
 		return events;
 	}
 
@@ -29,12 +39,13 @@ public class EventService {
 	}
 
 	public static List<Event> getEventsByOrg(Organization o) {
-		String hql = "from event as e where e.organization.orgId=?";
+		String hql = "from Event as e where e.organization.orgId=? order by e.beginTime";
 		ArrayList<Integer> params = new ArrayList<Integer>();
 		params.add(o.getOrgId());
 		try {
 			@SuppressWarnings("unchecked")
 			List<Event> events = (List<Event>) DBConnection.query(hql, params);
+			System.out.println(events.size());
 			return events;
 		} catch (HibernateException e) {
 			e.printStackTrace();

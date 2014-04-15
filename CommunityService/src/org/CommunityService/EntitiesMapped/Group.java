@@ -38,6 +38,7 @@ public class Group implements java.io.Serializable {
 	private Integer groupId;
 	private String groupName;
 	private String emailAddress;
+	private String description;
 	private Integer hoursWorked;
 	private Float points;
 	private Float avgRatingOfVolunteers;
@@ -157,6 +158,15 @@ public class Group implements java.io.Serializable {
 
 	public void setEmailAddress(String emailAddress) {
 		this.emailAddress = emailAddress;
+	}
+	
+	@Column(name = "description", unique = false, length = 1000)
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 }

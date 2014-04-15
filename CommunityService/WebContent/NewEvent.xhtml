@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:p="http://primefaces.org/ui" xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui" xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 <h:head>
 	<title>New Event</title>
 </h:head>
@@ -11,7 +11,7 @@
 		<ui:define name="metadata">
 			<f:metadata>
 				<f:viewParam id="orgId" required="true" name="orgId" value="#{newEventBean.orgId}" />
-				<f:viewParam id="eventId" required="false" name="eventId" value="#{newEventBean.eventId}"/>
+				<f:viewParam id="eventId" required="false" name="eventId" value="#{newEventBean.eventId}" />
 				<f:viewAction action="#{newEventBean.initialize}" />
 			</f:metadata>
 		</ui:define>
@@ -21,9 +21,9 @@
 				<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
 
 				<p:panelGrid id="panel" columns="2" cellpadding="2">
-					<h:outputText value="Organization"/>
+					<h:outputText value="Organization" />
 					<p:selectOneMenu value="#{newEventBean.selectedOrgId}" filter="true" filterMatchMode="contains">
-						<f:selectItems value="#{newEventBean.organizations}"/>
+						<f:selectItems value="#{newEventBean.organizations}" />
 						<p:ajax event="change" update="@this" />
 					</p:selectOneMenu>
 
@@ -44,16 +44,16 @@
 					</p:inputText>
 
 					<h:outputText value="Start Time/Date" />
-					<p:calendar value="#{newEventBean.begintime}" id="begintime" pattern="MM/dd/yyyy HH:mm" />
+					<p:calendar value="#{newEventBean.begintime}" id="begintime" pattern="EEE, MMM d, yyyy - h:mm a" />
 
 					<h:outputText value="End Time/Date" />
-					<p:calendar value="#{newEventBean.endtime}" id="endtime" pattern="MM/dd/yyyy HH:mm" />
+					<p:calendar value="#{newEventBean.endtime}" id="endtime" pattern="EEE, MMM d, yyyy - h:mm a" />
 				</p:panelGrid>
 				<p:commandButton type="submit" value="Create Event" action="#{newEventBean.Create}" />
 				<p:remoteCommand name="sendMessage" update="messages" actionListener="#{messageController.addError}" />
 				<h:inputHidden id="message" value="#{messageController.message}" />
 			</h:form>
-			<p:button rendered="#{newEventBean.eventId ne null}" value="View Event" outcome="/ViewEvent.xhtml?eventId=#{newEventBean.eventId}"/>
+			<p:button rendered="#{newEventBean.eventId ne null}" value="View Event" outcome="/ViewEvent.xhtml?eventId=#{newEventBean.eventId}" />
 		</ui:define>
 	</ui:composition>
 

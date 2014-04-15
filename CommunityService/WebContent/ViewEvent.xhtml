@@ -41,25 +41,29 @@
 							<h:outputText id="location" value="#{viewEventBean.event.location}" />
 						</p:column>
 					</p:row>
-					
+
 					<p:row>
 						<p:column>
 							<h:outputLabel for="beginTime" value="Begin Time " />
 						</p:column>
 						<p:column>
-							<h:outputText id="beginTime" value="#{viewEventBean.event.beginTime}" />
+							<h:outputText id="beginTime" value="#{viewEventBean.event.beginTime}">
+								<f:convertDateTime pattern="EEE, MMM d, yyyy - h:mm a" locale="en_US" type="both" timeStyle="full" timeZone="EDT" />
+							</h:outputText>
 						</p:column>
-					</p:row>					
+					</p:row>
 
 					<p:row>
 						<p:column>
 							<h:outputLabel for="endTime" value="End Time " />
 						</p:column>
 						<p:column>
-							<h:outputText id="endTime" value="#{viewEventBean.event.endTime}" />
+							<h:outputText id="endTime" value="#{viewEventBean.event.endTime}">
+								<f:convertDateTime pattern="EEE, MMM d, yyyy - h:mm a" locale="en_US" type="both" timeStyle="full" timeZone="EDT" />
+							</h:outputText>
 						</p:column>
-					</p:row>					
-					
+					</p:row>
+
 					<p:row>
 						<p:column>
 							<h:outputLabel for="host" value="Hosted by " />
@@ -107,7 +111,7 @@
 								<p:commandButton value="Remove Event from my events." actionListener="#{viewEventBean.removeEventFromVolunteer}"
 									rendered="#{viewEventBean.signedUp}" process="@form" update="form2, pending" ajax="false" />
 								<br />
-								<h:outputText id="pending" style="color: red;" value="Pending event approval" rendered="#{viewEventBean.renderPending}" />									
+								<h:outputText id="pending" style="color: red;" value="Pending event approval" rendered="#{viewEventBean.renderPending}" />
 							</h:form>
 
 						</p:column>

@@ -153,7 +153,7 @@ public class OrganizationService {
 
 	public static void refreshOrganizationEventsForFollower(Organization org, Volunteer volunteer) {
 		// went at this backwards on purpose: going the other way traverses more one-to-many joins
-		String hql = "from Volunteer as v left join v.eventVolunteers as ev left join fetch ev.event as e left join fetch e.eventVolunteers where v.volunteerId=? and e.organization.orgId=?";
+		String hql = "select v from Volunteer as v left join fetch v.eventVolunteers as ev left join fetch ev.event as e left join fetch e.eventVolunteers where v.volunteerId=? and e.organization.orgId=?";
 		List<Integer> params = new ArrayList<Integer>();
 		params.add(volunteer.getVolunteerId());
 		params.add(org.getOrgId());

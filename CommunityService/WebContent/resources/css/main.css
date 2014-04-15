@@ -14,7 +14,8 @@ input .error {
 /* The following is adapted from http://alistapart.com/article/holygrail */
 body {
 	min-width: 630px; /* 2x (LC fullwidth +
-                            CC padding) + RC fullwidth */
+                            CC padding) + RC fullwidth */;
+	background-color: #F3E3CB;
 }
 
 #header {
@@ -27,7 +28,7 @@ body {
 
 #container {
 	padding-top: 80px;
-	padding-left: 250px;
+	padding-left: 240px;
 	padding-right: 5px;
 	z-index: 10;
 }
@@ -39,7 +40,7 @@ body {
 
 #left {
 	width: 240px;
-	float:left;
+	float: left;
 	position: fixed;
 	padding-top: 80px;
 }

@@ -26,10 +26,14 @@
 					<h:outputText value="#{e.event.eventName}" />
 				</p:column>
 				<p:column headerText="Start Time">
-					<h:outputText value="#{e.event.beginTime}" />
+					<h:outputText value="#{e.event.beginTime}">
+						<f:convertDateTime pattern="EEE, MMM d, yyyy - h:mm a" locale="en_US" type="both" timeStyle="full" timeZone="EDT" />
+					</h:outputText>
 				</p:column>
 				<p:column headerText="End Time">
-					<h:outputText value="#{e.event.endTime}" />
+					<h:outputText value="#{e.event.endTime}">
+						<f:convertDateTime pattern="EEE, MMM d, yyyy - h:mm a" locale="en_US" type="both" timeStyle="full" timeZone="EDT" />
+					</h:outputText>
 				</p:column>
 			</p:dataTable>
 
@@ -45,10 +49,14 @@
 					<h:outputText value="#{e.event.eventName}" />
 				</p:column>
 				<p:column headerText="Start Time">
-					<h:outputText value="#{e.event.beginTime}" />
+					<h:outputText value="#{e.event.beginTime}">
+						<f:convertDateTime pattern="EEE, MMM d, yyyy - h:mm a" locale="en_US" type="both" timeStyle="full" timeZone="EDT" />
+					</h:outputText>
 				</p:column>
 				<p:column headerText="End Time">
-					<h:outputText value="#{e.event.endTime}" />
+					<h:outputText value="#{e.event.endTime}">
+						<f:convertDateTime pattern="EEE, MMM d, yyyy - h:mm a" locale="en_US" type="both" timeStyle="full" timeZone="EDT" />
+					</h:outputText>
 				</p:column>
 			</p:dataTable>
 
@@ -67,10 +75,14 @@
 					<h:outputText value="#{e.attendedHours > 0 ? e.attendedHours : 'Verification needed'}" />
 				</p:column>
 				<p:column headerText="Start Time">
-					<h:outputText value="#{e.event.beginTime}" />
+					<h:outputText value="#{e.event.beginTime}">
+						<f:convertDateTime pattern="EEE, MMM d, yyyy - h:mm a" locale="en_US" type="both" timeStyle="full" timeZone="EDT" />
+					</h:outputText>
 				</p:column>
 				<p:column headerText="End Time">
-					<h:outputText value="#{e.event.endTime}" />
+					<h:outputText value="#{e.event.endTime}">
+						<f:convertDateTime pattern="EEE, MMM d, yyyy - h:mm a" locale="en_US" type="both" timeStyle="full" timeZone="EDT" />
+					</h:outputText>
 				</p:column>
 			</p:dataTable>
 		</ui:define>

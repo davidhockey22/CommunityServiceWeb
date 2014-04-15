@@ -20,7 +20,7 @@ import org.primefaces.event.CellEditEvent;
 
 @ManagedBean
 @ViewScoped
-@Join(path = "/manageGroup/{groupId}", to = "/Web/EditGroup.xhtml")
+@Join(path = "/managegroup/{groupId}", to = "/Web/EditGroup.xhtml")
 public class EditGroupBean {
 
 	@ManagedProperty(value = "#{loginBean}")

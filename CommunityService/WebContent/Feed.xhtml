@@ -5,28 +5,53 @@
 	xmlns:p="http://primefaces.org/ui" xmlns:ui="http://java.sun.com/jsf/facelets">
 <h:body>
 	<ui:composition>
+		<ui:define name="metadata">
+			<f:metadata>
+				<f:viewAction type="preRenderView" action="#{feedBean.getFeed}" />
+			</f:metadata>
+		</ui:define>
 		<div>
 			<div>
-				<p:layout style="min-width:400px;min-height:200px;" id="feedLayout">
-					<p:layoutUnit position="center">
-						<h:outputText value="Newsworthy items (nearby stuff, organizations you're following, goals your group reached, etc.):" />
-					</p:layoutUnit>
-					<p:layoutUnit position="east" resizable="false" size="500">
-						<div>Todays events</div>
-						<p:dataTable var="e" value="#{feedBean.volunteerEvents}">
-							<p:column headerText="Event ID">
-								<h:link value="#{e.eventId}" outcome="/ViewEvent.xhtml">
+				<p:layout style="" id="feedLayout" size="700">
+					<p:layoutUnit position="center"> You might be interested in these events... <br />
+						<!-- Upcoming events -->
+						<p:dataTable var="e" value="#{feedBean.feed}" rendered="#{not empty feedBean.feed}">
+							<p:column headerText="Event Name">
+								<h:link value="#{e.eventName}" outcome="/ViewEvent.xhtml">
 									<f:param name="eventId" value="#{e.eventId}" />
 								</h:link>
 							</p:column>
-							<p:column headerText="Event Name">
-								<h:outputText value="#{e.eventName}" />
-							</p:column>
 							<p:column headerText="Start Time">
-								<h:outputText value="#{e.beginTime}" />
+								<h:outputText value="#{e.beginTime}">
+									<f:convertDateTime pattern="EEE, MMM d, yyyy - h:mm a" locale="en_US" type="both" timeStyle="full" timeZone="EDT" />
+								</h:outputText>
 							</p:column>
 							<p:column headerText="End Time">
-								<h:outputText value="#{e.endTime}" />
+								<h:outputText value="#{e.endTime}">
+									<f:convertDateTime pattern="EEE, MMM d, yyyy - h:mm a" locale="en_US" type="both" timeStyle="full" timeZone="EDT" />
+								</h:outputText>
+							</p:column>
+						</p:dataTable>
+					</p:layoutUnit>
+					<p:layoutUnit position="east" resizable="false" size="500">
+						<!-- Users daily events -->
+
+						<div>Todays events</div>
+						<p:dataTable var="e3" value="#{feedBean.volunteerEvents}">
+							<p:column headerText="Event Name">
+								<h:link value="#{e3.eventName}" outcome="/ViewEvent.xhtml">
+									<f:param name="eventId" value="#{e3.eventId}" />
+								</h:link>
+							</p:column>
+							<p:column headerText="Start Time">
+								<h:outputText value="#{e3.beginTime}">
+									<f:convertDateTime pattern="EEE, MMM d, yyyy - h:mm a" locale="en_US" type="both" timeStyle="full" timeZone="EDT" />
+								</h:outputText>
+							</p:column>
+							<p:column headerText="End Time">
+								<h:outputText value="#{e3.endTime}">
+									<f:convertDateTime pattern="EEE, MMM d, yyyy - h:mm a" locale="en_US" type="both" timeStyle="full" timeZone="EDT" />
+								</h:outputText>
 							</p:column>
 						</p:dataTable>
 					</p:layoutUnit>

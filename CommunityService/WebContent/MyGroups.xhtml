@@ -22,7 +22,6 @@
 					<p:columnGroup type="header">
 						<p:row>
 							<p:column headerText="Name" />
-							<p:column headerText="Created Date" />
 						</p:row>
 					</p:columnGroup>
 					
@@ -34,9 +33,6 @@
 							<h:link value="#{groupMember.group.groupName}" outcome="ViewGroup.xhtml">
 								<f:param name="groupId" value="#{groupMember.group.groupId}" />
 							</h:link>
-						</p:column>
-						<p:column>
-							<h:outputText value="#{groupMember.group.creationDate}" />
 						</p:column>
 					</p:subTable>
 				</p:dataTable>

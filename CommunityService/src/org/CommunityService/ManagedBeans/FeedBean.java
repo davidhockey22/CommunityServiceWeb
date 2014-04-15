@@ -2,12 +2,14 @@ package org.CommunityService.ManagedBeans;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.ViewScoped;
 
 import org.CommunityService.EntitiesMapped.Event;
 import org.CommunityService.EntitiesMapped.Organization;
@@ -18,13 +20,17 @@ import org.ocpsoft.rewrite.annotation.Join;
 
 @ManagedBean
 @Join(path = "/", to = "/Web/Home.xhtml")
+@ViewScoped
 public class FeedBean {
 	@ManagedProperty(value = "#{loginBean}")
 	private LoginBean currentVolunteer;
 
 	List<Event> volunteerEvents;
 	List<Event> feed;
+	List<Event> organizationEvents = null;
+	List<Event> upcomingEvents = null;
 
+	@SuppressWarnings("deprecation")
 	public List<Event> getVolunteerEvents() {
 		Volunteer volunteer = currentVolunteer.getVolunteer();
 		List<Event> events = EventService.getEventsByVolunteer(volunteer);
@@ -35,7 +41,7 @@ public class FeedBean {
 		Date tomorrow = (Date) today.clone();
 		tomorrow.setDate(tomorrow.getDate() + 1);
 
-		for (Iterator iterator = events.iterator(); iterator.hasNext();) {
+		for (Iterator<Event> iterator = events.iterator(); iterator.hasNext();) {
 			Event event = (Event) iterator.next();
 			if (event.getBeginTime().after(today) && event.getEndTime().before(tomorrow)) {
 
@@ -60,20 +66,66 @@ public class FeedBean {
 
 	public List<Event> getFeed() {
 		if (feed == null) {
-			currentVolunteer.attachOrganizations();
-			Set<OrganizationFollower> of = currentVolunteer.getVolunteer().getOrganizationFollowers();
-			List<Organization> orgs = new ArrayList();
-			for (Iterator iterator = of.iterator(); iterator.hasNext();) {
-				OrganizationFollower organizationFollower = (OrganizationFollower) iterator.next();
-				orgs.add(organizationFollower.getOrganization());
+			// followed orgs events
+			if (organizationEvents == null) {
+				organizationEvents = new ArrayList<Event>();
+				currentVolunteer.attachOrganizations();
+				Set<OrganizationFollower> of = currentVolunteer.getVolunteer().getOrganizationFollowers();
+				List<Organization> orgs = new ArrayList<Organization>();
+				for (Iterator<OrganizationFollower> iterator = of.iterator(); iterator.hasNext();) {
+					OrganizationFollower organizationFollower = (OrganizationFollower) iterator.next();
+					orgs.add(organizationFollower.getOrganization());
+				}
+
+				for (Iterator<Organization> iterator = orgs.iterator(); iterator.hasNext();) {
+					Organization organization = (Organization) iterator.next();
+					organizationEvents.addAll(EventService.getEventsByOrg(organization));
+				}
 			}
-			EventService.get
+			// events coming up soon
+			if (upcomingEvents == null) {
+				upcomingEvents = new ArrayList<Event>();
+				upcomingEvents.addAll(UpcomingEventsBean.getEvents());
+			}
+			// groups events
+
+			Set<Event> all = new HashSet<Event>();
+			all.addAll(upcomingEvents);
+			all.addAll(organizationEvents);
+			Event[] evs = all.toArray(new Event[0]);
+			Set<Event> feedSet = new HashSet<Event>();
+			for (int i = 0; feedSet.size()<5; i++) {
+				int index = (int) (Math.random() * all.size());
+				feedSet.add(evs[index]);
+			}
+
+			// select random events from the mix of them and add them to feed
+			feed = new ArrayList<Event>(feedSet);
+
 		}
 		return feed;
 	}
 
 	public void setFeed(List<Event> feed) {
 		this.feed = feed;
+	}
+
+	public List<Event> getOrganizationEvents() {
+
+		return organizationEvents;
+	}
+
+	public void setOrganizationEvents(List<Event> organizationEvents) {
+		this.organizationEvents = organizationEvents;
+	}
+
+	public List<Event> getUpcomingEvents() {
+
+		return upcomingEvents;
+	}
+
+	public void setUpcomingEvents(List<Event> upcomingEvents) {
+		this.upcomingEvents = upcomingEvents;
 	}
 
 }
