@@ -108,13 +108,14 @@
 								<h:outputText id="noSignIn" value="Log in to your account to sign up for this event." rendered="#{!loginBean.loggedIn}" />
 								<h:outputText id="signedUp" value="You are signed up for this event!" rendered="#{viewEventBean.signedUp}" />
 								<br />
-								<p:commandButton value="Remove Event from my events." actionListener="#{viewEventBean.removeEventFromVolunteer}"
-									rendered="#{viewEventBean.signedUp}" process="@form" update="form2, pending" ajax="false" />
+								<p:commandButton value="Remove Event From My Events." actionListener="#{viewEventBean.removeEventFromVolunteer}"
+									rendered="#{viewEventBean.signedUp}" process="@form" update="form2" ajax="false" />
 								<br />
 								<h:outputText id="pending" style="color: red;" value="Pending event approval" rendered="#{viewEventBean.renderPending}" />
 								<h:outputText id="approved" value="You've been approved to participate in this event" rendered="#{viewEventBean.renderApproved}" />
+								<br />
 								
-								<!-- sign up for group -->
+								<!-- sign up group -->
 								<p:commandButton value="Sign Up Group!" actionListener="#{viewEventBean.signUpGroup}" rendered="#{loginBean.loggedIn and viewEventBean.renderSignUpGroup}"
 									process="@form" update="dropDown" ajax="false" />
 									
@@ -128,6 +129,23 @@
 							        </p:selectOneMenu>
 							        <br />
 									<p:commandButton value="Confirm Sign Up Group" actionListener="#{viewEventBean.confirmSignUpGroup}"
+										process="@form" update="form2" ajax="false" />						        
+								</ui:fragment>									
+								
+								<!-- remove group -->
+								<p:commandButton value="Remove Group Event" actionListener="#{viewEventBean.removeGroup}" rendered="#{loginBean.loggedIn and viewEventBean.renderRemoveGroup}"
+									process="@form" update="dropDownRemove" ajax="false" />
+								
+								<ui:fragment id="dropDownRemove" rendered="#{loginBean.loggedIn and viewEventBean.renderDropDownRemove}">
+									<br />
+							        <h:outputText value="Select Group: " />
+							        <br />
+							        <p:selectOneMenu value="#{viewEventBean.selectedGroupRemove}" effect="fade">  
+							            <f:selectItem itemLabel="Select One" itemValue="" />  
+							            <f:selectItems value="#{viewEventBean.removeGroups}" var="group" itemLabel="#{group}" itemValue="#{group}"/>  
+							        </p:selectOneMenu>
+							        <br />
+									<p:commandButton value="Confirm Remove Group" actionListener="#{viewEventBean.confirmRemoveGroup}"
 										process="@form" update="form2" ajax="false" />						        
 								</ui:fragment>														
 																	

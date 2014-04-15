@@ -71,7 +71,7 @@ public class EventService {
 
 	public static Event getEventByIdFetch(int eventId) throws HibernateException {
 
-		String hql = "from Event as e left join fetch e.organization left join fetch e.interests left join fetch e.eventSkills as es left join fetch es.skill where e.eventId=?";
+		String hql = "from Event as e left join fetch e.groups left join fetch e.organization left join fetch e.interests left join fetch e.eventSkills as es left join fetch es.skill where e.eventId=?";
 		ArrayList<Integer> params = new ArrayList<Integer>();
 		params.add(eventId);
 		try {
@@ -170,7 +170,12 @@ public class EventService {
 		EventVolunteer ev = new EventVolunteer(e, v, 0, false);
 		DBConnection.update(ev);
 	}
+	
+	public static void update(Event ev) {
 
+		DBConnection.update(ev);
+	}
+	
 	public static void addEvent(Event event) throws HibernateException {
 		DBConnection.save(event);
 	}
