@@ -46,6 +46,7 @@ public class Group implements java.io.Serializable {
 	private Set<Organization> organizations = new HashSet<Organization>(0);
 	private Set<Picture> pictures = new HashSet<Picture>(0);
 	private Set<GroupMember> groupMembers = new HashSet<GroupMember>(0);
+	private Set<Event> events = new HashSet<Event>(0);
 
 	public Group() {
 	}
@@ -167,6 +168,15 @@ public class Group implements java.io.Serializable {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "groups", cascade = CascadeType.ALL)
+	public Set<Event> getEvents() {
+		return events;
+	}
+
+	public void setEvents(Set<Event> events) {
+		this.events = events;
 	}
 
 }
