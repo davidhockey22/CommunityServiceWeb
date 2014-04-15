@@ -52,14 +52,14 @@
 								<p:menuitem value="Organizations" url="/searchorganization" />
 							</p:submenu>
 							<p:submenu label="#{loginBean.volunteer.volunteerName}">
-								<p:menuitem value="View Profile" url="/editProfile" />
+								<p:menuitem value="View Profile" url="/volunteer/#{loginBean.volunteer.volunteerId}" />
+								<p:menuitem value="Edit Profile" url="/editProfile" />
 								<p:separator />
 								<p:menuitem value="Log Out" actionListener="#{loginBean.Logout}" ajax="false" />
 							</p:submenu>
 						</p:menubar>
-						<h:link outcome="/CommunityService/volunteer" includeViewParams="true">
+						<h:link outcome="/volunteer/#{loginBean.volunteer.volunteerId}">
 							<h:graphicImage value="#{loginBean.gravatarURL}" style="width: 40px; margin-right: .5em" />
-							<f:param name="orgId" value="#{loginBean.volunteer.volunteerId}" />
 						</h:link>
 					</h:form>
 				</div>

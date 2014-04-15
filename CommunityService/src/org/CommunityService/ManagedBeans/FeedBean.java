@@ -94,11 +94,11 @@ public class FeedBean {
 			all.addAll(organizationEvents);
 			Event[] evs = all.toArray(new Event[0]);
 			Set<Event> feedSet = new HashSet<Event>();
-			for (int i = 0; feedSet.size()<5; i++) {
+			for (int i = 0; feedSet.size() < 5 && feedSet.size() < (all.size()); i++) {
 				int index = (int) (Math.random() * all.size());
+
 				feedSet.add(evs[index]);
 			}
-
 			// select random events from the mix of them and add them to feed
 			feed = new ArrayList<Event>(feedSet);
 

@@ -22,7 +22,7 @@ import org.CommunityService.util.Gravatar;
 import org.hibernate.HibernateException;
 import org.ocpsoft.rewrite.annotation.Join;
 
-@ManagedBean
+@ManagedBean(name="loginBean")
 @SessionScoped
 @Join(path = "/login", to = "/Web/Login.xhtml")
 public class LoginBean {
