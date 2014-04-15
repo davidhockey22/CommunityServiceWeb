@@ -16,6 +16,10 @@
 			</ui:fragment>
 
 			<ui:fragment rendered="#{loginBean.loggedIn}">
+					<f:metadata>
+						<f:event type="preRenderView" listener="#{newOrganizationBean.check}" />
+					</f:metadata>			
+			
 				<h:form>
 					<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
 
@@ -39,10 +43,20 @@
 							<p:inputTextarea id="description" cols="30" rows="10" value="#{newOrganizationBean.description}" required="true">
 								<f:validateLength maximum="500" />
 							</p:inputTextarea>
-
-							<p:commandButton type="submit" value="Register" action="#{newOrganizationBean.Register}" />
-
+							
 						</h:panelGrid>
+						
+						<p:pickList id="interestList"
+							value="#{newOrganizationBean.interestModel}" var="interest"
+							itemLabel="#{interest}" itemValue="#{interest}">
+
+							<f:facet name="sourceCaption">Interests</f:facet>
+							<f:facet name="targetCaption">Listed Interests</f:facet>
+
+						</p:pickList>						
+
+							<p:commandButton type="submit" value="Register" action="#{newOrganizationBean.Register}" />						
+						
 					</p:panel>
 
 				</h:form>

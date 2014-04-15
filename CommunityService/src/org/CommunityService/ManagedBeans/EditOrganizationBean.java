@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -24,6 +25,7 @@ import org.CommunityService.EntitiesMapped.Group;
 import org.CommunityService.EntitiesMapped.Organization;
 import org.CommunityService.EntitiesMapped.OrganizationFollower;
 import org.CommunityService.Services.OrganizationService;
+import org.CommunityService.Services.VolunteerService;
 import org.CommunityService.util.CalculatedEvent;
 import org.ocpsoft.rewrite.annotation.Join;
 import org.primefaces.event.SelectEvent;
