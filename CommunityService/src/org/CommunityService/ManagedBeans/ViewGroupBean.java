@@ -212,5 +212,5 @@ public class ViewGroupBean {
 
 	public void setRenderEditGroup(boolean renderEditGroup) {
 		this.renderEditGroup = renderEditGroup;
-	}	
+	}
 }

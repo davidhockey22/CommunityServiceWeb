@@ -13,10 +13,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.CommunityService.EntitiesMapped.Event;
 import org.CommunityService.EntitiesMapped.EventSkill;
+import org.CommunityService.EntitiesMapped.Group;
+import org.CommunityService.EntitiesMapped.GroupMember;
 import org.CommunityService.EntitiesMapped.Interest;
 import org.CommunityService.EntitiesMapped.Skill;
 import org.CommunityService.EntitiesMapped.EventVolunteer;
 import org.CommunityService.Services.EventService;
+import org.CommunityService.Services.GroupService;
 import org.ocpsoft.rewrite.annotation.Join;
 
 @ManagedBean(name = "viewEventBean")
@@ -27,28 +30,64 @@ public class ViewEventBean {
 
 	private String eventId;
 
+	private boolean renderDropDown = false;
 	private boolean renderPending = false;		
+	private boolean renderSignUpGroup = false;	
 	private boolean signedUp = false;
-
+	
 	@ManagedProperty(value = "#{loginBean}")
 	private LoginBean currentVolunteer;
 	
 	private List<Interest> interests = new ArrayList<Interest>();
 	private List<Skill> skills = new ArrayList<Skill>();;
 	private String hostedOrgName;
+
+	String selectedGroup = null;
+	List<String> groups = new ArrayList<String>();
 	
 	public String signUp() {
 		System.out.println("Signing up!");
 		EventService.signUp(currentVolunteer.getVolunteer(), event);
+		renderDropDown = false;
 		renderPending = true;
+		renderSignUpGroup = false;
 		signedUp = true;
 		return "?faces-redirect=true";
 	}
-
+	
+	public String signUpGroup() {
+		
+		renderDropDown = true;
+		
+		return null;
+	}
+	public String confirmSignUpGroup() {
+		
+		Group selected = null;
+		for(GroupMember gm : currentVolunteer.getVolunteer().getGroupMembers()) {
+			if(gm.getGroup().getGroupName().equals(selectedGroup)) {
+				selected = gm.getGroup();
+				break;
+			}
+		}		
+		
+		//todo:
+		//implement group sign up
+		//use notification system?
+		
+		return signUp();
+	}
+	
 	public String removeEventFromVolunteer() {
 		EventService.removeEventVolunteer(Integer.parseInt(eventId), currentVolunteer.getVolunteer().getVolunteerId());
+		renderDropDown = false;
 		renderPending = false;
-		signedUp = false;		
+		
+		if(currentVolunteer.getVolunteer().getGroupMembers() != null &&
+				currentVolunteer.getVolunteer().getGroupMembers().isEmpty() == false )
+			renderSignUpGroup = true;
+		
+		signedUp = false;
 		return "?faces-redirect=true";
 	}
 
@@ -64,6 +103,11 @@ public class ViewEventBean {
 					
 					EventVolunteer ev = EventService.getEventVolunteerById(event.getEventId(), currentVolunteer.getVolunteer().getVolunteerId());
 					renderPending = !ev.getApproved();
+				}
+				else {
+					if(currentVolunteer.getVolunteer().getGroupMembers() != null &&
+							currentVolunteer.getVolunteer().getGroupMembers().isEmpty() == false )
+						renderSignUpGroup = true;
 				}
 			} else {
 				// Throw an HTTP Response Error - Page Not Found in case event cannot be found from provided id
@@ -87,6 +131,11 @@ public class ViewEventBean {
 				
 				skills.add(es.getSkill());
 			}
+		}
+		
+		for(GroupMember gm : currentVolunteer.getVolunteer().getGroupMembers()) {
+			
+			groups.add(gm.getGroup().getGroupName());
 		}
 	}
 
@@ -158,5 +207,34 @@ public class ViewEventBean {
 
 	public void setRenderPending(boolean renderPending) {
 		this.renderPending = renderPending;
+	}	
+	public boolean isRenderSignUpGroup() {
+		return renderSignUpGroup;
+	}
+
+	public void setRenderSignUpGroup(boolean renderSignUpGroup) {
+		this.renderSignUpGroup = renderSignUpGroup;
+	}
+	public String getSelectedGroup() {
+		return selectedGroup;
+	}
+
+	public void setSelectedGroup(String selectedGroup) {
+		this.selectedGroup = selectedGroup;
+	}
+
+	public List<String> getGroups() {
+		return groups;
+	}
+
+	public void setGroups(List<String> groups) {
+		this.groups = groups;
+	}
+	public boolean isRenderDropDown() {
+		return renderDropDown;
+	}
+
+	public void setRenderDropDown(boolean renderDropDown) {
+		this.renderDropDown = renderDropDown;
 	}	
 }

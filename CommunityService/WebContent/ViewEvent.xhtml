@@ -107,7 +107,29 @@
 								<p:commandButton value="Remove Event from my events." actionListener="#{viewEventBean.removeEventFromVolunteer}"
 									rendered="#{viewEventBean.signedUp}" process="@form" update="form2, pending" ajax="false" />
 								<br />
-								<h:outputText id="pending" style="color: red;" value="Pending event approval" rendered="#{viewEventBean.renderPending}" />									
+								<h:outputText id="pending" style="color: red;" value="Pending event approval" rendered="#{viewEventBean.renderPending}" />
+								
+								<!-- sign up for group -->
+								<p:commandButton value="Sign Up Group!" actionListener="#{viewEventBean.signUpGroup}" rendered="#{loginBean.loggedIn and viewEventBean.renderSignUpGroup}"
+									process="@form" update="dropDown" ajax="false" />
+									
+								<ui:fragment id="dropDown" rendered="#{loginBean.loggedIn and viewEventBean.renderDropDown}">
+									<br />									
+							        <h:outputText value="Select Group: " />
+							        <br />
+							        
+							        
+							        
+        <p:selectOneMenu value="#{viewEventBean.selectedGroup}" effect="fade">  
+            <f:selectItem itemLabel="Select One" itemValue="" />  
+            <f:selectItems value="#{viewEventBean.groups}" var="group" itemLabel="#{group}" itemValue="#{group}"/>  
+        </p:selectOneMenu>  							        
+							        
+							        <br />
+									<p:commandButton value="Confirm Sign Up Group" actionListener="#{viewEventBean.confirmSignUpGroup}"
+										process="@form" update="form2" ajax="false" />						        
+								</ui:fragment>														
+																	
 							</h:form>
 
 						</p:column>
