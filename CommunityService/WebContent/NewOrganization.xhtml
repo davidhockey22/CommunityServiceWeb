@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:p="http://primefaces.org/ui" xmlns:ui="http://java.sun.com/jsf/facelets">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
 
 <h:head>
 	<title>Create Organization</title>
-	<script src="/CommunityService/js/main.js" language="JavaScript" type="text/javascript"></script>
+	<script src="/CommunityService/js/main.js" language="JavaScript"
+		type="text/javascript"></script>
 </h:head>
 <h:body>
 	<ui:composition template="commonTemplate.xhtml">
@@ -16,36 +20,46 @@
 			</ui:fragment>
 
 			<ui:fragment rendered="#{loginBean.loggedIn}">
-					<f:metadata>
-						<f:event type="preRenderView" listener="#{newOrganizationBean.check}" />
-					</f:metadata>			
-			
+				<f:metadata>
+					<f:event type="preRenderView"
+						listener="#{newOrganizationBean.check}" />
+				</f:metadata>
+
 				<h:form>
-					<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+					<p:messages id="messages" showDetail="true" autoUpdate="true"
+						closable="true" />
 
 					<p:panel header="Register Organization">
 
 						<h:panelGrid columns="2" cellpadding="2">
 							<h:outputLabel for="#{newOrganizationBean.name}" value="Name" />
-							<h:inputText id="name" value="#{newOrganizationBean.name}" required="true">
+							<h:inputText id="name" value="#{newOrganizationBean.name}"
+								required="true">
 							</h:inputText>
 
-							<h:outputLabel for="#{newOrganizationBean.address}" value="Address" />
-							<h:inputText id="address" value="#{newOrganizationBean.address}" required="true"></h:inputText>
+							<h:outputLabel for="#{newOrganizationBean.address}"
+								value="Address" />
+							<h:inputText id="address" value="#{newOrganizationBean.address}"
+								required="true"></h:inputText>
 
-							<h:outputLabel for="#{newOrganizationBean.phoneNumber}" value="Phone Number" />
-							<h:inputText id="phoneNumber" value="#{newOrganizationBean.phoneNumber}" required="true"></h:inputText>
+							<h:outputLabel for="#{newOrganizationBean.phoneNumber}"
+								value="Phone Number" />
+							<h:inputText id="phoneNumber"
+								value="#{newOrganizationBean.phoneNumber}" required="true"></h:inputText>
 
 							<h:outputLabel for="#{newOrganizationBean.email}" value="Email" />
-							<h:inputText id="email" value="#{newOrganizationBean.email}" required="true"></h:inputText>
+							<h:inputText id="email" value="#{newOrganizationBean.email}"
+								required="true"></h:inputText>
 
-							<h:outputLabel for="#{newOrganizationBean.description}" value="Description" />
-							<p:inputTextarea id="description" cols="30" rows="10" value="#{newOrganizationBean.description}" required="true">
+							<h:outputLabel for="#{newOrganizationBean.description}"
+								value="Description" />
+							<p:inputTextarea id="description" cols="30" rows="10"
+								value="#{newOrganizationBean.description}" required="true">
 								<f:validateLength maximum="500" />
 							</p:inputTextarea>
-							
+
 						</h:panelGrid>
-						
+
 						<p:pickList id="interestList"
 							value="#{newOrganizationBean.interestModel}" var="interest"
 							itemLabel="#{interest}" itemValue="#{interest}">
@@ -53,10 +67,11 @@
 							<f:facet name="sourceCaption">Interests</f:facet>
 							<f:facet name="targetCaption">Listed Interests</f:facet>
 
-						</p:pickList>						
+						</p:pickList>
 
-							<p:commandButton type="submit" value="Register" action="#{newOrganizationBean.Register}" />						
-						
+						<p:commandButton type="submit" value="Register"
+							action="#{newOrganizationBean.Register}" />
+
 					</p:panel>
 
 				</h:form>

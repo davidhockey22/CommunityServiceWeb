@@ -93,7 +93,7 @@ public class NewOrganizationBean {
 								
 				OrganizationService.addOrganization(org);
 				
-				
+				//update currentVolunteer
 				boolean found = false;
 				for (OrganizationFollower organizationFollower : currentVolunteer.getVolunteer().getOrganizationFollowers()) {
 					if (organizationFollower.getOrganization().getOrgId() == org.getOrgId()) {
@@ -102,6 +102,9 @@ public class NewOrganizationBean {
 					}
 				}
 				if(!found) {
+					
+					//if new follower is not added, redirection to EditOrganization.xhtml will crash.
+					//new follower is not added automatically by hibernate
 					currentVolunteer.getVolunteer().getOrganizationFollowers().add(follower);
 				}
 
