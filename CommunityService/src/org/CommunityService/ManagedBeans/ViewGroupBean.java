@@ -37,6 +37,7 @@ public class ViewGroupBean {
 
 	private List<MemberLevel<GroupMember>> levels = null;
 
+	boolean renderApproved;
 	boolean renderEditGroup;
 	boolean renderJoin;
 	boolean renderPending;
@@ -50,6 +51,7 @@ public class ViewGroupBean {
 		
 		List<MemberLevel<GroupMember>> levels = new ArrayList<MemberLevel<GroupMember>>();
 		
+		renderApproved = false;
 		renderEditGroup = false;
 		renderJoin = true;
 		renderPending = false;
@@ -78,6 +80,8 @@ public class ViewGroupBean {
 						
 						if( volGroupMember.getApproved() == false )
 							renderPending = true;
+						else
+							renderApproved = true;
 						
 						if(volGroupMember.getAdmin()) //the admin can not leave the group
 							renderLeave = false;
@@ -213,4 +217,12 @@ public class ViewGroupBean {
 	public void setRenderEditGroup(boolean renderEditGroup) {
 		this.renderEditGroup = renderEditGroup;
 	}
+	
+	public boolean isRenderApproved() {
+		return renderApproved;
+	}
+
+	public void setRenderApproved(boolean renderApproved) {
+		this.renderApproved = renderApproved;
+	}	
 }

@@ -81,7 +81,8 @@
 
 					<h:outputText style="color: red;" value="Pending group approval"
 						rendered="#{viewGroupBean.renderPending}" />
-
+					<h:outputText value="You're a member of this group"
+						rendered="#{viewGroupBean.renderApproved}" />
 				</h:form>
 			</div>
 		</ui:define>

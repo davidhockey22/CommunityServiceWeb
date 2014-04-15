@@ -30,6 +30,7 @@ public class ViewEventBean {
 
 	private String eventId;
 
+	private boolean renderApproved = false;
 	private boolean renderDropDown = false;
 	private boolean renderPending = false;		
 	private boolean renderSignUpGroup = false;	
@@ -48,6 +49,7 @@ public class ViewEventBean {
 	public String signUp() {
 		System.out.println("Signing up!");
 		EventService.signUp(currentVolunteer.getVolunteer(), event);
+		renderApproved = false;
 		renderDropDown = false;
 		renderPending = true;
 		renderSignUpGroup = false;
@@ -80,6 +82,7 @@ public class ViewEventBean {
 	
 	public String removeEventFromVolunteer() {
 		EventService.removeEventVolunteer(Integer.parseInt(eventId), currentVolunteer.getVolunteer().getVolunteerId());
+		renderApproved = false;
 		renderDropDown = false;
 		renderPending = false;
 		
@@ -103,6 +106,7 @@ public class ViewEventBean {
 					
 					EventVolunteer ev = EventService.getEventVolunteerById(event.getEventId(), currentVolunteer.getVolunteer().getVolunteerId());
 					renderPending = !ev.getApproved();
+					renderApproved = ev.getApproved();
 				}
 				else {
 					if(currentVolunteer.getVolunteer().getGroupMembers() != null &&
@@ -236,5 +240,12 @@ public class ViewEventBean {
 
 	public void setRenderDropDown(boolean renderDropDown) {
 		this.renderDropDown = renderDropDown;
+	}
+	public boolean isRenderApproved() {
+		return renderApproved;
+	}
+
+	public void setRenderApproved(boolean renderApproved) {
+		this.renderApproved = renderApproved;
 	}	
 }
