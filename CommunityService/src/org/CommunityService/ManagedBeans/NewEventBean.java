@@ -1,8 +1,12 @@
 package org.CommunityService.ManagedBeans;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 
 import javax.faces.application.FacesMessage;
@@ -13,11 +17,20 @@ import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletResponse;
 
 import org.CommunityService.EntitiesMapped.Event;
+import org.CommunityService.EntitiesMapped.EventSkill;
+import org.CommunityService.EntitiesMapped.Interest;
 import org.CommunityService.EntitiesMapped.OrganizationFollower;
+import org.CommunityService.EntitiesMapped.Skill;
+import org.CommunityService.EntitiesMapped.VolunteerInterest;
+import org.CommunityService.EntitiesMapped.VolunteerSkill;
 import org.CommunityService.Services.EventService;
+import org.CommunityService.Services.InterestService;
 import org.CommunityService.Services.OrganizationService;
+import org.CommunityService.Services.SkillService;
+import org.CommunityService.Services.VolunteerService;
 import org.hibernate.HibernateException;
 import org.ocpsoft.rewrite.annotation.Join;
+import org.primefaces.model.DualListModel;
 
 @ManagedBean
 @ViewScoped
@@ -45,6 +58,12 @@ public class NewEventBean {
 	private int recurrance;
 	// TODO Should be an admin only privilege;
 	private float hoursBonus = (float) 1.00;
+
+	private DualListModel<String> interestModel = new DualListModel<String>();
+	private DualListModel<String> skillModel = new DualListModel<String>();
+
+	List<Interest> allInterests = new ArrayList<Interest>();
+	List<Skill> allSkills = new ArrayList<Skill>();	
 
 	/**
 	 * Checks if the URL is valid and user is authorized to create an event. Initializes local variables on success.
@@ -98,6 +117,42 @@ public class NewEventBean {
 						.getOrganization().getOrgId().toString());
 			}
 		}
+		
+		initInterestAndSkills();
+	}
+	
+	void initInterestAndSkills() {
+		
+		//interests
+		List<Interest> interests = InterestService.getInterests();
+		allInterests = new ArrayList<Interest>();
+		for(Interest i : interests)
+			allInterests.add(i);
+		
+		List<String> intStr = new ArrayList<String>();
+		for(Interest i : interests)
+			intStr.add(i.getName() + " - " + i.getDescription());		
+		
+		interestModel.setSource(intStr);
+		
+		//skills
+		List<Skill> skills = null;
+		try {
+			skills = SkillService.getSkills();
+			allSkills = new ArrayList<Skill>();
+			for(Skill i : skills)
+				allSkills.add(i);
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		List<String> skStr = new ArrayList<String>();
+		for(Skill i : skills)
+			skStr.add(i.getSkillName() + " - " + i.getDescription());
+				
+		skillModel.setSource(skStr);
 	}
 
 	public String Create() throws HibernateException {
@@ -111,6 +166,9 @@ public class NewEventBean {
 			event.setDescription(description);
 			event.setLocation(location);
 			event.setOrganization(orgF.getOrganization());
+			
+			addInterestsAndSkills(event);
+			
 			EventService.addEvent(event);
 			this.eventId = event.getEventId().toString();
 		}
@@ -119,6 +177,32 @@ public class NewEventBean {
 		// logged in user
 		return "/NewEvent.xhtml?faces-redirect=true&includeViewParams=true";
 	}
+	
+	public void addInterestsAndSkills(Event ev) {
+		
+		Set<Interest> interestSet = new HashSet<Interest>();
+		String str = null;
+		for(String s : interestModel.getTarget()) {
+			for(Interest i : allInterests) {
+				str = new String( i.getName() + " - " + i.getDescription() );
+				if( s.equals( str ) ) {
+					interestSet.add( i );
+				}
+			}
+		}
+		ev.setInterests(interestSet);
+		
+		Set<EventSkill> skillSet = new HashSet<EventSkill>();
+		for(String s : skillModel.getTarget()) {
+			for(Skill i : allSkills) {
+				str = new String( i.getSkillName() + " - " + i.getDescription() );
+				if( s.equals( str ) ) {
+					skillSet.add( new EventSkill( ev, i, false ) );
+				}
+			}
+		}
+		ev.setEventSkills(skillSet);
+	}	
 
 	public String getOrgId() {
 		return orgId;
@@ -211,4 +295,36 @@ public class NewEventBean {
 	public void setHoursBonus(float hoursBonus) {
 		this.hoursBonus = hoursBonus;
 	}
+	
+	public DualListModel<String> getInterestModel() {
+		return interestModel;
+	}
+
+	public void setInterestModel(DualListModel<String> interestModel) {
+		this.interestModel = interestModel;
+	}
+
+	public DualListModel<String> getSkillModel() {
+		return skillModel;
+	}
+
+	public void setSkillModel(DualListModel<String> skillModel) {
+		this.skillModel = skillModel;
+	}
+
+	public List<Interest> getAllInterests() {
+		return allInterests;
+	}
+
+	public void setAllInterests(List<Interest> allInterests) {
+		this.allInterests = allInterests;
+	}
+
+	public List<Skill> getAllSkills() {
+		return allSkills;
+	}
+
+	public void setAllSkills(List<Skill> allSkills) {
+		this.allSkills = allSkills;
+	}	
 }
