@@ -27,7 +27,6 @@ public class LeaderboardBean {
 	private List<Volunteer> results = null;
 	
 	public void preRenderHours() {
-		
 		results = VolunteerService.getLeaderboardByHours();
 	}	
 	public void preRenderPoints() {

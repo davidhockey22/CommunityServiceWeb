@@ -5,7 +5,7 @@
 	xmlns:p="http://primefaces.org/ui" xmlns:ui="http://java.sun.com/jsf/facelets">
 <h:head>
 	<h:outputStylesheet library="css" name="main.css" />
-	<script type="text/javascript" src="/CommunityService/Web/js/main.js"></script>	
+	<script type="text/javascript" src="/CommunityService/Web/js/main.js"></script>
 </h:head>
 <h:body>
 	<div id="page">
@@ -22,15 +22,15 @@
 				<ui:include src="/commonLeftSidebar.xhtml" />
 			</ui:insert>
 		</div>
-		
+
 		<div id="container">
-			<div id="center">
+			<p:panel id="center">
 				<ui:insert name="content">
 					<ui:include src="/commonContent.xhtml" />
 				</ui:insert>
-			</div>
+			</p:panel>
 		</div>
-	
+
 
 		<div id="footer">
 			<ui:insert name="footer">

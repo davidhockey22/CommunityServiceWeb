@@ -27,8 +27,8 @@ body {
 }
 
 #container {
-	padding-top: 80px;
-	padding-left: 240px;
+	padding-top: 65px;
+	padding-left: 284px;
 	padding-right: 5px;
 	z-index: 10;
 }
@@ -39,10 +39,9 @@ body {
 }
 
 #left {
-	width: 240px;
-	float: left;
+	width: 279px;
 	position: fixed;
-	padding-top: 80px;
+	padding-top: 68px;
 }
 
 #right {

@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -25,46 +26,14 @@ public class FeedBean {
 	@ManagedProperty(value = "#{loginBean}")
 	private LoginBean currentVolunteer;
 
-	List<Event> volunteerEvents;
-	List<Event> feed;
+	List<Event> volunteerEvents = null;
+	List<Event> feed = null;
 	List<Event> organizationEvents = null;
 	List<Event> upcomingEvents = null;
 
-	@SuppressWarnings("deprecation")
-	public List<Event> getVolunteerEvents() {
-		Volunteer volunteer = currentVolunteer.getVolunteer();
-		List<Event> events = EventService.getEventsByVolunteer(volunteer);
-		Date today = new Date();
-		today.setHours(0);
-		today.setMinutes(0);
-		today.setSeconds(0);
-		Date tomorrow = (Date) today.clone();
-		tomorrow.setDate(tomorrow.getDate() + 1);
-
-		for (Iterator<Event> iterator = events.iterator(); iterator.hasNext();) {
-			Event event = (Event) iterator.next();
-			if (event.getBeginTime().after(today) && event.getEndTime().before(tomorrow)) {
-
-			} else {
-				iterator.remove();
-			}
-		}
-		return events;
-	}
-
-	public void setVolunteerEvents(List<Event> volunteerEvents) {
-		this.volunteerEvents = volunteerEvents;
-	}
-
-	public LoginBean getCurrentVolunteer() {
-		return currentVolunteer;
-	}
-
-	public void setCurrentVolunteer(LoginBean currentVolunteer) {
-		this.currentVolunteer = currentVolunteer;
-	}
-
-	public List<Event> getFeed() {
+	@PostConstruct
+	public void preRender() {
+		System.out.println("Pre render");
 		if (feed == null) {
 			// followed orgs events
 			if (organizationEvents == null) {
@@ -103,6 +72,44 @@ public class FeedBean {
 			feed = new ArrayList<Event>(feedSet);
 
 		}
+		if (volunteerEvents == null) {
+			Volunteer volunteer = currentVolunteer.getVolunteer();
+			List<Event> events = EventService.getEventsByVolunteer(volunteer);
+			Date today = new Date();
+			today.setHours(0);
+			today.setMinutes(0);
+			today.setSeconds(0);
+			Date tomorrow = (Date) today.clone();
+			tomorrow.setDate(tomorrow.getDate() + 1);
+
+			for (Iterator<Event> iterator = events.iterator(); iterator.hasNext();) {
+				Event event = (Event) iterator.next();
+				if (event.getBeginTime().after(today) && event.getEndTime().before(tomorrow)) {
+
+				} else {
+					iterator.remove();
+				}
+			}
+		}
+	}
+
+	public List<Event> getVolunteerEvents() {
+		return volunteerEvents;
+	}
+
+	public void setVolunteerEvents(List<Event> volunteerEvents) {
+		this.volunteerEvents = volunteerEvents;
+	}
+
+	public LoginBean getCurrentVolunteer() {
+		return currentVolunteer;
+	}
+
+	public void setCurrentVolunteer(LoginBean currentVolunteer) {
+		this.currentVolunteer = currentVolunteer;
+	}
+
+	public List<Event> getFeed() {
 		return feed;
 	}
 
@@ -111,7 +118,6 @@ public class FeedBean {
 	}
 
 	public List<Event> getOrganizationEvents() {
-
 		return organizationEvents;
 	}
 
@@ -120,7 +126,6 @@ public class FeedBean {
 	}
 
 	public List<Event> getUpcomingEvents() {
-
 		return upcomingEvents;
 	}
 

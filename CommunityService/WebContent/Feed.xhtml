@@ -1,42 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:p="http://primefaces.org/ui" xmlns:ui="http://java.sun.com/jsf/facelets">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui">
 <h:body>
 	<ui:composition>
-		<ui:define name="metadata">
-			<f:metadata>
-				<f:viewAction type="preRenderView" action="#{feedBean.getFeed}" />
-			</f:metadata>
-		</ui:define>
-		<div>
-			<div>
-				<p:layout style="" id="feedLayout" size="700">
-					<p:layoutUnit position="center"> You might be interested in these events... <br />
-						<!-- Upcoming events -->
-						<p:dataTable var="e" value="#{feedBean.feed}" rendered="#{not empty feedBean.feed}">
-							<p:column headerText="Event Name">
-								<h:link value="#{e.eventName}" outcome="/ViewEvent.xhtml">
-									<f:param name="eventId" value="#{e.eventId}" />
-								</h:link>
-							</p:column>
-							<p:column headerText="Start Time">
-								<h:outputText value="#{e.beginTime}">
-									<f:convertDateTime pattern="EEE, MMM d, yyyy - h:mm a" locale="en_US" type="both" timeStyle="full" timeZone="EDT" />
-								</h:outputText>
-							</p:column>
-							<p:column headerText="End Time">
-								<h:outputText value="#{e.endTime}">
-									<f:convertDateTime pattern="EEE, MMM d, yyyy - h:mm a" locale="en_US" type="both" timeStyle="full" timeZone="EDT" />
-								</h:outputText>
-							</p:column>
-						</p:dataTable>
-					</p:layoutUnit>
-					<p:layoutUnit position="east" resizable="false" size="500">
-						<!-- Users daily events -->
 
-						<div>Todays events</div>
+		<table style="border: 0px; vertical-align: top; width: 100%">
+			<tr style="border: 0px; vertical-align: top;">
+				<td style="width: 80%"><p:panel header="Todays events" rendered="#{not empty feedBean.volunteerEvents}">
 						<p:dataTable var="e3" value="#{feedBean.volunteerEvents}">
 							<p:column headerText="Event Name">
 								<h:link value="#{e3.eventName}" outcome="/ViewEvent.xhtml">
@@ -54,10 +26,50 @@
 								</h:outputText>
 							</p:column>
 						</p:dataTable>
-					</p:layoutUnit>
-				</p:layout>
-			</div>
-		</div>
+					</p:panel> <p:panel render="#{empty feedBean.volunteerEvents}">You have no events on your schedule today.</p:panel> <br /> <p:panel
+						header="Events you might be interested in..." rendered="#{not empty feedBean.feed}">
+						<p:dataTable var="e" value="#{feedBean.feed}">
+							<p:column headerText="Event Name">
+								<h:link value="#{e.eventName}" outcome="/ViewEvent.xhtml">
+									<f:param name="eventId" value="#{e.eventId}" />
+								</h:link>
+							</p:column>
+							<p:column headerText="Start Time">
+								<h:outputText value="#{e.beginTime}">
+									<f:convertDateTime pattern="EEE, MMM d, yyyy - h:mm a" locale="en_US" type="both" timeStyle="full" timeZone="EDT" />
+								</h:outputText>
+							</p:column>
+							<p:column headerText="End Time">
+								<h:outputText value="#{e.endTime}">
+									<f:convertDateTime pattern="EEE, MMM d, yyyy - h:mm a" locale="en_US" type="both" timeStyle="full" timeZone="EDT" />
+								</h:outputText>
+							</p:column>
+						</p:dataTable>
+
+					</p:panel> <p:panel rendered="#{empty feedBean.feed}">We don't have any recommendations for events right now... Perhaps you should <a
+							href="/CommunityService/searchevent">search</a> for an event.</p:panel></td>
+				<td><p:panel header="Volunteer Leaderboard">
+
+						<f:event listener="#{leaderboardBean.preRenderPoints}" type="preRenderComponent"></f:event>
+
+						<p:dataTable rendered="#{not empty leaderboardBean.results}" var="result" value="#{leaderboardBean.results}" rowKey="#{result.name}"
+							paginator="true" paginatorPosition="bottom" paginatorAlwaysVisible="false" rows="10" id="pointstable">
+							<p:column headerText="Name" sortBy="volunteerName" id="nameId">  
+			          			#{result.volunteerName}
+			      			</p:column>
+
+							<p:column headerText="Points" sortBy="points" id="pointsId">
+								<h:outputText value="#{result.points}">
+									<f:convertNumber pattern="#0" />
+								</h:outputText>
+							</p:column>
+
+						</p:dataTable>
+						<br />
+						<h:link value="More Leaderboards..." outcome="Search.xhtml" style="margin-left:auto; margin-right:auto; display:block; width:200px;" />
+					</p:panel></td>
+			</tr>
+		</table>
 	</ui:composition>
 </h:body>
 </html>
