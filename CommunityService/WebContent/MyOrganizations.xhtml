@@ -37,15 +37,16 @@
 							<h:outputText value="#{level.name}" />
 						</f:facet>
 						<p:column>
-							<h:link value="#{orgFollower.organization.orgName}" outcome="ViewOrganiation.xhtml">
-								<f:param name="orgId" value="#{orgFollower.organization.orgId}" />
-							</h:link>
+							<h:outputText value="#{orgFollower.organization.orgName}" />
 						</p:column>
 						<p:column>
 							<h:outputText value="#{orgFollower.organization.description}" />
 						</p:column>
 						<p:column>
-							<p:button icon="ui-icon-search" title="View Organization" outcome="ViewOrganization.xhtml">
+							<p:button value="View" title="View Organization" outcome="ViewOrganization.xhtml">
+								<f:param name="orgId" value="#{orgFollower.organization.orgId}" />
+							</p:button>
+							<p:button value="Manage" title="Manage Organization" outcome="EditOrganization.xhtml" rendered="#{orgFollower.admin or orgfollower['mod']}">
 								<f:param name="orgId" value="#{orgFollower.organization.orgId}" />
 							</p:button>
 						</p:column>

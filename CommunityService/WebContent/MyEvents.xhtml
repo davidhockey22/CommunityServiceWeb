@@ -11,17 +11,13 @@
 	<ui:composition template="commonTemplate.xhtml">
 		<ui:define name="content">
 
-			<h:link value="Looking for more events?" outcome="Search.xhtml" style="margin-left:auto; margin-right:auto; display:block; width:200px;" />
+			<h:link value="Looking for more events?" outcome="Search.xhtml"
+				style="margin-left:auto; margin-right:auto; display:block; width:200px;" />
 
 			<br />
 			<h:outputText value="Accepted Events:" />
 
 			<p:dataTable var="e" value="#{myEventsBean.acceptedEvents}">
-				<p:column headerText="Event ID">
-					<h:link value="#{e.event.eventId}" outcome="ViewEvent.xhtml">
-						<f:param name="eventId" value="#{e.event.eventId}" />
-					</h:link>
-				</p:column>
 				<p:column headerText="Event Name">
 					<h:outputText value="#{e.event.eventName}" />
 				</p:column>
@@ -34,17 +30,20 @@
 					<h:outputText value="#{e.event.endTime}">
 						<f:convertDateTime pattern="EEE, MMM d, yyyy - h:mm a" locale="en_US" type="both" timeStyle="full" timeZone="EDT" />
 					</h:outputText>
+				</p:column>
+				<p:column>
+					<p:button value="View" outcome="ViewEvent.xhtml">
+						<f:param name="eventId" value="#{e.event.eventId}" />
+					</p:button>
+					<p:button value="Manage" outcome="EditEvent.xhtml" rendered="#{e.event.volunteer.volunteerId eq loginBean.volunteer.volunteerId}">
+						<f:param name="eventId" value="#{e.event.eventId}" />
+					</p:button>
 				</p:column>
 			</p:dataTable>
 
 			<h:outputText value="Pending Events:" />
 
 			<p:dataTable var="e" value="#{myEventsBean.pendingEvents}">
-				<p:column headerText="Event ID">
-					<h:link value="#{e.event.eventId}" outcome="ViewEvent.xhtml">
-						<f:param name="eventId" value="#{e.event.eventId}" />
-					</h:link>
-				</p:column>
 				<p:column headerText="Event Name">
 					<h:outputText value="#{e.event.eventName}" />
 				</p:column>
@@ -58,16 +57,19 @@
 						<f:convertDateTime pattern="EEE, MMM d, yyyy - h:mm a" locale="en_US" type="both" timeStyle="full" timeZone="EDT" />
 					</h:outputText>
 				</p:column>
+				<p:column>
+					<p:button value="View" outcome="ViewEvent.xhtml">
+						<f:param name="eventId" value="#{e.event.eventId}" />
+					</p:button>
+					<p:button value="Manage" outcome="EditEvent.xhtml" rendered="#{e.event.volunteer.volunteerId eq loginBean.volunteer.volunteerId}">
+						<f:param name="eventId" value="#{e.event.eventId}" />
+					</p:button>
+				</p:column>
 			</p:dataTable>
 
 			<h:outputText value="Past Events:" />
 
 			<p:dataTable var="e" value="#{myEventsBean.pastEvents}">
-				<p:column headerText="Event ID">
-					<h:link value="#{e.event.eventId}" outcome="ViewEvent.xhtml">
-						<f:param name="eventId" value="#{e.event.eventId}" />
-					</h:link>
-				</p:column>
 				<p:column headerText="Event Name">
 					<h:outputText value="#{e.event.eventName}" />
 				</p:column>
@@ -83,6 +85,14 @@
 					<h:outputText value="#{e.event.endTime}">
 						<f:convertDateTime pattern="EEE, MMM d, yyyy - h:mm a" locale="en_US" type="both" timeStyle="full" timeZone="EDT" />
 					</h:outputText>
+				</p:column>
+				<p:column>
+					<p:button value="View" outcome="ViewEvent.xhtml">
+						<f:param name="eventId" value="#{e.event.eventId}" />
+					</p:button>
+					<p:button value="Manage" outcome="EditEvent.xhtml" rendered="#{e.event.volunteer.volunteerId eq loginBean.volunteer.volunteerId}">
+						<f:param name="eventId" value="#{e.event.eventId}" />
+					</p:button>
 				</p:column>
 			</p:dataTable>
 		</ui:define>

@@ -30,17 +30,17 @@
 					<h:outputLabel for="#{newEventBean.eventname}" value="Event Name" />
 
 					<p:inputText id="eventname" value="#{newEventBean.eventname}" label="Event Name" required="true">
-						<f:validateLength minimum="5" maximum="20" />
+						<f:validateLength minimum="2" maximum="45" />
 					</p:inputText>
 
 					<h:outputLabel for="#{newEventBean.description}" value="Description" />
 					<p:inputTextarea id="description" cols="30" rows="10" value="#{newEventBean.description}">
-						<f:validateLength maximum="500" />
+						<f:validateLength maximum="5000" />
 					</p:inputTextarea>
 
 					<h:outputLabel for="#{newEventBean.location}" value="Location" />
 					<p:inputText id="location" value="#{newEventBean.location}" required="true">
-						<f:validateLength maximum="30" />
+						<f:validateLength maximum="45" />
 					</p:inputText>
 
 					<h:outputText value="Start Time/Date" />

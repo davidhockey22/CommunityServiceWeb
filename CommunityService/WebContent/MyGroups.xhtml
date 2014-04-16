@@ -18,21 +18,33 @@
 					<f:facet name="header">
 						My Groups
 					</f:facet>
-					
+
 					<p:columnGroup type="header">
 						<p:row>
 							<p:column headerText="Name" />
+							<p:column headerText="Joined Date" />
 						</p:row>
 					</p:columnGroup>
-					
+
 					<p:subTable var="groupMember" value="#{level.members}">
 						<f:facet name="header">
 							<h:outputText value="#{level.name}" />
 						</f:facet>
 						<p:column>
-							<h:link value="#{groupMember.group.groupName}" outcome="ViewGroup.xhtml">
+							<h:outputText value="#{groupMember.group.groupName}" />
+						</p:column>
+						<p:column>
+							<h:outputText value="#{groupMember.joinedDate}">
+								<f:convertDateTime pattern="EEE, MMM d, yyyy - h:mm a" locale="en_US" type="both" timeStyle="full" timeZone="EDT" />
+							</h:outputText>
+						</p:column>
+						<p:column>
+							<p:button value="View" outcome="ViewGroup.xhtml">
 								<f:param name="groupId" value="#{groupMember.group.groupId}" />
-							</h:link>
+							</p:button>
+							<p:button value="Manage" outcome="EditGroup.xhtml" rendered="#{groupMember.admin}">
+								<f:param name="groupId" value="#{groupMember.group.groupId}" />
+							</p:button>
 						</p:column>
 					</p:subTable>
 				</p:dataTable>

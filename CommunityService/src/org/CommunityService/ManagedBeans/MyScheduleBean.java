@@ -2,7 +2,6 @@ package org.CommunityService.ManagedBeans;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -46,9 +45,9 @@ public class MyScheduleBean implements Serializable {
 
 			@Override 
 			public void loadEvents(Date start, Date end) {
-				List<EventVolunteer> events = VolunteerService.getEventVolunteersByVolunteer(login.getVolunteer());
-				for (Iterator<EventVolunteer> iterator = events.iterator(); iterator.hasNext();) {
-					EventVolunteer eventVolunteer = (EventVolunteer) iterator.next();
+				List<EventVolunteer> events = VolunteerService.getEventVolunteersByVolunteerBetweenDates(
+						login.getVolunteer(), start, end);
+				for (EventVolunteer eventVolunteer : events) {
 					DefaultScheduleEvent scheduleEvent = new DefaultScheduleEvent();
 					scheduleEvent.setData(eventVolunteer);
 					scheduleEvent.setStartDate(eventVolunteer.getEvent().getBeginTime());

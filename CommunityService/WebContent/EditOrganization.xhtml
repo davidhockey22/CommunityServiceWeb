@@ -48,43 +48,60 @@
 									<p:inputTextarea rows="10" value="#{editOrganizationBean.org.description}" required="true" />
 								</p:inplace>
 							</p:panelGrid>
-							
-							<p:pickList id="interestList"
-								value="#{editOrganizationBean.interestModel}" var="interest"
+
+							<p:pickList id="interestList" value="#{editOrganizationBean.interestModel}" var="interest"
 								itemLabel="#{interest}" itemValue="#{interest}">
-	
+
 								<f:facet name="sourceCaption">Interests</f:facet>
 								<f:facet name="targetCaption">Listed Interests</f:facet>
-	
-							</p:pickList>															
-							
+
+							</p:pickList>
+
 							<p:commandButton type="submit" icon="ui-icon-check" value="Save Changes"
 								action="#{editOrganizationBean.updateOrganization}" update="editPanel" />
 							<p:commandButton type="submit" icon="ui-icon-trash" value="Discard Changes"
-								action="#{editOrganizationBean.refreshOrganization}" update="editPanel" />								
+								action="#{editOrganizationBean.refreshOrganization}" update="editPanel" />
 						</h:form>
 					</p:tab>
 
-					<p:tab id="permissions" title="Member Permissions">
-						<p:dataTable var="member" value="#{editOrganizationBean.orgFollowers}">
-							<p:column headerText="Username">
-								<h:link value="#{member.volunteer.volunteerName}" outcome="/ViewVolunteer.xhtml">
-									<f:param name="volunteerId" value="#{member.volunteer.volunteerId}" />
-								</h:link>
-							</p:column>
-							<p:column headerText="First">
-								<h:outputText value="#{member.volunteer.firstName}" />
-							</p:column>
-							<p:column headerText="Last">
-								<h:outputText value="#{member.volunteer.lastName}" />
-							</p:column>
-							<p:column headerText="email">
-								<h:outputText value="#{member.volunteer.emailAddress}" />
-							</p:column>
-							<p:column headerText="Phone">
-								<h:outputText value="#{member.volunteer.phoneNumber}" />
-							</p:column>
-						</p:dataTable>
+					<p:tab id="permissions" title="Members">
+						<h:form>
+							<p:dataTable id="memberTable" var="member" value="#{editOrganizationBean.orgFollowers}" editable="true" editMode="cell">
+								<p:column headerText="Username">
+									<h:link value="#{member.organizationFollower.volunteer.volunteerName}" outcome="/ViewVolunteer.xhtml">
+										<f:param name="volunteerId" value="#{member.organizationFollower.volunteer.volunteerId}" />
+									</h:link>
+								</p:column>
+								<p:column headerText="First">
+									<h:outputText value="#{member.organizationFollower.volunteer.firstName}" />
+								</p:column>
+								<p:column headerText="Last">
+									<h:outputText value="#{member.organizationFollower.volunteer.lastName}" />
+								</p:column>
+								<p:column headerText="email">
+									<h:outputText value="#{member.organizationFollower.volunteer.emailAddress}" />
+								</p:column>
+								<p:column headerText="Phone">
+									<h:outputText value="#{member.organizationFollower.volunteer.phoneNumber}" />
+								</p:column>
+								<p:column headerText="Type">
+									<p:cellEditor>
+										<f:facet name="output">
+											<h:outputText value="#{member.permissionLevel}" />
+										</f:facet>
+										<f:facet name="input">
+											<p:selectOneMenu value="#{member.permissionLevel}" style="width:100%">
+												<f:selectItems value="#{member.permissionLevels}" var="permLevel" />
+											</p:selectOneMenu>
+										</f:facet>
+									</p:cellEditor>
+								</p:column>
+							</p:dataTable>
+							<p:commandButton type="submit" icon="ui-icon-check" value="Save Changes"
+								action="#{editOrganizationBean.updateMembers}" update="memberTable" />
+							<p:commandButton type="submit" icon="ui-icon-trash" value="Discard Changes"
+								action="#{editOrganizationBean.refreshGroups}" update="memberTable" />
+						</h:form>
 					</p:tab>
 
 					<p:tab id="groups" title="Groups">
@@ -113,10 +130,16 @@
 										<h:outputText value="#{e.event.eventName}" />
 									</p:column>
 									<p:column headerText="Start Time">
-										<h:outputText value="#{e.event.beginTime}" />
+										<h:outputText value="#{e.event.beginTime}">
+											<f:convertDateTime pattern="EEE, MMM d, yyyy - h:mm a" locale="en_US" type="both" timeStyle="full"
+												timeZone="EDT" />
+										</h:outputText>
 									</p:column>
 									<p:column headerText="End Time">
-										<h:outputText value="#{e.event.endTime}" />
+										<h:outputText value="#{e.event.endTime}">
+											<f:convertDateTime pattern="EEE, MMM d, yyyy - h:mm a" locale="en_US" type="both" timeStyle="full"
+												timeZone="EDT" />
+										</h:outputText>
 									</p:column>
 									<p:column headerText="Approved Volunteers">
 										<h:outputText value="#{e.approvedVolunteers}" />
@@ -146,10 +169,16 @@
 										<h:outputText value="#{e.event.eventName}" />
 									</p:column>
 									<p:column headerText="Start Time">
-										<h:outputText value="#{e.event.beginTime}" />
+										<h:outputText value="#{e.event.beginTime}">
+											<f:convertDateTime pattern="EEE, MMM d, yyyy - h:mm a" locale="en_US" type="both" timeStyle="full"
+												timeZone="EDT" />
+										</h:outputText>
 									</p:column>
 									<p:column headerText="End Time">
-										<h:outputText value="#{e.event.endTime}" />
+										<h:outputText value="#{e.event.endTime}">
+											<f:convertDateTime pattern="EEE, MMM d, yyyy - h:mm a" locale="en_US" type="both" timeStyle="full"
+												timeZone="EDT" />
+										</h:outputText>
 									</p:column>
 									<p:column headerText="Approved Volunteers">
 										<h:outputText value="#{e.approvedVolunteers}" />
@@ -179,10 +208,16 @@
 										<h:outputText value="#{e.event.eventName}" />
 									</p:column>
 									<p:column headerText="Start Time">
-										<h:outputText value="#{e.event.beginTime}" />
+										<h:outputText value="#{e.event.beginTime}">
+											<f:convertDateTime pattern="EEE, MMM d, yyyy - h:mm a" locale="en_US" type="both" timeStyle="full"
+												timeZone="EDT" />
+										</h:outputText>
 									</p:column>
 									<p:column headerText="End Time">
-										<h:outputText value="#{e.event.endTime}" />
+										<h:outputText value="#{e.event.endTime}">
+											<f:convertDateTime pattern="EEE, MMM d, yyyy - h:mm a" locale="en_US" type="both" timeStyle="full"
+												timeZone="EDT" />
+										</h:outputText>
 									</p:column>
 									<p:column headerText="Approved Volunteers">
 										<h:outputText value="#{e.approvedVolunteers}" />
@@ -212,10 +247,16 @@
 										<h:outputText value="#{e.event.eventName}" />
 									</p:column>
 									<p:column headerText="Start Time">
-										<h:outputText value="#{e.event.beginTime}" />
+										<h:outputText value="#{e.event.beginTime}">
+											<f:convertDateTime pattern="EEE, MMM d, yyyy - h:mm a" locale="en_US" type="both" timeStyle="full"
+												timeZone="EDT" />
+										</h:outputText>
 									</p:column>
 									<p:column headerText="End Time">
-										<h:outputText value="#{e.event.endTime}" />
+										<h:outputText value="#{e.event.endTime}">
+											<f:convertDateTime pattern="EEE, MMM d, yyyy - h:mm a" locale="en_US" type="both" timeStyle="full"
+												timeZone="EDT" />
+										</h:outputText>
 									</p:column>
 									<p:column headerText="Approved Volunteers">
 										<h:outputText value="#{e.approvedVolunteers}" />

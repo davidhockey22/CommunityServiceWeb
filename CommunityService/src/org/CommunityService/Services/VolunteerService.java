@@ -2,6 +2,7 @@ package org.CommunityService.Services;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -136,12 +137,32 @@ public class VolunteerService {
 	}
 
 	public static List<EventVolunteer> getEventVolunteersByVolunteer(Volunteer volunteer) throws HibernateException {
-		String hql = "FROM EventVolunteer AS ev JOIN FETCH ev.event WHERE ev.volunteer.volunteerId=?";
+		String hql = "FROM EventVolunteer AS ev JOIN FETCH ev.event left join fetch ev.event.volunteer WHERE ev.volunteer.volunteerId=?";
 		ArrayList<Integer> params = new ArrayList<Integer>();
 		params.add(volunteer.getVolunteerId());
 		@SuppressWarnings("unchecked")
 		List<EventVolunteer> eventVolunteers = (List<EventVolunteer>) DBConnection.query(hql, params);
 		return (eventVolunteers != null ? eventVolunteers : new ArrayList<EventVolunteer>());
+	}
+
+	public static List<EventVolunteer> getEventVolunteersByVolunteerBetweenDates(Volunteer volunteer, Date date1,
+			Date date2) {
+		Date before, after;
+		if (date1.after(date2)) {
+			after = date1;
+			before = date2;
+		} else {
+			after = date2;
+			before = date1;
+		}
+		String hql = "from EventVolunteer as ev left join fetch ev.event as e left join fetch ev.volunteer as v where v.volunteerId = ? and e.endTime > ? and e.beginTime < ?";
+		List<Object> params = new ArrayList<Object>();
+		params.add(volunteer.getVolunteerId());
+		params.add(before);
+		params.add(after);
+		@SuppressWarnings("unchecked")
+		List<EventVolunteer> eventVolunteers = (List<EventVolunteer>) DBConnection.query(hql, params);
+		return eventVolunteers;
 	}
 
 	public static List<GroupMember> getGroupMembersByVolunteer(Volunteer volunteer) throws HibernateException {
@@ -193,7 +214,7 @@ public class VolunteerService {
 	public static List<Volunteer> getVolunteersLikeName(String userName) throws HibernateException {
 		String hql = "from Volunteer as v where v.volunteerName LIKE ?";
 		userName = "%" + userName + "%";
-		List params = new ArrayList();
+		List<String> params = new ArrayList<String>();
 		params.add(userName);
 		@SuppressWarnings("unchecked")
 		List<Volunteer> v = (List<Volunteer>) DBConnection.query(hql, params);

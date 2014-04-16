@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -22,15 +23,14 @@ import javax.faces.event.AjaxBehaviorEvent;
 import javax.servlet.http.HttpServletResponse;
 
 import org.CommunityService.EntitiesMapped.Event;
+import org.CommunityService.EntitiesMapped.EventVolunteer;
 import org.CommunityService.EntitiesMapped.Group;
 import org.CommunityService.EntitiesMapped.Interest;
 import org.CommunityService.EntitiesMapped.Organization;
 import org.CommunityService.EntitiesMapped.OrganizationFollower;
-import org.CommunityService.EntitiesMapped.VolunteerInterest;
 import org.CommunityService.Services.InterestService;
 import org.CommunityService.Services.OrganizationService;
-import org.CommunityService.Services.VolunteerService;
-import org.CommunityService.util.CalculatedEvent;
+import org.hibernate.HibernateException;
 import org.ocpsoft.rewrite.annotation.Join;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.event.TabChangeEvent;
@@ -63,7 +63,7 @@ public class EditOrganizationBean {
 	private List<CalculatedEvent> selectedEvents;
 
 	// used for Manage Members tab
-	private List<OrganizationFollower> orgFollowers;
+	private List<OrgFollowerWithPerms> orgFollowers;
 
 	// used for Manage Groups tab
 	private List<Group> orgGroups;
@@ -140,7 +140,12 @@ public class EditOrganizationBean {
 		}
 		org.setInterests(interestSet);		
 		
-		OrganizationService.updateOrganization(org);
+		try {
+			OrganizationService.updateOrganization(org);
+		} catch (HibernateException e) {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage("Another organization already has claimed that name or address!"));
+		}
 		return null;
 	}
 
@@ -231,7 +236,20 @@ public class EditOrganizationBean {
 			context.responseComplete();
 			return;
 		}
-		this.orgFollowers = new ArrayList<OrganizationFollower>(this.org.getOrganizationFollowers());
+		this.orgFollowers = new ArrayList<OrgFollowerWithPerms>();
+		for (OrganizationFollower follower : this.org.getOrganizationFollowers()) {
+			this.orgFollowers.add(new OrgFollowerWithPerms(follower));
+		}
+	}
+
+	public void updateMembers() throws IOException {
+		this.refreshOrganization();
+		Set<OrganizationFollower> update = new HashSet<OrganizationFollower>();
+		for (OrgFollowerWithPerms follower : this.orgFollowers) {
+			update.add(follower.getOrganizationFollower());
+		}
+		org.setOrganizationFollowers(update);
+		OrganizationService.updateOrganization(org);
 	}
 
 	public void refreshGroups() throws IOException {
@@ -266,6 +284,7 @@ public class EditOrganizationBean {
 	// see https://code.google.com/p/primefaces/issues/detail?id=3876 for more info
 	public void onEventsTabChange(AjaxBehaviorEvent aEvent) throws IllegalAccessException, IllegalArgumentException,
 			InvocationTargetException, IOException {
+		System.out.println("Primefaces quirk");
 		try {
 			onEventsTabChange((TabChangeEvent) aEvent);
 		} catch (ClassCastException e) {
@@ -274,6 +293,7 @@ public class EditOrganizationBean {
 
 	public void onEventsTabChange(TabChangeEvent event) throws IllegalAccessException, IllegalArgumentException,
 			InvocationTargetException, IOException {
+		System.out.println("Events tab handler");
 		Method fetch = eventTabChangeMethodCall.get(event.getTab().getId());
 		if (fetch != null) {
 			fetch.invoke(this);
@@ -316,6 +336,7 @@ public class EditOrganizationBean {
 
 	public void onTabChange(TabChangeEvent event) throws IllegalAccessException, IllegalArgumentException,
 			InvocationTargetException {
+		System.out.println("Main tab handler");
 		Method refresh = tabChangeMethodCall.get(event.getTab().getId());
 		if (refresh != null) {
 			refresh.invoke(this);
@@ -330,7 +351,7 @@ public class EditOrganizationBean {
 		return orgGroups;
 	}
 
-	public List<OrganizationFollower> getOrgFollowers() {
+	public List<OrgFollowerWithPerms> getOrgFollowers() {
 		return orgFollowers;
 	}
 
@@ -404,5 +425,93 @@ public class EditOrganizationBean {
 
 	public void setAllInterests(List<Interest> allInterests) {
 		this.allInterests = allInterests;
-	}	
+	}
+
+	public static class OrgFollowerWithPerms {
+
+		private OrganizationFollower orgFollower;
+
+		private static final String[] permissionLevels;
+		static {
+			permissionLevels = new String[3];
+			permissionLevels[0] = "Follower";
+			permissionLevels[1] = "Member";
+			permissionLevels[2] = "Administrator";
+		}
+
+		public String[] getPermissionLevels() {
+			return permissionLevels;
+		}
+
+		public OrgFollowerWithPerms(OrganizationFollower organizationFollower) {
+			this.orgFollower = organizationFollower;
+		}
+
+		public String getPermissionLevel() {
+			if (this.orgFollower.getAdmin()) {
+				return permissionLevels[2];
+			} else if (this.orgFollower.getMod()) {
+				return permissionLevels[1];
+			} else {
+				return permissionLevels[0];
+			}
+		}
+
+		public void setPermissionLevel(String level) {
+			this.orgFollower.setAdmin(false);
+			this.orgFollower.setMod(false);
+			if (permissionLevels[2].equals(level)) {
+				this.orgFollower.setAdmin(true);
+			} else if (permissionLevels[1].equals(level)) {
+				this.orgFollower.setMod(true);
+			}
+		}
+
+		public OrganizationFollower getOrganizationFollower() {
+			return orgFollower;
+		}
+	}
+
+	public static class CalculatedEvent {
+		private Integer approvedVolunteers = new Integer(0);
+		private Integer unapprovedVolunteers = new Integer(0);
+		private Event event;
+
+		public CalculatedEvent(Event event) {
+			this.event = event;
+			if (event != null) {
+				for (EventVolunteer eventVolunteer : event.getEventVolunteers()) {
+					if (eventVolunteer.getApproved()) {
+						approvedVolunteers++;
+					} else {
+						unapprovedVolunteers++;
+					}
+				}
+			}
+		}
+
+		public Integer getApprovedVolunteers() {
+			return approvedVolunteers;
+		}
+
+		public void setApprovedVolunteers(Integer approvedVolunteers) {
+			this.approvedVolunteers = approvedVolunteers;
+		}
+
+		public Integer getUnapprovedVolunteers() {
+			return unapprovedVolunteers;
+		}
+
+		public void setUnapprovedVolunteers(Integer unapprovedVolunteers) {
+			this.unapprovedVolunteers = unapprovedVolunteers;
+		}
+
+		public Event getEvent() {
+			return event;
+		}
+
+		public void setEvent(Event event) {
+			this.event = event;
+		}
+	}
 }
