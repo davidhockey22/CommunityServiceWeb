@@ -11,12 +11,16 @@ import org.CommunityService.EntitiesMapped.VolunteerSkill;
 import org.hibernate.HibernateException;
 
 public class SkillService {
+	private static List<Skill> Skills;
 
 	@SuppressWarnings("unchecked")
 	public static List<Skill> getSkills() throws Exception {
-		String hql = "from Skill";
-		List<Skill> Skills = (List<Skill>) DBConnection.query(hql, null);
+		if (Skills == null) {
+			String hql = "from Skill";
+			Skills = (List<Skill>) DBConnection.query(hql, null);
+		}
 		return Skills;
+
 	}
 
 	public static Skill getSkillById(Integer SkillID) {

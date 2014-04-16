@@ -10,17 +10,20 @@ import org.CommunityService.EntitiesMapped.VolunteerInterest;
 import org.hibernate.HibernateException;
 
 public class InterestService {
-	
-	
+	private static List<Interest> interests;
+
 	public static List<Interest> getInterests() {
-		String hql = "from Interest";
-		try {
-			@SuppressWarnings("unchecked")
-			List<Interest> events = (List<Interest>) DBConnection.query(hql, null);
-			return events;
-		} catch (HibernateException e) {
-			e.printStackTrace();
-			return null;
+		if (interests == null) {
+			String hql = "from Interest";
+			try {
+				interests = (List<Interest>) DBConnection.query(hql, null);
+				return interests;
+			} catch (HibernateException e) {
+				e.printStackTrace();
+				return null;
+			}
+		} else {
+			return interests;
 		}
 	}
 
