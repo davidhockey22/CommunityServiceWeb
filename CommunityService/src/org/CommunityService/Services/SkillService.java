@@ -14,7 +14,7 @@ public class SkillService {
 	private static List<Skill> Skills;
 
 	@SuppressWarnings("unchecked")
-	public static List<Skill> getSkills() throws Exception {
+	public static List<Skill> getSkills() {
 		if (Skills == null) {
 			String hql = "from Skill";
 			Skills = (List<Skill>) DBConnection.query(hql, null);
