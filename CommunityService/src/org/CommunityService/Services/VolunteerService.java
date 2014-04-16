@@ -28,8 +28,8 @@ public class VolunteerService {
 		return;
 	}
 
-	public static void registerVolunteer(String username, String password, String email, String phoneNumber, String firstName,
-			String lastName) throws Exception {
+	public static void registerVolunteer(String username, String password, String email, String phoneNumber, String firstName, String lastName)
+			throws Exception {
 		password = PasswordHash.getHash(password, email);
 		Volunteer v = new Volunteer(username, password, phoneNumber, email, firstName, lastName);
 		DBConnection.persist(v);
@@ -160,10 +160,17 @@ public class VolunteerService {
 		return (organizationFollowers != null ? organizationFollowers : new ArrayList<OrganizationFollower>());
 	}
 
+	public static List<Volunteer> getLeaderboardByPoints(int limit) throws HibernateException {
+		String hql = "from Volunteer as v order by v.points desc";
+		@SuppressWarnings("unchecked")
+		List<Volunteer> v = (List<Volunteer>) DBConnection.query(hql, null, limit);
+		return v;
+	}
+
 	public static List<Volunteer> getLeaderboardByPoints() throws HibernateException {
 		String hql = "from Volunteer as v order by v.points desc";
 		@SuppressWarnings("unchecked")
-		List<Volunteer> v = (List<Volunteer>) DBConnection.query(hql, null, 100);
+		List<Volunteer> v = (List<Volunteer>) DBConnection.query(hql, null);
 		return v;
 	}
 

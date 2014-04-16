@@ -6,8 +6,9 @@ import java.util.List;
 
 import org.CommunityService.EntitiesMapped.Event;
 import org.CommunityService.EntitiesMapped.EventVolunteer;
-import org.CommunityService.EntitiesMapped.Volunteer;
+import org.CommunityService.EntitiesMapped.Group;
 import org.CommunityService.EntitiesMapped.Organization;
+import org.CommunityService.EntitiesMapped.Volunteer;
 import org.hibernate.HibernateException;
 
 public class EventService {
@@ -25,7 +26,7 @@ public class EventService {
 		List<Date> params = new ArrayList<Date>();
 		params.add(lowBound);
 		params.add(upperBound);
-		List<Event> events = (List<Event>) DBConnection.queryLimit(hql, params, 5);
+		List<Event> events = (List<Event>) DBConnection.queryLimit(hql, params, 10);
 		return events;
 	}
 
@@ -42,6 +43,21 @@ public class EventService {
 		String hql = "from Event as e where e.organization.orgId=? order by e.beginTime";
 		ArrayList<Integer> params = new ArrayList<Integer>();
 		params.add(o.getOrgId());
+		try {
+			@SuppressWarnings("unchecked")
+			List<Event> events = (List<Event>) DBConnection.query(hql, params);
+			System.out.println(events.size());
+			return events;
+		} catch (HibernateException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	public static List<Event> getEventsByGroup(Group g) {
+		String hql = "Select g.events from Group as g where g.groupId=?";
+		ArrayList<Integer> params = new ArrayList<Integer>();
+		params.add(g.getGroupId());
 		try {
 			@SuppressWarnings("unchecked")
 			List<Event> events = (List<Event>) DBConnection.query(hql, params);
@@ -170,12 +186,12 @@ public class EventService {
 		EventVolunteer ev = new EventVolunteer(e, v, 0, false);
 		DBConnection.update(ev);
 	}
-	
-	public static void update(Event ev) throws HibernateException { 
+
+	public static void update(Event ev) throws HibernateException {
 
 		DBConnection.update(ev);
 	}
-	
+
 	public static void addEvent(Event event) throws HibernateException {
 		DBConnection.save(event);
 	}
