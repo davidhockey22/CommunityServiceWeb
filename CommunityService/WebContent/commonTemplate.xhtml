@@ -17,11 +17,11 @@
 			</ui:insert>
 		</div>
 
-		<div id="left">
+		<p:panel id="left" header="Navigation" rendered="#{loginBean.loggedIn}">
 			<ui:insert name="leftSidebar">
 				<ui:include src="/commonLeftSidebar.xhtml" />
 			</ui:insert>
-		</div>
+		</p:panel>
 
 		<div id="container">
 			<p:panel id="center">

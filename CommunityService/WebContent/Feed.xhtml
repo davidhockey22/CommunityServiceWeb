@@ -26,8 +26,8 @@
 								</h:outputText>
 							</p:column>
 						</p:dataTable>
-					</p:panel> <p:panel render="#{empty feedBean.volunteerEvents}">You have no events on your schedule today.</p:panel> <br /> <p:panel
-						header="Events you might be interested in..." rendered="#{not empty feedBean.feed}">
+					</p:panel> <p:panel render="#{empty feedBean.volunteerEvents}" >You have no events on your schedule today.</p:panel> <br /> <p:panel
+						header="Events you might be interested in..." rendered="#{not empty feedBean.feed}" style="border:0px">
 						<p:dataTable var="e" value="#{feedBean.feed}">
 							<p:column headerText="Event Name">
 								<h:link value="#{e.eventName}" outcome="/ViewEvent.xhtml">
@@ -48,7 +48,7 @@
 
 					</p:panel> <p:panel rendered="#{empty feedBean.feed}">We don't have any recommendations for events right now... Perhaps you should <a
 							href="/CommunityService/searchevent">search</a> for an event.</p:panel></td>
-				<td><p:panel header="Volunteer Leaderboard">
+				<td><p:panel header="Volunteer Leaderboard" style="border:0px">
 
 						<f:event listener="#{leaderboardBean.preRenderPoints}" type="preRenderComponent"></f:event>
 

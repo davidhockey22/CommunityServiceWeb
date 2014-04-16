@@ -21,12 +21,13 @@
 			</p:ajaxStatus>
 			<div>
 				<div style="float: left">
-					<h:link outcome="/Home.xhtml"><h:graphicImage url="/images/logo.png" style="float:left; margin-top:1em;" />
+					<h:link outcome="/Home.xhtml">
+						<h:graphicImage url="/images/logo.png" style="float:left; margin-top:1em;" />
 					</h:link>
 					<h:outputText value="Helping You, Help Everyone." />
 				</div>
 				<div style="float: right">
-					<h:form rendered="#{!loginBean.loggedIn}">
+					<h:form rendered="#{!loginBean.loggedIn}" style="padding-top:10px; padding-right:15px;">
 						<p:commandButton id="loginButton" value="Login" type="button" />
 						<p:button value="Register" outcome="/NewVolunteer.xhtml?faces-redirect=true" />
 						<p:overlayPanel id="loginPanel" for="loginButton" showEffect="clip" hideEffect="clip">

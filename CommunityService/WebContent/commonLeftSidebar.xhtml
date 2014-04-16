@@ -5,14 +5,12 @@
 	xmlns:p="http://primefaces.org/ui">
 <body>
 	<ui:composition>
-		<p:panel header="Navigation" rendered="#{loginBean.loggedIn}">
 			<p:menu >
 				<p:menuitem value="My Organizations" icon="ui-icon-person" url="/organizations" />
 				<p:menuitem value="My Groups" icon="ui-icon-person" url="/groups" />
 				<p:menuitem value="My Events" icon="ui-icon-star" url="/events" />
 				<p:menuitem value="My Schedule" icon="ui-icon-calendar" url="/schedule" />
 			</p:menu>
-		</p:panel>
 	</ui:composition>
 </body>
 </html>
