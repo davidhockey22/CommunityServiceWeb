@@ -153,7 +153,7 @@ public class Volunteer implements java.io.Serializable {
 	}
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "LastLoginDate", length = 19)
+	@Column(name = "LastLoginDate", length = 19, insertable = false, updatable = false)
 	public Date getLastLoginDate() {
 		return this.lastLoginDate;
 	}
@@ -171,7 +171,7 @@ public class Volunteer implements java.io.Serializable {
 		this.points = points;
 	}
 
-	@Column(name = "HoursWorked")
+	@Column(name = "HoursWorked", insertable = false)
 	public Integer getHoursWorked() {
 		return this.hoursWorked;
 	}
@@ -180,7 +180,7 @@ public class Volunteer implements java.io.Serializable {
 		this.hoursWorked = hoursWorked;
 	}
 
-	@Column(name = "AvgRating", precision = 12, scale = 0)
+	@Column(name = "AvgRating", precision = 12, scale = 0, insertable = false)
 	public Float getAvgRating() {
 		return this.avgRating;
 	}
@@ -190,7 +190,7 @@ public class Volunteer implements java.io.Serializable {
 	}
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "CreationDate", length = 19)
+	@Column(name = "CreationDate", length = 19, insertable = false, updatable = false)
 	public Date getCreationDate() {
 		return this.creationDate;
 	}
