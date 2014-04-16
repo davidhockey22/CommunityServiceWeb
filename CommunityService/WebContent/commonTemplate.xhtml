@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:p="http://primefaces.org/ui" xmlns:ui="http://java.sun.com/jsf/facelets">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui">
 <h:head>
 	<h:outputStylesheet library="css" name="main.css" />
 	<script type="text/javascript" src="/CommunityService/Web/js/main.js"></script>
@@ -31,6 +31,22 @@
 			</p:panel>
 		</div>
 
+		<p:notificationBar position="bottom" effect="slide" widgetVar="bar" styleClass="top" rendered="#{loginBean.loggedIn}">
+			<p:dataTable var="no" value="#{loginBean.volunteer.notifications.toArray()}" rendered="#{not empty loginBean.volunteer.notifications}">
+				<p:column>
+					<h:outputText value=" #{no.description}" />
+				</p:column>
+				<p:column>
+					<h:outputText value="#{no.category}" />
+				</p:column>
+				<p:column>
+					<h:outputText value="#{no.creation}">
+						<f:convertDateTime pattern="EEE, MMM d, yyyy - h:mm a" locale="en_US" type="both" timeStyle="full" timeZone="EDT" />
+					</h:outputText>
+				</p:column>
+			</p:dataTable>
+			<h:outputText value="No notifications." rendered="#{empty loginBean.volunteer.notifications}" />
+		</p:notificationBar>
 
 		<div id="footer">
 			<ui:insert name="footer">

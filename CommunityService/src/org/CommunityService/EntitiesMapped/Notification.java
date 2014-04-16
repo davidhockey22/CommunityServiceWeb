@@ -2,22 +2,17 @@ package org.CommunityService.EntitiesMapped;
 
 // Generated Feb 22, 2014 8:45:42 PM by Hibernate Tools 3.4.0.CR1
 
+import static javax.persistence.GenerationType.IDENTITY;
+
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-
-import static javax.persistence.GenerationType.IDENTITY;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -35,12 +30,13 @@ public class Notification implements java.io.Serializable {
 	private static final long serialVersionUID = -3992575582339276397L;
 	private Integer notificationId;
 	private String description;
+	private Volunteer volunteer;
+
 	private String category;
 	private String key;
 	private String value;
 	private Date creation;
 	private Date dependenceDate;
-	private Set<Volunteer> volunteers = new HashSet<Volunteer>(0);
 
 	public Notification() {
 	}
@@ -49,14 +45,13 @@ public class Notification implements java.io.Serializable {
 		this.description = description;
 	}
 
-	public Notification(String description, String category, String key, String value, Date creation, Date dependenceDate, Set<Volunteer> volunteers) {
+	public Notification(String description, String category, String key, String value, Date creation, Date dependenceDate) {
 		this.description = description;
 		this.category = category;
 		this.key = key;
 		this.value = value;
 		this.creation = creation;
 		this.dependenceDate = dependenceDate;
-		this.volunteers = volunteers;
 	}
 
 	@Id
@@ -77,6 +72,16 @@ public class Notification implements java.io.Serializable {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "volunteerId", nullable = false)
+	public Volunteer getVolunteer() {
+		return this.volunteer;
+	}
+
+	public void setVolunteer(Volunteer volunteer) {
+		this.volunteer = volunteer;
 	}
 
 	@Column(name = "Category", length = 45)
@@ -124,16 +129,6 @@ public class Notification implements java.io.Serializable {
 
 	public void setDependenceDate(Date dependenceDate) {
 		this.dependenceDate = dependenceDate;
-	}
-
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinTable(name = "Notification_Volunteer", catalog = "volunteerMeData", joinColumns = { @JoinColumn(name = "NotificationID", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "VolunteerID", nullable = false, updatable = false) })
-	public Set<Volunteer> getVolunteers() {
-		return this.volunteers;
-	}
-
-	public void setVolunteers(Set<Volunteer> volunteers) {
-		this.volunteers = volunteers;
 	}
 
 }

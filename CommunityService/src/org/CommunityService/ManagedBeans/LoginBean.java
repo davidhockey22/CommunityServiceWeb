@@ -11,10 +11,12 @@ import javax.faces.context.FacesContext;
 
 import org.CommunityService.EntitiesMapped.EventVolunteer;
 import org.CommunityService.EntitiesMapped.GroupMember;
+import org.CommunityService.EntitiesMapped.Notification;
 import org.CommunityService.EntitiesMapped.Organization;
 import org.CommunityService.EntitiesMapped.OrganizationFollower;
 import org.CommunityService.EntitiesMapped.Volunteer;
 import org.CommunityService.Services.InterestService;
+import org.CommunityService.Services.NotificationService;
 import org.CommunityService.Services.SkillService;
 import org.CommunityService.Services.VolunteerService;
 import org.CommunityService.Validators.PasswordHash;
@@ -22,7 +24,7 @@ import org.CommunityService.util.Gravatar;
 import org.hibernate.HibernateException;
 import org.ocpsoft.rewrite.annotation.Join;
 
-@ManagedBean(name="loginBean")
+@ManagedBean(name = "loginBean")
 @SessionScoped
 @Join(path = "/login", to = "/Web/Login.xhtml")
 public class LoginBean {
@@ -58,7 +60,7 @@ public class LoginBean {
 				e.printStackTrace();
 				return "Error.xhtml?faces-redirect=true";
 			}
-			
+
 		} else {
 			MessageController.addInfo("User already logged in. Please log out to log in again.");
 			return "?faces-redirect=true";
@@ -109,14 +111,19 @@ public class LoginBean {
 
 	public void refreshOrganizations() {
 		if (volunteer != null) {
-			volunteer.setOrganizationFollowers(new HashSet<OrganizationFollower>(VolunteerService
-					.getOrganizationFollowersByVolunteer(volunteer)));
+			volunteer.setOrganizationFollowers(new HashSet<OrganizationFollower>(VolunteerService.getOrganizationFollowersByVolunteer(volunteer)));
+		}
+	}
+
+	public void refreshNotifications() {
+		if (volunteer != null) {
+			volunteer.setNotifications(new HashSet<Notification>(NotificationService.getUserNotifications(volunteer)));
 		}
 	}
 
 	public void refreshAllData() {
-		volunteer = VolunteerService.getVolunteerByIdWithAttachedEntities(volunteer.getVolunteerId(), "GroupMembers",
-				"VolunteerInterests", "OrganizationFollowers", "VolunteerSkills", "EventVolunteers");
+		volunteer = VolunteerService.getVolunteerByIdWithAttachedEntities(volunteer.getVolunteerId(), "GroupMembers", "VolunteerInterests",
+				"OrganizationFollowers", "VolunteerSkills", "EventVolunteers", "Notifications");
 	}
 
 	public void attachEvents() {
@@ -133,7 +140,8 @@ public class LoginBean {
 
 	/**
 	 * @param org
-	 * @return up-to-date status of a Volunteer in a given Organization, or false if orgId is null
+	 * @return up-to-date status of a Volunteer in a given Organization, or
+	 *         false if orgId is null
 	 */
 	public boolean isMemberOfOrganization(Organization org) {
 		return org == null ? false : isMemberOfOrganizatoin(org.getOrgId());
@@ -141,13 +149,13 @@ public class LoginBean {
 
 	/**
 	 * @param orgId
-	 * @return cached status of a Volunteer in a given Organization, or false if orgId is null
+	 * @return cached status of a Volunteer in a given Organization, or false if
+	 *         orgId is null
 	 */
 	public boolean isMemberOfOrganizatoin(Integer orgId) {
 		if (orgId == null)
 			return false;
-		for (Iterator<OrganizationFollower> iterator = this.volunteer.getOrganizationFollowers().iterator(); iterator
-				.hasNext();) {
+		for (Iterator<OrganizationFollower> iterator = this.volunteer.getOrganizationFollowers().iterator(); iterator.hasNext();) {
 			OrganizationFollower organizationFollower = (OrganizationFollower) iterator.next();
 			if (organizationFollower.getOrganization().getOrgId() == orgId) {
 				return organizationFollower.getAdmin() || organizationFollower.getMod();

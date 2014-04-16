@@ -49,6 +49,7 @@ public class Volunteer implements java.io.Serializable {
 	private String description;
 	private String salt;
 
+	private Set<Notification> notifications = new HashSet<Notification>(0);
 	private Set<GroupMember> groupMembers = new HashSet<GroupMember>(0);
 	private Set<FacebookLogIn> facebookLogIns = new HashSet<FacebookLogIn>(0);
 	private Set<EventVolunteer> eventVolunteers = new HashSet<EventVolunteer>(0);
@@ -59,7 +60,6 @@ public class Volunteer implements java.io.Serializable {
 	private Set<GoogleLogIn> googleLogIns = new HashSet<GoogleLogIn>(0);
 	private Set<VolunteerSkill> volunteerSkills = new HashSet<VolunteerSkill>(0);
 	private Set<SocialLinks> socialLinkses = new HashSet<SocialLinks>(0);
-	private Set<Notification> notifications = new HashSet<Notification>(0);
 	private Set<Event> events = new HashSet<Event>(0);
 
 	public Volunteer() {
@@ -335,15 +335,6 @@ public class Volunteer implements java.io.Serializable {
 		this.socialLinkses = socialLinkses;
 	}
 
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "volunteers")
-	public Set<Notification> getNotifications() {
-		return this.notifications;
-	}
-
-	public void setNotifications(Set<Notification> notifications) {
-		this.notifications = notifications;
-	}
-
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "volunteer", cascade = CascadeType.ALL)
 	public Set<Event> getEvents() {
 		return this.events;
@@ -351,5 +342,14 @@ public class Volunteer implements java.io.Serializable {
 
 	public void setEvents(Set<Event> events) {
 		this.events = events;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "volunteer")
+	public Set<Notification> getNotifications() {
+		return this.notifications;
+	}
+
+	public void setNotifications(Set<Notification> notifications) {
+		this.notifications = notifications;
 	}
 }

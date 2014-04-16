@@ -64,6 +64,8 @@ public class VolunteerService {
 		map.put("OrganizationFollowers", " left join fetch v.organizationFollowers as orgf left join fetch orgf.organization ");
 		map.put("VolunteerSkills", " left join fetch v.volunteerSkills as vs left join fetch vs.skill ");
 		map.put("EventVolunteers", " left join fetch v.eventVolunteers as ev left join fetch ev.event ");
+		map.put("Notifications", " left join fetch v.notifications as n");
+
 		entitiesMap = Collections.unmodifiableMap(map);
 	}
 

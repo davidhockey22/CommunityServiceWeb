@@ -29,5 +29,4 @@
   <table-filter match-catalog="volunteerMeData" match-name="Volunteer_Interest"/>
   <table-filter match-catalog="volunteerMeData" match-name="Volunteer_Skill"/>
   <table-filter match-catalog="volunteerMeData" match-name="occurrencePattern"/>
-  <table-filter match-catalog="volunteerMeData" match-name="Notification_Volunteer"/>
 </hibernate-reverse-engineering>

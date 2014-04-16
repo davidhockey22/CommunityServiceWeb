@@ -44,8 +44,11 @@
 							</h:form>
 						</p:overlayPanel>
 					</h:form>
-					<h:form rendered="#{loginBean.loggedIn}" style="margin-top:.4em; margin-right:1.4em">
-						<p:menubar autoDisplay="false" style="display:inline-flex; border:none;">
+
+					<h:form rendered="#{loginBean.loggedIn}" style="margin-right:1.4em">
+						<p:commandButton value="Notifications" onclick="if($(bar.jq).is(':visible')) bar.hide(); else bar.show();" type="button"
+							style="margin-bottom: .3em;" />
+						<p:menubar autoDisplay="false" style="margin-top:.4em; display:inline-flex; border:none;">
 							<p:submenu label="Search" icon="ui-icon-search">
 								<p:menuitem value="Volunteers" url="/searchvolunteer" />
 								<p:menuitem value="Groups" url="/searchgroup" />
@@ -59,7 +62,7 @@
 								<p:menuitem value="Log Out" actionListener="#{loginBean.Logout}" ajax="false" />
 							</p:submenu>
 						</p:menubar>
-						<h:link outcome="/volunteer/#{loginBean.volunteer.volunteerId}">
+						<h:link outcome="/volunteer/#{loginBean.volunteer.volunteerId}" style="margin-top:.4em;">
 							<h:graphicImage value="#{loginBean.gravatarURL}" style="width: 40px; margin-right: .5em" />
 						</h:link>
 					</h:form>
