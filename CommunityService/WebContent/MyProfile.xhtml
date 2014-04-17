@@ -74,6 +74,21 @@
 									</p:inplace>
 								</p:column>
 							</p:row>
+							
+							<p:row>
+								<p:column>
+									<h:outputLabel for="#{loginBean.volunteer.description}"
+										value="Bio: " />
+								</p:column>
+								<p:column>
+									<p:inputTextarea id="description" cols="30" rows="10"
+										value="#{loginBean.volunteer.description}" required="false"
+										onkeyup="showUnsaved()">
+										<f:validateLength maximum="500" />
+									</p:inputTextarea>							
+								</p:column>
+							</p:row>							
+							
 							<p:row>
 								<p:column>
 									<h:commandButton type="submit" value="Save" action="#{myProfileBean.updateProfile()}"></h:commandButton>

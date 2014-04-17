@@ -24,12 +24,14 @@ public class NewVolunteerBean {
 	private String confirmPassword;
 	private String firstName;
 	private String lastName;
+	private String description;
 
 	public String Register() {
 		try {
 			password = PasswordHash.getHash(password, email);
 			Volunteer v = new Volunteer(username, password, phoneNumber, email, firstName, lastName);
 			v.setSalt(email);
+			v.setDescription(description);
 			VolunteerService.addVolunteer(v);
 		} catch (HibernateException e) {
 			e.printStackTrace();
@@ -101,5 +103,13 @@ public class NewVolunteerBean {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
+	
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}	
 
 }

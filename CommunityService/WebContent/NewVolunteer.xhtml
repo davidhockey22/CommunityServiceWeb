@@ -47,9 +47,17 @@
 					<p:inputText id="email" value="#{newVolunteerBean.email}" required="true" onblur="checkEmail(value, 'registerForm', 'emailValidation')"></p:inputText>
 					<h:outputText id="emailValidation" style="color: red;" value="" />
 
+					<h:outputLabel for="#{newVolunteerBean.description}" value="Bio" />
+					<p:inputTextarea id="description" cols="30" rows="10"
+						value="#{newVolunteerBean.description}" required="false">
+						<f:validateLength maximum="500" />
+					</p:inputTextarea>							
+					<h:outputText value="" />
+
 					<p:commandButton type="submit" value="Register" action="#{newVolunteerBean.Register}"
 						onclick="if(validateRegistration()==false){return false}"></p:commandButton>
 					<h:outputText id="submitValidation" style="color: red;" value="" />
+
 
 				</h:panelGrid>
 

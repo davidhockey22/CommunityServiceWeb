@@ -28,6 +28,11 @@
 					<h:outputText value="Points" />
 					<h:outputText id="points"
 						value="#{viewVolunteerBean.volunteer.points != null ? viewVolunteerBean.volunteer.points : '0'}" />
+						
+					<h:outputText value="Bio" />
+					<h:outputText id="bio"
+						value="#{viewVolunteerBean.volunteer.description != null ? viewVolunteerBean.volunteer.description : ''}" />						
+						
 					<h:outputText value="Interests" />
 					<p:dataTable rendered="#{not empty viewVolunteerBean.volunteer.volunteerInterests}" var="VI"
 						value="#{viewVolunteerBean.volunteer.volunteerInterests.toArray()}" paginator="false" rows="10" id="interestTable">
