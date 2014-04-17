@@ -2,7 +2,6 @@ package org.CommunityService.EntitiesMapped;
 
 // Generated Feb 22, 2014 8:45:42 PM by Hibernate Tools 3.4.0.CR1
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -58,7 +57,7 @@ public class VolunteerSkill implements java.io.Serializable {
 		this.volunteerSkillId = volunteerSkillId;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "SkillID", nullable = false)
 	public Skill getSkill() {
 		return this.skill;
@@ -68,7 +67,7 @@ public class VolunteerSkill implements java.io.Serializable {
 		this.skill = skill;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "VolunteerID", nullable = false)
 	public Volunteer getVolunteer() {
 		return this.volunteer;
