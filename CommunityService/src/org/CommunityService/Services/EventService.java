@@ -84,6 +84,22 @@ public class EventService {
 			return null;
 		}
 	}
+	
+	public static Event getEventByIdForEdit(int eventId, int volunteerId) throws HibernateException {
+
+		String hql = "from Event as e left join fetch e.volunteer left join fetch e.organization as o (from Volunteer as v where v.where e.eventId=?";
+		ArrayList<Integer> params = new ArrayList<Integer>();
+		params.add(eventId);
+		try {
+			@SuppressWarnings("unchecked")
+			Event e = (Event) (((List<Event>) DBConnection.query(hql, params)).get(0));
+			return e;
+		} catch (HibernateException e) {
+			return null;
+		} catch (IndexOutOfBoundsException e) {
+			return null;
+		}
+	}
 
 	public static Event getEventByIdFetch(int eventId) throws HibernateException {
 
