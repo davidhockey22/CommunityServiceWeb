@@ -39,7 +39,13 @@ public class MySQLRequest extends IntentService{
     		kindEventQuery = 3, //id = volunteer id   		
     		kindFindQuery = 4, //id = null (returns all events)
     		kindRegister = 5,
-    		kindByDate = 6;
+    		kindByDate = 6,
+    		kindSkills = 7,
+    		kindBySkill = 8,
+    		kindByInterest = 9,
+    		kindInterests = 10,
+    		kindToken = 11,
+    		kindSignUpForEvent = 12;
  
     private String inMessage;
     
@@ -77,7 +83,7 @@ public class MySQLRequest extends IntentService{
         Intent msgIntent = new Intent(context, MySQLRequest.class);
         msgIntent.putExtra(MySQLRequest.IN_MSG, "MySQLRequest");
         msgIntent.putExtra("kind", kind.trim());        
-        msgIntent.putExtra("id", id.trim());
+        if(id != null) msgIntent.putExtra("id", id.trim());
         context.startService(msgIntent);
         
         return true;
@@ -156,6 +162,49 @@ public class MySQLRequest extends IntentService{
 
         		response = sendHttpRequest(url, nameValuePairs);        		
         	}
+        	else if(kindInt == kindSkills){
+        		
+        		url = "http://54.200.107.187:8080/CommunityService/Android/getSkills";
+
+        		response = sendHttpRequest(url, nameValuePairs);        		
+        	}
+        	else if(kindInt == kindBySkill){
+        		
+        		url = "http://54.200.107.187:8080/CommunityService/Android/bySkill";
+        		url += "?ID=" + id;
+        		
+        		response = sendHttpRequest(url, nameValuePairs);        		
+        	}        	
+        	else if(kindInt == kindByInterest){
+        		
+        		url = "http://54.200.107.187:8080/CommunityService/Android/byInterest";
+        		url += "?ID=" + id;
+        		
+        		response = sendHttpRequest(url, nameValuePairs);        		
+        	}
+        	else if(kindInt == kindInterests){
+        		
+        		url = "http://54.200.107.187:8080/CommunityService/Android/getInterests";
+
+        		response = sendHttpRequest(url, nameValuePairs);        		
+        	}
+        	else if(kindInt == kindToken){
+        		
+        		url = "http://54.200.107.187:8080/CommunityService/Android/loginToken";
+
+        		nameValuePairs.add(new BasicNameValuePair("token", id));
+        		
+        		response = sendHttpRequest(url, nameValuePairs);        		
+        	}   
+        	else if(kindInt == kindSignUpForEvent) {
+        		
+        		url = "http://54.200.107.187:8080/CommunityService/Android/signUpForEvent";
+
+        		nameValuePairs.add(new BasicNameValuePair("volID", VolunteerData.current.getVolunteerID()));
+        		nameValuePairs.add(new BasicNameValuePair("eventID", id));
+        		
+        		response = sendHttpRequest(url, nameValuePairs);        		        		
+        	}
         	else
         		Obj.BreakPoint();
         }        	
@@ -201,7 +250,7 @@ public class MySQLRequest extends IntentService{
                 out.close();
                 content = out.toString();
             }
- 
+
             else{
                 //Closes the connection.
                 Log.w("HTTP1:",statusLine.getReasonPhrase());

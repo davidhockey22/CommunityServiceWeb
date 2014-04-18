@@ -17,8 +17,8 @@ public class EventAdapter extends BaseExpandableListAdapter {
     private LayoutInflater inflater;
     private int kind;
     
-    public static final int kindEvent = 1, kindFindByDistance = 2, kindFindByInterest = 3, kindFindByDate = 4;
-	public static String findByInterestID = null;
+    public static final int kindEvent = 1, kindFindByDistance = 2, kindFindByInterest = 3, kindFindByDate = 4, kindFindBySkill = 5;
+	public static String findByInterestID = null, findBySkillID = null;
     public static int findByKind = 2;
 
     public EventAdapter(Context context, int Kind) {
