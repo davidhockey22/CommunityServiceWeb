@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
-import java.util.Iterator;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,8 +14,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.CommunityService.EntitiesMapped.Event;
 import org.CommunityService.EntitiesMapped.Volunteer;
-import org.CommunityService.EntitiesMapped.VolunteerDevice;
+import org.CommunityService.Services.EventService;
 import org.CommunityService.Services.VolunteerService;
 import org.CommunityService.Validators.PasswordHash;
 
@@ -27,11 +28,11 @@ import com.google.gson.GsonBuilder;
  import com.google.gson.JsonElement;
  import com.google.gson.JsonObject;
  */
-@WebServlet(urlPatterns = { "/Android/login" })
-public class LoginServlet extends HttpServlet {
+@WebServlet(urlPatterns = { "/Android/signUpForEvent" })
+public class SignUpForEventServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	public LoginServlet() {
+	public SignUpForEventServlet() {
 		super();
 	}
 
@@ -51,45 +52,28 @@ public class LoginServlet extends HttpServlet {
 		response.setHeader("Access-Control-Allow-Methods", "GET,POST");
 		response.setHeader("Access-Control-Allow-Headers", "Content-Type");
 		response.setHeader("Access-Control-Max-Age", "86400");
-
-		String volunteerId = ((String) request.getParameter("username"));
-		String password = ((String) request.getParameter("password"));
+		
+		String volId = ((String) request.getParameter("volID"));
+		String eventId = ((String) request.getParameter("eventID"));
 		
 		//test
-		//volunteerId = new String("henry");
-		//password = new String("password1");
-
-		GsonBuilder b = new GsonBuilder();
-		// b.registerTypeAdapterFactory(HibernateProxyTypeAdapter.FACTORY);
-		Gson gson = b.create();
-
-		Volunteer v = VolunteerService.getVolunteerByName(volunteerId);
-		
-		try {
-			String hashedPassword = PasswordHash.getHash(password, v.getSalt());
-			if (v != null && v.getVolunteerPassword().equals( hashedPassword )) {
-		
-				VolunteerService.resetLoginToken(v); //this has to be done after comparing hashedPassword.
+//		volId = "18";
+//		eventId = "21";
 				
-				HibernateUtil.clean(v);
-				out.println(gson.toJson(v));
+		try {
+			
+			Volunteer v = VolunteerService.getVolunteerById(Integer.parseInt(volId));		
+			Event ev = EventService.getEventById(Integer.parseInt(eventId));	
 
-			}
-			else{
-				out.println("{}");
-			}
-		} catch (NoSuchAlgorithmException e1) {
+			EventService.signUp(v, ev);
+			
+			out.println("1");
+			
+		} catch (Exception e2) {
 			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (InvalidKeySpecException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			e2.printStackTrace();
+			
+			out.println("0");
 		}
 
 		out.close();
