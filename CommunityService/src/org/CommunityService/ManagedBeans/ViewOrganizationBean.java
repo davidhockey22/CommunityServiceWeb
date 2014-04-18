@@ -39,6 +39,9 @@ public class ViewOrganizationBean {
 	public String follow() {
 		OrganizationService.addFollower(currentVolunteer.getVolunteer(), organization);
 		currentVolunteer.attachOrganizations();
+		
+		following = new String("true");
+		
 		return "?faces-redirect=true";
 
 	}
@@ -46,6 +49,9 @@ public class ViewOrganizationBean {
 	public String unFollow() {
 		OrganizationService.removeOrgFollower(Integer.parseInt(orgId), currentVolunteer.getVolunteer().getVolunteerId());
 		currentVolunteer.attachOrganizations();
+		
+		following = new String("false");
+		
 		return "?faces-redirect=true";
 	}
 
