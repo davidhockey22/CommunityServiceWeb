@@ -1,10 +1,10 @@
 package AndroidWebService;
 
+import hibernate.HibernateProxyTypeAdapter;
 import hibernate.HibernateUtil;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -14,9 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.CommunityService.EntitiesMapped.Event;
-import org.CommunityService.EntitiesMapped.Interest;
 import org.CommunityService.Services.EventService;
-import org.CommunityService.Services.InterestService;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -49,9 +47,12 @@ public class EventsByInterestServlet extends HttpServlet {
 		//.... .... .... ....
 		
 		String interestId = ((String) request.getParameter("ID"));
+		
+		//test
+		//interestId="17";
 
 		GsonBuilder b = new GsonBuilder();
-		// b.registerTypeAdapterFactory(HibernateProxyTypeAdapter.FACTORY);
+		b.registerTypeAdapterFactory(HibernateProxyTypeAdapter.FACTORY);
 		Gson gson = b.create();
 
 		List<Event> list;

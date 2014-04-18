@@ -1,5 +1,6 @@
 package AndroidWebService;
 
+import hibernate.HibernateProxyTypeAdapter;
 import hibernate.HibernateUtil;
 
 import java.io.IOException;
@@ -45,9 +46,12 @@ public class EventsBySkillServlet extends HttpServlet {
 		response.setHeader("Access-Control-Max-Age", "86400");
 		
 		String Id = ((String) request.getParameter("ID"));
+		
+		//test
+		//Id = "10";
 
 		GsonBuilder b = new GsonBuilder();
-		// b.registerTypeAdapterFactory(HibernateProxyTypeAdapter.FACTORY);
+		b.registerTypeAdapterFactory(HibernateProxyTypeAdapter.FACTORY);
 		Gson gson = b.create();
 
 		List<Event> list;
@@ -66,22 +70,6 @@ public class EventsBySkillServlet extends HttpServlet {
 				e.printStackTrace();
 			}
 
-			out.println(gson.toJson(list));
-		} else {
-			
-			list = EventService.getEventsByDate();
-			try {
-				for (Event clean : list) {
-					HibernateUtil.clean(clean);
-				}
-			} catch (IllegalArgumentException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
 			out.println(gson.toJson(list));
 		}
 

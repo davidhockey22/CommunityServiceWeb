@@ -1,5 +1,6 @@
 package AndroidWebService;
 
+import hibernate.HibernateProxyTypeAdapter;
 import hibernate.HibernateUtil;
 
 import java.io.IOException;
@@ -52,7 +53,7 @@ public class InterestsServlet extends HttpServlet {
 		InterestId = ((String) request.getParameter("ID"));
 
 		GsonBuilder b = new GsonBuilder();
-		// b.registerTypeAdapterFactory(HibernateProxyTypeAdapter.FACTORY);
+		b.registerTypeAdapterFactory(HibernateProxyTypeAdapter.FACTORY);
 		Gson gson = b.create();
 
 		List<Interest> vList = null;
