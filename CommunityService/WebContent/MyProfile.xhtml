@@ -36,7 +36,7 @@
 									<h:outputText value="UserName: " />
 								</p:column>
 								<p:column>
-									<p:inplace id="ajaxInplace0" editor="true">
+									<p:inplace id="ajaxInplace0">
 										<p:inputText value="#{loginBean.volunteer.volunteerName}" required="true" label="text" onkeyup="showUnsaved()" />
 									</p:inplace>
 								</p:column>
@@ -58,7 +58,7 @@
 									<h:outputText value="Phone Number: " />
 								</p:column>
 								<p:column>
-									<p:inplace id="ajaxInplace1" editor="true">
+									<p:inplace id="ajaxInplace1">
 										<p:inputText value="#{loginBean.volunteer.phoneNumber}" required="true" label="text" onkeyup="showUnsaved()" />
 									</p:inplace>
 								</p:column>
@@ -69,26 +69,25 @@
 								</p:column>
 								<f:event listener="#{myProfileBean.saveEmail}" type="preRenderComponent"></f:event>
 								<p:column>
-									<p:inplace id="ajaxInplace2" editor="true">
+									<p:inplace id="ajaxInplace2">
 										<p:inputText value="#{loginBean.volunteer.emailAddress}" required="true" label="text" onkeyup="showUnsaved()" />
 									</p:inplace>
 								</p:column>
 							</p:row>
-							
+
 							<p:row>
 								<p:column>
-									<h:outputLabel for="#{loginBean.volunteer.description}"
-										value="Bio: " />
+									<h:outputLabel for="#{loginBean.volunteer.description}" value="Bio: " />
 								</p:column>
 								<p:column>
-									<p:inputTextarea id="description" cols="30" rows="10"
-										value="#{loginBean.volunteer.description}" required="false"
-										onkeyup="showUnsaved()">
-										<f:validateLength maximum="500" />
-									</p:inputTextarea>							
+									<p:inplace id="ajaxInplace3">
+										<p:inputTextarea id="description" cols="30" rows="10" value="#{loginBean.volunteer.description}" required="false" onkeyup="showUnsaved()">
+											<f:validateLength maximum="500" />
+										</p:inputTextarea>
+									</p:inplace>
 								</p:column>
-							</p:row>							
-							
+							</p:row>
+
 							<p:row>
 								<p:column>
 									<h:commandButton type="submit" value="Save" action="#{myProfileBean.updateProfile()}"></h:commandButton>

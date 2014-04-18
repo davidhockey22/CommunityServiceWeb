@@ -15,7 +15,7 @@ input .error {
 body {
 	min-width: 630px; /* 2x (LC fullwidth +
                             CC padding) + RC fullwidth */;
-	background-color: #F3E3CB;
+	background-color: #C6E3F3;
 }
 
 #header {
