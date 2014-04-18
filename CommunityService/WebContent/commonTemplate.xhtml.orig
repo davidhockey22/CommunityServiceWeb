@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<h:outputStylesheet library="css" name="main.css" />
+	<script type="text/javascript" src="/CommunityService/Web/js/main.js"></script>
+</h:head>
+<h:body>
+	<div id="page">
+		<ui:insert name="metadata">
+		</ui:insert>
+		<div id="header" class="title ui-widget-header ui-corner-all">
+			<ui:insert name="banner">
+				<ui:include src="/commonBanner.xhtml" />
+			</ui:insert>
+		</div>
+
+		<p:panel id="left" header="Navigation" rendered="#{loginBean.loggedIn}">
+			<ui:insert name="leftSidebar">
+				<ui:include src="/commonLeftSidebar.xhtml" />
+			</ui:insert>
+		</p:panel>
+
+<<<<<<< HEAD
+		<table style="border: 0xp; width: 99%; padding-top: 65px;">
+			<tr>
+				<td><p:panel style="width: 248px;" rendered="#{loginBean.loggedIn}"></p:panel></td>
+				<td><p:panel id="center">
+						<ui:insert name="content">
+							<ui:include src="/commonContent.xhtml" />
+						</ui:insert>
+					</p:panel></td>
+			</tr>
+		</table>
+		<p:notificationBar position="bottom" effect="slide" widgetVar="bar" styleClass="top" rendered="#{loginBean.loggedIn}">
+			<p:dataTable var="no" value="#{loginBean.volunteer.notifications.toArray()}" rendered="#{not empty loginBean.volunteer.notifications}">
+=======
+		<div id="container">
+			<p:panel id="center">
+				<ui:insert name="content">
+					<ui:include src="/commonContent.xhtml" />
+				</ui:insert>
+			</p:panel>
+		</div>
+
+		<p:notificationBar position="bottom" effect="slide" widgetVar="bar" styleClass="top" rendered="#{loginBean.loggedIn}" style="width: 40%;">
+			<p:dataTable var="no" value="#{loginBean.volunteer.notifications.toArray()}" rendered="#{not empty loginBean.volunteer.notifications}"
+				>
+>>>>>>> b4d6552ee323475aa8f6875120900044b02d5e61
+				<p:column>
+					<h:outputText value=" #{no.description}" />
+				</p:column>
+			</p:dataTable>
+			<h:outputText value="No notifications." rendered="#{empty loginBean.volunteer.notifications}" />
+		</p:notificationBar>
+
+		<div id="footer">
+			<ui:insert name="footer">
+				<ui:include src="/commonFooter.xhtml" />
+			</ui:insert>
+		</div>
+	</div>
+</h:body>
+</html>

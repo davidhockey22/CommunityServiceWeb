@@ -16,6 +16,7 @@ import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -185,6 +186,23 @@ public class MainActivity extends Activity {
     	else if( position == 2 ) {
     		
     		fragment = new MainFragment();
+    	}
+    	else if( position == 3 ) {
+    		
+       		//save empty token
+    		SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+    		SharedPreferences.Editor editor = sharedPref.edit();
+    		editor.putString( "token", "" );
+    		editor.commit();
+    		
+    		Intent intent = new Intent(MainActivity.this, Login.class);
+    		intent.putExtra("param", "");
+    		
+    		//this flag will return to the Login instance if it already exists
+    		//or create a new instance
+    		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+    		MainActivity.this.startActivity(intent);
+    		return;
     	}
     	
         FragmentManager fragmentManager = getFragmentManager();

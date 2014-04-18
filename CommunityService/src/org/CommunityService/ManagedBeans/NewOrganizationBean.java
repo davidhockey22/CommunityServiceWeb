@@ -93,21 +93,8 @@ public class NewOrganizationBean {
 								
 				OrganizationService.addOrganization(org);
 				
-				//update currentVolunteer
-				boolean found = false;
-				for (OrganizationFollower organizationFollower : currentVolunteer.getVolunteer().getOrganizationFollowers()) {
-					if (organizationFollower.getOrganization().getOrgId() == org.getOrgId()) {
-						found = true;
-						break;
-					}
-				}
-				if(!found) {
-					
-					//if new follower is not added, redirection to EditOrganization.xhtml will crash.
-					//new follower is not added automatically by hibernate
-					currentVolunteer.getVolunteer().getOrganizationFollowers().add(follower);
-				}
-
+				//if new follower is not added, redirection to EditOrganization.xhtml will crash.
+				currentVolunteer.getVolunteer().getOrganizationFollowers().add(follower);
 				
 				return "/EditOrganization.xhtml?faces-redirect=true&orgId=" + org.getOrgId();
 			} else {

@@ -7,6 +7,7 @@ public class VolunteerData extends Obj{
 	private String volunteerID;
 	private String name, password;
 	private String phone, email;
+	private String token;
 
     public VolunteerData() {
     	
@@ -14,7 +15,8 @@ public class VolunteerData extends Obj{
     	volunteerID = null;
     }
 
-    public void init(String VolunteerID, String Name, String Password, String Phone, String Email) {
+    public void init(String VolunteerID, String Name, String Password, String Phone, String Email,
+    		String token) {
     	
     	current = this;
     	
@@ -23,17 +25,13 @@ public class VolunteerData extends Obj{
     	password = Password;
     	phone = Phone;
     	email = Email;
-    }
-    boolean initFromMySQLString(String S) {
     	
-    	init(null, null, null, null, null);
-    	
-    	return Obj.parseMySQLObj(this, S);
+    	this.token = token;
     }
     
     void InitTestVolunteer() {
     	
-    	init( "7", "garfield", "lasagna", "407-123-4567", "fatcat@paws.com" );
+    	init( "7", "garfield", "lasagna", "407-123-4567", "fatcat@paws.com", "" );
     }
     void OnParseMySQLData(String Data, int Index){
     	
@@ -82,5 +80,13 @@ public class VolunteerData extends Obj{
 
 	public void setEmail(String email) {
 		this.email = email;
-	}  
+	}
+	
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
+	}	
 }

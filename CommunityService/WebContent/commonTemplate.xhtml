@@ -33,18 +33,11 @@
 					</p:panel></td>
 			</tr>
 		</table>
-		<p:notificationBar position="bottom" effect="slide" widgetVar="bar" styleClass="top" rendered="#{loginBean.loggedIn}">
-			<p:dataTable var="no" value="#{loginBean.volunteer.notifications.toArray()}" rendered="#{not empty loginBean.volunteer.notifications}">
+		<p:notificationBar position="bottom" effect="slide" widgetVar="bar" styleClass="top" rendered="#{loginBean.loggedIn}" style="width: 40%;">
+			<p:dataTable var="no" value="#{loginBean.volunteer.notifications.toArray()}" rendered="#{not empty loginBean.volunteer.notifications}"
+				>
 				<p:column>
 					<h:outputText value=" #{no.description}" />
-				</p:column>
-				<p:column>
-					<h:outputText value="#{no.category}" />
-				</p:column>
-				<p:column>
-					<h:outputText value="#{no.creation}">
-						<f:convertDateTime pattern="EEE, MMM d, yyyy - h:mm a" locale="en_US" type="both" timeStyle="full" timeZone="EDT" />
-					</h:outputText>
 				</p:column>
 			</p:dataTable>
 			<h:outputText value="No notifications." rendered="#{empty loginBean.volunteer.notifications}" />

@@ -58,11 +58,11 @@ public class MainFragment extends Fragment {
         //load all events signed up for
 		MySQLRequest.Create( MainActivity.current, Integer.toString(MySQLRequest.kindEventQuery), VolunteerData.current.getVolunteerID());
         		
-		//load all events by distance
-		//MySQLRequest.Create( MainActivity.current, Integer.toString(MySQLRequest.kindFindQuery), "0");    	
+		//load all interests
+		MySQLRequest.Create( MainActivity.current, Integer.toString(MySQLRequest.kindInterests), "0");    	
 		
-		//load all events by date
-		MySQLRequest.Create( MainActivity.current, Integer.toString(MySQLRequest.kindByDate), "0");    	
+		//load all skills
+		MySQLRequest.Create( MainActivity.current, Integer.toString(MySQLRequest.kindSkills), "0");    	
 
 		return rootView;
     }

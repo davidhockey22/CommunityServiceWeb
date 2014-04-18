@@ -33,8 +33,6 @@ public class Notification implements java.io.Serializable {
 	private Volunteer volunteer;
 
 	private String category;
-	private String key;
-	private String value;
 	private Date creation;
 	private Date dependenceDate;
 
@@ -45,11 +43,9 @@ public class Notification implements java.io.Serializable {
 		this.description = description;
 	}
 
-	public Notification(String description, String category, String key, String value, Date creation, Date dependenceDate) {
+	public Notification(String description, String category, Date creation, Date dependenceDate) {
 		this.description = description;
 		this.category = category;
-		this.key = key;
-		this.value = value;
 		this.creation = creation;
 		this.dependenceDate = dependenceDate;
 	}
@@ -93,26 +89,8 @@ public class Notification implements java.io.Serializable {
 		this.category = category;
 	}
 
-	@Column(name = "Key", length = 45)
-	public String getKey() {
-		return this.key;
-	}
-
-	public void setKey(String key) {
-		this.key = key;
-	}
-
-	@Column(name = "Value", length = 45)
-	public String getValue() {
-		return this.value;
-	}
-
-	public void setValue(String value) {
-		this.value = value;
-	}
-
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "Creation", length = 19)
+	@Column(name = "Creation", length = 19, insertable=false)
 	public Date getCreation() {
 		return this.creation;
 	}

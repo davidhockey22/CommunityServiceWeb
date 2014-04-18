@@ -29,6 +29,8 @@ public class Volunteer implements java.io.Serializable {
 	private String firstName;
 	private String lastName;
 	private String description;
+	private String salt;
+	
 	private Set<GroupMember> groupMembers = new HashSet<GroupMember>(0);
 	private Set<FacebookLogIn> facebookLogIns = new HashSet<FacebookLogIn>(0);
 	private Set<EventVolunteer> eventVolunteers = new HashSet<EventVolunteer>(0);
@@ -196,6 +198,14 @@ public class Volunteer implements java.io.Serializable {
 		this.description = description;
 	}
 
+	public String getSalt() {
+		return this.salt;
+	}
+
+	public void setSalt(String salt) {
+		this.salt = salt;
+	}	
+	
 	public Set<GroupMember> getGroupMembers() {
 		return this.groupMembers;
 	}

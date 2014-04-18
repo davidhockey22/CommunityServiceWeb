@@ -1,14 +1,10 @@
 package tut1.login;
 
-import java.util.Date;
-
-import org.CommunityService.EntitesUnmapped.Event;
-
-import testPackage.TestClass;
-
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -39,7 +35,7 @@ public class Login extends Activity {
         IntentFilter filter = new IntentFilter(RequestReceiver.PROCESS_RESPONSE);
         filter.addCategory(Intent.CATEGORY_DEFAULT);
         receiver = new RequestReceiver();
-        registerReceiver(receiver, filter);        
+        registerReceiver(receiver, filter);
         
         final Button btn_save = (Button)findViewById(R.id.button1);
         btn_save.setOnClickListener(new OnClickListener(){
@@ -51,32 +47,38 @@ public class Login extends Activity {
         		username = uname.getText().toString();
         		password =  pword.getText().toString();
         		
-//        		if(MainActivity.test == true) {
+        		if(username == null || username.equals("") ||
+        				password == null || password.equals("")) {
+        			
+        			Toast.makeText(Login.this,"Please enter a username and password", Toast.LENGTH_LONG).show();        			
+        			return;
+        		}
         		
-//        			if(username.equals("") && password.equals(""))
-        		
-//        				VolunteerData vol = new VolunteerData();
-//        				vol.InitTestVolunteer();
-        		
-//        				startActivity(new Intent(Login.this,MainActivity.class).putExtra("usr",(CharSequence)username));
-//        			else 
-//        				Toast.makeText(Login.this,"Invalid UserName or Password", Toast.LENGTH_LONG).show();
-//        		}
-//        		else
-            		MySQLRequest.Create(Login.this, Integer.toString(MySQLRequest.kindVolQuery), username);        			
+            	MySQLRequest.Create(Login.this, Integer.toString(MySQLRequest.kindVolQuery), username);        			
         	}
         });
         final Button reg = (Button)findViewById(R.id.register);
         reg.setOnClickListener(new OnClickListener(){
         	public void onClick(View v){
-
+        		
         		//launch main activity
     			startActivity(new Intent(Login.this,Register.class).putExtra("test",""));
         	}
-        });        
+        });
         
-        //example
-        //image = (ImageView) findViewById(R.id.imageView1);
+		//load token
+		SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+		String str = sharedPref.getString( "token", "" );
+		if(str.equals("")) {}
+		else {
+			
+    		findViewById(R.id.editText1).setVisibility(View.INVISIBLE);
+    		findViewById(R.id.editText2).setVisibility(View.INVISIBLE);
+    		findViewById(R.id.button1).setVisibility(View.INVISIBLE);
+    		findViewById(R.id.register).setVisibility(View.INVISIBLE);
+			
+        	MySQLRequest.Create(Login.this, Integer.toString(MySQLRequest.kindToken), str);        			
+		}
     }
     
     @Override
@@ -89,14 +91,30 @@ public class Login extends Activity {
         super.onDestroy();
     }    
     
-    void OnMySQLRequest() { //CreateMySQLRequest() is done loading VolunteerData
+    void OnMySQLRequest(int kindQuery) { //CreateMySQLRequest() is done loading VolunteerData
     	
        	if(VolunteerData.current != null && VolunteerData.current.getVolunteerID() != null ) {
     		
+       		//save token
+    		SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+    		SharedPreferences.Editor editor = sharedPref.edit();
+    		editor.putString( "token", VolunteerData.current.getToken() );
+    		editor.commit();
+       		
     		//launch main activity
 			startActivity(new Intent(Login.this,MainActivity.class).putExtra("usr",(CharSequence)username));    		
     	}
-		 else 
-			Toast.makeText(Login.this,"Invalid UserName or Password", Toast.LENGTH_LONG).show();    	
+		 else {
+			 			 
+    		findViewById(R.id.editText1).setVisibility(View.VISIBLE);
+    		findViewById(R.id.editText2).setVisibility(View.VISIBLE);
+    		findViewById(R.id.button1).setVisibility(View.VISIBLE);
+    		findViewById(R.id.register).setVisibility(View.VISIBLE);		 
+			 
+			 if(kindQuery == MySQLRequest.kindToken) //token failed
+				 return;
+    		
+			Toast.makeText(Login.this,"Invalid UserName or Password", Toast.LENGTH_LONG).show();
+		 }
     }
 }

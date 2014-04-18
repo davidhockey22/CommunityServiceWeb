@@ -15,6 +15,7 @@ import org.CommunityService.EntitiesMapped.Group;
 import org.CommunityService.EntitiesMapped.GroupMember;
 import org.CommunityService.EntitiesMapped.Volunteer;
 import org.CommunityService.Services.GroupService;
+import org.CommunityService.Services.NotificationService;
 import org.ocpsoft.rewrite.annotation.Join;
 import org.primefaces.event.CellEditEvent;
 
@@ -165,8 +166,9 @@ public class EditGroupBean {
 						
 			if( salt.equals(strActive)){}			
 			else if( g.getVolunteer().getSalt().equals(strApprove)){
-				
+				NotificationService.createNotification(g.getVolunteer(), "You have been approved to join the group: "+group.getGroupName(), "");
 				g.setApproved(true);
+				
 				
 				try {
 					GroupService.updateGroupMember(g);

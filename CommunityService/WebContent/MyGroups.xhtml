@@ -22,7 +22,7 @@
 					<p:columnGroup type="header">
 						<p:row>
 							<p:column headerText="Name" />
-							<p:column headerText="Joined Date" />
+							<p:column headerText="" />
 						</p:row>
 					</p:columnGroup>
 
@@ -32,11 +32,6 @@
 						</f:facet>
 						<p:column>
 							<h:outputText value="#{groupMember.group.groupName}" />
-						</p:column>
-						<p:column>
-							<h:outputText value="#{groupMember.joinedDate}">
-								<f:convertDateTime pattern="EEE, MMM d, yyyy - h:mm a" locale="en_US" type="both" timeStyle="full" timeZone="EDT" />
-							</h:outputText>
 						</p:column>
 						<p:column>
 							<p:button value="View" outcome="ViewGroup.xhtml">

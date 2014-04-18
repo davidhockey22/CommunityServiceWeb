@@ -1,10 +1,10 @@
 package AndroidWebService;
 
+import hibernate.HibernateProxyTypeAdapter;
 import hibernate.HibernateUtil;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -34,7 +34,6 @@ public class EventsByDateServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		String EventId;
 		PrintWriter out = response.getWriter();
 		response.setContentType("text/html");
 		response.setHeader("Cache-control", "no-cache, no-store");
@@ -46,11 +45,10 @@ public class EventsByDateServlet extends HttpServlet {
 		response.setHeader("Access-Control-Max-Age", "86400");
 
 		GsonBuilder b = new GsonBuilder();
-		// b.registerTypeAdapterFactory(HibernateProxyTypeAdapter.FACTORY);
+		b.registerTypeAdapterFactory(HibernateProxyTypeAdapter.FACTORY);
 		Gson gson = b.create();
 
 		List<Event> list;
-		Event o;
 		if ( true ) {
 			list = EventService.getEventsByDate();
 			try {
@@ -66,26 +64,9 @@ public class EventsByDateServlet extends HttpServlet {
 			}
 
 			out.println(gson.toJson(list));
-		} else {
-			
-			list = EventService.getEventsByDate();
-			try {
-				for (Event clean : list) {
-					HibernateUtil.clean(clean);
-				}
-			} catch (IllegalArgumentException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-			out.println(gson.toJson(list));
 		}
 
 		out.close();
-
 	}
 
 }

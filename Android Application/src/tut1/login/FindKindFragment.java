@@ -23,6 +23,8 @@ public class FindKindFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
     	
+    	container.removeAllViewsInLayout();
+    	
         View rootView = inflater.inflate(R.layout.fragment_findkind, container, false);
         //int i = getArguments().getInt(ARG_PLANET_NUMBER);
         //String planet = getResources().getStringArray(R.array.planets_array)[i];
@@ -42,19 +44,7 @@ public class FindKindFragment extends Fragment {
 			public boolean onGroupClick(ExpandableListView parent, View v,
 					int groupPosition, long id) {
 				
-				if(groupPosition == 0) { //if "Find by distance" clicked on
-					
-					EventAdapter.findByKind = EventAdapter.kindFindByDistance;
-					
-					//replace fragment
-					Fragment fragment = new FindFragment();
-					
-			        FragmentManager fragmentManager = getFragmentManager();
-			        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
-					
-					return true;
-				}
-				else if(groupPosition == 2) { //if "Find by date" clicked on
+				if(groupPosition == 0) { //if "Find by date" clicked on
 					
 					EventAdapter.findByKind = EventAdapter.kindFindByDate;
 					
@@ -76,16 +66,28 @@ public class FindKindFragment extends Fragment {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
             	
-            	//save find by data
-            	EventAdapter.findByKind = EventAdapter.kindFindByInterest;
-            	EventAdapter.findByInterestID = InterestData.GetListLocation(childPosition).getInterestID();
-            	
-				//replace fragment
-				Fragment fragment = new FindFragment();
-				
-		        FragmentManager fragmentManager = getFragmentManager();
-		        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
-
+            	if(groupPosition == 1) {
+		        	//save find by data
+		        	EventAdapter.findByKind = EventAdapter.kindFindByInterest;
+		        	EventAdapter.findByInterestID = InterestData.GetListLocation(childPosition).getInterestID();
+		        	
+					//replace fragment
+					Fragment fragment = new FindFragment();
+					
+			        FragmentManager fragmentManager = getFragmentManager();
+			        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+            	}
+            	else if(groupPosition == 2) {
+		        	//save find by data
+		        	EventAdapter.findByKind = EventAdapter.kindFindBySkill;
+		        	EventAdapter.findBySkillID = SkillData.GetListLocation(childPosition).getSkillID();
+		        	
+					//replace fragment
+					Fragment fragment = new FindFragment();
+					
+			        FragmentManager fragmentManager = getFragmentManager();
+			        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+            	}
                 return false;
             }
         });    	

@@ -26,6 +26,8 @@ public class EventFragment extends Fragment {
     	
         super.onCreate(savedInstanceState);
         
+        container.removeAllViewsInLayout();
+        
         View rootView = null;
         if(EventData.GetEventsSignedUpForSize() == 0) {
         	

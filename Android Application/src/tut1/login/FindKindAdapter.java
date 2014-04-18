@@ -37,10 +37,11 @@ public class FindKindAdapter extends BaseExpandableListAdapter {
         	int size = InterestData.GetListSize();
         	return size;
         }
-        else if(groupPosition == 1) {
+        else if(groupPosition == 2) {
         	
-        	return 0;
-        }        
+        	int size = SkillData.GetListSize();
+        	return size;
+        }            
         return 0;
     }
 
@@ -49,7 +50,7 @@ public class FindKindAdapter extends BaseExpandableListAdapter {
         //return events.get(groupPosition).getEventName();
         if(groupPosition == 0) {
         	
-        	return "Find by distance";
+        	return "Find by Date";
         }
         else if(groupPosition == 1) {
         	
@@ -57,8 +58,8 @@ public class FindKindAdapter extends BaseExpandableListAdapter {
         }
         else if(groupPosition == 2) {
         	
-        	return "Find by Date";
-        }        
+        	return "Find by Skill";
+        }            
         return null;
     }
 
@@ -68,6 +69,10 @@ public class FindKindAdapter extends BaseExpandableListAdapter {
         if(groupPosition == 1) {
         	
         	return InterestData.GetListLocation(childPosition).getName();
+        }
+        else if(groupPosition == 2) {
+        	
+        	return SkillData.GetListLocation(childPosition).getName();
         }
         
     	return null;

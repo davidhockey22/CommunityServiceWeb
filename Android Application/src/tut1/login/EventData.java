@@ -7,7 +7,11 @@ import java.util.List;
 public class EventData extends Obj{
 	
 	public static final int statusNotLoaded = 0, statusLoading = 1, statusLoaded = 2;
-	public static int status = statusNotLoaded;	
+	public static int status = statusNotLoaded;
+	
+	public static boolean doByDateQuery = true;	
+	public static boolean doByInterestQuery = true;
+	public static boolean doBySkillQuery = true;
 	
     private static List<String> allEventsString = new ArrayList<String>();
     private static List<EventData> allEvents = new ArrayList<EventData>();
@@ -21,6 +25,12 @@ public class EventData extends Obj{
     private static List<String> byDateString = new ArrayList<String>();
     private static List<EventData> byDate = new ArrayList<EventData>();    
 
+    private static List<String> bySkillString = new ArrayList<String>();
+    private static List<EventData> bySkill = new ArrayList<EventData>();    
+
+    private static List<String> byInterestString = new ArrayList<String>();
+    private static List<EventData> byInterest = new ArrayList<EventData>();    
+    
     private List<String> interestIDList = new ArrayList<String>();
     
     public static final int childDataTotal = 3;
@@ -86,6 +96,22 @@ public class EventData extends Obj{
     	byDateString.add(eventID);
     	byDate.add(this);
     }
+    public void AddToEventsByInterestList() {
+    	
+    	if( eventsSignedUpForString.contains(eventID) )
+    		return;
+    	
+    	byInterestString.add(eventID);
+    	byInterest.add(this);
+    }    
+    public void AddToEventsBySkillList() {
+    	
+    	if( eventsSignedUpForString.contains(eventID) )
+    		return;
+    	
+    	bySkillString.add(eventID);
+    	bySkill.add(this);
+    }
     public static void AddToInterestList(String EventID, String InterestID) {
     	
     	EventData ev = GetFromList(EventID);
@@ -108,59 +134,90 @@ public class EventData extends Obj{
     	return eventsSignedUpFor.size();
     }
     public static void SetFindList(int EventAdapterKind) {
-    	
+    	    	
 		if(EventAdapterKind == EventAdapter.kindFindByDate){
 			
-			findListString = byDateString;
-			findList = byDate;
-			
-			return;
-		}    	
-    	
-        findListString = new ArrayList<String>();
-        findList = new ArrayList<EventData>();        
-    	
-    	Iterator<String> stI = allEventsString.iterator();
-    	Iterator<EventData> evI = allEvents.iterator();
-    	
-    	String st = null;
-    	EventData ev = null;
+			if(doByDateQuery) {				
+				doByDateQuery = false;
+				
+		        findListString = new ArrayList<String>();
+		        findList = new ArrayList<EventData>();				
 
-    	while(stI.hasNext() && evI.hasNext()) {
-    		st = stI.next();
-    		ev = evI.next();
-    		
-    		if( eventsSignedUpForString.contains(st) ) {} //if already signed up for event, do not put in "find result list"
-    		else {
-    			
-    			//if find by distance
-    			if(EventAdapterKind == EventAdapter.kindFindByDistance) {
-    				
-    				findListString.add(st);
-    				findList.add(ev);
-    			}
-    			
-    			//if find by interest
-    			else if(EventAdapterKind == EventAdapter.kindFindByInterest){
-    				
-    				//and event interest matches selected "find by interest"
-    				if( ev.interestIDList.contains(EventAdapter.findByInterestID) ) {
-    					
-        				findListString.add(st);
-        				findList.add(ev);    					
-    				}
-    				
-    			}
-    			else
-    				Obj.BreakPoint();
-    		}
-    	}    	
+		        byDateString = new ArrayList<String>();
+		        byDate = new ArrayList<EventData>();				
+		        
+				//do another query
+		        FindFragment.status = FindFragment.statusQuery;
+		        MySQLRequest.Create( MainActivity.current, Integer.toString(MySQLRequest.kindByDate), "0");
+				return;
+			}
+			else {
+				doByDateQuery = true;
+				
+				findListString = byDateString;
+				findList = byDate;
+				return;
+			}
+		}   	
+		else if(EventAdapterKind == EventAdapter.kindFindByInterest){
+						
+			if(doByInterestQuery) {
+				doByInterestQuery = false;
+			
+		        findListString = new ArrayList<String>();
+		        findList = new ArrayList<EventData>();
+				
+		        byInterestString = new ArrayList<String>();
+		        byInterest = new ArrayList<EventData>();
+		        
+				//do another query
+		        FindFragment.status = FindFragment.statusQuery;
+				MySQLRequest.Create( MainActivity.current, Integer.toString(MySQLRequest.kindByInterest), EventAdapter.findByInterestID);
+				return;
+			}
+			else {
+				doByInterestQuery = true;
+				
+				findListString = byInterestString;
+				findList = byInterest;
+				return;
+			}
+		}
+		else if(EventAdapterKind == EventAdapter.kindFindBySkill){
+						
+			if(doBySkillQuery) {
+				doBySkillQuery = false;
+			
+		        findListString = new ArrayList<String>();
+		        findList = new ArrayList<EventData>();				
+				
+		        bySkillString = new ArrayList<String>();
+		        bySkill = new ArrayList<EventData>();
+		        
+				//do another query
+		        FindFragment.status = FindFragment.statusQuery;
+				MySQLRequest.Create( MainActivity.current, Integer.toString(MySQLRequest.kindBySkill), EventAdapter.findBySkillID);
+				return;
+			}
+			else {
+				doBySkillQuery = true;
+				
+				findListString = bySkillString;
+				findList = bySkill;
+				return;
+			}
+		}
+		else
+			Obj.BreakPoint();
+    	    	
     }
     public static EventData GetFindListLocation(int Location) {
     	
     	return findList.get(Location);
     }
     public static int GetFindListSize() {
+    	
+    	if(findList == null) return 0;
     	
     	return findList.size();
     }
@@ -178,6 +235,21 @@ public class EventData extends Obj{
     	
     	return null;
     }
+    public static void onByDateQueryDone() {
+    	
+    	if(FindFragment.current != null)
+    		FindFragment.current.refresh();
+    }     
+    public static void onByInterestQueryDone() {
+    	
+    	if(FindFragment.current != null)
+    		FindFragment.current.refresh();
+    }  
+    public static void onBySkillQueryDone() {
+    	
+    	if(FindFragment.current != null)
+    		FindFragment.current.refresh();
+    }    
 	public String getEventID() {
 		return eventID;
 	}

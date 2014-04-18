@@ -40,6 +40,10 @@ public class NewGroupBean {
 				members.add(founder);
 				group.setGroupMembers(members);
 				GroupService.addGroup(group);
+				
+				//if new groupmember is not added, redirection to EditGroup.xhtml will crash.
+				currentVolunteer.getVolunteer().getGroupMembers().add(founder);				
+				
 				return "/EditGroup.xhtml?faces-redirect=true&groupId=" + group.getGroupId();
 			} else {
 				MessageController.addInfo("Group already exists, please choose a different name.");
