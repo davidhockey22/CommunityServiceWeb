@@ -23,14 +23,16 @@
 			</ui:insert>
 		</p:panel>
 
-		<div id="container">
-			<p:panel id="center">
-				<ui:insert name="content">
-					<ui:include src="/commonContent.xhtml" />
-				</ui:insert>
-			</p:panel>
-		</div>
-
+		<table style="border: 0xp; width: 99%; padding-top: 65px;">
+			<tr>
+				<td><p:panel style="width: 248px;" rendered="#{loginBean.loggedIn}"></p:panel></td>
+				<td><p:panel id="center">
+						<ui:insert name="content">
+							<ui:include src="/commonContent.xhtml" />
+						</ui:insert>
+					</p:panel></td>
+			</tr>
+		</table>
 		<p:notificationBar position="bottom" effect="slide" widgetVar="bar" styleClass="top" rendered="#{loginBean.loggedIn}">
 			<p:dataTable var="no" value="#{loginBean.volunteer.notifications.toArray()}" rendered="#{not empty loginBean.volunteer.notifications}">
 				<p:column>
