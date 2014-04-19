@@ -1,10 +1,11 @@
 package AndroidWebService;
 
-import hibernate.HibernateProxyTypeAdapter;
 import hibernate.HibernateUtil;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -14,19 +15,24 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.CommunityService.EntitiesMapped.Event;
-import org.CommunityService.EntitiesMapped.EventVolunteer;
 import org.CommunityService.EntitiesMapped.Volunteer;
 import org.CommunityService.Services.EventService;
 import org.CommunityService.Services.VolunteerService;
+import org.CommunityService.Validators.PasswordHash;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-@WebServlet(urlPatterns = { "/Android/getEventVolunteer" })
-public class EventVolunteerServlet extends HttpServlet {
+/*
+ import com.google.gson.Gson;
+ import com.google.gson.JsonElement;
+ import com.google.gson.JsonObject;
+ */
+@WebServlet(urlPatterns = { "/Android/RemoveEvent" })
+public class RemoveEventServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	public EventVolunteerServlet() {
+	public RemoveEventServlet() {
 		super();
 	}
 
@@ -46,32 +52,25 @@ public class EventVolunteerServlet extends HttpServlet {
 		response.setHeader("Access-Control-Allow-Methods", "GET,POST");
 		response.setHeader("Access-Control-Allow-Headers", "Content-Type");
 		response.setHeader("Access-Control-Max-Age", "86400");
-
+		
 		String volId = ((String) request.getParameter("volID"));
 		String eventId = ((String) request.getParameter("eventID"));
 		
 		//test
 //		volId = "18";
 //		eventId = "21";
+				
+		try {	
 
-		GsonBuilder b = new GsonBuilder();
-		b.registerTypeAdapterFactory(HibernateProxyTypeAdapter.FACTORY);
-		Gson gson = b.create();
-
-		EventVolunteer v;
-		if (volId == null || volId.equals("") || eventId == null || eventId.equals("")) {
-		} else {
-			v = EventService.getEventVolunteerById(Integer.parseInt(eventId), Integer.parseInt(volId));
-			try {
-				HibernateUtil.clean(v);
-			} catch (IllegalArgumentException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			out.println(gson.toJson(v));
+			EventService.removeEventVolunteer(Integer.parseInt(eventId), Integer.parseInt(volId));
+			
+			out.println("1");
+			
+		} catch (Exception e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+			
+			out.println("0");
 		}
 
 		out.close();
