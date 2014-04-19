@@ -164,7 +164,7 @@ public class Event implements java.io.Serializable {
 		this.endTime = endTime;
 	}
 
-	@Column(name = "HoursBonus", precision = 12, scale = 0)
+	@Column(name = "HoursBonus", precision = 12, scale = 0, insertable=false)
 	public Float getHoursBonus() {
 		return this.hoursBonus;
 	}

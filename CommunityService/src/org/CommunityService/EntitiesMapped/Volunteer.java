@@ -48,7 +48,8 @@ public class Volunteer implements java.io.Serializable {
 	private String lastName;
 	private String description;
 	private String salt;
-
+	private Integer eventsWorked;
+	
 	private Set<Notification> notifications = new HashSet<Notification>(0);
 	private Set<GroupMember> groupMembers = new HashSet<GroupMember>(0);
 	private Set<FacebookLogIn> facebookLogIns = new HashSet<FacebookLogIn>(0);
@@ -351,5 +352,13 @@ public class Volunteer implements java.io.Serializable {
 
 	public void setNotifications(Set<Notification> notifications) {
 		this.notifications = notifications;
+	}
+	@Column(name = "EventsWorked", insertable = false)
+	public Integer getEventsWorked() {
+		return eventsWorked;
+	}
+
+	public void setEventsWorked(Integer eventsWorked) {
+		this.eventsWorked = eventsWorked;
 	}
 }

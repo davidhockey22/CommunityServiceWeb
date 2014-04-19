@@ -29,6 +29,24 @@ public class VolunteerService {
 		return;
 	}
 
+	public static void updateVolunteerPoints(Volunteer v, int hours, int rating, float bonus) {
+
+		// Update volunteer
+		v.setEventsWorked(v.getEventsWorked() + 1);
+		v.setHoursWorked(v.getHoursWorked() + hours);
+		v.setAvgRating(v.getAvgRating() + (rating / (float) v.getEventsWorked()));
+		float points = v.getPoints() + hours * bonus;
+		v.setPoints(points);
+		DBConnection.update(v);
+
+		// update group aggregation
+		List<GroupMember> gms = VolunteerService.getGroupMembersByVolunteer(v);
+		for (Iterator<GroupMember> iterator = gms.iterator(); iterator.hasNext();) {
+			GroupMember groupMember = (GroupMember) iterator.next();
+			GroupService.recalcAll(groupMember.getGroup());
+		}
+	}
+
 	public static void registerVolunteer(String username, String password, String email, String phoneNumber, String firstName, String lastName)
 			throws Exception {
 		password = PasswordHash.getHash(password, email);
@@ -145,8 +163,7 @@ public class VolunteerService {
 		return (eventVolunteers != null ? eventVolunteers : new ArrayList<EventVolunteer>());
 	}
 
-	public static List<EventVolunteer> getEventVolunteersByVolunteerBetweenDates(Volunteer volunteer, Date date1,
-			Date date2) {
+	public static List<EventVolunteer> getEventVolunteersByVolunteerBetweenDates(Volunteer volunteer, Date date1, Date date2) {
 		Date before, after;
 		if (date1.after(date2)) {
 			after = date1;
