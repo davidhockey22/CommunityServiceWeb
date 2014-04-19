@@ -14,7 +14,7 @@
 			</ui:fragment>
 			<ui:fragment rendered="#{loginBean.loggedIn}">
 				<p:button value="Create new group" outcome="/NewGroup.xhtml" />
-				<p:dataTable var="level" value="#{myGroupsBean.levels}">
+				<p:dataTable var="level" value="#{myGroupsBean.levels}" style="width:100%">
 					<f:facet name="header">
 						My Groups
 					</f:facet>

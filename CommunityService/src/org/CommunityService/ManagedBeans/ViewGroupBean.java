@@ -28,9 +28,9 @@ import org.ocpsoft.rewrite.annotation.Join;
 public class ViewGroupBean {
 
 	private String groupId;
-	
+
 	@ManagedProperty(value = "#{loginBean}")
-	private LoginBean currentVolunteer;	
+	private LoginBean currentVolunteer;
 
 	private Group group = null;
 	private GroupMember volGroupMember = null;
@@ -45,18 +45,18 @@ public class ViewGroupBean {
 
 	public void fetchGroup() throws IOException {
 		FacesContext context = FacesContext.getCurrentInstance();
-		
-		//test
-		//groupId = "42";
-		
+
+		// test
+		// groupId = "42";
+
 		List<MemberLevel<GroupMember>> levels = new ArrayList<MemberLevel<GroupMember>>();
-		
+
 		renderApproved = false;
 		renderEditGroup = false;
 		renderJoin = true;
 		renderPending = false;
-		renderLeave = false;		
-		
+		renderLeave = false;
+
 		try {
 			this.group = GroupService.getGroupByIdWithAttachedEntities(Integer.parseInt(groupId), "GroupMembers");
 
@@ -68,32 +68,32 @@ public class ViewGroupBean {
 
 				for (Iterator<GroupMember> iterator = this.group.getGroupMembers().iterator(); iterator.hasNext();) {
 					GroupMember groupMember = (GroupMember) iterator.next();
-					
-					if(groupMember.getVolunteer().getVolunteerId() == currentVolunteer.getVolunteer().getVolunteerId()) {
-						
+
+					if (groupMember.getVolunteer().getVolunteerId() == currentVolunteer.getVolunteer().getVolunteerId()) {
+
 						volGroupMember = groupMember;
-						
-						if(groupMember.getAdmin() || groupMember.getMod())
+
+						if (groupMember.getAdmin() || groupMember.getMod())
 							renderEditGroup = true;
 
 						renderJoin = false;
-						
-						if( volGroupMember.getApproved() == false )
+
+						if (volGroupMember.getApproved() == false)
 							renderPending = true;
 						else
 							renderApproved = true;
-						
-						if(volGroupMember.getAdmin()) //the admin can not leave the group
+
+						if (volGroupMember.getAdmin()) // the admin can not
+														// leave the group
 							renderLeave = false;
 						else
-							renderLeave = true;						
+							renderLeave = true;
 					}
-					
-					if(groupMember.getApproved() != null && groupMember.getApproved() == false) {
-						
-						//do nothing if group member is pending approval
-					}
-					else if (groupMember.getAdmin()) {
+
+					if (groupMember.getApproved() != null && groupMember.getApproved() == false) {
+
+						// do nothing if group member is pending approval
+					} else if (groupMember.getAdmin()) {
 						admins.add(groupMember);
 					} else if (groupMember.getMod()) {
 						moderators.add(groupMember);
@@ -102,58 +102,62 @@ public class ViewGroupBean {
 					}
 				}
 
-				// add the collections in the order in which they are to be displayed
+				// add the collections in the order in which they are to be
+				// displayed
 				levels.add(new MemberLevel<GroupMember>("Administrators", admins));
 				levels.add(new MemberLevel<GroupMember>("Members", moderators));
 				levels.add(new MemberLevel<GroupMember>("Followers", members));
 			} else {
-				// Throw an HTTP Response Error - Page Not Found in case event cannot be found from provided id
-				context.getExternalContext().responseSendError(HttpServletResponse.SC_NOT_FOUND,
-						"Group with id " + groupId + " does not exist");
+				// Throw an HTTP Response Error - Page Not Found in case event
+				// cannot be found from provided id
+				context.getExternalContext().responseSendError(HttpServletResponse.SC_NOT_FOUND, "Group with id " + groupId + " does not exist");
 				context.responseComplete();
 			}
 		} catch (NumberFormatException e) {
-			// Throw an HTTP Response Error - Page Not Found in case event cannot be found from provided id
+			// Throw an HTTP Response Error - Page Not Found in case event
+			// cannot be found from provided id
 			context.getExternalContext().responseSendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid group id");
 			context.responseComplete();
 		}
 	}
-	
+
 	public String add() {
 
-		volGroupMember = new GroupMember(group,
-				currentVolunteer.getVolunteer(), new Date(), false, false);
+		volGroupMember = new GroupMember(group, currentVolunteer.getVolunteer(), new Date(), false, false);
 		volGroupMember.setApproved(false);
 		group.getGroupMembers().add(volGroupMember);
 		GroupService.updateGroup(group);
-		
+		GroupService.recalcAll(group);
+
 		try {
 			fetchGroup();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	
+
 		return null;
 	}
+
 	public String leave() {
-		
-		if(volGroupMember == null)
+
+		if (volGroupMember == null)
 			return null;
-		
+
 		group.getGroupMembers().remove(volGroupMember);
 		GroupService.updateGroup(group);
-		
+		GroupService.recalcAll(group);
+
 		try {
 			fetchGroup();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		return null;
 	}
-	
+
 	public String getGroupId() {
 		return groupId;
 	}
@@ -197,12 +201,15 @@ public class ViewGroupBean {
 	public boolean renderEditGroup() {
 		return this.renderLeave;
 	}
+
 	public boolean isRenderLeave() {
 		return renderLeave;
 	}
+
 	public void setRenderLeave(boolean renderLeave) {
 		this.renderLeave = renderLeave;
 	}
+
 	public boolean isRenderPending() {
 		return renderPending;
 	}
@@ -210,6 +217,7 @@ public class ViewGroupBean {
 	public void setRenderPending(boolean renderPending) {
 		this.renderPending = renderPending;
 	}
+
 	public boolean isRenderEditGroup() {
 		return renderEditGroup;
 	}
@@ -217,12 +225,12 @@ public class ViewGroupBean {
 	public void setRenderEditGroup(boolean renderEditGroup) {
 		this.renderEditGroup = renderEditGroup;
 	}
-	
+
 	public boolean isRenderApproved() {
 		return renderApproved;
 	}
 
 	public void setRenderApproved(boolean renderApproved) {
 		this.renderApproved = renderApproved;
-	}	
+	}
 }

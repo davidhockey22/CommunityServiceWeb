@@ -164,7 +164,7 @@
 						<ui:fragment rendered="#{editGroupBean.admin}">
 
 							<p:commandButton style="float: right;" value="Delete Group"
-								actionListener="#{editGroupBean.deleteGroup}">
+								actionListener="#{editGroupBean.deleteGroup}" outcome="Home.xhtml">
 								<p:confirm header="Confirmation" message="Are you sure?"
 									icon="ui-icon-alert" />
 							</p:commandButton>

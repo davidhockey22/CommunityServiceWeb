@@ -17,25 +17,26 @@
 			</ui:insert>
 		</div>
 
-		<p:panel id="left" header="Navigation" rendered="#{loginBean.loggedIn}">
-			<ui:insert name="leftSidebar">
-				<ui:include src="/commonLeftSidebar.xhtml" />
-			</ui:insert>
-		</p:panel>
 
-		<table style="border: 0xp; width: 99%; padding-top: 65px;">
-			<tr>
-				<td><p:panel style="width: 270px; visibility: hidden;" rendered="#{loginBean.loggedIn}"></p:panel></td>
-				<td><p:panel id="center">
-						<ui:insert name="content">
-							<ui:include src="/commonContent.xhtml" />
-						</ui:insert>
-					</p:panel></td>
-			</tr>
+
+		<table style="border: 0px; padding-top: 65px;" cellpadding="5px">
+			<tbody style="width: 99%; vertical-align: top;">
+				<tr>
+					<td><p:panel id="left" header="Navigation" rendered="#{loginBean.loggedIn}">
+							<ui:insert name="leftSidebar">
+								<ui:include src="/commonLeftSidebar.xhtml" />
+							</ui:insert>
+						</p:panel></td>
+					<td style="width: 99%"><p:panel id="center">
+							<ui:insert name="content">
+								<ui:include src="/commonContent.xhtml" />
+							</ui:insert>
+						</p:panel></td>
+				</tr>
+			</tbody>
 		</table>
 		<p:notificationBar position="bottom" effect="slide" widgetVar="bar" styleClass="top" rendered="#{loginBean.loggedIn}" style="width: 40%;">
-			<p:dataTable var="no" value="#{loginBean.volunteer.notifications.toArray()}" rendered="#{not empty loginBean.volunteer.notifications}"
-				>
+			<p:dataTable var="no" value="#{loginBean.volunteer.notifications.toArray()}" rendered="#{not empty loginBean.volunteer.notifications}">
 				<p:column>
 					<h:outputText value=" #{no.description}" />
 				</p:column>

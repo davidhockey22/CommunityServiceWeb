@@ -23,7 +23,7 @@ public class NewGroupBean {
 	private LoginBean currentVolunteer;
 
 	private String name;
-	
+
 	public String Register() {
 		try {
 			Group group = GroupService.getGroupByName(name);
@@ -34,16 +34,16 @@ public class NewGroupBean {
 				group.setHoursWorked(0);
 				group.setPoints(0.0f);
 				Set<GroupMember> members = new HashSet<GroupMember>();
-				GroupMember founder = new GroupMember(group,
-						currentVolunteer.getVolunteer(), new Date(), true, true);
+				GroupMember founder = new GroupMember(group, currentVolunteer.getVolunteer(), new Date(), true, true);
 				founder.setApproved(true);
 				members.add(founder);
 				group.setGroupMembers(members);
 				GroupService.addGroup(group);
-				
-				//if new groupmember is not added, redirection to EditGroup.xhtml will crash.
-				currentVolunteer.getVolunteer().getGroupMembers().add(founder);				
-				
+
+				// if new groupmember is not added, redirection to
+				// EditGroup.xhtml will crash.
+				currentVolunteer.getVolunteer().getGroupMembers().add(founder);
+				GroupService.recalcAll(group);
 				return "/EditGroup.xhtml?faces-redirect=true&groupId=" + group.getGroupId();
 			} else {
 				MessageController.addInfo("Group already exists, please choose a different name.");
