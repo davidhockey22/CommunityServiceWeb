@@ -130,6 +130,20 @@ public class EventService {
 			return new ArrayList<Event>();
 		}
 	}
+	
+	public static List<EventVolunteer> getEventVolunteer(Integer volunteerId) {
+		String hql = "FROM EventVolunteer as ev where ev.volunteer.volunteerId=?";
+		ArrayList<Integer> params = new ArrayList<Integer>();
+		params.add(volunteerId);
+		try {
+			@SuppressWarnings("unchecked")
+			List<EventVolunteer> events = (List<EventVolunteer>) DBConnection.query(hql, params);
+			return (events != null ? events : new ArrayList<EventVolunteer>());
+		} catch (HibernateException e) {
+			e.printStackTrace();
+			return new ArrayList<EventVolunteer>();
+		}
+	}	
 
 	public static List<Event> getEventsByVolunteer(Volunteer volunteer) {
 		return getEventsByVolunteer(volunteer.getVolunteerId());
