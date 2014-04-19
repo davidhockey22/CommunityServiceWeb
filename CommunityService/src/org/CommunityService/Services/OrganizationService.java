@@ -235,4 +235,13 @@ public class OrganizationService {
 		List<OrganizationFollower> orgFollowers = (List<OrganizationFollower>) DBConnection.query(hql, params);
 		return orgFollowers.isEmpty() ? null : (OrganizationFollower) orgFollowers.get(0);
 	}
+	
+	public static List<Organization> getOrganizationByVolunteerId(Integer volunteerId) {
+		String hql = "SELECT o.organization FROM OrganizationFollower as o where VolunteerID=?";
+		List<Integer> params = new ArrayList<Integer>();
+		params.add(volunteerId);
+		@SuppressWarnings("unchecked")
+		List<Organization> organizations = (List<Organization>) DBConnection.query(hql, params);
+		return organizations;
+	}	
 }
