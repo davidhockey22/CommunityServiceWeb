@@ -87,7 +87,7 @@ public class Group implements java.io.Serializable {
 		this.groupName = groupName;
 	}
 
-	@Column(name = "HoursWorked")
+	@Column(name = "HoursWorked", insertable=false)
 	public Integer getHoursWorked() {
 		return this.hoursWorked;
 	}
@@ -96,7 +96,7 @@ public class Group implements java.io.Serializable {
 		this.hoursWorked = hoursWorked;
 	}
 
-	@Column(name = "Points", precision = 12, scale = 0)
+	@Column(name = "Points", precision = 12, scale = 0, insertable = false)
 	public Float getPoints() {
 		return this.points;
 	}
@@ -105,7 +105,7 @@ public class Group implements java.io.Serializable {
 		this.points = points;
 	}
 
-	@Column(name = "AvgRatingOfVolunteers", precision = 12, scale = 0)
+	@Column(name = "AvgRatingOfVolunteers", precision = 12, scale = 0, insertable = false)
 	public Float getAvgRatingOfVolunteers() {
 		return this.avgRatingOfVolunteers;
 	}
