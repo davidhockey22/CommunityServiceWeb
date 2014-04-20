@@ -65,6 +65,20 @@ public class GroupService {
 		return groups.isEmpty() ? null : groups.get(0);
 	}
 
+	public static List<Group> getGroupLeaderBoardByPoints() throws HibernateException {
+		String hql = "from Group as g order by g.points desc";
+		@SuppressWarnings("unchecked")
+		List<Group> groups = ((List<Group>) DBConnection.query(hql, null));
+		return groups;
+	}
+
+	public static List<Group> getGroupLeaderBoardByHours() throws HibernateException {
+		String hql = "from Group as g order by g.hoursWorked";
+		@SuppressWarnings("unchecked")
+		List<Group> groups = ((List<Group>) DBConnection.query(hql, null));
+		return groups;
+	}
+
 	public static List<Group> getGroupsLikeName(String groupName) throws HibernateException {
 		String hql = "from Group as g where g.groupName like ?";
 		ArrayList<String> params = new ArrayList<String>();

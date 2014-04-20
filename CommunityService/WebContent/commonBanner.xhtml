@@ -62,7 +62,8 @@
 								<p:menuitem value="Log Out" actionListener="#{loginBean.Logout}" ajax="false" />
 							</p:submenu>
 						</p:menubar>
-						<h:link outcome="/volunteer/#{loginBean.volunteer.volunteerId}" style="margin-top:.4em;">
+						<h:link outcome="/ViewVolunteer.xhtml" style="margin-top:.4em;">
+							<f:param name="volunteerId" value="#{loginBean.volunteer.volunteerId}" />
 							<h:graphicImage value="#{loginBean.gravatarURL}" style="width: 40px; margin-right: .5em" />
 						</h:link>
 					</h:form>
