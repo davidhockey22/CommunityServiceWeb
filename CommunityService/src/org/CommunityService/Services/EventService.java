@@ -53,7 +53,20 @@ public class EventService {
 			return null;
 		}
 	}
-
+	public static List<Event> getEventsByOrgId(Integer orgId) {
+		String hql = "from Event as e where e.organization.orgId=? order by e.beginTime";
+		ArrayList<Integer> params = new ArrayList<Integer>();
+		params.add(orgId);
+		try {
+			@SuppressWarnings("unchecked")
+			List<Event> events = (List<Event>) DBConnection.query(hql, params);
+			System.out.println(events.size());
+			return events;
+		} catch (HibernateException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 	public static List<Event> getEventsByGroup(Group g) {
 		String hql = "Select g.events from Group as g where g.groupId=?";
 		ArrayList<Integer> params = new ArrayList<Integer>();

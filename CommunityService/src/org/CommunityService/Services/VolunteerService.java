@@ -237,5 +237,26 @@ public class VolunteerService {
 		List<Volunteer> v = (List<Volunteer>) DBConnection.query(hql, params);
 		return v;
 	}
-
+	public static List<Volunteer> getVolunteersByEventId(Integer eventId) throws HibernateException {
+		String hql = "SELECT v.volunteer FROM EventVolunteer AS v WHERE EventID=?";
+		ArrayList<Integer> params = new ArrayList<Integer>();
+		params.add(eventId);
+		@SuppressWarnings("unchecked")
+		List<Volunteer> volunteers = (List<Volunteer>) DBConnection.query(hql, params);
+		return (volunteers != null ? volunteers : new ArrayList<Volunteer>());
+	}
+	public static boolean approveVolunteer(Integer volunteerId, Integer eventId) throws HibernateException {
+		String hql = "FROM EventVolunteer AS v WHERE VolunteerID=? and EventID=?";
+		ArrayList<Integer> params = new ArrayList<Integer>();
+		params.add(volunteerId);
+		params.add(eventId);
+		@SuppressWarnings("unchecked")
+		List<EventVolunteer> volunteers = (List<EventVolunteer>) DBConnection.query(hql, params);
+		if(volunteers == null || volunteers.size() < 1)
+			return false;
+		
+		volunteers.get(0).setApproved(true);
+		DBConnection.update(volunteers.get(0));
+		return true;
+	}	
 }
