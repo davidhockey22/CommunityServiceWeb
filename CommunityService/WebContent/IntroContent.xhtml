@@ -5,31 +5,48 @@
 	xmlns:p="http://primefaces.org/ui" xmlns:ui="http://java.sun.com/jsf/facelets">
 <h:body>
 	<ui:composition>
-	Welcome to VolunteerMe! VolunteerMe is a website to make volunteering easier for everyone involved. People want to know when and where they can volunteer quickly, and organizations need to know how many people will show up. This website helps both parties with their respective goals.
-	<br />
+		<div style="font-size: 14pt">Welcome to VolunteerMe! VolunteerMe is a website to make volunteering easier for everyone involved. People want to know when and where
+			they can volunteer quickly, and organizations need to know how many people will show up. This website helps both parties with their respective
+			goals.</div>
 		<br />
-		<div style="display:inline-flex">
-			As a  <b>&nbsp; Volunteer &nbsp;</b>  you can
-			<ul>
-				<li>Sign up for events</li>
-				<li>Track your hours</li>
-				<li>Follow organizations</li>
-				<li>Join groups (or run them)</li>
-			</ul>
-		</div>
-		<div style="display:inline-flex">
-			As an <b>&nbsp; Organization Administrator &nbsp;</b>  you can
-			<ul>
-				<li>Create an Organization</li>
-				<li>Add other members</li>
-				<li>Create events</li>
-				<li>Track volunteers (with an approval process)</li>
-				<li>Create an Organization</li>
-			</ul>
-			<br />
-		</div>
 		<br />
-		To get started all you have to do is register!
+		<table style="width: 100%">
+			<tbody style="vertical-align: top; width: 100%">
+				<tr>
+					<td style="width: 33%; height: 300px"><p:panel header="As a Volunteer you can" style=" height: 300px">
+							<ul>
+								<li>Sign up for events</li>
+								<li>Track your hours</li>
+								<li>Follow organizations (or run them)</li>
+								<li>Join groups (or run them)</li>
+							</ul>
+						</p:panel></td>
+					<td style="width: 33%"><p:panel header="As an Organization Administrator you can" style=" height: 300px">
+							<ul>
+								<li>Create an Organization</li>
+								<li>Add other members</li>
+								<li>Create events</li>
+								<li>Track volunteers (with an approval process)</li>
+								<li>Create an Organization</li>
+							</ul>
+						</p:panel></td>
+					<td style="width: 34%"><p:panel header="As an Group Leader you can" style=" height: 300px">
+							<ul>
+								<li>Create a group</li>
+								<li>Manage the members</li>
+								<li>Sign the group up for an event (the individual members still sign up from there)</li>
+								<li>Keep track of the groups cumulative stats</li>
+							</ul>
+						</p:panel></td>
+				</tr>
+			</tbody>
+		</table>
+		<br />
+		<div style="width: 400px; margin-left: auto; margin-right: auto;">
+			<h:link outcome="/NewVolunteer.xhtml?faces-redirect=true">
+				<img src="images/logoUnrotated.png" style="width: 300px" />
+			</h:link>
+		</div>
 	</ui:composition>
 </h:body>
 </html>

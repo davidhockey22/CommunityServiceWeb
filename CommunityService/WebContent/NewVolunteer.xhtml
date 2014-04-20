@@ -12,7 +12,7 @@
 		<ui:define name="content">
 			<h:form id="registerForm">
 				<p:message for="username" id="userMessage" />
-				<h:panelGrid columns="3" cellpadding="2">
+				<h:panelGrid columns="3" cellpadding="2" style="width:100%">
 					<h:outputLabel for="#{newVolunteerBean.username}" value="UserName" />
 					<p:inputText id="username" value="#{newVolunteerBean.username}" label="UserName" required="true">
 						<f:validateLength minimum="5" maximum="20" />
@@ -48,14 +48,12 @@
 					<h:outputText id="emailValidation" style="color: red;" value="" />
 
 					<h:outputLabel for="#{newVolunteerBean.description}" value="Bio" />
-					<p:inputTextarea id="description" cols="30" rows="10"
-						value="#{newVolunteerBean.description}" required="false">
+					<p:inputTextarea id="description" cols="30" rows="10" value="#{newVolunteerBean.description}" required="false">
 						<f:validateLength maximum="500" />
-					</p:inputTextarea>							
+					</p:inputTextarea>
 					<h:outputText value="" />
 
-					<p:commandButton type="submit" value="Register" action="#{newVolunteerBean.Register}"
-						onclick="if(validateRegistration()==false){return false}"></p:commandButton>
+					<p:commandButton type="submit" value="Register" action="#{newVolunteerBean.Register}" onclick="if(validateRegistration()==false){return false}"></p:commandButton>
 					<h:outputText id="submitValidation" style="color: red;" value="" />
 
 
