@@ -104,6 +104,18 @@
 									</f:facet>
 								</p:cellEditor>
 							</p:column>
+							<p:column headerText="Rating">
+								<p:cellEditor>
+									<f:facet name="output">
+										<h:outputText value="#{ev.rating}" />
+									</f:facet>
+									<f:facet name="input">
+										<p:inputText value="#{ev.rating}" required="true">
+											<f:convertNumber integerOnly="true"/>
+										</p:inputText>
+									</f:facet>
+								</p:cellEditor>
+							</p:column>
 						</p:dataTable>
 
 						<p:commandButton type="submit" icon="ui-icon-check" value="Save Changes" action="#{editEventBean.updateEvent}"

@@ -159,7 +159,7 @@ public class EditEventBean {
 		// update volunteer points
 		for (EditableEventVolunteer ev : eventVolunteers) {
 			if (ev.getHoursChange() != 0) {
-				VolunteerService.updateVolunteerPoints(ev.getVolunteer(), ev.hoursChange, 0, 0);
+				VolunteerService.updateVolunteerPoints(ev.getVolunteer(), ev.hoursChange, ev.rating, 1);
 			}
 		}
 
@@ -226,6 +226,7 @@ public class EditEventBean {
 		private EventVolunteer eventVolunteer;
 
 		private int hoursChange = 0;
+		private int rating;
 
 		private static final String[] approvalOptions;
 		static {
@@ -236,6 +237,7 @@ public class EditEventBean {
 
 		public EditableEventVolunteer(EventVolunteer eventVolunteer) {
 			this.eventVolunteer = eventVolunteer;
+			rating = this.eventVolunteer.getVolunteer().getAvgRating().intValue();
 		}
 
 		public EventVolunteer getEventVolunteer() {
@@ -254,6 +256,14 @@ public class EditEventBean {
 			int newHours = Integer.parseInt(hours);
 			this.hoursChange = this.getEventVolunteer().getAttendedHours() - newHours;
 			this.getEventVolunteer().setAttendedHours(newHours);
+		}
+
+		public int getRating() {
+			return rating;
+		}
+
+		public void setRating(int rating) {
+			this.rating = rating;
 		}
 
 		public int getHoursChange() {
