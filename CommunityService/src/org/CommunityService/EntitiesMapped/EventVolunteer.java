@@ -32,6 +32,7 @@ public class EventVolunteer implements java.io.Serializable {
 	private Volunteer volunteer;
 	private Integer attendedHours;
 	private Boolean approved;
+	private Float rating;
 
 	public EventVolunteer() {
 	}
@@ -96,6 +97,14 @@ public class EventVolunteer implements java.io.Serializable {
 
 	public void setApproved(Boolean approved) {
 		this.approved = approved;
+	}
+	@Column(name = "Rating", insertable=false)
+	public Float getRating() {
+		return rating;
+	}
+
+	public void setRating(Float rating) {
+		this.rating = rating;
 	}
 
 }
