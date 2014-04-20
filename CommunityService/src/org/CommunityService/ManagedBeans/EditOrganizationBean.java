@@ -59,7 +59,7 @@ public class EditOrganizationBean {
 	private String tabIndex;
 
 	// used for Manage Events tab
-	private String eventTabIndex;
+	private String eventTabIndex = "myEvents";
 	private List<CalculatedEvent> selectedEvents;
 
 	// used for Manage Members tab
@@ -263,6 +263,12 @@ public class EditOrganizationBean {
 			return;
 		}
 		this.orgGroups = new ArrayList<Group>(this.org.getGroups());
+	}
+
+	public void removeGroupAssociation(Group group) {
+		this.getOrg().getGroups().remove(group);
+		this.orgGroups = new ArrayList<Group>(this.org.getGroups());
+		OrganizationService.updateOrganization(org);
 	}
 
 	private static final Map<String, Method> eventTabChangeMethodCall;

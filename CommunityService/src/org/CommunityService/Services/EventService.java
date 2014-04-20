@@ -84,37 +84,24 @@ public class EventService {
 			return null;
 		}
 	}
-	
-	public static Event getEventByIdForEdit(int eventId, int volunteerId) throws HibernateException {
 
-		String hql = "from Event as e left join fetch e.volunteer left join fetch e.organization as o (from Volunteer as v where v.where e.eventId=?";
+	public static Organization getEventOrganiztion(int eventId) throws HibernateException {
+
+		String hql = "select o from Event as e left join e.organization as o where e.eventId=?";
 		ArrayList<Integer> params = new ArrayList<Integer>();
 		params.add(eventId);
-		try {
-			@SuppressWarnings("unchecked")
-			Event e = (Event) (((List<Event>) DBConnection.query(hql, params)).get(0));
-			return e;
-		} catch (HibernateException e) {
-			return null;
-		} catch (IndexOutOfBoundsException e) {
-			return null;
-		}
+		@SuppressWarnings("unchecked")
+		List<Organization> e = (List<Organization>) DBConnection.query(hql, params);
+		return e.isEmpty() ? null : e.get(0);
 	}
 
 	public static Event getEventByIdFetch(int eventId) throws HibernateException {
-
-		String hql = "from Event as e left join fetch e.groups left join fetch e.organization left join fetch e.interests left join fetch e.eventSkills as es left join fetch es.skill where e.eventId=?";
+		String hql = "from Event as e left join fetch e.groups left join fetch e.organization left join fetch e.interests left join fetch e.volunteer left join fetch e.eventSkills as es left join fetch es.skill left join fetch e.eventVolunteers as ev left join fetch ev.volunteer where e.eventId=?";
 		ArrayList<Integer> params = new ArrayList<Integer>();
 		params.add(eventId);
-		try {
-			@SuppressWarnings("unchecked")
-			Event e = (Event) (((List<Event>) DBConnection.query(hql, params)).get(0));
-			return e;
-		} catch (HibernateException e) {
-			return null;
-		} catch (IndexOutOfBoundsException e) {
-			return null;
-		}
+		@SuppressWarnings("unchecked")
+		List<Event> e = (List<Event>) DBConnection.query(hql, params);
+		return e.isEmpty() ? null : e.get(0);
 	}
 
 	public static List<Event> getEventsByVolunteer(Integer volunteerId) {

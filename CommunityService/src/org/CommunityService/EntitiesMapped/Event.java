@@ -191,7 +191,7 @@ public class Event implements java.io.Serializable {
 		this.pictures = pictures;
 	}
 
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "Event_Interest", catalog = "volunteerMeData", joinColumns = { @JoinColumn(name = "EventID", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "InterestID", nullable = false, updatable = false) })
 	public Set<Interest> getInterests() {
 		return this.interests;

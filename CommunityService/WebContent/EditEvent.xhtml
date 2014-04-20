@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:p="http://primefaces.org/ui" xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:p="http://primefaces.org/ui" xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
 <h:head>
 </h:head>
@@ -14,76 +14,106 @@
 				<f:viewAction type="preRenderView" action="#{editEventBean.initialize}" />
 			</f:metadata>
 		</ui:define>
-		<h:form>
-			<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+		<ui:define name="content">
+			<ui:fragment rendered="#{!loginBean.loggedIn}">
+				<h:outputText value="Please login to see your groups." />
+			</ui:fragment>
+			<ui:fragment rendered="#{loginBean.loggedIn}">
+				<ui:fragment rendered="#{editEventBean.authorized}">
+					<h:form>
+						<p:panelGrid id="editPanel" columns="2">
+							<h:outputLabel for="eventName" value="Name" />
+							<p:inplace editor="true">
+								<p:inputText id="eventName" value="#{editEventBean.event.eventName}" required="true">
+									<f:validateLength minimum="5" maximum="45" />
+								</p:inputText>
+							</p:inplace>
 
-			<p:panelGrid columns="2" cellpadding="2">
+							<h:outputLabel for="description" value="Description" />
+							<p:inplace editor="true">
+								<p:inputTextarea id="description" rows="10" value="#{editEventBean.event.description}" required="true">
+									<f:validateLength maximum="5000" />
+								</p:inputTextarea>
+							</p:inplace>
 
-				<h:outputLabel for="#{editEventBean.eventname}" value="Event Name" />
+							<h:outputLabel for="location" value="Location" />
+							<p:inplace editor="true">
+								<p:inputText id="location" value="#{editEventBean.event.location}" required="true">
+									<f:validateLength maximum="45" />
+								</p:inputText>
+							</p:inplace>
 
-				<p:inputText id="eventname" value="#{newEventBean.eventname}" label="Event Name" required="true">
-					<f:validateLength minimum="5" maximum="45" />
-				</p:inputText>
+							<h:outputText value="Start Time/Date" />
+							<p:calendar value="#{editEventBean.event.beginTime}" id="begintime" pattern="EEE, MMM d, yyyy - h:mm a" />
 
-				<h:outputLabel for="#{newEventBean.description}" value="Desscription" />
-				<p:inputTextarea id="description" cols="30" rows="10" value="#{newEventBean.description}">
-					<f:validateLength maximum="500" />
-				</p:inputTextarea>
+							<h:outputText value="End Time/Date" />
+							<p:calendar value="#{editEventBean.event.endTime}" id="endtime" pattern="EEE, MMM d, yyyy - h:mm a" />
+						</p:panelGrid>
 
-				<h:outputLabel for="#{newEventBean.location}" value="Location" />
-				<p:inputText id="location" value="#{newEventBean.location}" required="true">
-					<f:validateLength maximum="30" />
-				</p:inputText>
+						<p:pickList id="interestList" value="#{editEventBean.interestModel}" var="interest" itemLabel="#{interest}"
+							itemValue="#{interest}">
+							<f:facet name="sourceCaption">Interests</f:facet>
+							<f:facet name="targetCaption">Listed Interests</f:facet>
+						</p:pickList>
 
-				<h:outputText value="Start Time/Date" />
-				<p:calendar value="#{newEventBean.begintime}" id="begintime" pattern="EEE, MMM d, yyyy - h:mm a" />
+						<p:pickList id="skillList" value="#{editEventBean.skillModel}" var="skill" itemLabel="#{skill}"
+							itemValue="#{skill}">
+							<f:facet name="sourceCaption">Skills</f:facet>
+							<f:facet name="targetCaption">Listed Skills</f:facet>
+						</p:pickList>
 
-				<h:outputText value="End Time/Date" />
-				<p:calendar value="#{newEventBean.endtime}" id="endtime" pattern="EEE, MMM d, yyyy - h:mm a" />
+						<p:dataTable id="volunteerTable" var="ev" value="#{editEventBean.eventVolunteers}" editable="true" editMode="cell">
+							<p:column headerText="Username">
+								<h:link value="#{ev.volunteer.volunteerName}" outcome="/ViewVolunteer.xhtml">
+									<f:param name="volunteerId" value="#{ev.volunteer.volunteerId}" />
+								</h:link>
+							</p:column>
+							<p:column headerText="First">
+								<h:outputText value="#{ev.volunteer.firstName}" />
+							</p:column>
+							<p:column headerText="Last">
+								<h:outputText value="#{ev.volunteer.lastName}" />
+							</p:column>
+							<p:column headerText="email">
+								<h:outputText value="#{ev.volunteer.emailAddress}" />
+							</p:column>
+							<p:column headerText="Phone">
+								<h:outputText value="#{ev.volunteer.phoneNumber}" />
+							</p:column>
+							<p:column headerText="Approved">
+								<p:cellEditor>
+									<f:facet name="output">
+										<h:outputText value="#{ev.approved}" />
+									</f:facet>
+									<f:facet name="input">
+										<p:selectOneMenu value="#{ev.approved}" style="width:100%">
+											<f:selectItems value="#{ev.approveOptions}" var="approved" />
+										</p:selectOneMenu>
+									</f:facet>
+								</p:cellEditor>
+							</p:column>
+							<p:column headerText="Verified hours attended">
+								<p:cellEditor>
+									<f:facet name="output">
+										<h:outputText value="#{ev.attendedHours}" />
+									</f:facet>
+									<f:facet name="input">
+										<p:inputText value="#{ev.attendedHours}" required="true">
+											<f:convertNumber integerOnly="true"/>
+										</p:inputText>
+									</f:facet>
+								</p:cellEditor>
+							</p:column>
+						</p:dataTable>
 
-
-
-			</p:panelGrid>
-			<p:commandButton type="submit" value="Create Event" action="#{newEventBean.Create}" />
-
-		</h:form>
-		<h:form>
-			<p:dataTable id="volunteerTable" var="ev" value="#{editOrganizationBean.orgFollowers}" editable="true" editMode="cell">
-				<p:column headerText="Username">
-					<h:link value="#{member.organizationFollower.volunteer.volunteerName}" outcome="/ViewVolunteer.xhtml">
-						<f:param name="volunteerId" value="#{member.organizationFollower.volunteer.volunteerId}" />
-					</h:link>
-				</p:column>
-				<p:column headerText="First">
-					<h:outputText value="#{member.organizationFollower.volunteer.firstName}" />
-				</p:column>
-				<p:column headerText="Last">
-					<h:outputText value="#{member.organizationFollower.volunteer.lastName}" />
-				</p:column>
-				<p:column headerText="email">
-					<h:outputText value="#{member.organizationFollower.volunteer.emailAddress}" />
-				</p:column>
-				<p:column headerText="Phone">
-					<h:outputText value="#{member.organizationFollower.volunteer.phoneNumber}" />
-				</p:column>
-				<p:column headerText="Type">
-					<p:cellEditor>
-						<f:facet name="output">
-							<h:outputText value="#{member.permissionLevel}" />
-						</f:facet>
-						<f:facet name="input">
-							<p:selectOneMenu value="#{member.permissionLevel}" style="width:100%">
-								<f:selectItems value="#{member.permissionLevels}" var="permLevel" />
-							</p:selectOneMenu>
-						</f:facet>
-					</p:cellEditor>
-				</p:column>
-			</p:dataTable>
-			<p:commandButton type="submit" icon="ui-icon-check" value="Save Changes" action="#{editOrganizationBean.updateMembers}"
-				update="memberTable" />
-			<p:commandButton type="submit" icon="ui-icon-trash" value="Discard Changes" action="#{editOrganizationBean.refreshGroups}"
-				update="memberTable" />
-		</h:form>
+						<p:commandButton type="submit" icon="ui-icon-check" value="Save Changes" action="#{editEventBean.updateEvent}"
+							update="editPanel, interestList, skillList" />
+						<p:commandButton type="submit" icon="ui-icon-trash" value="Discard Changes" action="#{editEventBean.refreshEvent}"
+							update="editPanel, interestList, skillList" />
+					</h:form>
+				</ui:fragment>
+			</ui:fragment>
+		</ui:define>
 	</ui:composition>
 </h:body>
 </html>

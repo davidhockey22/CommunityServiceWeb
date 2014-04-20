@@ -66,7 +66,8 @@
 
 					<p:tab id="permissions" title="Members">
 						<h:form>
-							<p:dataTable id="memberTable" var="member" value="#{editOrganizationBean.orgFollowers}" editable="true" editMode="cell">
+							<p:dataTable id="memberTable" var="member" value="#{editOrganizationBean.orgFollowers}" editable="true"
+								editMode="cell">
 								<p:column headerText="Username">
 									<h:link value="#{member.organizationFollower.volunteer.volunteerName}" outcome="/ViewVolunteer.xhtml">
 										<f:param name="volunteerId" value="#{member.organizationFollower.volunteer.volunteerId}" />
@@ -105,16 +106,41 @@
 					</p:tab>
 
 					<p:tab id="groups" title="Groups">
-						<p:dataTable var="group" value="#{editOrganizationBean.orgGroups}">
-							<p:column headerText="Group Name">
-								<h:link value="#{group.groupName}" outcome="ViewGroup.xhtml">
-									<f:param name="groupId" value="#{group.groupId}" />
-								</h:link>
-							</p:column>
-							<p:column headerText="Creation Date">
-								<h:outputText value="#{group.creationDate}" />
-							</p:column>
-						</p:dataTable>
+						<h:form>
+							<p:dataTable id="groupTable" var="group" value="#{editOrganizationBean.orgGroups}">
+								<p:column headerText="Remove Association">
+									<p:commandButton icon="ui-icon-trash" update="groupTable">
+										<f:setPropertyActionListener value="#{group}" target="#{editOrganizationBean.removeGroupAssociation}" />
+									</p:commandButton>
+								</p:column>
+								<p:column headerText="Name">
+									<h:outputText value="#{group.groupName}" />
+								</p:column>
+								<p:column headerText="Description">
+									<h:outputText value="#{group.description}" />
+								</p:column>
+								<p:column headerText="Email Address">
+									<h:outputText value="#{group.emailAddress}" />
+								</p:column>
+								<p:column headerText="Creation Date">
+									<h:outputText value="#{group.creationDate}">
+										<f:convertDateTime pattern="EEE, MMM d, yyyy - h:mm a" locale="en_US" type="both" timeStyle="full"
+											timeZone="EDT" />
+									</h:outputText>
+								</p:column>
+								<p:column headerText="Average Member Rating">
+									<h:outputText value="#{group.avgRatingOfVolunteers}" />
+								</p:column>
+								<p:column headerText="Hours Worked">
+									<h:outputText value="#{group.hoursWorked}" />
+								</p:column>
+								<p:column headerText="View Group">
+									<p:commandButton icon="ui-icon-search" outcome="ViewGroup.xhtml">
+										<f:param name="groupId" value="#{group.groupId}" />
+									</p:commandButton>
+								</p:column>
+							</p:dataTable>
+						</h:form>
 					</p:tab>
 
 					<p:tab id="events" title="Manage Events">
@@ -149,6 +175,11 @@
 									</p:column>
 									<p:column headerText="View Event">
 										<p:button icon="ui-icon-link" outcome="/ViewEvent.xhtml">
+											<f:param name="eventId" value="#{e.event.eventId}" />
+										</p:button>
+									</p:column>
+									<p:column headerText="Manage Event">
+										<p:button icon="ui-icon-link" outcome="/EditEvent.xhtml">
 											<f:param name="eventId" value="#{e.event.eventId}" />
 										</p:button>
 									</p:column>
@@ -191,6 +222,11 @@
 											<f:param name="eventId" value="#{e.event.eventId}" />
 										</p:button>
 									</p:column>
+									<p:column headerText="Manage Event">
+										<p:button icon="ui-icon-link" outcome="/EditEvent.xhtml">
+											<f:param name="eventId" value="#{e.event.eventId}" />
+										</p:button>
+									</p:column>
 
 									<f:facet name="footer">
 										<p:button value="Create new event" outcome="/NewEvent.xhtml">
@@ -230,6 +266,11 @@
 											<f:param name="eventId" value="#{e.event.eventId}" />
 										</p:button>
 									</p:column>
+									<p:column headerText="Manage Event">
+										<p:button icon="ui-icon-link" outcome="/EditEvent.xhtml">
+											<f:param name="eventId" value="#{e.event.eventId}" />
+										</p:button>
+									</p:column>
 
 									<f:facet name="footer">
 										<p:button value="Create new event" outcome="/NewEvent.xhtml">
@@ -266,6 +307,11 @@
 									</p:column>
 									<p:column headerText="View Event">
 										<p:button icon="ui-icon-link" outcome="/ViewEvent.xhtml">
+											<f:param name="eventId" value="#{e.event.eventId}" />
+										</p:button>
+									</p:column>
+									<p:column headerText="Manage Event">
+										<p:button icon="ui-icon-link" outcome="/EditEvent.xhtml">
 											<f:param name="eventId" value="#{e.event.eventId}" />
 										</p:button>
 									</p:column>

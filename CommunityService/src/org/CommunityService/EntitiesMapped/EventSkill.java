@@ -2,14 +2,12 @@ package org.CommunityService.EntitiesMapped;
 
 // Generated Feb 22, 2014 8:45:42 PM by Hibernate Tools 3.4.0.CR1
 
-import javax.persistence.CascadeType;
+import static javax.persistence.GenerationType.IDENTITY;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-
-import static javax.persistence.GenerationType.IDENTITY;
-
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -56,7 +54,7 @@ public class EventSkill implements java.io.Serializable {
 		this.eventSkillId = eventSkillId;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "EventID", nullable = false)
 	public Event getEvent() {
 		return this.event;
@@ -66,7 +64,7 @@ public class EventSkill implements java.io.Serializable {
 		this.event = event;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "SkillID", nullable = false)
 	public Skill getSkill() {
 		return this.skill;
