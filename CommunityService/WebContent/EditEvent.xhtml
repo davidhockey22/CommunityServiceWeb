@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:p="http://primefaces.org/ui" xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui" xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
 <h:head>
 </h:head>
@@ -21,23 +21,23 @@
 			<ui:fragment rendered="#{loginBean.loggedIn}">
 				<ui:fragment rendered="#{editEventBean.authorized}">
 					<h:form>
-						<p:panelGrid id="editPanel" columns="2">
+						<p:panelGrid id="editPanel" columns="2" style="width:100%">
 							<h:outputLabel for="eventName" value="Name" />
-							<p:inplace editor="true">
+							<p:inplace>
 								<p:inputText id="eventName" value="#{editEventBean.event.eventName}" required="true">
 									<f:validateLength minimum="5" maximum="45" />
 								</p:inputText>
 							</p:inplace>
 
 							<h:outputLabel for="description" value="Description" />
-							<p:inplace editor="true">
+							<p:inplace>
 								<p:inputTextarea id="description" rows="10" value="#{editEventBean.event.description}" required="true">
 									<f:validateLength maximum="5000" />
 								</p:inputTextarea>
 							</p:inplace>
 
 							<h:outputLabel for="location" value="Location" />
-							<p:inplace editor="true">
+							<p:inplace>
 								<p:inputText id="location" value="#{editEventBean.event.location}" required="true">
 									<f:validateLength maximum="45" />
 								</p:inputText>
@@ -50,14 +50,12 @@
 							<p:calendar value="#{editEventBean.event.endTime}" id="endtime" pattern="EEE, MMM d, yyyy - h:mm a" />
 						</p:panelGrid>
 
-						<p:pickList id="interestList" value="#{editEventBean.interestModel}" var="interest" itemLabel="#{interest}"
-							itemValue="#{interest}">
+						<p:pickList id="interestList" value="#{editEventBean.interestModel}" var="interest" itemLabel="#{interest}" itemValue="#{interest}" style="width:100%">
 							<f:facet name="sourceCaption">Interests</f:facet>
 							<f:facet name="targetCaption">Listed Interests</f:facet>
 						</p:pickList>
 
-						<p:pickList id="skillList" value="#{editEventBean.skillModel}" var="skill" itemLabel="#{skill}"
-							itemValue="#{skill}">
+						<p:pickList id="skillList" value="#{editEventBean.skillModel}" var="skill" itemLabel="#{skill}" itemValue="#{skill}" style="width:100%">
 							<f:facet name="sourceCaption">Skills</f:facet>
 							<f:facet name="targetCaption">Listed Skills</f:facet>
 						</p:pickList>
@@ -99,7 +97,7 @@
 									</f:facet>
 									<f:facet name="input">
 										<p:inputText value="#{ev.attendedHours}" required="true">
-											<f:convertNumber integerOnly="true"/>
+											<f:convertNumber integerOnly="true" />
 										</p:inputText>
 									</f:facet>
 								</p:cellEditor>
@@ -111,7 +109,7 @@
 									</f:facet>
 									<f:facet name="input">
 										<p:inputText value="#{ev.rating}" required="true">
-											<f:convertNumber integerOnly="true"/>
+											<f:convertNumber integerOnly="true" />
 										</p:inputText>
 									</f:facet>
 								</p:cellEditor>

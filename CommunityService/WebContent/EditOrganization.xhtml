@@ -145,7 +145,7 @@
 
 					<p:tab id="events" title="Manage Events">
 
-						<p:tabView id="eventsTabView" dynamic="true" cache="false" activeIndex="#{editOrganizationBean.eventTabIndex}">
+						<p:tabView id="eventsTabView" dynamic="true" cache="false" >
 							<p:ajax event="tabChange" listener="#{editOrganizationBean.onEventsTabChange}" />
 							<p:tab id="myEvents" title="My Events">
 								<p:dataTable id="myEventsDataTable" var="e" value="#{editOrganizationBean.selectedEvents}" sortMode="multiple">
