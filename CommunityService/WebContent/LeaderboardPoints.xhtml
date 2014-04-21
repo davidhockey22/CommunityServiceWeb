@@ -15,6 +15,9 @@
 				<p:tab id="tba1" title="Volunteer Leaderboard">
 					<p:dataTable rendered="#{not empty leaderboardBean.results}" var="result" value="#{leaderboardBean.results}" rowKey="#{result.name}"
 						paginator="true" paginatorPosition="bottom" paginatorAlwaysVisible="false" rows="25" id="pointstable">
+						<p:column headerText="Rank">
+							<h:outputText value="#{leaderboardBean.rowIndex}" />
+						</p:column>
 						<p:column headerText="Name" sortBy="volunteerName" id="nameId">
 							<h:link value="#{result.volunteerName}" outcome="/ViewVolunteer.xhtml">
 								<f:param name="volunteerId" value="#{result.volunteerId}" />
@@ -36,6 +39,9 @@
 				<p:tab id="tab2" title="Group Leaderboards">
 					<p:dataTable rendered="#{not empty leaderboardBean.resultsG}" var="result" value="#{leaderboardBean.resultsG}" rowKey="#{result.groupName}"
 						paginator="true" paginatorPosition="bottom" paginatorAlwaysVisible="false" rows="25" id="pointstable2">
+						<p:column headerText="Rank">
+							<h:outputText value="#{leaderboardBean.rowIndex2}" />
+						</p:column>
 						<p:column headerText="Name" sortBy="groupName" id="nameId">  
 			          			#{result.groupName}
 			      			</p:column>

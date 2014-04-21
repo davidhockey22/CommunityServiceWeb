@@ -22,12 +22,15 @@ public class LeaderboardBean {
 	static Date lastChecked2;
 	private List<Volunteer> results = null;
 	private List<Volunteer> partial = null;
+	private int rowIndex = 0;
+	private int rowIndex2 = 0;
 
 	// Groups
 	static Date lastChecked3;
 	private List<Group> resultsG = null;
 
 	public List<Volunteer> getResults() {
+		rowIndex = 0;
 		Date currentTime = new Date();
 		if (lastChecked == null || lastChecked.before(currentTime)) {
 			// don't check for 5 minutes
@@ -66,6 +69,7 @@ public class LeaderboardBean {
 	}
 
 	public List<Group> getResultsG() {
+		rowIndex2 = 0;
 		Date currentTime = new Date();
 		if (lastChecked3 == null || lastChecked3.before(currentTime)) {
 			// don't check for 5 minutes
@@ -79,5 +83,21 @@ public class LeaderboardBean {
 
 	public void setResultsG(List<Group> resultsG) {
 		this.resultsG = resultsG;
+	}
+
+	public int getRowIndex() {
+		return ++rowIndex;
+	}
+
+	public void setRowIndex(int rowIndex) {
+		this.rowIndex = rowIndex;
+	}
+
+	public int getRowIndex2() {
+		return ++rowIndex2;
+	}
+
+	public void setRowIndex2(int rowIndex2) {
+		this.rowIndex2 = rowIndex2;
 	}
 }
