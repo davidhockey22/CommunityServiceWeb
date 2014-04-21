@@ -263,7 +263,7 @@ public class VolunteerService {
 	}
 
 	public static List<Event> getEventsByVolunteer(Volunteer volunteer, Organization org) {
-		String hql = "select e from Volunteer as v left join v.events as e left join fetch e.organization where v.volunteerId=? and e.organization.orgId=?";
+		String hql = "select e from Volunteer as v left join v.events as e left join fetch e.organization left join fetch e.eventVolunteers as ev where v.volunteerId=? and e.organization.orgId=?";
 		ArrayList<Integer> params = new ArrayList<Integer>();
 		params.add(volunteer.getVolunteerId());
 		params.add(org.getOrgId());
