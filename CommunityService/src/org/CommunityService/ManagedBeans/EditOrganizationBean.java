@@ -59,7 +59,7 @@ public class EditOrganizationBean {
 	private String tabIndex;
 
 	// used for Manage Events tab
-	private String eventTabIndex = "myEvents";
+	private String eventTabIndex;
 	private List<CalculatedEvent> selectedEvents;
 
 	// used for Manage Members tab
@@ -150,7 +150,8 @@ public class EditOrganizationBean {
 	}
 
 	public void fetchMyEvents() {
-		OrganizationService.refreshOrganizationEventsForFollower(org, currentVolunteer.getVolunteer());
+		currentVolunteer.refreshAssignedEvents(this.org);
+		this.org.setEvents(currentVolunteer.getVolunteer().getEvents());
 	}
 
 	public void fetchPastEvents() {

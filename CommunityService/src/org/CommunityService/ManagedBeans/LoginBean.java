@@ -9,6 +9,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
+import org.CommunityService.EntitiesMapped.Event;
 import org.CommunityService.EntitiesMapped.EventVolunteer;
 import org.CommunityService.EntitiesMapped.GroupMember;
 import org.CommunityService.EntitiesMapped.Notification;
@@ -118,6 +119,12 @@ public class LoginBean {
 	public void refreshNotifications() {
 		if (volunteer != null) {
 			volunteer.setNotifications(new HashSet<Notification>(NotificationService.getUserNotifications(volunteer)));
+		}
+	}
+
+	public void refreshAssignedEvents(Organization org) {
+		if (volunteer != null) {
+			volunteer.setEvents(new HashSet<Event>(VolunteerService.getEventsByVolunteer(volunteer, org)));
 		}
 	}
 

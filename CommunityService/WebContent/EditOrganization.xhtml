@@ -23,29 +23,29 @@
 					<p:tab id="editView" title="Edit Organization Details" rendered="true">
 						<h:form>
 							<p:panelGrid id="editPanel" columns="2">
-								<h:outputLabel for="#{editOrganizationBean.org.orgName}" value="Name" />
+								<h:outputLabel for="editOrgName" value="Name" />
 								<p:inplace editor="true">
-									<p:inputText value="#{editOrganizationBean.org.orgName}" required="true" />
+									<p:inputText id="editOrgName" value="#{editOrganizationBean.org.orgName}" required="true" />
 								</p:inplace>
 
-								<h:outputLabel for="#{editOrganizationBean.org.address}" value="Address" />
+								<h:outputLabel for="editOrgAddress" value="Address" />
 								<p:inplace editor="true">
-									<p:inputText value="#{editOrganizationBean.org.address}" required="true" />
+									<p:inputText id="editOrgAddress" value="#{editOrganizationBean.org.address}" required="true" />
 								</p:inplace>
 
-								<h:outputLabel for="#{editOrganizationBean.org.phoneNumber}" value="Phone Number" />
+								<h:outputLabel for="editOrgPhoneNumber" value="Phone Number" />
 								<p:inplace editor="true">
-									<p:inputText value="#{editOrganizationBean.org.phoneNumber}" required="true" />
+									<p:inputText id="editOrgPhoneNumber" value="#{editOrganizationBean.org.phoneNumber}" required="true" />
 								</p:inplace>
 
-								<h:outputLabel for="#{editOrganizationBean.org.emailAddress}" value="Email" />
+								<h:outputLabel for="editOrgEmailAddress" value="Email" />
 								<p:inplace editor="true">
-									<p:inputText value="#{editOrganizationBean.org.emailAddress}" required="true" />
+									<p:inputText id="editOrgEmailAddress" value="#{editOrganizationBean.org.emailAddress}" required="true" />
 								</p:inplace>
 
-								<h:outputLabel for="#{editOrganizationBean.org.description}" value="Description" />
+								<h:outputLabel for="editOrgDescription" value="Description" />
 								<p:inplace editor="true">
-									<p:inputTextarea rows="10" value="#{editOrganizationBean.org.description}" required="true" />
+									<p:inputTextarea id="editOrgDescription" rows="10" value="#{editOrganizationBean.org.description}" required="true" />
 								</p:inplace>
 							</p:panelGrid>
 
@@ -145,8 +145,8 @@
 
 					<p:tab id="events" title="Manage Events">
 
-						<p:tabView id="eventsTabView" dynamic="true" cache="false" >
-							<p:ajax event="tabChange" listener="#{editOrganizationBean.onEventsTabChange}" />
+						<p:tabView id="eventsTabView" dynamic="true" cache="false" activeIndex="#{editOrganizationBean.eventTabIndex}">
+							<p:ajax event="tabChange" listener="#{editOrganizationBean.onEventsTabChange}" update="eventsTabView"/>
 							<p:tab id="myEvents" title="My Events">
 								<p:dataTable id="myEventsDataTable" var="e" value="#{editOrganizationBean.selectedEvents}" sortMode="multiple">
 									<p:column headerText="Event ID">

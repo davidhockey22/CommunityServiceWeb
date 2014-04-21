@@ -9,8 +9,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import org.CommunityService.EntitiesMapped.Event;
 import org.CommunityService.EntitiesMapped.EventVolunteer;
 import org.CommunityService.EntitiesMapped.GroupMember;
+import org.CommunityService.EntitiesMapped.Organization;
 import org.CommunityService.EntitiesMapped.OrganizationFollower;
 import org.CommunityService.EntitiesMapped.Volunteer;
 import org.CommunityService.EntitiesMapped.VolunteerDevice;
@@ -258,5 +260,15 @@ public class VolunteerService {
 		volunteers.get(0).setApproved(true);
 		DBConnection.update(volunteers.get(0));
 		return true;
+	}
+
+	public static List<Event> getEventsByVolunteer(Volunteer volunteer, Organization org) {
+		String hql = "select e from Volunteer as v left join v.events as e left join fetch e.organization where v.volunteerId=? and e.organization.orgId=?";
+		ArrayList<Integer> params = new ArrayList<Integer>();
+		params.add(volunteer.getVolunteerId());
+		params.add(org.getOrgId());
+		@SuppressWarnings("unchecked")
+		List<Event> events = (List<Event>) DBConnection.query(hql, params);
+		return events;
 	}	
 }

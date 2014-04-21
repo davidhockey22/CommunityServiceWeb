@@ -4,13 +4,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.CommunityService.EntitiesMapped.Event;
-import org.CommunityService.EntitiesMapped.EventVolunteer;
 import org.CommunityService.EntitiesMapped.Organization;
 import org.CommunityService.EntitiesMapped.OrganizationFollower;
 import org.CommunityService.EntitiesMapped.Volunteer;
@@ -150,26 +147,6 @@ public class OrganizationService {
 			org = null;
 		} else {
 			org.setEvents(o.getEvents());
-		}
-	}
-
-	public static void refreshOrganizationEventsForFollower(Organization org, Volunteer volunteer) {
-		// went at this backwards on purpose: going the other way traverses more one-to-many joins
-		String hql = "select v from Volunteer as v left join fetch v.eventVolunteers as ev left join fetch ev.event as e left join fetch e.eventVolunteers where v.volunteerId=? and e.organization.orgId=?";
-		List<Integer> params = new ArrayList<Integer>();
-		params.add(volunteer.getVolunteerId());
-		params.add(org.getOrgId());
-		@SuppressWarnings("unchecked")
-		List<Volunteer> volunteers = (List<Volunteer>) DBConnection.query(hql, params);
-		Volunteer v = volunteers.isEmpty() ? null : volunteers.get(0);
-		if (v == null) {
-			org.setEvents(Collections.<Event> emptySet());
-		} else {
-			Set<Event> events = new HashSet<Event>();
-			for (EventVolunteer eventVolunteer : v.getEventVolunteers()) {
-				events.add(eventVolunteer.getEvent());
-			}
-			org.setEvents(events);
 		}
 	}
 

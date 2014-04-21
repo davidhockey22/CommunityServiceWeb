@@ -6,7 +6,6 @@ import org.ocpsoft.rewrite.annotation.RewriteConfiguration;
 import org.ocpsoft.rewrite.config.Configuration;
 import org.ocpsoft.rewrite.config.ConfigurationBuilder;
 import org.ocpsoft.rewrite.servlet.config.HttpConfigurationProvider;
-import org.ocpsoft.rewrite.servlet.config.rule.Join;
 
 @RewriteConfiguration
 public class FacesConfigurationProvider extends HttpConfigurationProvider{
@@ -14,7 +13,6 @@ public class FacesConfigurationProvider extends HttpConfigurationProvider{
 	@Override
 	public Configuration getConfiguration(final ServletContext context) {
 		return ConfigurationBuilder.begin()
-				.addRule(Join.path("/manageEvent/{eventId}").to("/Web/EditEvent.xhtml"))
 				;
 	}
 	
