@@ -59,20 +59,7 @@
 
 					</p:row>
 					<p:row>
-						<p:column>
-							<h:outputText value="Interests " />
-						</p:column>
-						<p:column>
-							<p:dataTable rendered="#{not empty viewOrganizationBean.organization.interests}" var="VI"
-								value="#{viewOrganizationBean.organization.interests.toArray()}" id="interestTable" paginator="false">
-								<p:column id="Test">
-									<h:outputText value="#{VI.interest.name}"></h:outputText>
-								</p:column>
-							</p:dataTable>
-							<h:outputText value="This organization hasn't specified any interests." rendered="#{empty viewOrganizationBean.organization.interests}" />
-						</p:column>
-					</p:row>
-					<p:row>
+
 						<p:column colspan="2">
 							<div style="width: 30%; margin-left: auto; margin-right: auto;">
 								<h:form id="form2">
