@@ -19,11 +19,13 @@
 			<ui:fragment rendered="#{loginBean.loggedIn}">
 				<h:form>
 					<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
-					
+
 					<p:panel header="Register Group">
 						<h:panelGrid columns="2" cellpadding="2">
 							<h:outputLabel for="#{newGroupBean.name}" value="Name" />
 							<h:inputText id="name" value="#{newGroupBean.name}" required="true" />
+							<h:outputLabel for="#{newGroupBean.description}" value="Description" />
+							<h:inputText id="description" value="#{newGroupBean.description}" required="true" />
 							<p:commandButton type="submit" value="Register" action="#{newGroupBean.Register}" />
 						</h:panelGrid>
 					</p:panel>

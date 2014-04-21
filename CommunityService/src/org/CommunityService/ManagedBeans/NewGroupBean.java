@@ -23,12 +23,14 @@ public class NewGroupBean {
 	private LoginBean currentVolunteer;
 
 	private String name;
+	private String description;
 
 	public String Register() {
 		try {
 			Group group = GroupService.getGroupByName(name);
 			if (group == null) {
 				group = new Group(name);
+				group.setDescription(description);
 				group.setCreationDate(new Date());
 				group.setAvgRatingOfVolunteers(0.0f);
 				group.setHoursWorked(0);
@@ -69,5 +71,13 @@ public class NewGroupBean {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 }

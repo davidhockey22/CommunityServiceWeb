@@ -59,7 +59,7 @@ public class ViewOrganizationBean {
 		FacesContext context = FacesContext.getCurrentInstance();
 		try {
 			this.organization = OrganizationService.getOrganizationByIdWithAttachedEntities(Integer.parseInt(this.orgId),
-					"OrganizationFollowers", "Groups");
+					"OrganizationFollowers", "Groups", "Interests");
 			List<OrganizationFollower> admins = new ArrayList<OrganizationFollower>();
 			List<OrganizationFollower> moderators = new ArrayList<OrganizationFollower>();
 			List<OrganizationFollower> members = new ArrayList<OrganizationFollower>();

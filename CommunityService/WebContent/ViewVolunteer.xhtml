@@ -35,7 +35,7 @@
 						
 					<h:outputText value="Interests" />
 					<p:dataTable rendered="#{not empty viewVolunteerBean.volunteer.volunteerInterests}" var="VI"
-						value="#{viewVolunteerBean.volunteer.volunteerInterests.toArray()}" paginator="false" rows="10" id="interestTable">
+						value="#{viewVolunteerBean.volunteer.volunteerInterests.toArray()}" id="interestTable" paginator="false">
 						<p:column id="Test">
 							<h:outputText value="#{VI.interest.name}"></h:outputText>
 						</p:column>
@@ -44,7 +44,7 @@
 						rendered="#{empty viewVolunteerBean.volunteer.volunteerInterests}" />
 					<h:outputText value="Skills" />
 					<p:dataTable rendered="#{not empty viewVolunteerBean.volunteer.volunteerSkills}" var="VS"
-						value="#{viewVolunteerBean.volunteer.volunteerSkills.toArray()}" paginator="false" rows="10" id="skillTable">
+						value="#{viewVolunteerBean.volunteer.volunteerSkills.toArray()}" paginator="false" id="skillTable">
 						<p:column id="Test">
 							<h:outputText value="#{VS.skill.skillName}"></h:outputText>
 						</p:column>

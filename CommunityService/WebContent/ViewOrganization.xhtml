@@ -59,22 +59,38 @@
 
 					</p:row>
 					<p:row>
+						<p:column>
+							<h:outputText value="Interests " />
+						</p:column>
+						<p:column>
+							<p:dataTable rendered="#{not empty viewOrganizationBean.organization.interests}" var="VI"
+								value="#{viewOrganizationBean.organization.interests.toArray()}" id="interestTable" paginator="false">
+								<p:column id="Test">
+									<h:outputText value="#{VI.interest.name}"></h:outputText>
+								</p:column>
+							</p:dataTable>
+							<h:outputText value="This organization hasn't specified any interests." rendered="#{empty viewOrganizationBean.organization.interests}" />
+						</p:column>
+					</p:row>
+					<p:row>
 						<p:column colspan="2">
-							<h:form id="form2">
-								<h:inputHidden id="buttonData" value="#{viewOrganizationBean.orgId}" />
-								<p:commandButton value="Follow!" actionListener="#{viewOrganizationBean.follow}"
-									rendered="#{loginBean.loggedIn and !viewOrganizationBean.following}" process="@form" update="form2" ajax="false" />
+							<div style="width: 30%; margin-left: auto; margin-right: auto;">
+								<h:form id="form2">
+									<h:inputHidden id="buttonData" value="#{viewOrganizationBean.orgId}" />
+									<p:commandButton value="Follow!" actionListener="#{viewOrganizationBean.follow}"
+										rendered="#{loginBean.loggedIn and !viewOrganizationBean.following}" process="@form" update="form2" ajax="false" />
 
-								<h:outputText id="noSignIn" value="Log in to your account to sign up for this event." rendered="#{!loginBean.loggedIn}" />
-								<h:outputText id="following" value="You are following this organization!" rendered="#{viewOrganizationBean.following}" />
+									<h:outputText id="noSignIn" value="Log in to your account to sign up for this event." rendered="#{!loginBean.loggedIn}" />
+									<h:outputText id="following" value="You are following this organization!" rendered="#{viewOrganizationBean.following}" />
+									<br />
+									<p:commandButton value="UnFollow" actionListener="#{viewOrganizationBean.unFollow}"
+										rendered="#{viewOrganizationBean.following and !viewOrganizationBean.admin}" process="@form" update="form2" ajax="false" />
+								</h:form>
 								<br />
-								<p:commandButton value="UnFollow" actionListener="#{viewOrganizationBean.unFollow}"
-									rendered="#{viewOrganizationBean.following and !viewOrganizationBean.admin}" process="@form" update="form2" ajax="false" />
-							</h:form>
-							<br />
-							<p:button value="Manage this organization" outcome="EditOrganization.xhtml" rendered="#{viewOrganizationBean.member}">
-								<f:param name="orgId" value="#{viewOrganizationBean.organization.orgId}" />
-							</p:button>
+								<p:button value="Manage this organization" outcome="EditOrganization.xhtml" rendered="#{viewOrganizationBean.member}">
+									<f:param name="orgId" value="#{viewOrganizationBean.organization.orgId}" />
+								</p:button>
+							</div>
 						</p:column>
 					</p:row>
 				</p:panelGrid>

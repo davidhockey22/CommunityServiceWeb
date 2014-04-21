@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
 	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui">
 <h:head>
 	<title>Group Page</title>
 	<h:outputStylesheet library="css" name="WebContent/css/main.css" />
@@ -14,35 +11,28 @@
 	<ui:composition template="commonTemplate.xhtml">
 		<ui:define name="metadata">
 			<f:metadata>
-				<f:viewParam id="groupId" name="groupId"
-					value="#{viewGroupBean.groupId}" />
-				<f:viewAction type="preRenderView"
-					action="#{viewGroupBean.fetchGroup}" />
+				<f:viewParam id="groupId" name="groupId" value="#{viewGroupBean.groupId}" />
+				<f:viewAction type="preRenderView" action="#{viewGroupBean.fetchGroup}" />
 			</f:metadata>
 		</ui:define>
 		<ui:define name="content">
 			<div style="clear: left">
-				<p:panelGrid columns="2">
+				<p:panelGrid columns="2" style="width:100%">
 					<f:facet name="header">
 						<h:outputText value="#{viewGroupBean.group.groupName}" />
 					</f:facet>
 
-					<h:outputLabel for="created" value="Created On: " />
-					<h:outputText id="created"
-						value="#{viewGroupBean.group.creationDate}" label="created" />
+					<h:outputLabel for="description" value="Description: " />
+					<h:outputText id="description" value="#{viewGroupBean.group.description}" />
 
 					<h:outputLabel for="hoursWorked" value="Hours Worked: " />
-					<h:outputText id="hoursWorked"
-						value="#{viewGroupBean.group.hoursWorked}" label="hoursWorked" />
+					<h:outputText id="hoursWorked" value="#{viewGroupBean.group.hoursWorked}" label="hoursWorked" />
 
 					<h:outputLabel for="points" value="Points: " />
-					<h:outputText id="points" value="#{viewGroupBean.group.points}"
-						label="points" />
+					<h:outputText id="points" value="#{viewGroupBean.group.points}" label="points" />
 
 					<h:outputLabel for="rating" value="Avg Rating of Members: " />
-					<h:outputText id="rating"
-						value="#{viewGroupBean.group.avgRatingOfVolunteers}"
-						label="rating" />
+					<h:outputText id="rating" value="#{viewGroupBean.group.avgRatingOfVolunteers}" label="rating" />
 
 				</p:panelGrid>
 
@@ -56,33 +46,24 @@
 							<h:outputText value="#{level.name}" />
 						</f:facet>
 						<p:column>
-							<h:link value="#{member.volunteer.volunteerName}"
-								outcome="ViewVolunteer.xhtml">
-								<f:param name="volunteerId"
-									value="#{member.volunteer.volunteerId}" />
+							<h:link value="#{member.volunteer.volunteerName}" outcome="ViewVolunteer.xhtml">
+								<f:param name="volunteerId" value="#{member.volunteer.volunteerId}" />
 							</h:link>
 						</p:column>
 					</p:subTable>
 				</p:dataTable>
 
 				<h:form id="joinGroupForm">
-					<p:commandButton type="submit" value="Join Group"
-						action="#{viewGroupBean.add}"
-						rendered="#{viewGroupBean.renderJoin}" update="joinGroupForm"></p:commandButton>
+					<p:commandButton type="submit" value="Join Group" action="#{viewGroupBean.add}" rendered="#{viewGroupBean.renderJoin}" update="joinGroupForm"></p:commandButton>
 
-					<p:commandButton type="submit" value="Leave Group"
-						action="#{viewGroupBean.leave}"
-						rendered="#{viewGroupBean.renderLeave}" update="joinGroupForm"></p:commandButton>
+					<p:commandButton type="submit" value="Leave Group" action="#{viewGroupBean.leave}" rendered="#{viewGroupBean.renderLeave}" update="joinGroupForm"></p:commandButton>
 
-					<p:button outcome="/EditGroup.xhtml?faces-redirect=true"
-						value="Edit Group" rendered="#{viewGroupBean.renderEditGroup}">
+					<p:button outcome="/EditGroup.xhtml?faces-redirect=true" value="Edit Group" rendered="#{viewGroupBean.renderEditGroup}">
 						<f:param name="groupId" value="#{viewGroupBean.groupId}" />
 					</p:button>
 
-					<h:outputText style="color: red;" value="Pending group approval"
-						rendered="#{viewGroupBean.renderPending}" />
-					<h:outputText value="You're a member of this group"
-						rendered="#{viewGroupBean.renderApproved}" />
+					<h:outputText style="color: red;" value="Pending group approval" rendered="#{viewGroupBean.renderPending}" />
+					<h:outputText value="You're a member of this group" rendered="#{viewGroupBean.renderApproved}" />
 				</h:form>
 			</div>
 		</ui:define>

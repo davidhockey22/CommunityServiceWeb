@@ -22,6 +22,7 @@
 					<p:columnGroup type="header">
 						<p:row>
 							<p:column headerText="Name" />
+							<p:column headerText="Description" />
 							<p:column headerText="" />
 						</p:row>
 					</p:columnGroup>
@@ -32,6 +33,9 @@
 						</f:facet>
 						<p:column>
 							<h:outputText value="#{groupMember.group.groupName}" />
+						</p:column>
+						<p:column>
+							<h:outputText value="#{groupMember.group.description}" />
 						</p:column>
 						<p:column>
 							<p:button value="View" outcome="ViewGroup.xhtml">
