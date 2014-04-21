@@ -107,7 +107,7 @@ public class NewEventBean {
 		// if eventId viewParam present, assume new event was created
 		if (eventId != null) {
 			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success",
-					"Event created, click the \"View Event\" button below the form to view it now"));
+					"Event created, click the \"View Event\" button view it now"));
 		}
 
 		setSelectedOrgId(this.orgId);
