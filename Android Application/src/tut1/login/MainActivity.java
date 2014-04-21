@@ -96,7 +96,7 @@ public class MainActivity extends Activity {
 			//ab.setDisplayShowTitleEnabled( false );
 				        
 	        if (savedInstanceState == null) {
-	            selectItem(2);
+	            selectItem(3);
 	        }
     }
     
@@ -185,9 +185,13 @@ public class MainActivity extends Activity {
     	}
     	else if( position == 2 ) {
     		
+    		fragment = new OrgFragment();
+    	}    	
+    	else if( position == 3 ) {
+    		
     		fragment = new MainFragment();
     	}
-    	else if( position == 3 ) {
+    	else if( position == 4 ) {
     		
        		//save empty token
     		SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
@@ -197,6 +201,7 @@ public class MainActivity extends Activity {
     		
     		Intent intent = new Intent(MainActivity.this, Login.class);
     		intent.putExtra("param", "");
+    		Login.useToken = false;
     		
     		//this flag will return to the Login instance if it already exists
     		//or create a new instance

@@ -15,9 +15,8 @@ import android.widget.Toast;
 
 public class Login extends Activity {
 	
-	//ImageView image;
-	
 	public static Login current = null;
+	public static boolean useToken = true;
 	String password = null;
 	String username = null;
 	
@@ -30,6 +29,8 @@ public class Login extends Activity {
         setContentView(R.layout.login);
 
         current = this;
+        
+        EventData.status = EventData.statusNotLoaded;
 
         //Register your receiver so that the Activity can be notified
         IntentFilter filter = new IntentFilter(RequestReceiver.PROCESS_RESPONSE);
@@ -69,8 +70,9 @@ public class Login extends Activity {
 		//load token
 		SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
 		String str = sharedPref.getString( "token", "" );
-		if(str.equals("")) {}
+		if(str.equals("") || useToken == false) {}
 		else {
+			useToken = true;
 			
     		findViewById(R.id.editText1).setVisibility(View.INVISIBLE);
     		findViewById(R.id.editText2).setVisibility(View.INVISIBLE);

@@ -16,8 +16,8 @@ public class EventData extends Obj{
     private static List<String> allEventsString = new ArrayList<String>();
     private static List<EventData> allEvents = new ArrayList<EventData>();
     
-    private static List<String> eventsSignedUpForString = new ArrayList<String>();
-    private static List<EventData> eventsSignedUpFor = new ArrayList<EventData>();
+    public static List<String> signedUpForString = new ArrayList<String>();
+    public static List<EventData> signedUpFor = new ArrayList<EventData>();
 	
     private static List<String> findListString = null;
     private static List<EventData> findList = null;
@@ -29,7 +29,9 @@ public class EventData extends Obj{
     private static List<EventData> bySkill = new ArrayList<EventData>();    
 
     private static List<String> byInterestString = new ArrayList<String>();
-    private static List<EventData> byInterest = new ArrayList<EventData>();    
+    private static List<EventData> byInterest = new ArrayList<EventData>();
+    
+    public static List<EventData> orgEvent = new ArrayList<EventData>();
     
     private List<String> interestIDList = new ArrayList<String>();
     
@@ -44,7 +46,9 @@ public class EventData extends Obj{
 	private String beginTime;
 	private String endTime;
 	
-    public EventData() {
+	private boolean approved;
+
+	public EventData() {
     }
 
     public void init(String EventID, String EventName, String Description, String Location, String BeginTime, String EndTime) {
@@ -55,6 +59,8 @@ public class EventData extends Obj{
     	location = Location;
     	beginTime = BeginTime;
     	endTime = EndTime;
+    	
+    	approved = false;
     }	
     boolean initFromMySQLString(String S) {
     	
@@ -80,17 +86,66 @@ public class EventData extends Obj{
     	allEvents.add(this);
     	allEventsString.add(eventID); 	
     }
-    public void AddToEventsSignedUpForList() {
+    public static EventData GetEventInAllEventsList(String id) {
     	
-    	if( eventsSignedUpForString.contains(eventID) )
+    	for(EventData e : allEvents) {
+    		if(e.getEventID().equals(id))
+    			return e;
+    	}
+    	
+    	return null;	
+    }    
+    public void AddToSignedUpForList() {
+    	
+    	if( signedUpForString.contains(eventID) )
     		return;
     	
-    	eventsSignedUpForString.add(eventID);
-    	eventsSignedUpFor.add(this);
+    	signedUpForString.add(eventID);
+    	signedUpFor.add(this);
     }
+    static public void RemoveEventInSignedUpForList(String id) {
+    	
+    	int loc = -1;
+    	for(EventData e : signedUpFor) {
+    		loc++;
+    		if(e.getEventID().equals(id))
+    			break;
+    	}
+    	if(loc > -1) signedUpFor.remove(loc);
+    	
+    	loc = -1;
+    	for(String e : signedUpForString) {
+    		loc++;
+    		if(e.equals(id))
+    			break;
+    	}
+    	if(loc > -1) signedUpForString.remove(loc);    	
+    }    
+    static public boolean IsInSignedUpForList(String id) {
+    	
+    	for(EventData e : signedUpFor) {
+    		if(e.getEventID() == id)
+    			return true;
+    	}
+    	
+    	return false;
+    }
+    static List<EventData> GetSignedUpForList() {
+    	
+    	return signedUpFor;
+    }     
+    static public EventData GetEventInSignedUpForList(String id) {
+    	
+    	for(EventData e : signedUpFor) {
+    		if(e.getEventID().equals(id))
+    			return e;
+    	}
+    	
+    	return null;
+    }    
     public void AddToEventsByDateList() {
     	
-    	if( eventsSignedUpForString.contains(eventID) )
+    	if( signedUpForString.contains(eventID) )
     		return;
     	
     	byDateString.add(eventID);
@@ -98,7 +153,7 @@ public class EventData extends Obj{
     }
     public void AddToEventsByInterestList() {
     	
-    	if( eventsSignedUpForString.contains(eventID) )
+    	if( signedUpForString.contains(eventID) )
     		return;
     	
     	byInterestString.add(eventID);
@@ -106,7 +161,7 @@ public class EventData extends Obj{
     }    
     public void AddToEventsBySkillList() {
     	
-    	if( eventsSignedUpForString.contains(eventID) )
+    	if( signedUpForString.contains(eventID) )
     		return;
     	
     	bySkillString.add(eventID);
@@ -125,17 +180,24 @@ public class EventData extends Obj{
     	
     	ev.interestIDList.add(InterestID);
     }
-    public static EventData GetEventsSignedUpForLocation(int Location) {
+    public static EventData GetSignedUpForLocation(int Location) {
     	
-    	return eventsSignedUpFor.get(Location);
+    	return signedUpFor.get(Location);
     }
-    public static int GetEventsSignedUpForSize() {
+    public static int GetSignedUpForSize() {
     	
-    	return eventsSignedUpFor.size();
+    	return signedUpFor.size();
     }
     public static void SetFindList(int EventAdapterKind) {
     	    	
-		if(EventAdapterKind == EventAdapter.kindFindByDate){
+		if(EventAdapterKind == EventAdapter.kindSignedUp){
+
+			//copy list (elements might be deleted from signedUpFor but should not be deleted from findList)
+	        findListString = new ArrayList<String>(signedUpForString);
+	        findList = new ArrayList<EventData>(signedUpFor);
+			return;
+		}
+		else if(EventAdapterKind == EventAdapter.kindFindByDate){
 			
 			if(doByDateQuery) {				
 				doByDateQuery = false;
@@ -211,6 +273,15 @@ public class EventData extends Obj{
 			Obj.BreakPoint();
     	    	
     }
+    public static EventData GetEventInFindList(String id) {
+    	
+    	for(EventData e : findList) {
+    		if(e.getEventID().equals(id))
+    			return e;
+    	}
+    	
+    	return null;	
+    }    
     public static EventData GetFindListLocation(int Location) {
     	
     	return findList.get(Location);
@@ -297,4 +368,12 @@ public class EventData extends Obj{
 	public void setEndTime(String endTime) {
 		this.endTime = endTime;
 	}
+	
+    public boolean isApproved() {
+		return approved;
+	}
+
+	public void setApproved(boolean approved) {
+		this.approved = approved;
+	}	
 }

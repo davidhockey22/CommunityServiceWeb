@@ -1,6 +1,24 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_gravity="center"
+    android:background="@color/lightgray"
+    android:orientation="vertical" >
 
-<TextView xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/statusText"
-    android:layout_width="match_parent" android:layout_height="match_parent"
-    android:gravity="center_vertical|center_horizontal"
-    android:textAppearance="?android:attr/textAppearanceLarge"
-    android:text="Loading..."/>
+    <ImageView
+        android:id="@+id/volunteerme"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:paddingTop="16dp"
+        android:src="@drawable/glossyarmwrestler" />
+
+    <TextView
+        android:id="@+id/statusText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Loading..."
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+</LinearLayout>

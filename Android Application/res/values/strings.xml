@@ -3,7 +3,8 @@
     <string-array name="drawer_strings">
         <item>Events Signed Up For</item>
         <item>Find New Events</item>
-        <item>Main</item>        
+        <item>Organization</item>    
+        <item>Main</item>
         <item>Logout</item>
     </string-array>            
     <string name="hello">VolunteerMe!</string>

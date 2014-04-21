@@ -31,7 +31,7 @@ public class MainFragment extends Fragment {
         ImageView img = (ImageView) rootView.findViewById(R.id.inspire);
         
         Random r = new Random();
-        int ran = r.nextInt(10); //10 is range 0 - 9
+        int ran = r.nextInt(9); //9 is range 0 - 8
         switch(ran) {
         case 0: img.setImageResource(R.drawable.inspire0); break;
         case 1: img.setImageResource(R.drawable.inspire1); break;
@@ -42,7 +42,6 @@ public class MainFragment extends Fragment {
         case 6: img.setImageResource(R.drawable.inspire6); break;
         case 7: img.setImageResource(R.drawable.inspire7); break;
         case 8: img.setImageResource(R.drawable.inspire8); break;
-        case 9: img.setImageResource(R.drawable.inspire9); break;
         default:
         	Obj.BreakPoint();
         }
@@ -67,7 +66,12 @@ public class MainFragment extends Fragment {
 		return rootView;
     }
     
-    void onFindQueryDone() {
+    void onEventQueryDone() {
     	
+		//get whether events approved
+		for(EventData dat : EventData.GetSignedUpForList()) {
+			
+			MySQLRequest.Create( MainActivity.current, Integer.toString(MySQLRequest.kindEventVolunteer), dat.getEventID());			
+		}    	
     }
 }

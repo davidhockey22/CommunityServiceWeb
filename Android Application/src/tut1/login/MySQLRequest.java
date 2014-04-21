@@ -45,7 +45,18 @@ public class MySQLRequest extends IntentService{
     		kindByInterest = 9,
     		kindInterests = 10,
     		kindToken = 11,
-    		kindSignUpForEvent = 12;
+    		kindSignUpForEvent = 12,
+    		kindEventVolunteer = 13,
+    		kindEventRemove = 14,
+    		kindOrg = 15,
+    		kindOrgApprove = 16,
+    		kindOrgRemove = 17,
+    		kindOrgAddHours = 18,
+    		kindOrgEvents = 19,
+    		kindVolunteersByEvent = 20,
+    		kindEventVolunteerOrg = 21, 
+    		kindApprovedVolunteersByEvent = 22,
+    		kindApprovedEventVolunteerOrg = 23;
  
     private String inMessage;
     
@@ -71,13 +82,6 @@ public class MySQLRequest extends IntentService{
         			EventData.status == EventData.statusLoaded)
         		return false;	
     		EventData.status = EventData.statusLoading;
-    	}
-    	else if(kindInt == kindFindQuery) {
-    		
-        	if(FindData.status == FindData.statusLoading ||
-        			FindData.status == FindData.statusLoaded)
-        		return false;
-        	FindData.status = FindData.statusLoading;
     	}
     	
         Intent msgIntent = new Intent(context, MySQLRequest.class);
@@ -205,6 +209,110 @@ public class MySQLRequest extends IntentService{
         		
         		response = sendHttpRequest(url, nameValuePairs);        		        		
         	}
+        	else if(kindInt == kindEventVolunteer ||
+        			kindInt == kindEventVolunteerOrg ||
+        			kindInt == kindApprovedEventVolunteerOrg) {
+        		
+        		url = "http://54.200.107.187:8080/CommunityService/Android/getEventVolunteer";
+
+        		if(kindInt == kindEventVolunteer) {
+        			nameValuePairs.add(new BasicNameValuePair("volID", VolunteerData.current.getVolunteerID()));
+        			nameValuePairs.add(new BasicNameValuePair("eventID", id));
+        		}
+        		else if(kindInt == kindEventVolunteerOrg) {
+        			nameValuePairs.add(new BasicNameValuePair("volID", id));
+        			nameValuePairs.add(new BasicNameValuePair("eventID", OrgApproveFragment.current.eventId));        			
+        		}
+        		else if(kindInt == kindApprovedEventVolunteerOrg) {
+        			nameValuePairs.add(new BasicNameValuePair("volID", id));
+        			nameValuePairs.add(new BasicNameValuePair("eventID", OrgHoursFragment.current.eventId));        			
+        		}
+        		
+        		response = sendHttpRequest(url, nameValuePairs);        		        		
+        	}        	
+        	else if(kindInt == kindEventRemove) {
+        		
+        		url = "http://54.200.107.187:8080/CommunityService/Android/RemoveEvent";
+
+        		nameValuePairs.add(new BasicNameValuePair("volID", VolunteerData.current.getVolunteerID()));
+        		nameValuePairs.add(new BasicNameValuePair("eventID", id));
+        		
+        		response = sendHttpRequest(url, nameValuePairs);        		        		
+        	}
+        	else if(kindInt == kindOrg) {
+        		
+        		url = "http://54.200.107.187:8080/CommunityService/Android/getOrgs";
+
+        		nameValuePairs.add(new BasicNameValuePair("ID", VolunteerData.current.getVolunteerID()));
+        		
+        		response = sendHttpRequest(url, nameValuePairs);        		        		
+        	}
+        	else if(kindInt == kindOrgEvents) {
+        		
+        		url = "http://54.200.107.187:8080/CommunityService/Android/byOrg";
+
+        		nameValuePairs.add(new BasicNameValuePair("ID", id));
+        		
+        		response = sendHttpRequest(url, nameValuePairs);        		        		
+        	}        	
+        	else if(kindInt == kindOrgApprove) {
+        		
+        		url = "http://54.200.107.187:8080/CommunityService/Android/orgApprove";
+        		
+        		int i = 0;
+        		for(VolunteerData v : VolunteerData.needsOrgApproval) {        			
+        			if(v.isApproved()) {
+        				nameValuePairs.add(new BasicNameValuePair("approve" + i, v.getVolunteerID()));
+        				i++;
+        			}
+        		}
+        		nameValuePairs.add(new BasicNameValuePair("total", Integer.toString( i )));
+        		
+        		nameValuePairs.add(new BasicNameValuePair("eventId", id));
+        		
+        		response = sendHttpRequest(url, nameValuePairs);        		        		
+        	}
+        	else if(kindInt == kindOrgRemove) {
+        		
+        		url = "http://54.200.107.187:8080/CommunityService/Android/orgReject";
+        		
+        		int i = 0;
+        		for(VolunteerData v : VolunteerData.needsOrgApproval) {        			
+        			if(v.isApproved() == false) {
+        				nameValuePairs.add(new BasicNameValuePair("reject" + i, v.getVolunteerID()));
+        				i++;
+        			}
+        		}
+        		nameValuePairs.add(new BasicNameValuePair("total", Integer.toString( i )));
+        		
+        		nameValuePairs.add(new BasicNameValuePair("eventId", id));
+        		
+        		response = sendHttpRequest(url, nameValuePairs);        		        		
+        	}
+        	else if(kindInt == kindOrgAddHours) {
+        		
+        		url = "http://54.200.107.187:8080/CommunityService/Android/hoursWorked";
+        		
+        		//convert
+        		String hours = Integer.toString( VolunteerData.saveVolunteer.getAddHours() * VolunteerData.addHoursFactor );
+        		String rating = Integer.toString( VolunteerData.saveVolunteer.getAddRating() * VolunteerData.addRatingFactor );
+        		
+        		nameValuePairs.add(new BasicNameValuePair("volID", VolunteerData.saveVolunteer.getVolunteerID()));
+        		nameValuePairs.add(new BasicNameValuePair("hours", hours));
+        		nameValuePairs.add(new BasicNameValuePair("rating", rating));
+        		nameValuePairs.add(new BasicNameValuePair("bonus", "1.0"));
+        		
+        		response = sendHttpRequest(url, nameValuePairs);        		        		
+        	}
+        	else if(kindInt == kindVolunteersByEvent ||
+        			kindInt == kindApprovedVolunteersByEvent) {
+        		
+        		url = "http://54.200.107.187:8080/CommunityService/Android/getVolunteersByEvent";
+
+        		nameValuePairs.add(new BasicNameValuePair("ID", id));
+        		
+        		response = sendHttpRequest(url, nameValuePairs);        		        		
+        	}           	
         	else
         		Obj.BreakPoint();
         }        	
@@ -216,6 +324,7 @@ public class MySQLRequest extends IntentService{
         broadcastIntent.addCategory(Intent.CATEGORY_DEFAULT);
         broadcastIntent.putExtra("mysqlRequest", "mysqlRequest");
         broadcastIntent.putExtra("kind", kind);
+        broadcastIntent.putExtra("id", id);
         broadcastIntent.putExtra("response", response);
         sendBroadcast(broadcastIntent);
     }

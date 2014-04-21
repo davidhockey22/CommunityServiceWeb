@@ -97,10 +97,16 @@ public class FindKindAdapter extends BaseExpandableListAdapter {
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
     	
         if (convertView == null) {
-            convertView = inflater.inflate(android.R.layout.simple_expandable_list_item_1, parent, false);
+            convertView = inflater.inflate(R.layout.list_item, parent, false);
         }
 
         ((TextView) convertView).setText(getGroup(groupPosition).toString());
+        
+        if(groupPosition == 0)
+        	((TextView) convertView).setCompoundDrawablesWithIntrinsicBounds(R.drawable.calendar_icon,  0,  0,  0);
+        else if(groupPosition == 1)
+        	((TextView) convertView).setCompoundDrawablesWithIntrinsicBounds(R.drawable.interest_icon,  0,  0,  0);
+        
         return convertView;
     }
 

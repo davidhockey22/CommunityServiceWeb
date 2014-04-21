@@ -29,7 +29,7 @@ public class EventFragment extends Fragment {
         container.removeAllViewsInLayout();
         
         View rootView = null;
-        if(EventData.GetEventsSignedUpForSize() == 0) {
+        if(EventData.GetSignedUpForSize() == 0) {
         	
             rootView = inflater.inflate(R.layout.fragment_status, container, false);
             
@@ -41,9 +41,11 @@ public class EventFragment extends Fragment {
         }
         else {
         	rootView = inflater.inflate(R.layout.fragment_events, container, false);
+        	
+        	EventData.SetFindList(EventAdapter.kindSignedUp);
 
         	expandableListView = (ExpandableListView) rootView.findViewById(R.id.fragmentEvents);
-        	adapter = new EventAdapter(getActivity(), EventAdapter.kindEvent);
+        	adapter = new EventAdapter(getActivity(), EventAdapter.kindSignedUp);
         	expandableListView.setAdapter(adapter);
         }
         
