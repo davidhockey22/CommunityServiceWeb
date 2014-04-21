@@ -4,7 +4,8 @@ import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 
 import org.CommunityService.EntitiesMapped.Volunteer;
 import org.CommunityService.Services.VolunteerService;
@@ -13,8 +14,8 @@ import org.hibernate.HibernateException;
 import org.ocpsoft.rewrite.annotation.Join;
 
 @ManagedBean
-@RequestScoped
-@Join(path="/register", to="/Web/NewVolunteer.xhtml")
+@SessionScoped
+@Join(path = "/register", to = "/Web/NewVolunteer.xhtml")
 public class NewVolunteerBean {
 
 	private String username;
@@ -25,6 +26,10 @@ public class NewVolunteerBean {
 	private String firstName;
 	private String lastName;
 	private String description;
+
+	public String init() {
+		return "NewVolunteer.xhtml";
+	}
 
 	public String Register() {
 		try {
@@ -43,6 +48,7 @@ public class NewVolunteerBean {
 			e.printStackTrace();
 			return "Error.xhtml?faces-redirect=true";
 		}
+		username = "";
 		return "Home.xhtml?faces-redirect=true";
 	}
 
@@ -103,13 +109,13 @@ public class NewVolunteerBean {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-	
+
 	public String getDescription() {
 		return description;
 	}
 
 	public void setDescription(String description) {
 		this.description = description;
-	}	
+	}
 
 }

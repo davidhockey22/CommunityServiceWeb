@@ -87,8 +87,10 @@ public class FeedBean {
 			}
 			// events coming up soon
 			if (upcomingEvents == null) {
+				System.out.println("Getting upcoming!");
 				upcomingEvents = new ArrayList<Event>();
 				upcomingEvents.addAll(UpcomingEventsBean.getEvents());
+				System.out.println(upcomingEvents.size() + " events added.");
 			}
 			// groups events
 			if (groupEvents == null) {

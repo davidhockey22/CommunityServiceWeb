@@ -17,7 +17,7 @@ public class UpcomingEventsBean {
 
 		Date currentTime = new Date();
 		Date later = new Date();
-		later.setHours(later.getHours() + 5);
+		later.setHours(later.getHours() + 24);
 		if (lastChecked == null || lastChecked.before(currentTime)) {
 			// don't check for a minute
 			lastChecked = (Date) currentTime.clone();

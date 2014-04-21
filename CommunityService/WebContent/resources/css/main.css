@@ -55,3 +55,61 @@ body {
 	margin-right: auto;
 	z-index: 20;
 }
+
+div,.lable-head,.label-name {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+.vcard {
+	width: 300px;
+	height: 210px;
+	background: #3CA9FF;
+	border-radius: 10px;
+	box-shadow: 1px 2px 5px rgba(0, 0, 0, .5), inset 0 0 20px
+		rgba(0, 0, 0, .25);
+}
+
+.vcard div:first-child {
+	height: 85px;
+	padding-top: 5px;
+	color: #fff;
+	font-family: Helvetica, Arial, sans-serif;
+	text-transform: uppercase;
+	text-align: center;
+	letter-spacing: .2em;
+}
+
+h1,p {
+	padding: 0;
+	margin: 0;
+}
+
+h1 {
+	font-size: 2em;
+}
+
+.fn {
+	background: #fff;
+	height: 100px;
+	font-family: "Coming Soon", "Comic Sans MS", cursive !important;
+	text-align: center;
+	padding-top: 5px;
+}
+
+.givenname {
+	font-size: 22pt !important;
+	font-weight: bold;
+	border: none !important;
+	width: 290px !important;
+	text-align: center;
+	-webkit-box-shadow: none !important;
+	box-shadow: none !important;
+}
+
+.nickname {
+	font-size: 1.5em;
+	font-weight: bold;
+	font-style: normal;
+}
