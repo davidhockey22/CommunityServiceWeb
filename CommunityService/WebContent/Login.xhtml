@@ -10,23 +10,26 @@
 <h:body>
 	<ui:composition template="commonTemplate.xhtml">
 		<ui:define name="content">
-			<h:form rendered="#{!loginBean.loggedIn}">
-				<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
-				<p:panelGrid columns="3" cellpadding="2">
-					<h:outputLabel for="#{loginBean.username}" value="UserName" />
-					<p:inputText id="username" value="#{loginBean.username}" label="UserName" required="true" />
-					<p:commandButton type="submit" value="Login" action="#{loginBean.Login}" ajax="false" />
-					<h:outputLabel for="#{loginBean.password}" value="Password" />
-					<p:password id="password" value="#{loginBean.password}" required="true" />
-					<p:button value="Register" outcome="/NewVolunteer.xhtml" />
-				</p:panelGrid>
-			</h:form>
-			<h:form rendered="#{loginBean.loggedIn}">
-				<h:outputFormat value="Hello, {0}. ">
-					<f:param value="#{loginBean.volunteer.volunteerName}" />
-				</h:outputFormat>
-				<p:commandButton type="submit" value="Logout" action="#{loginBean.Logout}" ajax="false" />
-			</h:form>
+			<div style="width: 32%; margin-left: auto; margin-right: auto;">
+				<h:outputText value="Please log in with the form below. If you don't have an account yet, click register." />
+				<h:form rendered="#{!loginBean.loggedIn}">
+					<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+					<p:panelGrid columns="3" cellpadding="2">
+						<h:outputLabel for="#{loginBean.username}" value="UserName" />
+						<p:inputText id="username" value="#{loginBean.username}" label="UserName" />
+						<p:commandButton type="submit" value="Login" action="#{loginBean.Login}" ajax="false" />
+						<h:outputLabel for="#{loginBean.password}" value="Password" />
+						<p:password id="password" value="#{loginBean.password}" />
+						<p:button value="Register" outcome="/NewVolunteer.xhtml" />
+					</p:panelGrid>
+				</h:form>
+				<h:form rendered="#{loginBean.loggedIn}">
+					<h:outputFormat value="Hello, {0}. ">
+						<f:param value="#{loginBean.volunteer.volunteerName}" />
+					</h:outputFormat>
+					<p:commandButton type="submit" value="Logout" action="#{loginBean.Logout}" ajax="false" />
+				</h:form>
+			</div>
 		</ui:define>
 	</ui:composition>
 </h:body>

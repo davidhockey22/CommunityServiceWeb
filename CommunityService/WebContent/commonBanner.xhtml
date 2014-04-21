@@ -22,7 +22,7 @@
 			<div>
 				<div style="float: left">
 					<h:link outcome="/Home.xhtml">
-						<h:graphicImage url="/images/logo.png" style="float:left; margin-top:0;" width="73" height="60"/>
+						<h:graphicImage url="/images/logo.png" style="float:left; margin-top:0;" width="73" height="60" />
 					</h:link>
 					<h:outputText value="Helping You, Help Everyone." />
 				</div>
@@ -32,7 +32,7 @@
 						<p:button value="Register" outcome="/NewVolunteer.xhtml?faces-redirect=true" />
 						<p:overlayPanel id="loginPanel" for="loginButton" showEffect="clip" hideEffect="clip">
 							<h:form>
-								<p:message for="username" id="userMessage" />
+								<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
 								<p:panelGrid columns="2" cellpadding="2">
 									<p:outputLabel for="username" value="UserName" />
 									<p:inputText id="username" value="#{loginBean.username}" label="UserName" required="true" />
@@ -72,7 +72,6 @@
 -->
 			</div>
 		</div>
-		<p:growl id="messages" />
 	</ui:composition>
 </h:body>
 </html>

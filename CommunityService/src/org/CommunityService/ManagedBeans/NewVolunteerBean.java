@@ -49,7 +49,7 @@ public class NewVolunteerBean {
 			return "Error.xhtml?faces-redirect=true";
 		}
 		username = "";
-		return "Home.xhtml?faces-redirect=true";
+		return "Login.xhtml?faces-redirect=true";
 	}
 
 	// Getters and Setters

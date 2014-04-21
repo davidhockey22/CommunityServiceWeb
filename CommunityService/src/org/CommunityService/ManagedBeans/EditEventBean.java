@@ -59,7 +59,8 @@ public class EditEventBean {
 		try {
 			event = EventService.getEventById(Integer.parseInt(eventIdViewParameter));
 		} catch (NumberFormatException e) {
-			// Throw an HTTP Response Error - Invalid Syntax in case invalid orgId was supplied
+			// Throw an HTTP Response Error - Invalid Syntax in case invalid
+			// orgId was supplied
 			context.getExternalContext().responseSendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid org id");
 			context.responseComplete();
 			return;
@@ -237,7 +238,7 @@ public class EditEventBean {
 
 		public EditableEventVolunteer(EventVolunteer eventVolunteer) {
 			this.eventVolunteer = eventVolunteer;
-			rating = this.eventVolunteer.getVolunteer().getAvgRating().intValue();
+			rating = this.eventVolunteer.getRating().intValue();
 		}
 
 		public EventVolunteer getEventVolunteer() {

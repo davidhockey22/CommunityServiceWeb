@@ -49,7 +49,7 @@ public class LoginBean {
 					return "?faces-redirect=true";
 				} else {
 					MessageController.addError("Login credentials didn't match.");
-					return "?faces-redirect=true";
+					return "Login.xhtml";
 				}
 			} catch (HibernateException e) {
 				e.printStackTrace();
@@ -64,7 +64,7 @@ public class LoginBean {
 
 		} else {
 			MessageController.addInfo("User already logged in. Please log out to log in again.");
-			return "?faces-redirect=true";
+			return "faces-redirect=true";
 		}
 	}
 
